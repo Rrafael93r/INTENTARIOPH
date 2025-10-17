@@ -10,8 +10,8 @@
 
         private String nombre;
         private String nombre_contacto;
-        private Integer numero_contacto;
-        private Integer nit;
+        private String numero_contacto;
+        private String nit;
         private String correo;
         private String estado;
 
@@ -46,20 +46,28 @@
             this.fecha_contratacion = fecha_contratacion;
         }
 
-        public Integer getNumero_contacto() {
+        public String getNumero_contacto() {
             return numero_contacto;
         }
 
-        public void setNumero_contacto(Integer numero_contacto) {
+        public void setNumero_contacto(String numero_contacto) {
             this.numero_contacto = numero_contacto;
         }
 
-        public Integer getNit() {
+        public String getNit() {
             return nit;
         }
 
-        public void setNit(Integer nit) {
+        public void setNit(String nit) {
             this.nit = nit;
+        }
+
+        public Boolean getDeleted() {
+            return isDeleted;
+        }
+
+        public void setDeleted(Boolean deleted) {
+            isDeleted = deleted;
         }
 
         public String getNombre_contacto() {

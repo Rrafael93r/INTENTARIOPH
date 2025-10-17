@@ -263,9 +263,7 @@ const FormularioEditarP: React.FC<IFormularioEditarPProps> = ({ proveedorId, onC
               <Form.Select name="estado" value={proveedor.estado} onChange={handleInputChange} required>
                 <option value="">Seleccione un estado</option>
                 <option value="ACTIVO">ACTIVO</option>
-                <option value="INACTIVO">INACTIVO</option>
-                <option value="EN SERVICIO">EN SERVICIO</option>
-                <option value="SUSPENDIDO">SUSPENDIDO</option>
+                <option value="NO ACTIVO">NO ACTIVO</option>
               </Form.Select>
             </Form.Group>
           </Col>

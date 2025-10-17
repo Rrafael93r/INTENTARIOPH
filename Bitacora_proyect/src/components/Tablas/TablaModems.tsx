@@ -170,7 +170,7 @@ const ModemsTable: React.FC = () => {
           break
         case "estado":
           valueA = a.estado?.toLowerCase() || ""
-          valueB = b.estado?.toLowerCase() || ""
+          valueB = b.estado?.toLowerCase() || ""     
           break
         default:
           valueA = ""
