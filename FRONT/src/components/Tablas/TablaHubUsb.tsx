@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { FormControl, Card, Modal, Button } from 'react-bootstrap';
+import { Badge, FormControl, Card, Modal, Button } from 'react-bootstrap';
 import Swal from 'sweetalert2';
-import { getFuncionarios, deleteFuncionario } from '../../servicios/funcionariosService';
-import FormularioCrearFuncionario from '../FormulariosCrear/FormularioCrearFuncionario';
-import FormularioEditarFuncionario from '../FormulariosEditar.tsx/FormularioEditarFuncionario';
+import { getHubUsb, updateHubUsb } from '../../servicios/hubUsbService';
+import FormularioCrearHubUsb from '../FormulariosCrear/FormularioCrearHubUsb';
+import FormularioEditarHubUsb from '../FormulariosEditar.tsx/FormularioEditarHubUsb';
 
-const TablaFuncionarios: React.FC = () => {
-    const [items, setItems] = useState<any[]>([]);
+const TablaHubUsb: React.FC = () => {
+    const [hubs, setHubs] = useState<any[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
     const [currentPage, setCurrentPage] = useState(1);
@@ -14,7 +14,7 @@ const TablaFuncionarios: React.FC = () => {
 
     const [showModal, setShowModal] = useState(false);
     const [showModal2, setShowModal2] = useState(false);
-    const [selectedId, setSelectedId] = useState<number | null>(null);
+    const [selectedHubId, setSelectedHubId] = useState<number | null>(null);
 
     const handleShow = () => setShowModal(true);
     const handleClose = () => setShowModal(false);
@@ -23,18 +23,18 @@ const TablaFuncionarios: React.FC = () => {
     const handleClose2 = () => setShowModal2(false);
 
     // Filters
-    const [filterNombre, setFilterNombre] = useState('');
-    const [filterApellido, setFilterApellido] = useState('');
-    const [filterArea, setFilterArea] = useState('');
-    const [filterCorreo, setFilterCorreo] = useState('');
-    const [filterFarmacia, setFilterFarmacia] = useState('');
+    const [filterMarca, setFilterMarca] = useState('');
+    const [filterModelo, setFilterModelo] = useState('');
+    const [filterSerial, setFilterSerial] = useState('');
+    const [filterEstado, setFilterEstado] = useState('');
+    const [filterFuncionario, setFilterFuncionario] = useState('');
 
-    const loadItems = async () => {
+    const loadHubs = async () => {
         try {
-            const data = await getFuncionarios();
-            setItems(data);
+            const data = await getHubUsb();
+            setHubs(data);
         } catch (err) {
-            setError('Error al cargar Funcionarios');
+            setError('Error al cargar hub usb');
             console.error(err);
         } finally {
             setLoading(false);
@@ -42,61 +42,65 @@ const TablaFuncionarios: React.FC = () => {
     };
 
     useEffect(() => {
-        loadItems();
+        loadHubs();
     }, []);
 
-    const handleDelete = async (id: number) => {
+    const handleDisable = async (id: number) => {
         try {
             const result = await Swal.fire({
                 title: '¿Estás seguro?',
-                text: "El funcionario será eliminado permanentemente.",
+                text: "El hub usb será inhabilitado (Estado: INACTIVO) pero no eliminado.",
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',
                 cancelButtonColor: '#d33',
-                confirmButtonText: 'Sí, eliminar!',
+                confirmButtonText: 'Sí, inhabilitar!',
             });
 
             if (result.isConfirmed) {
-                await deleteFuncionario(id);
-                setItems((prev) => prev.filter((item) => item.id !== id));
-                Swal.fire('¡Eliminado!', 'El funcionario ha sido eliminado.', 'success');
+                const hubToDisable = hubs.find(m => m.id === id);
+                if (hubToDisable) {
+                    const updatedHub = { ...hubToDisable, estado: 'INACTIVO' };
+                    await updateHubUsb(id, updatedHub);
+                    setHubs((prev) => prev.map((item) => item.id === id ? { ...item, estado: 'INACTIVO' } : item));
+                    Swal.fire('¡Inhabilitado!', 'El hub usb ha sido marcado como INACTIVO.', 'success');
+                }
             }
         } catch (error) {
-            console.error('Error al eliminar:', error);
-            Swal.fire('Error', 'No se pudo eliminar el funcionario.', 'error');
+            console.error('Error al inhabilitar:', error);
+            Swal.fire('Error', 'No se pudo inhabilitar el hub usb.', 'error');
         }
     };
 
-    const normalizedFilterNombre = filterNombre.toLowerCase();
-    const normalizedFilterApellido = filterApellido.toLowerCase();
-    const normalizedFilterArea = filterArea.toLowerCase();
-    const normalizedFilterCorreo = filterCorreo.toLowerCase();
-    const normalizedFilterFarmacia = filterFarmacia.toLowerCase();
+    const normalizedFilterMarca = filterMarca.toLowerCase();
+    const normalizedFilterModelo = filterModelo.toLowerCase();
+    const normalizedFilterSerial = filterSerial.toLowerCase();
+    const normalizedFilterEstado = filterEstado.toLowerCase();
+    const normalizedFilterFuncionario = filterFuncionario.toLowerCase();
 
-    const filteredItems = items.filter(item => {
+    const filteredHubs = hubs.filter(hub => {
         return (
-            (!filterNombre || (item.nombre || '').toLowerCase().includes(normalizedFilterNombre)) &&
-            (!filterApellido || (item.apellido || '').toLowerCase().includes(normalizedFilterApellido)) &&
-            (!filterArea || (item.area || '').toLowerCase().includes(normalizedFilterArea)) &&
-            (!filterCorreo || (item.correo || '').toLowerCase().includes(normalizedFilterCorreo)) &&
-            (!filterFarmacia || (item.farmacias ? item.farmacias.nombre : '').toLowerCase().includes(normalizedFilterFarmacia))
+            (!filterMarca || (hub.marca || '').toLowerCase().includes(normalizedFilterMarca)) &&
+            (!filterModelo || (hub.modelo || '').toLowerCase().includes(normalizedFilterModelo)) &&
+            (!filterSerial || (hub.serial || '').toLowerCase().includes(normalizedFilterSerial)) &&
+            (!filterEstado || (hub.estado || '').toLowerCase().includes(normalizedFilterEstado)) &&
+            (!filterFuncionario || (hub.funcionarios ? `${hub.funcionarios.nombre} ${hub.funcionarios.apellido}` : '').toLowerCase().includes(normalizedFilterFuncionario))
         );
     });
 
     const indexOfLastItem = currentPage * itemsPerPage;
     const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-    const currentItems = filteredItems.slice(indexOfFirstItem, indexOfLastItem);
-    const totalPages = Math.ceil(filteredItems.length / itemsPerPage);
+    const currentHubs = filteredHubs.slice(indexOfFirstItem, indexOfLastItem);
+    const totalPages = Math.ceil(filteredHubs.length / itemsPerPage);
 
     const handlePageChange = (pageNumber: number) => setCurrentPage(pageNumber);
 
     const clearFilters = () => {
-        setFilterNombre('');
-        setFilterApellido('');
-        setFilterArea('');
-        setFilterCorreo('');
-        setFilterFarmacia('');
+        setFilterMarca('');
+        setFilterModelo('');
+        setFilterSerial('');
+        setFilterEstado('');
+        setFilterFuncionario('');
     };
 
     if (loading) return <div>Cargando...</div>;
@@ -106,20 +110,20 @@ const TablaFuncionarios: React.FC = () => {
         <>
             <Modal show={showModal} onHide={handleClose} centered size="lg">
                 <Modal.Header closeButton>
-                    <Modal.Title>Nuevo Funcionario</Modal.Title>
+                    <Modal.Title>Nuevo Hub USB</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <FormularioCrearFuncionario handleClose={() => { handleClose(); loadItems(); }} />
+                    <FormularioCrearHubUsb handleClose={() => { handleClose(); loadHubs(); }} />
                 </Modal.Body>
             </Modal>
 
             <div className="d-flex align-items-center" style={{ color: 'black' }}>
                 <div className="pagetitle">
-                    <h1>Funcionarios</h1>
+                    <h1>Hub USB</h1>
                     <nav>
                         <ol className="breadcrumb">
                             <li className="breadcrumb-item">Inicio</li>
-                            <li className="breadcrumb-item active">Funcionarios</li>
+                            <li className="breadcrumb-item active">Inventario</li>
                         </ol>
                     </nav>
                 </div>
@@ -127,7 +131,7 @@ const TablaFuncionarios: React.FC = () => {
                     <Button
                         onClick={handleShow}
                         className="btn" style={{ backgroundColor: '#f6952c', borderColor: '#f6952c' }}>
-                        <i className="bi bi-plus-circle-fill me-2"></i> Agregar Funcionario
+                        <i className="bi bi-plus-circle-fill me-2"></i> Agregar Hub USB
                     </Button>
                 </div>
             </div>
@@ -142,44 +146,51 @@ const TablaFuncionarios: React.FC = () => {
                                     <FormControl
                                         size="sm"
                                         type="text"
-                                        placeholder="Filtrar Nombre"
-                                        value={filterNombre}
-                                        onChange={(e) => setFilterNombre(e.target.value)}
+                                        placeholder="Filtrar Marca"
+                                        value={filterMarca}
+                                        onChange={(e) => setFilterMarca(e.target.value)}
                                     />
-                                    NOMBRE
+                                    MARCA
                                 </th>
                                 <th>
                                     <FormControl
                                         size="sm"
                                         type="text"
-                                        placeholder="Filtrar Apellido"
-                                        value={filterApellido}
-                                        onChange={(e) => setFilterApellido(e.target.value)}
+                                        placeholder="Filtrar Modelo"
+                                        value={filterModelo}
+                                        onChange={(e) => setFilterModelo(e.target.value)}
                                     />
-                                    APELLIDO
+                                    MODELO
                                 </th>
                                 <th>
                                     <FormControl
                                         size="sm"
                                         type="text"
-                                        placeholder="Filtrar Área"
-                                        value={filterArea}
-                                        onChange={(e) => setFilterArea(e.target.value)}
+                                        placeholder="Filtrar Serial"
+                                        value={filterSerial}
+                                        onChange={(e) => setFilterSerial(e.target.value)}
                                     />
-                                    ÁREA
+                                    SERIAL
                                 </th>
                                 <th>
                                     <FormControl
                                         size="sm"
                                         type="text"
-                                        placeholder="Filtrar Correo"
-                                        value={filterCorreo}
-                                        onChange={(e) => setFilterCorreo(e.target.value)}
+                                        placeholder="Filtrar Estado"
+                                        value={filterEstado}
+                                        onChange={(e) => setFilterEstado(e.target.value)}
                                     />
-                                    CORREO
+                                    ESTADO
                                 </th>
-                                <th style={{ display: 'none' }}>
-                                    FARMACIA
+                                <th>
+                                    <FormControl
+                                        size="sm"
+                                        type="text"
+                                        placeholder="Filtrar Funcionario"
+                                        value={filterFuncionario}
+                                        onChange={(e) => setFilterFuncionario(e.target.value)}
+                                    />
+                                    FUNCIONARIO
                                 </th>
                                 <th className="text-center">
                                     <button style={{ backgroundColor: "#ffb361", color: '#fff', borderColor: '#ffb361' }} onClick={clearFilters} type="button" className="btn btn-sm">
@@ -190,21 +201,25 @@ const TablaFuncionarios: React.FC = () => {
                             </tr>
                         </thead>
                         <tbody>
-                            {currentItems.map((item) => (
-                                <tr key={item.id}>
-                                    <td>{item.id}</td>
-                                    <td>{item.nombre}</td>
-                                    <td>{item.apellido}</td>
-                                    <td>{item.area}</td>
-                                    <td>{item.correo}</td>
-                                    <td style={{ display: 'none' }}>{item.farmacias ? item.farmacias.nombre : 'Sin farmacia'}</td>
+                            {currentHubs.map((hub) => (
+                                <tr key={hub.id}>
+                                    <td>{hub.id}</td>
+                                    <td>{hub.marca}</td>
+                                    <td>{hub.modelo}</td>
+                                    <td>{hub.serial}</td>
+                                    <td>
+                                        <Badge bg={hub.estado === 'ACTIVO' ? 'success' : 'secondary'} className="rounded-pill">
+                                            {hub.estado}
+                                        </Badge>
+                                    </td>
+                                    <td>{hub.funcionarios ? `${hub.funcionarios.nombre} ${hub.funcionarios.apellido}` : 'Sin asignar'}</td>
                                     <td>
                                         <div className="d-flex justify-content-center btn-group" role="group">
                                             <button
                                                 className="btn btn-light btn-sm"
                                                 style={{ backgroundColor: "#ffb361", color: '#fff', borderColor: '#ffb361' }}
                                                 onClick={() => {
-                                                    setSelectedId(item.id);
+                                                    setSelectedHubId(hub.id);
                                                     handleShow2();
                                                 }}
                                             >
@@ -212,9 +227,10 @@ const TablaFuncionarios: React.FC = () => {
                                             </button>
                                             <button
                                                 className="btn btn-danger btn-sm ms-2"
-                                                onClick={() => handleDelete(item.id)}
+                                                onClick={() => handleDisable(hub.id)}
+                                                title="Inhabilitar"
                                             >
-                                                <i className="bi bi-trash"></i>
+                                                <i className="bi bi-slash-circle"></i>
                                             </button>
                                         </div>
                                     </td>
@@ -255,14 +271,14 @@ const TablaFuncionarios: React.FC = () => {
 
             <Modal show={showModal2} onHide={handleClose2} centered size="lg">
                 <Modal.Header closeButton>
-                    <Modal.Title>Editar Funcionario</Modal.Title>
+                    <Modal.Title>Editar Hub USB</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    {selectedId && (
-                        <FormularioEditarFuncionario
-                            id={selectedId}
+                    {selectedHubId && (
+                        <FormularioEditarHubUsb
+                            id={selectedHubId}
                             handleClose={handleClose2}
-                            onSuccess={loadItems}
+                            onSuccess={loadHubs}
                         />
                     )}
                 </Modal.Body>
@@ -271,4 +287,4 @@ const TablaFuncionarios: React.FC = () => {
     );
 };
 
-export default TablaFuncionarios;
+export default TablaHubUsb;

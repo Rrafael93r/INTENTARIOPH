@@ -1,6 +1,5 @@
 package com.pharmaser.bitacora.controller;
 
-
 import com.pharmaser.bitacora.model.Portatiles;
 import com.pharmaser.bitacora.service.PortatilesService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,12 +16,11 @@ public class PortatilesController {
     private PortatilesService portatilesService;
 
     @GetMapping("")
-    public List<Portatiles> getAllPortatiles(){
+    public List<Portatiles> getAllPortatiles() {
         return portatilesService.findAll();
     }
 
-
-    @PutMapping("/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<Portatiles> getPortatilesById(@PathVariable Long id) {
         Portatiles portatiles = portatilesService.findById(id);
         if (portatiles != null) {
@@ -32,16 +30,16 @@ public class PortatilesController {
         }
     }
 
-
     @PostMapping("")
     public Portatiles createPortatiles(@RequestBody Portatiles portatiles) {
         return portatilesService.save(portatiles);
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<Portatiles> updatePortatiles(@PathVariable Long id, @RequestBody Portatiles portatilesDetails){
+    @PutMapping("/{id}")
+    public ResponseEntity<Portatiles> updatePortatiles(@PathVariable Long id,
+            @RequestBody Portatiles portatilesDetails) {
         Portatiles updatePortatiles = portatilesService.findById(id);
-        if (updatePortatiles != null){
+        if (updatePortatiles != null) {
             updatePortatiles.setDescripcion(portatilesDetails.getDescripcion());
             updatePortatiles.setEstado(portatilesDetails.getEstado());
             updatePortatiles.setFuncionarios(portatilesDetails.getFuncionarios());
@@ -50,17 +48,17 @@ public class PortatilesController {
             updatePortatiles.setSerial(portatilesDetails.getSerial());
             updatePortatiles.setFecha_compra(portatilesDetails.getFecha_compra());
             return ResponseEntity.ok(portatilesService.save(updatePortatiles));
-        }else {
+        } else {
             return ResponseEntity.notFound().build();
         }
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deletePortatiles(@PathVariable Long id){
-        if (portatilesService.findById(id) != null){
+    public ResponseEntity<Void> deletePortatiles(@PathVariable Long id) {
+        if (portatilesService.findById(id) != null) {
             portatilesService.delete(id);
             return ResponseEntity.noContent().build();
-        }else {
+        } else {
             return ResponseEntity.notFound().build();
         }
     }

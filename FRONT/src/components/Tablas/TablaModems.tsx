@@ -81,6 +81,7 @@ const ModemsTable: React.FC = () => {
 
   const loadModems = async () => {
     try {
+      setLoading(true)
       Swal.fire({
         title: "Cargando tabla...",
         html: "Por favor espera un momento.",
@@ -91,10 +92,20 @@ const ModemsTable: React.FC = () => {
       })
 
       const data = await getModems()
-      setModems(data)
+      console.log("[v0] Datos obtenidos en loadModems:", data)
+      console.log("[v0] Tipo del array:", Array.isArray(data))
+      console.log("[v0] Cantidad de items:", data?.length)
+
+      if (Array.isArray(data)) {
+        console.log("[v0] Guardando en setModems:", data)
+        setModems(data)
+      } else {
+        console.log("[v0] ERROR: data NO es un array, es:", typeof data)
+        setError("Los datos recibidos no son válidos")
+      }
     } catch (error) {
       setError("Error al cargar el listado de Módems")
-      console.error(error)
+      console.error("[v0] Error en loadModems:", error)
       Swal.fire({
         icon: "error",
         title: "Error",
@@ -123,13 +134,13 @@ const ModemsTable: React.FC = () => {
   }
 
   const filteredModems = modems.filter((modem) => {
-    const matchEstado = modem.estado?.toLowerCase().includes(filterEstado.toLowerCase())
-    const matchOperador = modem.proveedorInternet?.nombre?.toLowerCase().includes(filterOperador.toLowerCase())
-    const matchMarca = modem.marca?.toLowerCase().includes(filterMarca.toLowerCase())
-    const matchModelo = modem.modelo?.toLowerCase().includes(filterModelo.toLowerCase())
-    const matchNumeroSerie = modem.numero_serie?.toLowerCase().includes(filterNumeroSerie.toLowerCase())
-    const matchUbicacion = modem.farmacia?.nombre?.toLowerCase().includes(filterUbicacion.toLowerCase())
-    const matchNumero = modem.numero?.toString().includes(filterNumero)
+    const matchEstado = (modem.estado || "").toLowerCase().includes(filterEstado.toLowerCase())
+    const matchOperador = (modem.proveedorInternet?.nombre || "").toLowerCase().includes(filterOperador.toLowerCase())
+    const matchMarca = (modem.marca || "").toLowerCase().includes(filterMarca.toLowerCase())
+    const matchModelo = (modem.modelo || "").toLowerCase().includes(filterModelo.toLowerCase())
+    const matchNumeroSerie = (modem.numero_serie || "").toLowerCase().includes(filterNumeroSerie.toLowerCase())
+    const matchUbicacion = (modem.farmacia?.nombre || "").toLowerCase().includes(filterUbicacion.toLowerCase())
+    const matchNumero = (modem.numero?.toString() || "").includes(filterNumero)
 
     return (
       matchEstado && matchOperador && matchMarca && matchModelo && matchNumeroSerie && matchUbicacion && matchNumero
@@ -170,7 +181,7 @@ const ModemsTable: React.FC = () => {
           break
         case "estado":
           valueA = a.estado?.toLowerCase() || ""
-          valueB = b.estado?.toLowerCase() || ""     
+          valueB = b.estado?.toLowerCase() || ""
           break
         default:
           valueA = ""

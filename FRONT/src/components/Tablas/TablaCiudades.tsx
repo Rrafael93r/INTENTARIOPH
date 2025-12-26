@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { FormControl, Card, Modal, Button } from 'react-bootstrap';
 import Swal from 'sweetalert2';
-import { getFuncionarios, deleteFuncionario } from '../../servicios/funcionariosService';
-import FormularioCrearFuncionario from '../FormulariosCrear/FormularioCrearFuncionario';
-import FormularioEditarFuncionario from '../FormulariosEditar.tsx/FormularioEditarFuncionario';
+import { getCiudades, deleteCiudad } from '../../servicios/ciudadesService';
+import FormularioCrearCiudad from '../FormulariosCrear/FormularioCrearCiudad';
+import FormularioEditarCiudad from '../FormulariosEditar.tsx/FormularioEditarCiudad';
 
-const TablaFuncionarios: React.FC = () => {
+const TablaCiudades: React.FC = () => {
     const [items, setItems] = useState<any[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
@@ -24,17 +24,14 @@ const TablaFuncionarios: React.FC = () => {
 
     // Filters
     const [filterNombre, setFilterNombre] = useState('');
-    const [filterApellido, setFilterApellido] = useState('');
-    const [filterArea, setFilterArea] = useState('');
-    const [filterCorreo, setFilterCorreo] = useState('');
-    const [filterFarmacia, setFilterFarmacia] = useState('');
+    const [filterDepartamento, setFilterDepartamento] = useState('');
 
     const loadItems = async () => {
         try {
-            const data = await getFuncionarios();
+            const data = await getCiudades();
             setItems(data);
         } catch (err) {
-            setError('Error al cargar Funcionarios');
+            setError('Error al cargar Ciudades');
             console.error(err);
         } finally {
             setLoading(false);
@@ -49,7 +46,7 @@ const TablaFuncionarios: React.FC = () => {
         try {
             const result = await Swal.fire({
                 title: '¿Estás seguro?',
-                text: "El funcionario será eliminado permanentemente.",
+                text: "La ciudad será eliminada permanentemente.",
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',
@@ -58,29 +55,23 @@ const TablaFuncionarios: React.FC = () => {
             });
 
             if (result.isConfirmed) {
-                await deleteFuncionario(id);
+                await deleteCiudad(id);
                 setItems((prev) => prev.filter((item) => item.id !== id));
-                Swal.fire('¡Eliminado!', 'El funcionario ha sido eliminado.', 'success');
+                Swal.fire('¡Eliminado!', 'La ciudad ha sido eliminada.', 'success');
             }
         } catch (error) {
             console.error('Error al eliminar:', error);
-            Swal.fire('Error', 'No se pudo eliminar el funcionario.', 'error');
+            Swal.fire('Error', 'No se pudo eliminar la ciudad.', 'error');
         }
     };
 
     const normalizedFilterNombre = filterNombre.toLowerCase();
-    const normalizedFilterApellido = filterApellido.toLowerCase();
-    const normalizedFilterArea = filterArea.toLowerCase();
-    const normalizedFilterCorreo = filterCorreo.toLowerCase();
-    const normalizedFilterFarmacia = filterFarmacia.toLowerCase();
+    const normalizedFilterDepartamento = filterDepartamento.toLowerCase();
 
     const filteredItems = items.filter(item => {
         return (
-            (!filterNombre || (item.nombre || '').toLowerCase().includes(normalizedFilterNombre)) &&
-            (!filterApellido || (item.apellido || '').toLowerCase().includes(normalizedFilterApellido)) &&
-            (!filterArea || (item.area || '').toLowerCase().includes(normalizedFilterArea)) &&
-            (!filterCorreo || (item.correo || '').toLowerCase().includes(normalizedFilterCorreo)) &&
-            (!filterFarmacia || (item.farmacias ? item.farmacias.nombre : '').toLowerCase().includes(normalizedFilterFarmacia))
+            (!filterNombre || (item.nombre_ciudad || '').toLowerCase().includes(normalizedFilterNombre)) &&
+            (!filterDepartamento || (item.departamento ? item.departamento.name_departamento : '').toLowerCase().includes(normalizedFilterDepartamento))
         );
     });
 
@@ -93,10 +84,7 @@ const TablaFuncionarios: React.FC = () => {
 
     const clearFilters = () => {
         setFilterNombre('');
-        setFilterApellido('');
-        setFilterArea('');
-        setFilterCorreo('');
-        setFilterFarmacia('');
+        setFilterDepartamento('');
     };
 
     if (loading) return <div>Cargando...</div>;
@@ -106,20 +94,20 @@ const TablaFuncionarios: React.FC = () => {
         <>
             <Modal show={showModal} onHide={handleClose} centered size="lg">
                 <Modal.Header closeButton>
-                    <Modal.Title>Nuevo Funcionario</Modal.Title>
+                    <Modal.Title>Nueva Ciudad</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <FormularioCrearFuncionario handleClose={() => { handleClose(); loadItems(); }} />
+                    <FormularioCrearCiudad handleClose={() => { handleClose(); loadItems(); }} />
                 </Modal.Body>
             </Modal>
 
             <div className="d-flex align-items-center" style={{ color: 'black' }}>
                 <div className="pagetitle">
-                    <h1>Funcionarios</h1>
+                    <h1>Ciudades</h1>
                     <nav>
                         <ol className="breadcrumb">
-                            <li className="breadcrumb-item">Inicio</li>
-                            <li className="breadcrumb-item active">Funcionarios</li>
+                            <li className="breadcrumb-item">Administración</li>
+                            <li className="breadcrumb-item active">Ciudades</li>
                         </ol>
                     </nav>
                 </div>
@@ -127,7 +115,7 @@ const TablaFuncionarios: React.FC = () => {
                     <Button
                         onClick={handleShow}
                         className="btn" style={{ backgroundColor: '#f6952c', borderColor: '#f6952c' }}>
-                        <i className="bi bi-plus-circle-fill me-2"></i> Agregar Funcionario
+                        <i className="bi bi-plus-circle-fill me-2"></i> Agregar Ciudad
                     </Button>
                 </div>
             </div>
@@ -146,40 +134,17 @@ const TablaFuncionarios: React.FC = () => {
                                         value={filterNombre}
                                         onChange={(e) => setFilterNombre(e.target.value)}
                                     />
-                                    NOMBRE
+                                    NOMBRE CIUDAD
                                 </th>
                                 <th>
                                     <FormControl
                                         size="sm"
                                         type="text"
-                                        placeholder="Filtrar Apellido"
-                                        value={filterApellido}
-                                        onChange={(e) => setFilterApellido(e.target.value)}
+                                        placeholder="Filtrar Depto"
+                                        value={filterDepartamento}
+                                        onChange={(e) => setFilterDepartamento(e.target.value)}
                                     />
-                                    APELLIDO
-                                </th>
-                                <th>
-                                    <FormControl
-                                        size="sm"
-                                        type="text"
-                                        placeholder="Filtrar Área"
-                                        value={filterArea}
-                                        onChange={(e) => setFilterArea(e.target.value)}
-                                    />
-                                    ÁREA
-                                </th>
-                                <th>
-                                    <FormControl
-                                        size="sm"
-                                        type="text"
-                                        placeholder="Filtrar Correo"
-                                        value={filterCorreo}
-                                        onChange={(e) => setFilterCorreo(e.target.value)}
-                                    />
-                                    CORREO
-                                </th>
-                                <th style={{ display: 'none' }}>
-                                    FARMACIA
+                                    DEPARTAMENTO
                                 </th>
                                 <th className="text-center">
                                     <button style={{ backgroundColor: "#ffb361", color: '#fff', borderColor: '#ffb361' }} onClick={clearFilters} type="button" className="btn btn-sm">
@@ -193,11 +158,8 @@ const TablaFuncionarios: React.FC = () => {
                             {currentItems.map((item) => (
                                 <tr key={item.id}>
                                     <td>{item.id}</td>
-                                    <td>{item.nombre}</td>
-                                    <td>{item.apellido}</td>
-                                    <td>{item.area}</td>
-                                    <td>{item.correo}</td>
-                                    <td style={{ display: 'none' }}>{item.farmacias ? item.farmacias.nombre : 'Sin farmacia'}</td>
+                                    <td>{item.nombre_ciudad}</td>
+                                    <td>{item.departamento ? item.departamento.name_departamento : 'Sin departamento'}</td>
                                     <td>
                                         <div className="d-flex justify-content-center btn-group" role="group">
                                             <button
@@ -255,11 +217,11 @@ const TablaFuncionarios: React.FC = () => {
 
             <Modal show={showModal2} onHide={handleClose2} centered size="lg">
                 <Modal.Header closeButton>
-                    <Modal.Title>Editar Funcionario</Modal.Title>
+                    <Modal.Title>Editar Ciudad</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     {selectedId && (
-                        <FormularioEditarFuncionario
+                        <FormularioEditarCiudad
                             id={selectedId}
                             handleClose={handleClose2}
                             onSuccess={loadItems}
@@ -271,4 +233,4 @@ const TablaFuncionarios: React.FC = () => {
     );
 };
 
-export default TablaFuncionarios;
+export default TablaCiudades;

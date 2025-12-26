@@ -23,12 +23,23 @@ const Sidebar: React.FC = () => {
     const roles: Record<number, string> = {
       1: "Administrador",
       2: "Tecnico",
-      3: "Reportador", // Agregado rol 3
+      3: "Reportador",
     }
     return roles[roleId] || "Desconocido"
   }
 
   const sections = [
+    {
+      heading: "INICIO",
+      items: [
+        {
+          label: "Dashboard ",
+          icon: "M4 3h6v6H4z M14 3h6v6h-6z M4 13h6v6H4z M14 13h6v6h-6z",
+          path: "/Inicio",
+          rolesAllowed: [1, 2],
+        }
+      ],
+    },
     {
       heading: "INTERNET",
       items: [
@@ -48,7 +59,7 @@ const Sidebar: React.FC = () => {
           label: "Proveedores",
           icon: "M9 7m-4 0a4 4 0 1 0 8 0a4 4 0 1 0 -8 0 M3 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2 M16 3.13a4 4 0 0 1 0 7.75 M21 21v-2a4 4 0 0 0 -3 -3.85",
           path: "/proveedores",
-          rolesAllowed: [1, 2],
+          rolesAllowed: [1],
         },
       ],
     },
@@ -69,7 +80,59 @@ const Sidebar: React.FC = () => {
         },
       ],
     },
-    
+    {
+      heading: "INVENTARIO",
+      items: [
+        {
+          label: "Monitores",
+          icon: "M3 3h18v12H3zm9 12v3m-3 0h6",
+          path: "/Monitores",
+          rolesAllowed: [1, 2],
+        },
+        {
+          label: "Mouses",
+          icon: "M12 2a4 4 0 0 1 4 4v5a4 4 0 0 1-8 0V6a4 4 0 0 1 4-4z m0 0v3",
+          path: "/Mouses",
+          rolesAllowed: [1, 2],
+        },
+        {
+          label: "Teclados",
+          icon: "M3 6h18v12H3zm2 2v2h2V8zm4 0v2h2V8zm4 0v2h2V8zm4 0v2h2V8zm-12 4v2h2v-2zm4 0v2h2v-2zm4 0v2h2v-2zm4 0v2h2v-2z", // Keyboard-like
+          path: "/Teclados",
+          rolesAllowed: [1, 2],
+        },
+        {
+          label: "Portatiles",
+          icon: "M2 16h20M2 16l2-11h16l2 11M4 5v11h16V5",
+          path: "/Portatiles",
+          rolesAllowed: [1, 2],
+        },
+        {
+          label: "Hub USB",
+          icon: "M5 8h14v8H5zm2 2v4m4-4v4m4-4v4",
+          path: "/HubUsb",
+          rolesAllowed: [1, 2],
+        },
+      ],
+    },
+    {
+      heading: "ADMINISTRACION",
+      items: [
+        {
+          label: "Usuarios",
+          icon: "M12 2a5 5 0 0 1 5 5v2h-2V7a3 3 0 0 0-6 0v2H7V7a5 5 0 0 1 5-5z m-5 9h10v10H7z",
+          path: "/Regentes",
+          rolesAllowed: [1],
+        },
+        {
+          label: "Funcionarios",
+          icon: "M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z", // User icon
+          path: "/Funcionarios",
+          rolesAllowed: [1],
+        },
+      ],
+    },
+
   ]
 
   // Filtrar secciones y elementos basado en el rol del usuario
@@ -101,9 +164,8 @@ const Sidebar: React.FC = () => {
                   <li key={itemIndex} className="nav-item">
                     <Link
                       to={item.path}
-                      className={` d-flex align-items-center gap-2 py-2 px-3 ${
-                        location.pathname === item.path ? "text-white" : "text-dark"
-                      }`}
+                      className={` d-flex align-items-center gap-2 py-2 px-3 ${location.pathname === item.path ? "text-white" : "text-dark"
+                        }`}
                       style={{
                         borderRadius: "0.6rem",
                         textDecoration: "none",

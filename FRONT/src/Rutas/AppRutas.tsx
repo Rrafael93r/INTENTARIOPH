@@ -21,6 +21,9 @@ import PaginaEntregaEquipos from "../Paginas/EntregaEquipos"
 import PaginaBajaEquipos from "../Paginas/BajaEquipos"
 import PaginaUsuarios from "../Paginas/PaginaUsuarios"
 import ReporteSimple from "../Paginas/ReporteUser"
+import Inicio from "../Paginas/Inicio"
+import PaginaHubUsb from "../Paginas/HubUsb"
+import PaginaRegentes from "../Paginas/Regentes"
 
 export const AppRutas = () => {
   return (
@@ -99,6 +102,17 @@ export const AppRutas = () => {
           </ProtectedRoute>
         }
       />
+
+      <Route path="/inicio"
+        element={
+          <ProtectedRoute allowedRoles={[1, 2]}>
+            < Inicio />
+          </ProtectedRoute>
+        }
+      />
+
+
+
       <Route
         path="/EnvioModems"
         element={
@@ -202,6 +216,24 @@ export const AppRutas = () => {
         element={
           <ProtectedRoute allowedRoles={[1, 2]}>
             <PaginaUsuarios />
+          </ProtectedRoute>
+        }
+      ></Route>
+
+      <Route
+        path="/HubUsb"
+        element={
+          <ProtectedRoute allowedRoles={[1, 2]}>
+            <PaginaHubUsb />
+          </ProtectedRoute>
+        }
+      ></Route>
+
+      <Route
+        path="/Regentes"
+        element={
+          <ProtectedRoute allowedRoles={[1, 2]}>
+            <PaginaRegentes />
           </ProtectedRoute>
         }
       ></Route>

@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { FormControl, Card, Modal, Button } from 'react-bootstrap';
 import Swal from 'sweetalert2';
-import { getFuncionarios, deleteFuncionario } from '../../servicios/funcionariosService';
-import FormularioCrearFuncionario from '../FormulariosCrear/FormularioCrearFuncionario';
-import FormularioEditarFuncionario from '../FormulariosEditar.tsx/FormularioEditarFuncionario';
+import { getRegentes, deleteRegente } from '../../servicios/regenteService';
+import FormularioCrearRegente from '../FormulariosCrear/FormularioCrearRegente';
+import FormularioEditarRegente from '../FormulariosEditar.tsx/FormularioEditarRegente';
 
-const TablaFuncionarios: React.FC = () => {
+const TablaRegentes: React.FC = () => {
     const [items, setItems] = useState<any[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
@@ -24,17 +24,16 @@ const TablaFuncionarios: React.FC = () => {
 
     // Filters
     const [filterNombre, setFilterNombre] = useState('');
-    const [filterApellido, setFilterApellido] = useState('');
-    const [filterArea, setFilterArea] = useState('');
     const [filterCorreo, setFilterCorreo] = useState('');
+    const [filterNumero, setFilterNumero] = useState('');
     const [filterFarmacia, setFilterFarmacia] = useState('');
 
     const loadItems = async () => {
         try {
-            const data = await getFuncionarios();
+            const data = await getRegentes();
             setItems(data);
         } catch (err) {
-            setError('Error al cargar Funcionarios');
+            setError('Error al cargar Regentes');
             console.error(err);
         } finally {
             setLoading(false);
@@ -49,7 +48,7 @@ const TablaFuncionarios: React.FC = () => {
         try {
             const result = await Swal.fire({
                 title: '¿Estás seguro?',
-                text: "El funcionario será eliminado permanentemente.",
+                text: "El regente será eliminado permanentemente.",
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',
@@ -58,29 +57,27 @@ const TablaFuncionarios: React.FC = () => {
             });
 
             if (result.isConfirmed) {
-                await deleteFuncionario(id);
+                await deleteRegente(id);
                 setItems((prev) => prev.filter((item) => item.id !== id));
-                Swal.fire('¡Eliminado!', 'El funcionario ha sido eliminado.', 'success');
+                Swal.fire('¡Eliminado!', 'El regente ha sido eliminado.', 'success');
             }
         } catch (error) {
             console.error('Error al eliminar:', error);
-            Swal.fire('Error', 'No se pudo eliminar el funcionario.', 'error');
+            Swal.fire('Error', 'No se pudo eliminar el regente.', 'error');
         }
     };
 
     const normalizedFilterNombre = filterNombre.toLowerCase();
-    const normalizedFilterApellido = filterApellido.toLowerCase();
-    const normalizedFilterArea = filterArea.toLowerCase();
     const normalizedFilterCorreo = filterCorreo.toLowerCase();
+    const normalizedFilterNumero = filterNumero.toLowerCase();
     const normalizedFilterFarmacia = filterFarmacia.toLowerCase();
 
     const filteredItems = items.filter(item => {
         return (
             (!filterNombre || (item.nombre || '').toLowerCase().includes(normalizedFilterNombre)) &&
-            (!filterApellido || (item.apellido || '').toLowerCase().includes(normalizedFilterApellido)) &&
-            (!filterArea || (item.area || '').toLowerCase().includes(normalizedFilterArea)) &&
             (!filterCorreo || (item.correo || '').toLowerCase().includes(normalizedFilterCorreo)) &&
-            (!filterFarmacia || (item.farmacias ? item.farmacias.nombre : '').toLowerCase().includes(normalizedFilterFarmacia))
+            (!filterNumero || (item.numero || '').toLowerCase().includes(normalizedFilterNumero)) &&
+            (!filterFarmacia || (item.farmacia ? item.farmacia.nombre : '').toLowerCase().includes(normalizedFilterFarmacia))
         );
     });
 
@@ -93,9 +90,8 @@ const TablaFuncionarios: React.FC = () => {
 
     const clearFilters = () => {
         setFilterNombre('');
-        setFilterApellido('');
-        setFilterArea('');
         setFilterCorreo('');
+        setFilterNumero('');
         setFilterFarmacia('');
     };
 
@@ -106,20 +102,20 @@ const TablaFuncionarios: React.FC = () => {
         <>
             <Modal show={showModal} onHide={handleClose} centered size="lg">
                 <Modal.Header closeButton>
-                    <Modal.Title>Nuevo Funcionario</Modal.Title>
+                    <Modal.Title>Nuevo Regente</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <FormularioCrearFuncionario handleClose={() => { handleClose(); loadItems(); }} />
+                    <FormularioCrearRegente handleClose={() => { handleClose(); loadItems(); }} />
                 </Modal.Body>
             </Modal>
 
             <div className="d-flex align-items-center" style={{ color: 'black' }}>
                 <div className="pagetitle">
-                    <h1>Funcionarios</h1>
+                    <h1>Regentes</h1>
                     <nav>
                         <ol className="breadcrumb">
                             <li className="breadcrumb-item">Inicio</li>
-                            <li className="breadcrumb-item active">Funcionarios</li>
+                            <li className="breadcrumb-item active">Regentes</li>
                         </ol>
                     </nav>
                 </div>
@@ -127,7 +123,7 @@ const TablaFuncionarios: React.FC = () => {
                     <Button
                         onClick={handleShow}
                         className="btn" style={{ backgroundColor: '#f6952c', borderColor: '#f6952c' }}>
-                        <i className="bi bi-plus-circle-fill me-2"></i> Agregar Funcionario
+                        <i className="bi bi-plus-circle-fill me-2"></i> Agregar Regente
                     </Button>
                 </div>
             </div>
@@ -152,33 +148,30 @@ const TablaFuncionarios: React.FC = () => {
                                     <FormControl
                                         size="sm"
                                         type="text"
-                                        placeholder="Filtrar Apellido"
-                                        value={filterApellido}
-                                        onChange={(e) => setFilterApellido(e.target.value)}
-                                    />
-                                    APELLIDO
-                                </th>
-                                <th>
-                                    <FormControl
-                                        size="sm"
-                                        type="text"
-                                        placeholder="Filtrar Área"
-                                        value={filterArea}
-                                        onChange={(e) => setFilterArea(e.target.value)}
-                                    />
-                                    ÁREA
-                                </th>
-                                <th>
-                                    <FormControl
-                                        size="sm"
-                                        type="text"
                                         placeholder="Filtrar Correo"
                                         value={filterCorreo}
                                         onChange={(e) => setFilterCorreo(e.target.value)}
                                     />
                                     CORREO
                                 </th>
-                                <th style={{ display: 'none' }}>
+                                <th>
+                                    <FormControl
+                                        size="sm"
+                                        type="text"
+                                        placeholder="Filtrar Número"
+                                        value={filterNumero}
+                                        onChange={(e) => setFilterNumero(e.target.value)}
+                                    />
+                                    NUMERO
+                                </th>
+                                <th>
+                                    <FormControl
+                                        size="sm"
+                                        type="text"
+                                        placeholder="Filtrar Farmacia"
+                                        value={filterFarmacia}
+                                        onChange={(e) => setFilterFarmacia(e.target.value)}
+                                    />
                                     FARMACIA
                                 </th>
                                 <th className="text-center">
@@ -194,10 +187,9 @@ const TablaFuncionarios: React.FC = () => {
                                 <tr key={item.id}>
                                     <td>{item.id}</td>
                                     <td>{item.nombre}</td>
-                                    <td>{item.apellido}</td>
-                                    <td>{item.area}</td>
                                     <td>{item.correo}</td>
-                                    <td style={{ display: 'none' }}>{item.farmacias ? item.farmacias.nombre : 'Sin farmacia'}</td>
+                                    <td>{item.numero}</td>
+                                    <td>{item.farmacia ? item.farmacia.nombre : 'Sin farmacia'}</td>
                                     <td>
                                         <div className="d-flex justify-content-center btn-group" role="group">
                                             <button
@@ -255,11 +247,11 @@ const TablaFuncionarios: React.FC = () => {
 
             <Modal show={showModal2} onHide={handleClose2} centered size="lg">
                 <Modal.Header closeButton>
-                    <Modal.Title>Editar Funcionario</Modal.Title>
+                    <Modal.Title>Editar Regente</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     {selectedId && (
-                        <FormularioEditarFuncionario
+                        <FormularioEditarRegente
                             id={selectedId}
                             handleClose={handleClose2}
                             onSuccess={loadItems}
@@ -271,4 +263,4 @@ const TablaFuncionarios: React.FC = () => {
     );
 };
 
-export default TablaFuncionarios;
+export default TablaRegentes;

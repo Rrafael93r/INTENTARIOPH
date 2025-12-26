@@ -5,12 +5,22 @@ const API_URL = 'http://localhost:8080/api/modems';
 export const getModems = async () => {
   try {
     const response = await axios.get(API_URL);
+    
+    
+    if (!Array.isArray(response.data)) {
+      
+      return [];
+    }
+    
     return response.data;
   } catch (error) {
-    console.error('Error fetching modems:', error);
+    if (axios.isAxiosError(error)) {
+      
+    }
     throw error;
   }
 };
+
 
 export const updateModemStatus = async (id: number, estado: string) => {
   try {

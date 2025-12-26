@@ -33,7 +33,7 @@ const ReporteTable: React.FC = () => {
 
   // Estado para ordenamiento
   const [sortField, setSortField] = useState<string>("fecha")
-  const [sortDirection, setSortDirection] = useState<"asc" | "desc">("desc") // Por defecto ordenamos descendente (más recientes primero)
+  const [sortDirection, setSortDirection] = useState<"asc" | "desc">("desc")
 
   // Modales
   const [showModal, setShowModal] = useState(false)
