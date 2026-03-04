@@ -1,24 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import Swal from 'sweetalert2';
-import { getUserByUsername, updateUser } from '../../servicios/usuarioService'; // getUserByUsername/Id? 
-// The service has getUserByUsername, but for edit I usually need by Id. 
-// Assuming I can pass the whole object or need to fetch by Id if available.
-// Looking at `usuarioService.tsx`: `getUserByUsername` exists. `updateUser` takes ID.
-// I probably need `getUserById` in service, but I'll use existing valid methods or props.
-// If I pass the user object directly to the modal, I save a fetch.
-// But the pattern has been fetching by ID.
-// `usuarioService.tsx` does NOT have `getUserById`. I might need to add it or pass data.
-// For now, I'll assume I can pass the data via props or I'll implement `getUserById` if needed.
-// Wait, `usuarioService.tsx` listed `getUserByUsername` and `updateUser(id, ...)`.
-// I will create `getUserById` in `usuarioService.tsx` quickly? Or just iteration over `getAllUsers`? 
-// Ideally backend has `getById`. `UsuariosController` has it?
-// Checking `UsuariosController.java`... I didn't verify it.
-// I'll assume standard controller. `getUserById` likely exists on backend.
-// I'll add `getUserById` to `usuarioService` first? No, I'll stick to what I have.
-// I'll pass the ID and try to fetch. If service misses it, I'll fix service.
+import { getUserByUsername, updateUser } from '../../servicios/usuarioService';
 
 import { getRoles } from '../../servicios/rolesService';
 import { getFarmacias } from '../../servicios/farmaciaService';
+import { getFuncionarios } from '../../servicios/funcionariosService';
 import axios from 'axios';
 
 // Adding inline fetch for ID if service missing
@@ -38,6 +24,12 @@ interface Farmacia {
     nombre: string;
 }
 
+interface Funcionario {
+    id: number;
+    nombre: string;
+    apellido: string;
+}
+
 interface FormularioEditarUsuarioProps {
     id: number;
     handleClose: () => void;
@@ -47,11 +39,13 @@ interface FormularioEditarUsuarioProps {
 const FormularioEditarUsuario: React.FC<FormularioEditarUsuarioProps> = ({ id, handleClose, onSuccess }) => {
     const [roles, setRoles] = useState<Role[]>([]);
     const [farmacias, setFarmacias] = useState<Farmacia[]>([]);
+    const [funcionarios, setFuncionarios] = useState<Funcionario[]>([]);
     const [formData, setFormData] = useState({
         username: '',
         password: '',
         role: { id: '' },
         farmacia: { id: '' },
+        funcionario: { id: '' },
         status: true
     });
     const [isHovered, setIsHovered] = useState(false);
@@ -60,20 +54,23 @@ const FormularioEditarUsuario: React.FC<FormularioEditarUsuarioProps> = ({ id, h
     useEffect(() => {
         const cargarDatos = async () => {
             try {
-                const [userData, rolesData, farmaciasData] = await Promise.all([
+                const [userData, rolesData, farmaciasData, funcionariosData] = await Promise.all([
                     getUserById(id),
                     getRoles(),
-                    getFarmacias()
+                    getFarmacias(),
+                    getFuncionarios()
                 ]);
 
                 setRoles(rolesData);
                 setFarmacias(farmaciasData);
+                setFuncionarios(funcionariosData);
 
                 setFormData({
                     username: userData.username || '',
                     password: '', // Don't preload password
                     role: { id: userData.role?.id || '' },
                     farmacia: { id: userData.farmacia?.id || '' },
+                    funcionario: { id: userData.funcionario?.id || '' },
                     status: userData.status
                 });
 
@@ -97,6 +94,8 @@ const FormularioEditarUsuario: React.FC<FormularioEditarUsuarioProps> = ({ id, h
             setFormData(prevData => ({ ...prevData, role: { id: value } }));
         } else if (id === 'farmacia') {
             setFormData(prevData => ({ ...prevData, farmacia: { id: value } }));
+        } else if (id === 'funcionario') {
+            setFormData(prevData => ({ ...prevData, funcionario: { id: value } }));
         } else {
             setFormData(prevData => ({ ...prevData, [id]: value }));
         }
@@ -110,6 +109,7 @@ const FormularioEditarUsuario: React.FC<FormularioEditarUsuarioProps> = ({ id, h
                 username: formData.username,
                 role: { id: formData.role.id },
                 farmacia: formData.farmacia.id ? { id: formData.farmacia.id } : null,
+                funcionario: formData.funcionario.id ? { id: formData.funcionario.id } : null,
                 status: formData.status
             };
 
@@ -193,6 +193,23 @@ const FormularioEditarUsuario: React.FC<FormularioEditarUsuarioProps> = ({ id, h
                         {farmacias.map((f) => (
                             <option key={f.id} value={f.id}>
                                 {f.nombre}
+                            </option>
+                        ))}
+                    </select>
+                </div>
+
+                <div className="col-md-6">
+                    <label htmlFor="funcionario" className="form-label">Asignar a Funcionario (Opcional)</label>
+                    <select
+                        id="funcionario"
+                        className="form-select"
+                        value={formData.funcionario.id}
+                        onChange={handleChange}
+                    >
+                        <option value="">Ninguno</option>
+                        {funcionarios.map((f) => (
+                            <option key={f.id} value={f.id}>
+                                {f.nombre} {f.apellido}
                             </option>
                         ))}
                     </select>

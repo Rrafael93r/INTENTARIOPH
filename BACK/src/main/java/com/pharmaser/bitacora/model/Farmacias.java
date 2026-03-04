@@ -13,7 +13,6 @@ public class Farmacias {
     private String direccion;
     private String anchoBAnda;
 
-
     private Boolean isDeleted = false;
 
     @ManyToOne
@@ -26,16 +25,11 @@ public class Farmacias {
     @JoinColumn(name = "proveedor")
     private ProveedorInternet proveedorInternet;
 
-
-
-    @ManyToOne
-    @JoinColumn(name = "regente")
-    private Regente regente;
-
-
     @ManyToOne
     @JoinColumn(name = "canal_transmision")
     private CanalTransmision canalTransmision;
+
+    private int cantidadEquipos;
 
     public CanalTransmision getCanalTransmision() {
         return canalTransmision;
@@ -45,21 +39,12 @@ public class Farmacias {
         this.canalTransmision = canalTransmision;
     }
 
-
     public Ciudades getCiudad() {
         return ciudad;
     }
 
     public void setCiudad(Ciudades ciudad) {
         this.ciudad = ciudad;
-    }
-
-    public Regente getRegente() {
-        return regente;
-    }
-
-    public void setRegente(Regente regente) {
-        this.regente = regente;
     }
 
     public ProveedorInternet getProveedor() {
@@ -132,6 +117,14 @@ public class Farmacias {
 
     public void setIsDeleted(Boolean isDeleted) {
         this.isDeleted = isDeleted;
+    }
+
+    public int getCantidadEquipos() {
+        return cantidadEquipos;
+    }
+
+    public void setCantidadEquipos(int cantidadEquipos) {
+        this.cantidadEquipos = cantidadEquipos;
     }
 
 }

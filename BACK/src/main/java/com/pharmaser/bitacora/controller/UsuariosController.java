@@ -18,7 +18,9 @@ public class UsuariosController {
     public ResponseEntity<Usuarios> createUser(@RequestBody Usuarios usuarios) {
         try {
             System.out.println("=== CREANDO NUEVO USUARIO ===");
-            System.out.println("Datos recibidos: " + usuarios.toString());
+            System.out.println("=== CREANDO NUEVO USUARIO ===");
+            // System.out.println("Datos recibidos: " + usuarios.toString()); // Removed for
+            // security
 
             // Validaciones básicas
             if (usuarios.getUsername() == null || usuarios.getUsername().trim().isEmpty()) {
@@ -79,7 +81,9 @@ public class UsuariosController {
     public ResponseEntity<Usuarios> updateUser(@PathVariable Long id, @RequestBody Usuarios usuarios) {
         try {
             System.out.println("=== ACTUALIZANDO USUARIO ID: " + id + " ===");
-            System.out.println("Datos recibidos: " + usuarios.toString());
+            System.out.println("=== ACTUALIZANDO USUARIO ID: " + id + " ===");
+            // System.out.println("Datos recibidos: " + usuarios.toString()); // Removed for
+            // security
 
             Usuarios updatedUser = usuariosService.updateUser(id, usuarios);
             if (updatedUser != null) {

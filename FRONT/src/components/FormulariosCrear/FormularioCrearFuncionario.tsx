@@ -23,7 +23,7 @@ const FormularioCrearFuncionario = ({ handleClose }: { handleClose: () => void }
     const [formData, setFormData] = useState({
         nombre: '',
         apellido: '',
-        area: '',
+        area: { id: '' },
         correo: '',
         farmacias: { id: '' }
     });
@@ -56,6 +56,11 @@ const FormularioCrearFuncionario = ({ handleClose }: { handleClose: () => void }
                 ...prevData,
                 farmacias: { id: value }
             }));
+        } else if (id === 'area') {
+            setFormData(prevData => ({
+                ...prevData,
+                area: { id: value }
+            }));
         } else {
             setFormData(prevData => ({
                 ...prevData,
@@ -67,7 +72,7 @@ const FormularioCrearFuncionario = ({ handleClose }: { handleClose: () => void }
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
-        if (!formData.nombre || !formData.apellido || !formData.area || !formData.correo) {
+        if (!formData.nombre || !formData.apellido || !formData.area.id || !formData.correo) {
             Swal.fire({
                 icon: 'error',
                 title: 'Campos incompletos',
@@ -137,12 +142,12 @@ const FormularioCrearFuncionario = ({ handleClose }: { handleClose: () => void }
                     <select
                         id="area"
                         className="form-select"
-                        value={formData.area}
+                        value={formData.area.id}
                         onChange={handleChange}
                     >
                         <option value="">Seleccione un área</option>
                         {areas.map(a => (
-                            <option key={a.id} value={a.nombre}>
+                            <option key={a.id} value={a.id}>
                                 {a.nombre}
                             </option>
                         ))}
@@ -203,7 +208,7 @@ const FormularioCrearFuncionario = ({ handleClose }: { handleClose: () => void }
                         onClick={() => setFormData({
                             nombre: '',
                             apellido: '',
-                            area: '',
+                            area: { id: '' },
                             correo: '',
                             farmacias: { id: '' }
                         })}

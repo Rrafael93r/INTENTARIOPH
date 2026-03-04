@@ -192,6 +192,18 @@ const FormularioEditarR: React.FC<IFormularioEditarRProps> = ({ reporteId, onClo
       }
     }
 
+    // Validación para reabrir caso
+    if (estadoOriginal === "CERRADO" && reporte.estado === "ABIERTO") {
+      if (!reporte.observacion || reporte.observacion.trim() === "" || reporte.observacion === reporteOriginal.observacion) {
+        Swal.fire({
+          icon: "warning",
+          title: "Observación Requerida",
+          text: "Para reabrir un caso cerrado, debe agregar una nueva observación explicando el motivo.",
+        })
+        return
+      }
+    }
+
     try {
       setLoading(true)
 

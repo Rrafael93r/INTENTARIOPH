@@ -205,7 +205,7 @@ const TablaMonitores: React.FC = () => {
                             {currentMonitores.map((monitor) => (
                                 <tr key={monitor.id}>
                                     <td>{monitor.id}</td>
-                                    <td>{monitor.marca}</td>
+                                    <td>{typeof monitor.marca === 'object' && monitor.marca !== null ? monitor.marca.nombre : monitor.marca}</td>
                                     <td>{monitor.modelo}</td>
                                     <td>{monitor.serial}</td>
                                     <td>

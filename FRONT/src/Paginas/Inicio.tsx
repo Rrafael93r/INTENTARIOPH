@@ -1,10 +1,10 @@
-import Graficas from "../components/Dashboard/Graficas";
+import Dashboard from "../components/Dashboard/Dashboard";
 import Layout from "../components/Layout/Layout"
 
-const Inicio =()=>{
-    return(
+const Inicio = () => {
+    return (
         <Layout>
-            <Graficas/>
+            <Dashboard />
         </Layout>
     )
 }

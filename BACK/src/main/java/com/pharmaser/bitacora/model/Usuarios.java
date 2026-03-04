@@ -11,6 +11,7 @@ public class Usuarios {
     private long id;
 
     private String username;
+    @com.fasterxml.jackson.annotation.JsonProperty(access = com.fasterxml.jackson.annotation.JsonProperty.Access.WRITE_ONLY)
     private String password;
 
     @Column(updatable = false)
@@ -26,6 +27,10 @@ public class Usuarios {
     @ManyToOne
     @JoinColumn(name = "farmacia_id")
     private Farmacias farmacia;
+
+    @OneToOne
+    @JoinColumn(name = "funcionario_id")
+    private Funcionarios funcionario;
 
     @Column(columnDefinition = "boolean default true")
     private Boolean status;
@@ -98,6 +103,14 @@ public class Usuarios {
         this.farmacia = farmacia;
     }
 
+    public Funcionarios getFuncionario() {
+        return funcionario;
+    }
+
+    public void setFuncionario(Funcionarios funcionario) {
+        this.funcionario = funcionario;
+    }
+
     public Boolean getStatus() {
         return status;
     }
@@ -113,6 +126,7 @@ public class Usuarios {
                 ", username='" + username + '\'' +
                 ", farmacia=" + (farmacia != null ? farmacia.getId() : "null") +
                 ", role=" + (roles != null ? roles.getId() : "null") +
+                ", funcionario=" + (funcionario != null ? funcionario.getId() : "null") +
                 ", status=" + status +
                 '}';
     }

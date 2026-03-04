@@ -514,16 +514,7 @@ const ModemsTable: React.FC = () => {
                           <i className={`bi bi-${modem.estado === "DISPONIBLE" ? "x-circle" : "check-circle"}`}></i>
                         </button>
 
-                        {/* Solo mostrar el botón de eliminar para administradores */}
-                        {isAdmin && (
-                          <button
-                            className="btn btn-light btn-sm"
-                            style={{ backgroundColor: "#dc3545", color: "#fff", borderColor: "#dc3545" }}
-                            onClick={() => handleDelete(modem.id)}
-                          >
-                            <i className="bi bi-trash"></i>
-                          </button>
-                        )}
+
                       </div>
                     </td>
                   </tr>

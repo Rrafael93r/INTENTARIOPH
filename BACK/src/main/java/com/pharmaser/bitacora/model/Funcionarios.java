@@ -1,9 +1,6 @@
 package com.pharmaser.bitacora.model;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
-
-
 
 @Entity
 public class Funcionarios {
@@ -14,42 +11,14 @@ public class Funcionarios {
 
     private String nombre;
     private String apellido;
-    private String area;
+    @ManyToOne
+    @JoinColumn(name = "area_id")
+    private Areas area;
     private String correo;
 
     @ManyToOne
     @JoinColumn(name = "Farmacias")
     private Farmacias farmacias;
-
-    @OneToOne
-    @JoinColumn(name = "id_hubusb")
-    private HubUsb hubUsb;
-
-    @OneToOne
-    @JoinColumn(name = "id_Portatiles")
-    private Portatiles portatiles;
-
-    @OneToOne
-    @JoinColumn(name = "id_Teclado")
-    private Teclados teclados;
-
-    @OneToOne
-    @JoinColumn(name = "id_Mouse")
-    private Mouses mouses;
-
-    @OneToOne
-    @JoinColumn(name = "id_BaseRefrigeradora")
-    @JsonManagedReference
-    private BaseRefrigeradora baseRefrigeradora;
-
-    @OneToOne
-    @JoinColumn(name = "id_Diademas")
-    private Diademas diademas;
-
-    @OneToOne
-    @JoinColumn(name = "id_Monitores")
-    private Monitores monitores;
-
 
     public long getId() {
         return id;
@@ -75,11 +44,11 @@ public class Funcionarios {
         this.apellido = apellido;
     }
 
-    public String getArea() {
+    public Areas getArea() {
         return area;
     }
 
-    public void setArea(String area) {
+    public void setArea(Areas area) {
         this.area = area;
     }
 
@@ -97,61 +66,5 @@ public class Funcionarios {
 
     public void setFarmacias(Farmacias farmacias) {
         this.farmacias = farmacias;
-    }
-
-    public HubUsb getHubUsb() {
-        return hubUsb;
-    }
-
-    public void setHubUsb(HubUsb hubUsb) {
-        this.hubUsb = hubUsb;
-    }
-
-    public Monitores getMonitores() {
-        return monitores;
-    }
-
-    public void setMonitores(Monitores monitores) {
-        this.monitores = monitores;
-    }
-
-    public Diademas getDiademas() {
-        return diademas;
-    }
-
-    public void setDiademas(Diademas diademas) {
-        this.diademas = diademas;
-    }
-
-    public BaseRefrigeradora getBaseRefrigeradora() {
-        return baseRefrigeradora;
-    }
-
-    public void setBaseRefrigeradora(BaseRefrigeradora baseRefrigeradora) {
-        this.baseRefrigeradora = baseRefrigeradora;
-    }
-
-    public Teclados getTeclados() {
-        return teclados;
-    }
-
-    public void setTeclados(Teclados teclados) {
-        this.teclados = teclados;
-    }
-
-    public Portatiles getPortatiles() {
-        return portatiles;
-    }
-
-    public void setPortatiles(Portatiles portatiles) {
-        this.portatiles = portatiles;
-    }
-
-    public Mouses getMouses() {
-        return mouses;
-    }
-
-    public void setMouses(Mouses mouses) {
-        this.mouses = mouses;
     }
 }

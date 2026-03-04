@@ -2,11 +2,17 @@ import React, { useState, useEffect } from 'react';
 import Swal from 'sweetalert2';
 import { getPortatilById, updatePortatil } from '../../servicios/portatilesService';
 import { getFuncionarios } from '../../servicios/funcionariosService';
+import { getMarcas } from '../../servicios/marcasService';
 
 interface Funcionario {
     id: number;
     nombre: string;
     apellido: string;
+}
+
+interface Marca {
+    id: number;
+    nombre: string;
 }
 
 interface FormularioEditarPortatilProps {
@@ -17,11 +23,12 @@ interface FormularioEditarPortatilProps {
 
 const FormularioEditarPortatil: React.FC<FormularioEditarPortatilProps> = ({ id, handleClose, onSuccess }) => {
     const [funcionarios, setFuncionarios] = useState<Funcionario[]>([]);
+    const [marcas, setMarcas] = useState<Marca[]>([]);
     const [isHovered, setIsHovered] = useState(false);
     const [isHovered2, setIsHovered2] = useState(false);
 
     const [formData, setFormData] = useState({
-        marca: '',
+        marca: { id: '' },
         modelo: '',
         serial: '',
         estado: '',
@@ -33,14 +40,17 @@ const FormularioEditarPortatil: React.FC<FormularioEditarPortatilProps> = ({ id,
     useEffect(() => {
         const cargarDatos = async () => {
             try {
-                const [portatilData, funcionariosData] = await Promise.all([
+                const [portatilData, funcionariosData, marcasData] = await Promise.all([
                     getPortatilById(id),
-                    getFuncionarios()
+                    getFuncionarios(),
+                    getMarcas()
                 ]);
 
                 setFuncionarios(funcionariosData);
+                setMarcas(marcasData);
+
                 setFormData({
-                    marca: portatilData.marca || '',
+                    marca: portatilData.marca ? { id: portatilData.marca.id } : { id: '' },
                     modelo: portatilData.modelo || '',
                     serial: portatilData.serial || '',
                     estado: portatilData.estado || '',
@@ -70,6 +80,11 @@ const FormularioEditarPortatil: React.FC<FormularioEditarPortatilProps> = ({ id,
                 ...prevData,
                 funcionarios: { id: value }
             }));
+        } else if (id === 'marca') {
+            setFormData(prevData => ({
+                ...prevData,
+                marca: { id: value }
+            }));
         } else {
             setFormData(prevData => ({
                 ...prevData,
@@ -81,7 +96,7 @@ const FormularioEditarPortatil: React.FC<FormularioEditarPortatilProps> = ({ id,
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
-        if (!formData.marca || !formData.modelo || !formData.serial || !formData.estado) {
+        if (!formData.marca.id || !formData.modelo || !formData.serial || !formData.estado) {
             Swal.fire({
                 icon: 'error',
                 title: 'Campos incompletos',
@@ -93,7 +108,8 @@ const FormularioEditarPortatil: React.FC<FormularioEditarPortatilProps> = ({ id,
         try {
             const dataToSend = {
                 ...formData,
-                funcionarios: formData.funcionarios.id ? formData.funcionarios : null
+                funcionarios: formData.funcionarios.id ? formData.funcionarios : null,
+                marca: formData.marca.id ? formData.marca : null
             };
 
             await updatePortatil(id, dataToSend);
@@ -122,13 +138,19 @@ const FormularioEditarPortatil: React.FC<FormularioEditarPortatilProps> = ({ id,
             <form className="row g-3" onSubmit={handleSubmit}>
                 <div className="col-md-6">
                     <label htmlFor="marca" className="form-label">Marca*</label>
-                    <input
-                        type="text"
-                        className="form-control"
+                    <select
                         id="marca"
-                        value={formData.marca}
+                        className="form-select"
+                        value={formData.marca.id}
                         onChange={handleChange}
-                    />
+                    >
+                        <option value="">Seleccione una marca</option>
+                        {marcas.map(marca => (
+                            <option key={marca.id} value={marca.id}>
+                                {marca.nombre}
+                            </option>
+                        ))}
+                    </select>
                 </div>
                 <div className="col-md-6">
                     <label htmlFor="modelo" className="form-label">Modelo*</label>

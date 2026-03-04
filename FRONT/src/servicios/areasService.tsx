@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_URL = 'http://localhost:8080/api/Areas';
+const API_URL = 'http://localhost:8080/api/areas';
 
 export const getAreas = async () => {
     try {

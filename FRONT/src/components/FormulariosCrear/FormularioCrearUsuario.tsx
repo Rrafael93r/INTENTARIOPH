@@ -3,6 +3,7 @@ import Swal from 'sweetalert2';
 import { createUser } from '../../servicios/usuarioService';
 import { getRoles } from '../../servicios/rolesService';
 import { getFarmacias } from '../../servicios/farmaciaService';
+import { getFuncionarios } from '../../servicios/funcionariosService';
 
 interface Role {
     id: number;
@@ -14,9 +15,16 @@ interface Farmacia {
     nombre: string;
 }
 
+interface Funcionario {
+    id: number;
+    nombre: string;
+    apellido: string;
+}
+
 const FormularioCrearUsuario = ({ handleClose }: { handleClose: () => void }) => {
     const [roles, setRoles] = useState<Role[]>([]);
     const [farmacias, setFarmacias] = useState<Farmacia[]>([]);
+    const [funcionarios, setFuncionarios] = useState<Funcionario[]>([]);
     const [isHovered, setIsHovered] = useState(false);
     const [isHovered2, setIsHovered2] = useState(false);
 
@@ -24,18 +32,21 @@ const FormularioCrearUsuario = ({ handleClose }: { handleClose: () => void }) =>
         username: '',
         password: '',
         role: { id: '' },
-        farmacia: { id: '' }
+        farmacia: { id: '' },
+        funcionario: { id: '' }
     });
 
     useEffect(() => {
         const cargarDatos = async () => {
             try {
-                const [rolesData, farmaciasData] = await Promise.all([
+                const [rolesData, farmaciasData, funcionariosData] = await Promise.all([
                     getRoles(),
-                    getFarmacias()
+                    getFarmacias(),
+                    getFuncionarios()
                 ]);
                 setRoles(rolesData);
                 setFarmacias(farmaciasData);
+                setFuncionarios(funcionariosData);
             } catch (error) {
                 console.error('Error al cargar datos:', error);
             }
@@ -49,6 +60,8 @@ const FormularioCrearUsuario = ({ handleClose }: { handleClose: () => void }) =>
             setFormData(prevData => ({ ...prevData, role: { id: value } }));
         } else if (id === 'farmacia') {
             setFormData(prevData => ({ ...prevData, farmacia: { id: value } }));
+        } else if (id === 'funcionario') {
+            setFormData(prevData => ({ ...prevData, funcionario: { id: value } }));
         } else {
             setFormData(prevData => ({ ...prevData, [id]: value }));
         }
@@ -70,7 +83,8 @@ const FormularioCrearUsuario = ({ handleClose }: { handleClose: () => void }) =>
             const dataToSend = {
                 ...formData,
                 role: { id: formData.role.id },
-                farmacia: formData.farmacia.id ? { id: formData.farmacia.id } : null
+                farmacia: formData.farmacia.id ? { id: formData.farmacia.id } : null,
+                funcionario: formData.funcionario.id ? { id: formData.funcionario.id } : null
             };
 
             await createUser(dataToSend);
@@ -85,7 +99,8 @@ const FormularioCrearUsuario = ({ handleClose }: { handleClose: () => void }) =>
                 username: '',
                 password: '',
                 role: { id: '' },
-                farmacia: { id: '' }
+                farmacia: { id: '' },
+                funcionario: { id: '' }
             });
             handleClose();
 
@@ -158,6 +173,23 @@ const FormularioCrearUsuario = ({ handleClose }: { handleClose: () => void }) =>
                     </select>
                 </div>
 
+                <div className="col-md-6">
+                    <label htmlFor="funcionario" className="form-label">Asignar a Funcionario (Opcional)</label>
+                    <select
+                        id="funcionario"
+                        className="form-select"
+                        value={formData.funcionario.id}
+                        onChange={handleChange}
+                    >
+                        <option value="">Ninguno</option>
+                        {funcionarios.map((f) => (
+                            <option key={f.id} value={f.id}>
+                                {f.nombre} {f.apellido}
+                            </option>
+                        ))}
+                    </select>
+                </div>
+
                 <div className="text-center mt-4">
                     <button
                         style={{
@@ -186,7 +218,8 @@ const FormularioCrearUsuario = ({ handleClose }: { handleClose: () => void }) =>
                             username: '',
                             password: '',
                             role: { id: '' },
-                            farmacia: { id: '' }
+                            farmacia: { id: '' },
+                            funcionario: { id: '' }
                         })}
                     >
                         <i className="bi bi-trash-fill m-1" />LIMPIAR

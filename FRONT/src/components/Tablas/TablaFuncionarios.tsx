@@ -78,7 +78,7 @@ const TablaFuncionarios: React.FC = () => {
         return (
             (!filterNombre || (item.nombre || '').toLowerCase().includes(normalizedFilterNombre)) &&
             (!filterApellido || (item.apellido || '').toLowerCase().includes(normalizedFilterApellido)) &&
-            (!filterArea || (item.area || '').toLowerCase().includes(normalizedFilterArea)) &&
+            (!filterArea || (item.area?.nombre || item.area || '').toLowerCase().includes(normalizedFilterArea)) &&
             (!filterCorreo || (item.correo || '').toLowerCase().includes(normalizedFilterCorreo)) &&
             (!filterFarmacia || (item.farmacias ? item.farmacias.nombre : '').toLowerCase().includes(normalizedFilterFarmacia))
         );
@@ -195,7 +195,7 @@ const TablaFuncionarios: React.FC = () => {
                                     <td>{item.id}</td>
                                     <td>{item.nombre}</td>
                                     <td>{item.apellido}</td>
-                                    <td>{item.area}</td>
+                                    <td>{item.area?.nombre || item.area}</td>
                                     <td>{item.correo}</td>
                                     <td style={{ display: 'none' }}>{item.farmacias ? item.farmacias.nombre : 'Sin farmacia'}</td>
                                     <td>

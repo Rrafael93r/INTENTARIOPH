@@ -1,6 +1,28 @@
 "use client"
 
 import type React from "react"
+import {
+  IconLayoutDashboard,
+  IconReport,
+  IconBuildingStore,
+  IconTruckDelivery,
+  IconRouter,
+  IconSend,
+  IconDeviceDesktop,
+  IconMouse,
+  IconKeyboard,
+  IconDeviceLaptop,
+  IconUsb,
+  IconSnowflake,
+  IconUsers,
+  IconUserCircle,
+  IconCategory,
+  IconTag,
+  IconDevicesPc,
+  IconDeviceDesktopX,
+  IconPrinter,
+  IconListCheck
+} from "@tabler/icons-react";
 import { useEffect, useState } from "react"
 import { Button } from "react-bootstrap"
 import { Link, useLocation } from "react-router-dom"
@@ -34,7 +56,7 @@ const Sidebar: React.FC = () => {
       items: [
         {
           label: "Dashboard ",
-          icon: "M4 3h6v6H4z M14 3h6v6h-6z M4 13h6v6H4z M14 13h6v6h-6z",
+          icon: IconLayoutDashboard,
           path: "/Inicio",
           rolesAllowed: [1, 2],
         }
@@ -45,19 +67,19 @@ const Sidebar: React.FC = () => {
       items: [
         {
           label: "Reportes",
-          icon: "M12 9v4 M10.363 3.591l-8.106 13.534a1.914 1.914 0 0 0 1.636 2.871h16.214a1.914 1.914 0 0 0 1.636 -2.87l-8.106 -13.536a1.914 1.914 0 0 0 -3.274 0z M12 16h.01",
+          icon: IconReport,
           path: "/reportes",
           rolesAllowed: [1, 2],
         },
         {
           label: "Farmacias",
-          icon: "M3 21l18 0 M5 21v-16a2 2 0 0 1 2 -2h10a2 2 0 0 1 2 2v16 M9 21v-4a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v4 M10 9l4 0 M12 7l0 4",
+          icon: IconBuildingStore,
           path: "/farmacias",
           rolesAllowed: [1],
         },
         {
           label: "Proveedores",
-          icon: "M9 7m-4 0a4 4 0 1 0 8 0a4 4 0 1 0 -8 0 M3 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2 M16 3.13a4 4 0 0 1 0 7.75 M21 21v-2a4 4 0 0 0 -3 -3.85",
+          icon: IconTruckDelivery,
           path: "/proveedores",
           rolesAllowed: [1],
         },
@@ -68,13 +90,13 @@ const Sidebar: React.FC = () => {
       items: [
         {
           label: "Modems",
-          icon: "M3 13m0 2a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v4a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2z M17 17l0 .01 M13 17l0 .01 M15 13l0 -2 M11.75 8.75a4 4 0 0 1 6.5 0 M8.5 6.5a8 8 0 0 1 13 0",
+          icon: IconRouter,
           path: "/modems",
           rolesAllowed: [1, 2],
         },
         {
           label: "Envios",
-          icon: "M4 18v3h16v-14l-8 -4l-8 4v3 M4 14h9 M10 11l3 3l-3 3",
+          icon: IconSend,
           path: "/EnvioModems",
           rolesAllowed: [1, 2],
         },
@@ -85,32 +107,55 @@ const Sidebar: React.FC = () => {
       items: [
         {
           label: "Monitores",
-          icon: "M3 3h18v12H3zm9 12v3m-3 0h6",
+          icon: IconDeviceDesktop,
           path: "/Monitores",
           rolesAllowed: [1, 2],
         },
         {
-          label: "Mouses",
-          icon: "M12 2a4 4 0 0 1 4 4v5a4 4 0 0 1-8 0V6a4 4 0 0 1 4-4z m0 0v3",
-          path: "/Mouses",
-          rolesAllowed: [1, 2],
-        },
-        {
-          label: "Teclados",
-          icon: "M3 6h18v12H3zm2 2v2h2V8zm4 0v2h2V8zm4 0v2h2V8zm4 0v2h2V8zm-12 4v2h2v-2zm4 0v2h2v-2zm4 0v2h2v-2zm4 0v2h2v-2z", // Keyboard-like
-          path: "/Teclados",
+          label: "Periféricos",
+          icon: IconKeyboard,
+          path: "/perifericos",
           rolesAllowed: [1, 2],
         },
         {
           label: "Portatiles",
-          icon: "M2 16h20M2 16l2-11h16l2 11M4 5v11h16V5",
+          icon: IconDeviceLaptop,
           path: "/Portatiles",
           rolesAllowed: [1, 2],
         },
         {
-          label: "Hub USB",
-          icon: "M5 8h14v8H5zm2 2v4m4-4v4m4-4v4",
-          path: "/HubUsb",
+          label: "Computador de escritorio",
+          icon: IconDevicesPc,
+          path: "/PcEscritorio",
+          rolesAllowed: [1, 2],
+        },
+        {
+          label: "Impresoras",
+          icon: IconPrinter,
+          path: "/Impresoras",
+          rolesAllowed: [1, 2],
+        },
+        {
+          label: "Impresoras Pos",
+          icon: IconPrinter,
+          path: "/ImpresorasPos",
+          rolesAllowed: [1, 2],
+        },
+      ],
+    },
+    {
+      heading: "DOCUMENTACION",
+      items: [
+        {
+          label: "Actas",
+          icon: IconReport,
+          path: "/actas",
+          rolesAllowed: [1, 2],
+        },
+        {
+          label: "Equipos de baja",
+          icon: IconDeviceDesktopX,
+          path: "/equipos-de-baja",
           rolesAllowed: [1, 2],
         },
       ],
@@ -120,14 +165,32 @@ const Sidebar: React.FC = () => {
       items: [
         {
           label: "Usuarios",
-          icon: "M12 2a5 5 0 0 1 5 5v2h-2V7a3 3 0 0 0-6 0v2H7V7a5 5 0 0 1 5-5z m-5 9h10v10H7z",
-          path: "/Regentes",
+          icon: IconUsers,
+          path: "/usuarios",
           rolesAllowed: [1],
         },
         {
           label: "Funcionarios",
-          icon: "M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z", // User icon
+          icon: IconUserCircle,
           path: "/Funcionarios",
+          rolesAllowed: [1],
+        },
+        {
+          label: "Áreas",
+          icon: IconCategory,
+          path: "/Areas",
+          rolesAllowed: [1],
+        },
+        {
+          label: "Marcas",
+          icon: IconTag,
+          path: "/Marcas",
+          rolesAllowed: [1],
+        },
+        {
+          label: "Estados",
+          icon: IconListCheck,
+          path: "/Estados",
           rolesAllowed: [1],
         },
       ],
@@ -135,13 +198,13 @@ const Sidebar: React.FC = () => {
 
   ]
 
-  // Filtrar secciones y elementos basado en el rol del usuario
+
   const filteredSections = sections
     .map((section) => ({
       ...section,
       items: section.items.filter((item) => !item.rolesAllowed || item.rolesAllowed.includes(user.roleId)),
     }))
-    .filter((section) => section.items.length > 0) // Solo mostrar secciones que tengan elementos
+    .filter((section) => section.items.length > 0)
 
   return (
     <div className="sidebar col-lg-2 bg-white border-end d-flex flex-column p-0 vh-100">
@@ -173,19 +236,7 @@ const Sidebar: React.FC = () => {
                         color: location.pathname === item.path ? "white" : "",
                       }}
                     >
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        width="15"
-                        height="15"
-                        strokeWidth="2"
-                      >
-                        <path d={item.icon}></path>
-                      </svg>
+                      <item.icon size={20} stroke={2} />
                       <span className="small">{item.label}</span>
                     </Link>
                   </li>

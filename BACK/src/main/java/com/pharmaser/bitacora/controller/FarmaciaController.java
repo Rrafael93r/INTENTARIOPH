@@ -1,7 +1,5 @@
 package com.pharmaser.bitacora.controller;
 
-
-
 import com.pharmaser.bitacora.model.Farmacias;
 import com.pharmaser.bitacora.service.FarmaciasService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +11,6 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/farmacia")
 public class FarmaciaController {
-
 
     @Autowired
     private FarmaciasService farmaciasService;
@@ -50,8 +47,8 @@ public class FarmaciaController {
             updatedFarmacias.setNombre(farmaciasDetails.getNombre());
             updatedFarmacias.setCoordenadas(farmaciasDetails.getCoordenadas());
             updatedFarmacias.setCiudad(farmaciasDetails.getCiudad());
-            updatedFarmacias.setRegente(farmaciasDetails.getRegente());
             updatedFarmacias.setCanalTransmision(farmaciasDetails.getCanalTransmision());
+            updatedFarmacias.setCantidadEquipos(farmaciasDetails.getCantidadEquipos());
 
             return ResponseEntity.ok(farmaciasService.save(updatedFarmacias));
         } else {

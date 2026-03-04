@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_URL = 'http://localhost:8080/api/users';
+const API_URL = 'http://localhost:8080/api/auth/login';
 
 interface User {
   id: number;
@@ -13,40 +13,38 @@ interface User {
 
 export const login = async (username: string, password: string): Promise<User> => {
   try {
-    const response = await axios.get(API_URL);
-    const users = response.data;
+    const response = await axios.post(API_URL, { username, password });
 
-    const user = users.find((u: any) =>
-      u.username === username && u.password === password
-    );
+    // El backend ahora devuelve { token: "...", user: {...} }
+    const { token, user } = response.data;
 
-    if (!user) {
-      
-    }
-
-  
-    if (!user.role || typeof user.role.id === 'undefined') {
+    if (!user || !user.role || typeof user.role.id === 'undefined') {
       throw new Error('Estructura de usuario inválida');
     }
 
- 
     const userInfo = {
       id: user.id,
       username: user.username,
-      roleId: user.role.id
+      roleId: user.role.id,
+      token: token
     };
 
     localStorage.setItem('user', JSON.stringify(userInfo));
+
+    // También guardamos el token explícitamente para facilitar el acceso en el interceptor si lo prefieren
+    localStorage.setItem('token', token);
+
     return user;
   } catch (error) {
-    
+    console.error('Login error:', error);
     throw error;
   }
 };
 
 export const logout = () => {
-  console.log('si, si funciona');
+  console.log('Cerrando sesión, eliminando token');
   localStorage.removeItem('user');
+  localStorage.removeItem('token');
 };
 
 export const getCurrentUser = () => {

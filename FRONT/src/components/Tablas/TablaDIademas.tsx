@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Badge, FormControl, Card, Modal, Button } from 'react-bootstrap';
 import Swal from 'sweetalert2';
-import { getDiademas, deleteDiademas } from '../../servicios/DiademaService';
-import FormularioEditarP from '../FormulariosEditar.tsx/FormularioEditarP';
+import { getDiademas, updateDiadema } from '../../servicios/DiademaService';
+import FormularioEditarDiadema from '../FormulariosEditar.tsx/FormularioEditarDiadema';
 import { format } from 'date-fns';
 
 interface Diadema {
@@ -74,30 +74,30 @@ const TablaDiademas: React.FC = () => {
     if (loading) return <div>Cargando...</div>;
     if (error) return <div>{error}</div>;
 
-    const handleDelete = async (id: number) => {
+    const handleDisable = async (id: number) => {
         try {
             const result = await Swal.fire({
                 title: '¿Estás seguro?',
-                text: "Este cambio no se puede deshacer",
+                text: "El activo será inhabilitado (Estado: INACTIVO) pero no eliminado.",
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',
                 cancelButtonColor: '#d33',
-                confirmButtonText: 'Sí, eliminar!',
+                confirmButtonText: 'Sí, inhabilitar!',
             });
 
             if (result.isConfirmed) {
-                await deleteDiademas(id);
-                setDiademas((prev) => prev.filter((diadema) => diadema.id !== id));
-                Swal.fire('¡Eliminado!', 'El Activo ha sido eliminado.', 'success');
+                const itemToDisable = diademas.find(m => m.id === id);
+                if (itemToDisable) {
+                    const updatedItem = { ...itemToDisable, estado: 'INACTIVO' };
+                    await updateDiadema(id, updatedItem);
+                    setDiademas((prev) => prev.map((item) => item.id === id ? { ...item, estado: 'INACTIVO' } : item));
+                    Swal.fire('¡Inhabilitado!', 'El activo ha sido marcado como INACTIVO.', 'success');
+                }
             }
         } catch (error) {
-            console.error('Error al eliminar:', error);
-            Swal.fire({
-                icon: 'error',
-                title: 'Error',
-                text: 'No se pudo eliminar este objeto. Por favor, intente nuevamente.',
-            });
+            console.error('Error al inhabilitar:', error);
+            Swal.fire('Error', 'No se pudo inhabilitar el activo.', 'error');
         }
     };
 
@@ -251,7 +251,7 @@ const TablaDiademas: React.FC = () => {
                                             </div>
                                         </div>
                                     </td>
-                                    <td>{diadema.marca}</td>
+                                    <td>{typeof diadema.marca === 'object' && diadema.marca !== null ? diadema.marca?.nombre : diadema.marca}</td>
                                     <td>
                                         <div>{diadema.modelo}</div>
                                     </td>
@@ -275,11 +275,11 @@ const TablaDiademas: React.FC = () => {
                                                 <i className="bi bi-pencil"></i>
                                             </button>
                                             <button
-                                                className="btn btn-sm"
-                                                style={{ backgroundColor: "#ffb361", color: '#fff', borderColor: '#ffb361' }}
-                                                onClick={() => handleDelete(diadema.id)}
+                                                className="btn btn-danger btn-sm ms-2"
+                                                onClick={() => handleDisable(diadema.id)}
+                                                title="Inhabilitar"
                                             >
-                                                <i className="bi bi-trash"></i>
+                                                <i className="bi bi-slash-circle"></i>
                                             </button>
                                         </div>
                                     </td>
@@ -299,9 +299,9 @@ const TablaDiademas: React.FC = () => {
                 </Modal.Header>
                 <Modal.Body>
                     {selectedDiademasId && (
-                        <FormularioEditarP
-                            diademasId={selectedDiademasId}
-                            onClose={handleClose2}
+                        <FormularioEditarDiadema
+                            id={selectedDiademasId}
+                            handleClose={handleClose2}
                             onSuccess={() => {
                                 const loadDiademas = async () => {
                                     try {

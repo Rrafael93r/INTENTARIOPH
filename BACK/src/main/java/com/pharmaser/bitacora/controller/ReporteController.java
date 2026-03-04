@@ -40,7 +40,8 @@ public class ReporteController {
             System.out.println("Año: " + reporte.getAno());
             System.out.println("Mes: " + reporte.getMes());
             System.out.println("Estado: " + reporte.getEstado());
-            System.out.println("Farmacia ID: " + (reporte.getFarmacia() != null ? reporte.getFarmacia().getId() : "null"));
+            System.out.println(
+                    "Farmacia ID: " + (reporte.getFarmacia() != null ? reporte.getFarmacia().getId() : "null"));
             System.out.println("Motivo ID: " + (reporte.getMotivo() != null ? reporte.getMotivo().getId() : "null"));
             System.out.println("Fecha hora inicio: " + reporte.getFecha_hora_inicio());
             System.out.println("Observacion: " + reporte.getObservacion());
@@ -122,9 +123,17 @@ public class ReporteController {
                     reporte.setObservacion(reporteDetails.getObservacion());
                 }
 
+                // Validación para reabrir caso
+                if ("CERRADO".equals(reporte.getEstado()) && "ABIERTO".equals(reporteDetails.getEstado())) {
+                    if (reporteDetails.getObservacion() == null || reporteDetails.getObservacion().trim().isEmpty()) {
+                        throw new RuntimeException("Para reabrir un caso cerrado, debe ingresar una observación.");
+                    }
+                }
+
                 // IMPORTANTE: Actualizar el estado
                 if (reporteDetails.getEstado() != null && !reporteDetails.getEstado().isEmpty()) {
-                    System.out.println("Actualizando estado de '" + reporte.getEstado() + "' a '" + reporteDetails.getEstado() + "'");
+                    System.out.println("Actualizando estado de '" + reporte.getEstado() + "' a '"
+                            + reporteDetails.getEstado() + "'");
                     reporte.setEstado(reporteDetails.getEstado());
                 }
 

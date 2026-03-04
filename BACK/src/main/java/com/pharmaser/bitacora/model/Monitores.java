@@ -1,6 +1,5 @@
 package com.pharmaser.bitacora.model;
 
-
 import jakarta.persistence.*;
 
 @Entity
@@ -9,16 +8,19 @@ public class Monitores {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    private String Marca;
+    @ManyToOne
+    @JoinColumn(name = "marca_id")
+    private Marcas marca;
+
     private String Modelo;
     private String Serial;
 
     private String Estado;
     private String Fecha_compra;
 
-
-    @OneToOne(mappedBy = "monitores")
-    private Funcionarios funcionarios;
+    @ManyToOne
+    @JoinColumn(name = "funcionario_id")
+    private Funcionarios funcionario;
 
     private String Descripcion;
 
@@ -38,12 +40,12 @@ public class Monitores {
         this.id = id;
     }
 
-    public Funcionarios getFuncionarios() {
-        return funcionarios;
+    public Funcionarios getFuncionario() {
+        return funcionario;
     }
 
-    public void setFuncionarios(Funcionarios funcionarios) {
-        this.funcionarios = funcionarios;
+    public void setFuncionario(Funcionarios funcionario) {
+        this.funcionario = funcionario;
     }
 
     public String getEstado() {
@@ -62,12 +64,12 @@ public class Monitores {
         Serial = serial;
     }
 
-    public String getMarca() {
-        return Marca;
+    public Marcas getMarca() {
+        return marca;
     }
 
-    public void setMarca(String marca) {
-        Marca = marca;
+    public void setMarca(Marcas marca) {
+        this.marca = marca;
     }
 
     public String getModelo() {

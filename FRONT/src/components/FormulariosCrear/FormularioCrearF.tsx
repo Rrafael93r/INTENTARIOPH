@@ -39,6 +39,7 @@ function FormularioCrearF({ handleClose }: { handleClose: () => void }) {
     pertenece: '',
     coordenadas: '',
     canalTransmision: { id: '' },
+    cantidadEquipos: 0,
   });
 
   useEffect(() => {
@@ -100,7 +101,7 @@ function FormularioCrearF({ handleClose }: { handleClose: () => void }) {
 
     if (!formData.nombre || !formData.direccion || !formData.ciudad.id ||
       !formData.proveedorInternet.id || !formData.pertenece || !formData.coordenadas ||
-      !formData.canalTransmision.id) {
+      !formData.canalTransmision.id || formData.cantidadEquipos === undefined) {
       Swal.fire({
         icon: 'error',
         title: 'Campos incompletos',
@@ -128,6 +129,7 @@ function FormularioCrearF({ handleClose }: { handleClose: () => void }) {
         pertenece: '',
         coordenadas: '',
         canalTransmision: { id: '' },
+        cantidadEquipos: 0,
       });
     } catch (error) {
       console.error("Error al crear la farmacia:", error);
@@ -159,6 +161,16 @@ function FormularioCrearF({ handleClose }: { handleClose: () => void }) {
             className="form-control"
             id="coordenadas"
             value={formData.coordenadas}
+            onChange={handleChange}
+          />
+        </div>
+        <div className="col-md-6">
+          <label htmlFor="cantidadEquipos" className="form-label">Cantidad Equipos</label>
+          <input
+            type="number"
+            className="form-control"
+            id="cantidadEquipos"
+            value={formData.cantidadEquipos}
             onChange={handleChange}
           />
         </div>
@@ -270,6 +282,7 @@ function FormularioCrearF({ handleClose }: { handleClose: () => void }) {
               pertenece: '',
               coordenadas: '',
               canalTransmision: { id: '' },
+              cantidadEquipos: 0,
             })}
           >
             <i className="bi bi-trash-fill m-1" />LIMPIAR

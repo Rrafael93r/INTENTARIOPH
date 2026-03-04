@@ -204,7 +204,7 @@ const TablaPortatiles: React.FC = () => {
                             {currentPortatiles.map((portatil) => (
                                 <tr key={portatil.id}>
                                     <td>{portatil.id}</td>
-                                    <td>{portatil.marca}</td>
+                                    <td>{typeof portatil.marca === 'object' && portatil.marca !== null ? portatil.marca.nombre : portatil.marca}</td>
                                     <td>{portatil.modelo}</td>
                                     <td>{portatil.serial}</td>
                                     <td>

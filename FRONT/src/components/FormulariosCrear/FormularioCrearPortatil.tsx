@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Swal from 'sweetalert2';
 import { createPortatil } from '../../servicios/portatilesService';
 import { getFuncionarios } from '../../servicios/funcionariosService';
+import { getMarcas } from '../../servicios/marcasService';
 
 interface Funcionario {
     id: number;
@@ -9,18 +10,24 @@ interface Funcionario {
     apellido: string;
 }
 
+interface Marca {
+    id: number;
+    nombre: string;
+}
+
 const FormularioCrearPortatil = ({ handleClose }: { handleClose: () => void }) => {
     const [funcionarios, setFuncionarios] = useState<Funcionario[]>([]);
+    const [marcas, setMarcas] = useState<Marca[]>([]);
     const [isHovered, setIsHovered] = useState(false);
     const [isHovered2, setIsHovered2] = useState(false);
 
     const [formData, setFormData] = useState({
-        marca: '',
+        marca: { id: '' },
         modelo: '',
         serial: '',
         estado: '',
         fecha_compra: '',
-        funcionarios: { id: '' },
+        funcionario: { id: '' },
         descripcion: ''
     });
 
@@ -29,12 +36,14 @@ const FormularioCrearPortatil = ({ handleClose }: { handleClose: () => void }) =
             try {
                 const funcionariosData = await getFuncionarios();
                 setFuncionarios(funcionariosData);
+                const marcasData = await getMarcas();
+                setMarcas(marcasData);
             } catch (error) {
                 console.error('Error al cargar datos:', error);
                 Swal.fire({
                     icon: 'error',
                     title: 'Error',
-                    text: 'Error al cargar los funcionarios',
+                    text: 'Error al cargar los datos',
                 });
             }
         };
@@ -43,10 +52,15 @@ const FormularioCrearPortatil = ({ handleClose }: { handleClose: () => void }) =
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
         const { id, value } = e.target;
-        if (id === 'funcionarios') {
+        if (id === 'funcionario') {
             setFormData(prevData => ({
                 ...prevData,
-                funcionarios: { id: value }
+                funcionario: { id: value }
+            }));
+        } else if (id === 'marca') {
+            setFormData(prevData => ({
+                ...prevData,
+                marca: { id: value }
             }));
         } else {
             setFormData(prevData => ({
@@ -59,7 +73,7 @@ const FormularioCrearPortatil = ({ handleClose }: { handleClose: () => void }) =
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
-        if (!formData.marca || !formData.modelo || !formData.serial || !formData.estado) {
+        if (!formData.marca.id || !formData.modelo || !formData.serial || !formData.estado) {
             Swal.fire({
                 icon: 'error',
                 title: 'Campos incompletos',
@@ -71,7 +85,8 @@ const FormularioCrearPortatil = ({ handleClose }: { handleClose: () => void }) =
         try {
             const dataToSend = {
                 ...formData,
-                funcionarios: formData.funcionarios.id ? formData.funcionarios : null
+                funcionario: formData.funcionario.id ? formData.funcionario : null,
+                marca: formData.marca.id ? formData.marca : null
             };
 
             await createPortatil(dataToSend);
@@ -83,12 +98,12 @@ const FormularioCrearPortatil = ({ handleClose }: { handleClose: () => void }) =
             });
 
             setFormData({
-                marca: '',
+                marca: { id: '' },
                 modelo: '',
                 serial: '',
                 estado: '',
                 fecha_compra: '',
-                funcionarios: { id: '' },
+                funcionario: { id: '' },
                 descripcion: ''
             });
             handleClose();
@@ -108,13 +123,19 @@ const FormularioCrearPortatil = ({ handleClose }: { handleClose: () => void }) =
             <form className="row g-3" onSubmit={handleSubmit}>
                 <div className="col-md-6">
                     <label htmlFor="marca" className="form-label">Marca*</label>
-                    <input
-                        type="text"
-                        className="form-control"
+                    <select
                         id="marca"
-                        value={formData.marca}
+                        className="form-select"
+                        value={formData.marca.id}
                         onChange={handleChange}
-                    />
+                    >
+                        <option value="">Seleccione una marca</option>
+                        {marcas.map(marca => (
+                            <option key={marca.id} value={marca.id}>
+                                {marca.nombre}
+                            </option>
+                        ))}
+                    </select>
                 </div>
                 <div className="col-md-6">
                     <label htmlFor="modelo" className="form-label">Modelo*</label>
@@ -164,11 +185,11 @@ const FormularioCrearPortatil = ({ handleClose }: { handleClose: () => void }) =
                 </div>
 
                 <div className="col-md-6">
-                    <label htmlFor="funcionarios" className="form-label">Asignado a</label>
+                    <label htmlFor="funcionario" className="form-label">Asignado a</label>
                     <select
-                        id="funcionarios"
+                        id="funcionario"
                         className="form-select"
-                        value={formData.funcionarios.id}
+                        value={formData.funcionario.id}
                         onChange={handleChange}
                     >
                         <option value="">Seleccione un funcionario</option>
@@ -216,12 +237,12 @@ const FormularioCrearPortatil = ({ handleClose }: { handleClose: () => void }) =
                         type="button"
                         className="btn btn-outline-secondary"
                         onClick={() => setFormData({
-                            marca: '',
+                            marca: { id: '' },
                             modelo: '',
                             serial: '',
                             estado: '',
                             fecha_compra: '',
-                            funcionarios: { id: '' },
+                            funcionario: { id: '' },
                             descripcion: ''
                         })}
                     >

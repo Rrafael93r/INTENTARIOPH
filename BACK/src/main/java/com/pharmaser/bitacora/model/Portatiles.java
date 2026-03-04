@@ -9,7 +9,10 @@ public class Portatiles {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    private String Marca;
+    @ManyToOne
+    @JoinColumn(name = "marca_id")
+    private Marcas marca;
+
     private String Modelo;
     private String Serial;
 
@@ -18,8 +21,9 @@ public class Portatiles {
 
     private String Descripcion;
 
-    @OneToOne(mappedBy = "portatiles")
-    private Funcionarios funcionarios;
+    @ManyToOne
+    @JoinColumn(name = "funcionario_id")
+    private Funcionarios funcionario;
 
     public long getId() {
         return id;
@@ -29,12 +33,12 @@ public class Portatiles {
         this.id = id;
     }
 
-    public String getMarca() {
-        return Marca;
+    public Marcas getMarca() {
+        return marca;
     }
 
-    public void setMarca(String marca) {
-        Marca = marca;
+    public void setMarca(Marcas marca) {
+        this.marca = marca;
     }
 
     public String getModelo() {
@@ -77,11 +81,11 @@ public class Portatiles {
         Descripcion = descripcion;
     }
 
-    public Funcionarios getFuncionarios() {
-        return funcionarios;
+    public Funcionarios getFuncionario() {
+        return funcionario;
     }
 
-    public void setFuncionarios(Funcionarios funcionarios) {
-        this.funcionarios = funcionarios;
+    public void setFuncionario(Funcionarios funcionario) {
+        this.funcionario = funcionario;
     }
 }

@@ -45,7 +45,7 @@ public class MonitoresController {
         if (existingMonitor != null) {
             existingMonitor.setDescripcion(monitorDetails.getDescripcion());
             existingMonitor.setEstado(monitorDetails.getEstado());
-            existingMonitor.setFuncionarios(monitorDetails.getFuncionarios());
+            existingMonitor.setFuncionario(monitorDetails.getFuncionario());
             existingMonitor.setMarca(monitorDetails.getMarca());
             existingMonitor.setModelo(monitorDetails.getModelo());
             existingMonitor.setSerial(monitorDetails.getSerial());

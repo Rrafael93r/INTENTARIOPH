@@ -42,7 +42,7 @@ public class PortatilesController {
         if (updatePortatiles != null) {
             updatePortatiles.setDescripcion(portatilesDetails.getDescripcion());
             updatePortatiles.setEstado(portatilesDetails.getEstado());
-            updatePortatiles.setFuncionarios(portatilesDetails.getFuncionarios());
+            updatePortatiles.setFuncionario(portatilesDetails.getFuncionario());
             updatePortatiles.setMarca(portatilesDetails.getMarca());
             updatePortatiles.setModelo(portatilesDetails.getModelo());
             updatePortatiles.setSerial(portatilesDetails.getSerial());

@@ -13,7 +13,13 @@ public class UsuariosService {
     @Autowired
     private UsuariosRepository usuariosRepository;
 
+    @Autowired
+    private org.springframework.security.crypto.password.PasswordEncoder passwordEncoder;
+
     public Usuarios createUser(Usuarios usuarios) {
+        if (usuarios.getPassword() != null) {
+            usuarios.setPassword(passwordEncoder.encode(usuarios.getPassword()));
+        }
         return usuariosRepository.save(usuarios);
     }
 
@@ -29,20 +35,31 @@ public class UsuariosService {
         return usuariosRepository.findByUsername(username).orElse(null);
     }
 
+    public Usuarios authenticate(String username, String rawPassword) {
+        Usuarios user = getUserByUsername(username);
+        if (user != null && passwordEncoder.matches(rawPassword, user.getPassword())) {
+            return user;
+        }
+        return null; // Authentication failed
+    }
+
     public Usuarios updateUser(Long id, Usuarios usuarios) {
         Usuarios existingUser = usuariosRepository.findById(id).orElse(null);
         if (existingUser != null) {
             if (usuarios.getUsername() != null) {
                 existingUser.setUsername(usuarios.getUsername());
             }
-            if (usuarios.getPassword() != null) {
-                existingUser.setPassword(usuarios.getPassword());
+            if (usuarios.getPassword() != null && !usuarios.getPassword().isEmpty()) {
+                existingUser.setPassword(passwordEncoder.encode(usuarios.getPassword()));
             }
             if (usuarios.getRole() != null) {
                 existingUser.setRole(usuarios.getRole());
             }
             if (usuarios.getFarmacia() != null) {
                 existingUser.setFarmacia(usuarios.getFarmacia());
+            }
+            if (usuarios.getFuncionario() != null) {
+                existingUser.setFuncionario(usuarios.getFuncionario());
             }
             if (usuarios.getStatus() != null) {
                 existingUser.setStatus(usuarios.getStatus());

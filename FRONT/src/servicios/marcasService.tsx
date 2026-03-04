@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_URL = 'http://localhost:8080/api/Marcas';
+const API_URL = 'http://localhost:8080/api/marcas';
 
 export const getMarcas = async () => {
     try {

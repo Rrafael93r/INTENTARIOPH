@@ -29,6 +29,7 @@ const FarmaciaTabla: React.FC = () => {
   const [filterDepartamento, setFilterDepartamento] = useState('');
   const [filterProveedor, setFilterProveedor] = useState('');
   const [filterPertenece, setFilterPertenece] = useState('');
+  const [filterCantidadEquipos, setFilterCantidadEquipos] = useState('');
 
   useEffect(() => {
     const loadFarmacia = async () => {
@@ -65,15 +66,17 @@ const FarmaciaTabla: React.FC = () => {
   const normalizedFilterDepartamento = filterDepartamento.toLowerCase();
   const normalizedFilterProveedor = filterProveedor.toLowerCase();
   const normalizedFilterPertenece = filterPertenece.toLowerCase();
+  const normalizedFilterCantidadEquipos = filterCantidadEquipos.toLowerCase();
 
   const filteredFarmacias = farmacias.filter(farmacia => {
     if (
       (filterNombre && !(farmacia?.nombre || '').toLowerCase().includes(normalizedFilterNombre)) ||
       (filterDireccion && !(farmacia?.direccion || '').toLowerCase().includes(normalizedFilterDireccion)) ||
       (filterCiudad && !(farmacia?.ciudad?.nombre_ciudad || '').toLowerCase().includes(normalizedFilterCiudad)) ||
-      (filterDepartamento && !(farmacia?.ciudad?.departamento?.nombre || '').toLowerCase().includes(normalizedFilterDepartamento)) ||
+      (filterDepartamento && !(farmacia?.ciudad?.departamento?.name_departamento || '').toLowerCase().includes(normalizedFilterDepartamento)) ||
       (filterProveedor && !(farmacia?.proveedor?.nombre || '').toLowerCase().includes(normalizedFilterProveedor)) ||
-      (filterPertenece && !(farmacia?.pertenece || '').toLowerCase().includes(normalizedFilterPertenece))
+      (filterPertenece && !(farmacia?.pertenece || '').toLowerCase().includes(normalizedFilterPertenece)) ||
+      (filterCantidadEquipos && !(String(farmacia?.cantidad_equipo || '')).toLowerCase().includes(normalizedFilterCantidadEquipos))
     ) {
       return false;
     }
@@ -122,6 +125,7 @@ const FarmaciaTabla: React.FC = () => {
     setFilterDepartamento('');
     setFilterProveedor('');
     setFilterPertenece('');
+    setFilterCantidadEquipos('');
   };
 
   return (
@@ -131,7 +135,7 @@ const FarmaciaTabla: React.FC = () => {
           <Modal.Title>Nueva Farmacia</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <FormularioCrearF />
+          <FormularioCrearF handleClose={handleClose} />
         </Modal.Body>
       </Modal>
 
@@ -217,6 +221,18 @@ const FarmaciaTabla: React.FC = () => {
                   <FormControl
                     size="sm"
                     type="text"
+                    placeholder="Filtrar cantidad"
+                    value={filterCantidadEquipos}
+                    onChange={(e) => setFilterCantidadEquipos(e.target.value)}
+                  />
+
+                  CANTIDAD DE EQUIPOS
+                </th>
+
+                <th>
+                  <FormControl
+                    size="sm"
+                    type="text"
                     placeholder="Filtrar pertenece"
                     value={filterPertenece}
                     onChange={(e) => setFilterPertenece(e.target.value)}
@@ -254,6 +270,9 @@ const FarmaciaTabla: React.FC = () => {
                     <small className="text-muted">NIT: {farmacia?.proveedor?.nit || '-'}</small>
                   </td>
                   <td>
+                    <div>{farmacia?.cantidad_equipo || '-'}</div>
+                  </td>
+                  <td>
                     <Badge bg={farmacia?.pertenece === 'PHARMASER' ? 'warning' : 'primary'} className="rounded-pill">
                       {farmacia?.pertenece || '-'}
                     </Badge>
@@ -270,7 +289,7 @@ const FarmaciaTabla: React.FC = () => {
                       >
                         <i className="bi bi-pencil"></i>
                       </button>
-                
+
                     </div>
                   </td>
                 </tr>

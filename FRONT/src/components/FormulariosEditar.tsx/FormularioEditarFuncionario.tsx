@@ -29,7 +29,7 @@ const FormularioEditarFuncionario: React.FC<FormularioEditarFuncionarioProps> = 
     const [formData, setFormData] = useState({
         nombre: '',
         apellido: '',
-        area: '',
+        area: { id: '' },
         correo: '',
         farmacias: { id: '' }
     });
@@ -48,7 +48,7 @@ const FormularioEditarFuncionario: React.FC<FormularioEditarFuncionarioProps> = 
                 setFormData({
                     nombre: funcionarioData.nombre || '',
                     apellido: funcionarioData.apellido || '',
-                    area: funcionarioData.area || '',
+                    area: funcionarioData.area || { id: '' },
                     correo: funcionarioData.correo || '',
                     farmacias: { id: funcionarioData.farmacias?.id || '' }
                 });
@@ -74,6 +74,11 @@ const FormularioEditarFuncionario: React.FC<FormularioEditarFuncionarioProps> = 
                 ...prevData,
                 farmacias: { id: value }
             }));
+        } else if (id === 'area') {
+            setFormData(prevData => ({
+                ...prevData,
+                area: { id: value }
+            }));
         } else {
             setFormData(prevData => ({
                 ...prevData,
@@ -85,7 +90,7 @@ const FormularioEditarFuncionario: React.FC<FormularioEditarFuncionarioProps> = 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
-        if (!formData.nombre || !formData.apellido || !formData.area || !formData.correo) {
+        if (!formData.nombre || !formData.apellido || !formData.area.id || !formData.correo) {
             Swal.fire({
                 icon: 'error',
                 title: 'Campos incompletos',
@@ -149,12 +154,12 @@ const FormularioEditarFuncionario: React.FC<FormularioEditarFuncionarioProps> = 
                     <select
                         id="area"
                         className="form-select"
-                        value={formData.area}
+                        value={formData.area.id || (typeof formData.area === 'object' ? (formData.area as any)?.id : '')}
                         onChange={handleChange}
                     >
                         <option value="">Seleccione un área</option>
                         {areas.map(a => (
-                            <option key={a.id} value={a.nombre}>
+                            <option key={a.id} value={a.id}>
                                 {a.nombre}
                             </option>
                         ))}

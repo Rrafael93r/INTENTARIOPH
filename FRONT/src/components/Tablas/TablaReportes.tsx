@@ -494,6 +494,12 @@ const ReporteTable: React.FC = () => {
                                   {reportes.find((r) => r.id === selectedReporteId)?.farmacia?.coordenadas || "N/A"}
                                 </td>
                               </tr>
+                              <tr>
+                                <th>Cantidad Equipos</th>
+                                <td>
+                                  {reportes.find((r) => r.id === selectedReporteId)?.farmacia?.cantidadEquipos || 0}
+                                </td>
+                              </tr>
                             </tbody>
                           </table>
                         </Col>

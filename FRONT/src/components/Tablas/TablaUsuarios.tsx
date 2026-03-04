@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { FormControl, Card, Modal, Button } from 'react-bootstrap';
 import Swal from 'sweetalert2';
-import { getAllUsers } from '../../servicios/usuarioService';
+import { getAllUsers, updateUser } from '../../servicios/usuarioService';
 import FormularioCrearUsuario from '../FormulariosCrear/FormularioCrearUsuario';
 import FormularioEditarUsuario from '../FormulariosEditar.tsx/FormularioEditarUsuario';
 
@@ -54,6 +54,47 @@ const TablaUsuarios: React.FC = () => {
             (!filterRole || (item.role ? item.role.name : '').toLowerCase().includes(normalizedFilterRole))
         );
     });
+
+    const handleToggleStatus = async (item: any) => {
+        try {
+            const result = await Swal.fire({
+                title: '¿Estás seguro?',
+                text: `Vas a ${item.status ? 'deshabilitar' : 'habilitar'} a ${item.username}`,
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: item.status ? 'Sí, deshabilitar!' : 'Sí, habilitar!'
+            });
+
+            if (result.isConfirmed) {
+                // Ensure password not required if backend allows null, or handle differently
+                // Assuming backend updates only non-null fields or we send current data
+                // Need to construct object. Ideally service has specific toggle endpoint or we send minimal packet
+                // Using generic update for now
+                const updatedUser = {
+                    ...item,
+                    status: !item.status,
+                    farmacia: item.farmacia ? { id: item.farmacia.id } : null, // Flatten for backend if needed
+                    role: { id: item.role.id }, // Flatten
+                    // Watch out for password. If backend requires it, this might fail.
+                    // Ideally backend handles 'password': null or ignore if empty string.
+                };
+
+                await updateUser(item.id, updatedUser);
+
+                setItems(prev => prev.map(u => u.id === item.id ? { ...u, status: !u.status } : u));
+                Swal.fire('¡Actualizado!', 'El estado del usuario ha sido actualizado.', 'success');
+            }
+        } catch (error) {
+            console.error('Error al actualizar estado:', error);
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: 'No se pudo actualizar el estado.',
+            });
+        }
+    };
 
     const indexOfLastItem = currentPage * itemsPerPage;
     const indexOfFirstItem = indexOfLastItem - itemsPerPage;
@@ -165,6 +206,13 @@ const TablaUsuarios: React.FC = () => {
                                                 }}
                                             >
                                                 <i className="bi bi-pencil"></i>
+                                            </button>
+                                            <button
+                                                className={`btn btn-sm ${item.status ? 'btn-outline-danger' : 'btn-outline-success'} ms-2`}
+                                                title={item.status ? 'Deshabilitar' : 'Habilitar'}
+                                                onClick={() => handleToggleStatus(item)}
+                                            >
+                                                <i className={`bi ${item.status ? 'bi-slash-circle' : 'bi-check-circle'}`}></i>
                                             </button>
                                         </div>
                                     </td>

@@ -35,7 +35,8 @@ public class FuncionariosController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Funcionarios> updateFuncionarios(@PathVariable Long id, @RequestBody Funcionarios funcionariosDetails) {
+    public ResponseEntity<Funcionarios> updateFuncionarios(@PathVariable Long id,
+            @RequestBody Funcionarios funcionariosDetails) {
         Funcionarios funcionarios = funcionariosService.findById(id);
         if (funcionarios != null) {
             funcionarios.setNombre(funcionariosDetails.getNombre());
@@ -43,13 +44,8 @@ public class FuncionariosController {
             funcionarios.setArea(funcionariosDetails.getArea());
             funcionarios.setCorreo(funcionariosDetails.getCorreo());
             funcionarios.setFarmacias(funcionariosDetails.getFarmacias());
-            funcionarios.setPortatiles(funcionariosDetails.getPortatiles());
-            funcionarios.setTeclados(funcionariosDetails.getTeclados());
-            funcionarios.setMouses(funcionariosDetails.getMouses());
-            funcionarios.setBaseRefrigeradora(funcionariosDetails.getBaseRefrigeradora());
-            funcionarios.setDiademas(funcionariosDetails.getDiademas());
-            funcionarios.setMonitores(funcionariosDetails.getMonitores());
-            funcionarios.setHubUsb(funcionarios.getHubUsb());
+            funcionarios.setFarmacias(funcionariosDetails.getFarmacias());
+            // Assets references removed as relationships are inverted
             return ResponseEntity.ok(funcionariosService.save(funcionarios));
         } else {
             return ResponseEntity.notFound().build();

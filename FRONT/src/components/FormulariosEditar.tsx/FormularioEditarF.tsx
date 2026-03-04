@@ -45,6 +45,7 @@ function FormularioEditarF({ farmaciaId, onClose, onSuccess }: FormularioEditarF
     pertenece: '',
     coordenadas: '',
     canalTransmision: { id: '' },
+    cantidadEquipos: 0,
   });
 
   useEffect(() => {
@@ -80,6 +81,7 @@ function FormularioEditarF({ farmaciaId, onClose, onSuccess }: FormularioEditarF
           pertenece: farmaciaData.pertenece,
           coordenadas: farmaciaData.coordenadas,
           canalTransmision: { id: farmaciaData.canalTransmision?.id || '' },
+          cantidadEquipos: farmaciaData.cantidadEquipos || 0,
         });
 
         setLoading(false);
@@ -133,7 +135,7 @@ function FormularioEditarF({ farmaciaId, onClose, onSuccess }: FormularioEditarF
 
     if (!formData.nombre || !formData.direccion || !formData.ciudad.id ||
       !formData.proveedorInternet.id || !formData.pertenece || !formData.coordenadas ||
-      !formData.canalTransmision.id) {
+      !formData.canalTransmision.id || formData.cantidadEquipos === undefined) {
       Swal.fire({
         icon: 'error',
         title: 'Campos incompletos',
@@ -200,6 +202,16 @@ function FormularioEditarF({ farmaciaId, onClose, onSuccess }: FormularioEditarF
             value={formData.coordenadas}
             onChange={handleChange}
             required
+          />
+        </div>
+        <div className="col-md-6">
+          <label htmlFor="cantidadEquipos" className="form-label">Cantidad Equipos</label>
+          <input
+            type="number"
+            className="form-control"
+            id="cantidadEquipos"
+            value={formData.cantidadEquipos}
+            onChange={handleChange}
           />
         </div>
         <div className="col-md-12">
