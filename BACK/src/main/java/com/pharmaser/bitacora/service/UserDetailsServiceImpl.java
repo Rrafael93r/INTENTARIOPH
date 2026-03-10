@@ -32,8 +32,8 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         Usuarios usuario = usuarioOpt.get();
         List<GrantedAuthority> authorities = new ArrayList<>();
 
-        if (usuario.getRole() != null) {
-            authorities.add(new SimpleGrantedAuthority("ROLE_" + usuario.getRole().getName().toUpperCase()));
+        if (usuario.getRoles() != null) {
+            authorities.add(new SimpleGrantedAuthority("ROLE_" + usuario.getRoles().getName().toUpperCase()));
         } else {
             authorities.add(new SimpleGrantedAuthority("ROLE_USER"));
         }

@@ -34,31 +34,49 @@ const FormularioCrearEstado: React.FC<FormularioCrearEstadoProps> = ({ handleClo
     };
 
     return (
-        <form onSubmit={handleSubmit}>
-            <div className="mb-3">
-                <label className="form-label">Nombre</label>
-                <input
-                    type="text"
-                    className="form-control"
-                    value={nombre}
-                    onChange={(e) => setNombre(e.target.value)}
-                    required
-                />
+        <form onSubmit={handleSubmit} className="space-y-6">
+            <div className="grid grid-cols-1 gap-4 sm:gap-6">
+                <div className="flex flex-col space-y-1.5">
+                    <label className="text-sm font-semibold text-gray-700">Nombre <span className="text-orange-500">*</span></label>
+                    <input
+                        type="text"
+                        className="px-3 py-2 bg-white border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all"
+                        value={nombre}
+                        onChange={(e) => setNombre(e.target.value)}
+                        required
+                    />
+                </div>
+                <div className="flex flex-col space-y-1.5">
+                    <label className="text-sm font-semibold text-gray-700">Descripción</label>
+                    <textarea
+                        className="px-3 py-2 bg-white border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all min-h-[100px] resize-y"
+                        value={descripcion}
+                        onChange={(e) => setDescripcion(e.target.value)}
+                    />
+                </div>
             </div>
-            <div className="mb-3">
-                <label className="form-label">Descripción</label>
-                <textarea
-                    className="form-control"
-                    value={descripcion}
-                    onChange={(e) => setDescripcion(e.target.value)}
-                />
-            </div>
-            <div className="d-flex justify-content-end gap-2">
-                <button type="button" className="btn btn-secondary" onClick={handleClose}>
+
+            <div className="flex flex-col sm:flex-row justify-end items-center gap-3 pt-6 mt-6 border-t border-gray-100">
+                <button
+                    type="button"
+                    className="w-full sm:w-auto px-5 py-2.5 rounded-lg border border-gray-300 text-gray-700 bg-white hover:bg-gray-50 hover:text-gray-900 font-medium text-sm transition-all focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-200"
+                    onClick={handleClose}
+                >
                     Cancelar
                 </button>
-                <button type="submit" className="btn btn-primary" disabled={loading} style={{ backgroundColor: '#f6952c', borderColor: '#f6952c' }}>
-                    {loading ? 'Guardando...' : 'Guardar'}
+                <button
+                    type="submit"
+                    className="w-full sm:w-auto px-5 py-2.5 rounded-lg border border-transparent bg-orange-500 text-white hover:bg-orange-600 font-medium text-sm transition-all shadow-sm shadow-orange-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center"
+                    disabled={loading}
+                >
+                    {loading ? (
+                        <>
+                            <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
+                            Guardando...
+                        </>
+                    ) : (
+                        'Guardar'
+                    )}
                 </button>
             </div>
         </form>

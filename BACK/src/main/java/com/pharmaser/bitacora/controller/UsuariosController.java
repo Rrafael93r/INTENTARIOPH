@@ -17,39 +17,25 @@ public class UsuariosController {
     @PostMapping
     public ResponseEntity<Usuarios> createUser(@RequestBody Usuarios usuarios) {
         try {
-            System.out.println("=== CREANDO NUEVO USUARIO ===");
-            System.out.println("=== CREANDO NUEVO USUARIO ===");
-            // System.out.println("Datos recibidos: " + usuarios.toString()); // Removed for
-            // security
-
-            // Validaciones básicas
             if (usuarios.getUsername() == null || usuarios.getUsername().trim().isEmpty()) {
                 throw new RuntimeException("El nombre de usuario es requerido");
             }
             if (usuarios.getPassword() == null || usuarios.getPassword().trim().isEmpty()) {
                 throw new RuntimeException("La contraseña es requerida");
             }
-            if (usuarios.getRole() == null) {
+            if (usuarios.getRoles() == null) {
                 throw new RuntimeException("El rol es requerido");
             }
-
-            // Si es rol 3 (reportador), debe tener farmacia asignada
-            if (usuarios.getRole().getId() == 3 && usuarios.getFarmacia() == null) {
+            if (usuarios.getRoles().getId() == 3 && usuarios.getFarmacia() == null) {
                 throw new RuntimeException("Los usuarios reportadores deben tener una farmacia asignada");
             }
-
-            // Establecer valores por defecto
             if (usuarios.getStatus() == null) {
                 usuarios.setStatus(true);
             }
 
             Usuarios savedUser = usuariosService.createUser(usuarios);
-            System.out.println("Usuario creado con ID: " + savedUser.getId());
             return ResponseEntity.ok(savedUser);
-
         } catch (Exception e) {
-            System.err.println("Error al crear usuario: " + e.getMessage());
-            e.printStackTrace();
             throw new RuntimeException("Error al crear el usuario: " + e.getMessage());
         }
     }
@@ -80,21 +66,12 @@ public class UsuariosController {
     @PutMapping("/{id}")
     public ResponseEntity<Usuarios> updateUser(@PathVariable Long id, @RequestBody Usuarios usuarios) {
         try {
-            System.out.println("=== ACTUALIZANDO USUARIO ID: " + id + " ===");
-            System.out.println("=== ACTUALIZANDO USUARIO ID: " + id + " ===");
-            // System.out.println("Datos recibidos: " + usuarios.toString()); // Removed for
-            // security
-
             Usuarios updatedUser = usuariosService.updateUser(id, usuarios);
             if (updatedUser != null) {
-                System.out.println("Usuario actualizado exitosamente");
                 return ResponseEntity.ok(updatedUser);
             }
             return ResponseEntity.notFound().build();
-
         } catch (Exception e) {
-            System.err.println("Error al actualizar usuario: " + e.getMessage());
-            e.printStackTrace();
             throw new RuntimeException("Error al actualizar el usuario: " + e.getMessage());
         }
     }
@@ -105,7 +82,6 @@ public class UsuariosController {
             usuariosService.deleteUser(id);
             return ResponseEntity.noContent().build();
         } catch (Exception e) {
-            System.err.println("Error al eliminar usuario: " + e.getMessage());
             return ResponseEntity.notFound().build();
         }
     }

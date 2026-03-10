@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { Badge, FormControl, Card, Modal, Button } from 'react-bootstrap';
 import Swal from 'sweetalert2';
 import { getImpresoras, updateImpresora } from '../../servicios/impresoraService';
 import FormularioCrearImpresora from '../FormulariosCrear/FormularioCrearImpresora';
@@ -52,9 +51,10 @@ const TablaImpresoras: React.FC = () => {
                 text: "La impresora será inhabilitada (Estado: INACTIVO) pero no eliminada.",
                 icon: 'warning',
                 showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
+                confirmButtonColor: '#f97316',
+                cancelButtonColor: '#ef4444',
                 confirmButtonText: 'Sí, inhabilitar!',
+                cancelButtonText: 'Cancelar'
             });
 
             if (result.isConfirmed) {
@@ -103,121 +103,146 @@ const TablaImpresoras: React.FC = () => {
         setFilterFuncionario('');
     };
 
-    if (loading) return <div>Cargando...</div>;
-    if (error) return <div>{error}</div>;
+    if (loading) return (
+        <div className="flex justify-center items-center p-8">
+            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-orange-500"></div>
+        </div>
+    );
+    if (error) return <div className="text-red-500 p-4">{error}</div>;
 
     return (
-        <>
-            <Modal show={showModal} onHide={handleClose} centered size="lg">
-                <Modal.Header closeButton>
-                    <Modal.Title>Nueva Impresora</Modal.Title>
-                </Modal.Header>
-                <Modal.Body>
-                    <FormularioCrearImpresora handleClose={() => { handleClose(); loadImpresoras(); }} />
-                </Modal.Body>
-            </Modal>
-
-            <div className="d-flex align-items-center" style={{ color: 'black' }}>
-                <div className="pagetitle">
-                    <h1>Impresoras</h1>
-                    <nav>
-                        <ol className="breadcrumb">
-                            <li className="breadcrumb-item">Inicio</li>
-                            <li className="breadcrumb-item active">Inventario</li>
-                        </ol>
-                    </nav>
+        <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+            {showModal && (
+                <div className="fixed inset-0 z-50 overflow-y-auto">
+                    <div className="flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:p-0">
+                        <div className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" onClick={handleClose}></div>
+                        <div className="inline-block align-bottom bg-white rounded-xl text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-4xl sm:w-full">
+                            <div className="bg-white px-6 py-4 border-b border-gray-100 flex justify-between items-center">
+                                <h3 className="text-lg leading-6 font-semibold text-gray-800 flex items-center">
+                                    <i className="bi bi-printer mr-2 text-orange-500"></i> Nueva Impresora
+                                </h3>
+                                <button onClick={handleClose} className="text-gray-400 hover:text-gray-500 focus:outline-none transition-colors">
+                                    <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" /></svg>
+                                </button>
+                            </div>
+                            <div className="px-6 py-5 sm:p-6 bg-gray-50">
+                                <FormularioCrearImpresora handleClose={() => { handleClose(); loadImpresoras(); }} />
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div className="ms-auto">
-                    <Button
-                        onClick={handleShow}
-                        className="btn" style={{ backgroundColor: '#f6952c', borderColor: '#f6952c' }}>
-                        <i className="bi bi-plus-circle-fill me-2"></i> Agregar Impresora
-                    </Button>
+            )}
+
+            <div className="p-5 border-b border-gray-100 bg-white">
+                <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+                    <div>
+                        <h2 className="text-xl font-bold text-gray-800 m-0 flex items-center gap-2">
+                            <i className="bi bi-printer text-orange-500"></i>
+                            Impresoras
+                        </h2>
+                        <p className="text-sm text-gray-500 mt-1 mb-0">Gestión de impresoras disponibles</p>
+                    </div>
+                    <div className="flex gap-2 w-full sm:w-auto">
+                        <button
+                            onClick={handleShow}
+                            className="bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded-lg font-medium text-sm flex items-center gap-2 transition-colors w-full sm:w-auto justify-center"
+                        >
+                            <i className="bi bi-plus-circle"></i>
+                            <span>Nueva Impresora</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div className="p-4 bg-gray-50 border-b border-gray-100">
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3">
+                    <input
+                        type="text"
+                        className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-orange-500 focus:border-orange-500 bg-white"
+                        placeholder="Filtrar Marca..."
+                        value={filterMarca}
+                        onChange={(e) => setFilterMarca(e.target.value)}
+                    />
+                    <input
+                        type="text"
+                        className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-orange-500 focus:border-orange-500 bg-white"
+                        placeholder="Filtrar Modelo..."
+                        value={filterModelo}
+                        onChange={(e) => setFilterModelo(e.target.value)}
+                    />
+                    <input
+                        type="text"
+                        className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-orange-500 focus:border-orange-500 bg-white"
+                        placeholder="Filtrar Serial..."
+                        value={filterSerial}
+                        onChange={(e) => setFilterSerial(e.target.value)}
+                    />
+                    <input
+                        type="text"
+                        className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-orange-500 focus:border-orange-500 bg-white"
+                        placeholder="Filtrar Estado..."
+                        value={filterEstado}
+                        onChange={(e) => setFilterEstado(e.target.value)}
+                    />
+                    <div className="flex gap-2">
+                        <input
+                            type="text"
+                            className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-orange-500 focus:border-orange-500 bg-white"
+                            placeholder="Filtrar Funcionario..."
+                            value={filterFuncionario}
+                            onChange={(e) => setFilterFuncionario(e.target.value)}
+                        />
+                        <button
+                            onClick={clearFilters}
+                            title="Limpiar filtros"
+                            className="px-3 py-2 bg-gray-100 text-gray-600 rounded-lg border border-gray-300 hover:bg-gray-200 transition-colors"
+                        >
+                            <i className='bi bi-eraser-fill'></i>
+                        </button>
+                    </div>
                 </div>
             </div>
 
-            <div className='p-2' style={{ backgroundColor: '#ffff' }}>
-                <div className="table-responsive">
-                    <table className="table table-hover">
-                        <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>
-                                    <FormControl
-                                        size="sm"
-                                        type="text"
-                                        placeholder="Filtrar Marca"
-                                        value={filterMarca}
-                                        onChange={(e) => setFilterMarca(e.target.value)}
-                                    />
-                                    MARCA
-                                </th>
-                                <th>
-                                    <FormControl
-                                        size="sm"
-                                        type="text"
-                                        placeholder="Filtrar Modelo"
-                                        value={filterModelo}
-                                        onChange={(e) => setFilterModelo(e.target.value)}
-                                    />
-                                    MODELO
-                                </th>
-                                <th>
-                                    <FormControl
-                                        size="sm"
-                                        type="text"
-                                        placeholder="Filtrar Serial"
-                                        value={filterSerial}
-                                        onChange={(e) => setFilterSerial(e.target.value)}
-                                    />
-                                    SERIAL
-                                </th>
-                                <th>
-                                    <FormControl
-                                        size="sm"
-                                        type="text"
-                                        placeholder="Filtrar Estado"
-                                        value={filterEstado}
-                                        onChange={(e) => setFilterEstado(e.target.value)}
-                                    />
-                                    ESTADO
-                                </th>
-                                <th>
-                                    <FormControl
-                                        size="sm"
-                                        type="text"
-                                        placeholder="Filtrar Funcionario"
-                                        value={filterFuncionario}
-                                        onChange={(e) => setFilterFuncionario(e.target.value)}
-                                    />
-                                    FUNCIONARIO
-                                </th>
-                                <th className="text-center">
-                                    <button style={{ backgroundColor: "#ffb361", color: '#fff', borderColor: '#ffb361' }} onClick={clearFilters} type="button" className="btn btn-sm">
-                                        <i className='bi bi-brush' />
-                                    </button>
-                                    <span style={{ display: 'block', marginTop: '4px' }}>ACCIONES</span>
-                                </th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {currentImpresoras.map((impresora) => (
-                                <tr key={impresora.id}>
-                                    <td>{impresora.id}</td>
-                                    <td>{typeof impresora.marca === 'object' && impresora.marca !== null ? impresora.marca.nombre : impresora.marca}</td>
-                                    <td>{impresora.modelo}</td>
-                                    <td>{impresora.serial}</td>
-                                    <td>
-                                        <Badge bg={impresora.estado === 'ACTIVO' ? 'success' : 'secondary'} className="rounded-pill">
-                                            {impresora.estado}
-                                        </Badge>
+            <div className="overflow-x-auto">
+                <table className="w-full text-left border-collapse">
+                    <thead>
+                        <tr className="bg-gray-50 border-b border-gray-200 text-xs uppercase tracking-wider text-gray-500 font-semibold">
+                            <th className="p-3">ID</th>
+                            <th className="p-3">MARCA</th>
+                            <th className="p-3">MODELO</th>
+                            <th className="p-3">SERIAL</th>
+                            <th className="p-3">ESTADO</th>
+                            <th className="p-3">FUNCIONARIO</th>
+                            <th className="p-3 text-center">ACCIONES</th>
+                        </tr>
+                    </thead>
+                    <tbody className="divide-y divide-gray-100 bg-white">
+                        {currentImpresoras.length > 0 ? (
+                            currentImpresoras.map((impresora) => (
+                                <tr key={impresora.id} className="hover:bg-gray-50 transition-colors">
+                                    <td className="p-3 align-middle text-sm font-medium text-gray-900">{impresora.id}</td>
+                                    <td className="p-3 align-middle text-sm text-gray-800">
+                                        {typeof impresora.marca === 'object' && impresora.marca !== null ? impresora.marca.nombre : impresora.marca}
                                     </td>
-                                    <td>{impresora.funcionarios ? `${impresora.funcionarios.nombre} ${impresora.funcionarios.apellido}` : 'Sin asignar'}</td>
-                                    <td>
-                                        <div className="d-flex justify-content-center btn-group" role="group">
+                                    <td className="p-3 align-middle text-sm text-gray-800">{impresora.modelo}</td>
+                                    <td className="p-3 align-middle text-sm text-gray-800">{impresora.serial}</td>
+                                    <td className="p-3 align-middle">
+                                        <span className={`inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium border ${impresora.estado === 'ACTIVO'
+                                            ? "bg-emerald-50 text-emerald-700 border-emerald-200"
+                                            : "bg-gray-50 text-gray-700 border-gray-200"
+                                            }`}>
+                                            {impresora.estado === 'ACTIVO' && <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 mr-1.5"></span>}
+                                            {impresora.estado !== 'ACTIVO' && <span className="w-1.5 h-1.5 rounded-full bg-gray-500 mr-1.5"></span>}
+                                            {impresora.estado}
+                                        </span>
+                                    </td>
+                                    <td className="p-3 align-middle text-sm text-gray-800">
+                                        {impresora.funcionarios ? `${impresora.funcionarios.nombre} ${impresora.funcionarios.apellido}` : <span className="text-gray-400 italic">Sin asignar</span>}
+                                    </td>
+                                    <td className="p-3 align-middle">
+                                        <div className="flex justify-center gap-2">
                                             <button
-                                                className="btn btn-light btn-sm"
-                                                style={{ backgroundColor: "#ffb361", color: '#fff', borderColor: '#ffb361' }}
+                                                className="flex items-center justify-center w-8 h-8 rounded-lg bg-orange-100 text-orange-600 hover:bg-orange-500 hover:text-white transition-colors border border-transparent hover:border-orange-600"
+                                                title="Editar"
                                                 onClick={() => {
                                                     setSelectedId(impresora.id);
                                                     handleShow2();
@@ -226,64 +251,102 @@ const TablaImpresoras: React.FC = () => {
                                                 <i className="bi bi-pencil"></i>
                                             </button>
                                             <button
-                                                className="btn btn-danger btn-sm ms-2"
-                                                onClick={() => handleDisable(impresora.id)}
+                                                className="flex items-center justify-center w-8 h-8 rounded-lg bg-red-100 text-red-600 hover:bg-red-600 hover:text-white transition-colors border border-transparent hover:border-red-600"
                                                 title="Inhabilitar"
+                                                onClick={() => handleDisable(impresora.id)}
                                             >
                                                 <i className="bi bi-slash-circle"></i>
                                             </button>
                                         </div>
                                     </td>
                                 </tr>
-                            ))}
-                        </tbody>
-                    </table>
-                </div>
-
-                <Card.Footer style={{ display: 'flex', justifyContent: 'flex-end', backgroundColor: '#ffff' }}>
-                    <ul className="pagination pagination-sm" >
-                        <li className={`m-1 page-item ${currentPage === 1 ? 'disabled' : ''}`}>
-                            <button className="page-link" style={{ backgroundColor: "#ffb361", color: '#fff', borderColor: '#ffb361' }} onClick={() => handlePageChange(1)}>
-                                <i className="bi bi-chevron-double-left"></i>
-                            </button>
-                        </li>
-                        <li className={`m-1 page-item ${currentPage === 1 ? 'disabled' : ''}`}>
-                            <button className="page-link" style={{ backgroundColor: "#ffb361", color: '#fff', borderColor: '#ffb361' }} onClick={() => handlePageChange(currentPage - 1)}>
-                                <i className="bi bi-chevron-left"></i>
-                            </button>
-                        </li>
-                        <li className=" m-1 page-item active">
-                            <span className="page-link" style={{ backgroundColor: "#ffb361", color: '#fff', borderColor: '#ffb361' }}>{currentPage}</span>
-                        </li>
-                        <li className={` m-1 page-item ${currentPage === totalPages ? 'disabled' : ''}`}>
-                            <button className="page-link" style={{ backgroundColor: "#ffb361", color: '#fff', borderColor: '#ffb361' }} onClick={() => handlePageChange(currentPage + 1)}>
-                                <i className="bi bi-chevron-right"></i>
-                            </button>
-                        </li>
-                        <li className={` m-1 page-item ${currentPage === totalPages ? 'disabled' : ''}`}>
-                            <button className="page-link" style={{ backgroundColor: "#ffb361", color: '#fff', borderColor: '#ffb361' }} onClick={() => handlePageChange(totalPages)}>
-                                <i className="bi bi-chevron-double-right"></i>
-                            </button>
-                        </li>
-                    </ul>
-                </Card.Footer>
+                            ))
+                        ) : (
+                            <tr>
+                                <td colSpan={7} className="p-8 text-center text-gray-500">
+                                    <div className="flex flex-col items-center justify-center">
+                                        <i className="bi bi-inbox text-4xl text-gray-300 mb-2"></i>
+                                        <p>No se encontraron impresoras que coincidan con la búsqueda.</p>
+                                    </div>
+                                </td>
+                            </tr>
+                        )}
+                    </tbody>
+                </table>
             </div>
 
-            <Modal show={showModal2} onHide={handleClose2} centered size="lg">
-                <Modal.Header closeButton>
-                    <Modal.Title>Editar Impresora</Modal.Title>
-                </Modal.Header>
-                <Modal.Body>
-                    {selectedId && (
-                        <FormularioEditarImpresora
-                            id={selectedId}
-                            handleClose={handleClose2}
-                            onSuccess={loadImpresoras}
-                        />
-                    )}
-                </Modal.Body>
-            </Modal>
-        </>
+            {showModal2 && (
+                <div className="fixed inset-0 z-50 overflow-y-auto">
+                    <div className="flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:p-0">
+                        <div className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" onClick={handleClose2}></div>
+                        <div className="inline-block align-bottom bg-white rounded-xl text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-4xl sm:w-full">
+                            <div className="bg-white px-6 py-4 border-b border-gray-100 flex justify-between items-center">
+                                <h3 className="text-lg leading-6 font-semibold text-gray-800 flex items-center">
+                                    <i className="bi bi-pencil-square mr-2 text-orange-500"></i> Editar Impresora
+                                </h3>
+                                <button onClick={handleClose2} className="text-gray-400 hover:text-gray-500 focus:outline-none transition-colors">
+                                    <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" /></svg>
+                                </button>
+                            </div>
+                            <div className="px-6 py-5 sm:p-6 bg-gray-50">
+                                {selectedId && (
+                                    <FormularioEditarImpresora
+                                        id={selectedId}
+                                        handleClose={handleClose2}
+                                        onSuccess={loadImpresoras}
+                                    />
+                                )}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            )}
+
+            <div className="bg-white border-t border-gray-200 px-4 py-3 flex items-center justify-between sm:px-6">
+                <div className="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between">
+                    <div>
+                        <p className="text-sm text-gray-700 m-0">
+                            Mostrando <span className="font-medium">{currentImpresoras.length}</span> de <span className="font-medium">{filteredImpresoras.length}</span> impresoras
+                        </p>
+                    </div>
+                    <div>
+                        <nav className="relative z-0 inline-flex rounded-md shadow-sm -space-x-px" aria-label="Pagination">
+                            <button
+                                onClick={() => handlePageChange(1)}
+                                disabled={currentPage === 1}
+                                className={`relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium ${currentPage === 1 ? 'text-gray-300 cursor-not-allowed' : 'text-gray-500 hover:bg-gray-50 text-orange-500'}`}
+                            >
+                                <i className="bi bi-chevron-double-left"></i>
+                            </button>
+                            <button
+                                onClick={() => handlePageChange(currentPage - 1)}
+                                disabled={currentPage === 1}
+                                className={`relative inline-flex items-center px-2 py-2 border border-gray-300 bg-white text-sm font-medium ${currentPage === 1 ? 'text-gray-300 cursor-not-allowed' : 'text-gray-500 hover:bg-gray-50 text-orange-500'}`}
+                            >
+                                <i className="bi bi-chevron-left"></i>
+                            </button>
+                            <span className="relative inline-flex items-center px-4 py-2 border border-orange-500 bg-orange-50 text-sm font-medium text-orange-600">
+                                {currentPage}
+                            </span>
+                            <button
+                                onClick={() => handlePageChange(currentPage + 1)}
+                                disabled={currentPage === totalPages || totalPages === 0}
+                                className={`relative inline-flex items-center px-2 py-2 border border-gray-300 bg-white text-sm font-medium ${currentPage === totalPages || totalPages === 0 ? 'text-gray-300 cursor-not-allowed' : 'text-gray-500 hover:bg-gray-50 text-orange-500'}`}
+                            >
+                                <i className="bi bi-chevron-right"></i>
+                            </button>
+                            <button
+                                onClick={() => handlePageChange(totalPages)}
+                                disabled={currentPage === totalPages || totalPages === 0}
+                                className={`relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium ${currentPage === totalPages || totalPages === 0 ? 'text-gray-300 cursor-not-allowed' : 'text-gray-500 hover:bg-gray-50 text-orange-500'}`}
+                            >
+                                <i className="bi bi-chevron-double-right"></i>
+                            </button>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
     );
 };
 

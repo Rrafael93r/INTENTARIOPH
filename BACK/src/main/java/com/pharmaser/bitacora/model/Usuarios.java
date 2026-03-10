@@ -10,6 +10,7 @@ public class Usuarios {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
+    @Column(unique = true)
     private String username;
     @com.fasterxml.jackson.annotation.JsonProperty(access = com.fasterxml.jackson.annotation.JsonProperty.Access.WRITE_ONLY)
     private String password;
@@ -87,11 +88,11 @@ public class Usuarios {
         this.updatedAt = updatedAt;
     }
 
-    public Roles getRole() {
+    public Roles getRoles() {
         return roles;
     }
 
-    public void setRole(Roles roles) {
+    public void setRoles(Roles roles) {
         this.roles = roles;
     }
 

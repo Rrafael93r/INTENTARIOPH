@@ -2,7 +2,6 @@
 
 import type React from "react"
 import { useState, useEffect } from "react"
-import { Row, Col, Form, Button, Spinner, Card, Alert } from "react-bootstrap"
 import Swal from "sweetalert2"
 import { getReporteById, updateReporte } from "../../servicios/reportesService"
 
@@ -232,7 +231,7 @@ const FormularioEditarR: React.FC<IFormularioEditarRProps> = ({ reporteId, onClo
         datosActualizados.fecha_hora_fin = fechaFin
       }
 
-      console.log("Enviando datos actualizados:", JSON.stringify(datosActualizados, null, 2))
+
 
       await updateReporte(reporteId, datosActualizados)
 
@@ -258,212 +257,222 @@ const FormularioEditarR: React.FC<IFormularioEditarRProps> = ({ reporteId, onClo
 
   if (loading) {
     return (
-      <div className="d-flex justify-content-center align-items-center" style={{ minHeight: "200px" }}>
-        <Spinner animation="border" role="status">
-          <span className="visually-hidden">Cargando...</span>
-        </Spinner>
+      <div className="flex justify-center items-center min-h-[200px]">
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-orange-500"></div>
+        <span className="sr-only">Cargando...</span>
       </div>
     )
   }
 
   if (error) {
     return (
-      <div className="alert alert-danger" role="alert">
+      <div className="p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 border border-red-200" role="alert">
         {error}
       </div>
     )
   }
 
   return (
-    <div className="p-4">
-      <Form onSubmit={handleSubmit}>
-        <Row className="mb-4">
-          <Col md={6}>
-            <Form.Group className="mb-3">
-              <Form.Label>Fecha de Apertura*</Form.Label>
-              <Form.Control type="date" name="fecha" value={reporte.fecha} onChange={handleInputChange} disabled />
-              <Form.Text className="text-muted">La fecha de apertura no se puede modificar</Form.Text>
-            </Form.Group>
-          </Col>
-          <Col md={6}>
-            <Form.Group className="mb-3">
-              <Form.Label>Hora Inicio*</Form.Label>
-              <Form.Control
-                type="time"
-                name="hora_inicio_display"
-                value={reporte.hora_inicio_display}
-                onChange={handleInputChange}
-                disabled
-              />
-              <Form.Text className="text-muted">La hora de inicio no se puede modificar</Form.Text>
-            </Form.Group>
-          </Col>
-          <Col md={6}>
-            <Form.Group className="mb-3">
-              <Form.Label>Fecha de Cierre {reporte.estado === "CERRADO" && "*"}</Form.Label>
-              <Form.Control
-                type="date"
-                name="fecha_cierre"
-                value={reporte.fecha_cierre}
-                onChange={handleInputChange}
-                required={reporte.estado === "CERRADO"}
-                min={reporte.fecha} // La fecha de cierre no puede ser anterior a la fecha de apertura
-              />
-              {reporte.fecha_cierre && reporte.fecha_cierre !== reporte.fecha && (
-                <Form.Text className="text-info">
-                  <i className="bi bi-info-circle me-1"></i>
-                  La fecha de cierre es diferente a la fecha de apertura
-                </Form.Text>
-              )}
-            </Form.Group>
-          </Col>
-          <Col md={6}>
-            <Form.Group className="mb-3">
-              <Form.Label>Hora Fin {reporte.estado === "CERRADO" && "*"}</Form.Label>
-              <Form.Control
-                type="time"
-                name="hora_fin_display"
-                value={reporte.hora_fin_display}
-                onChange={handleInputChange}
-                required={reporte.estado === "CERRADO"}
-              />
-              {duracionCalculada && (
-                <Form.Text className={duracionCalculada.includes("Error") ? "text-danger" : "text-success"}>
-                  <i
-                    className={`bi ${duracionCalculada.includes("Error") ? "bi-exclamation-triangle" : "bi-clock"} me-1`}
-                  ></i>
-                  {duracionCalculada}
-                </Form.Text>
-              )}
-            </Form.Group>
-          </Col>
-          <Col md={6}>
-            <Form.Group className="mb-3">
-              <Form.Label>Estado*</Form.Label>
-              <Form.Select name="estado" value={reporte.estado} onChange={handleInputChange} required>
-                <option value="">Seleccione...</option>
-                <option value="ABIERTO">ABIERTO</option>
-                <option value="CERRADO">CERRADO</option>
-              </Form.Select>
-              {reporte.estado === "CERRADO" && (
-                <Form.Text className="text-info">
-                  <i className="bi bi-info-circle me-1"></i>
-                  Al cerrar un caso, asegúrese de completar la fecha y hora de fin
-                </Form.Text>
-              )}
-              {reporte.estado !== estadoOriginal && (
-                <Form.Text className="text-warning">
-                  <i className="bi bi-arrow-right me-1"></i>
-                  El estado cambiará de <strong>{estadoOriginal}</strong> a <strong>{reporte.estado}</strong>
-                </Form.Text>
-              )}
-            </Form.Group>
-          </Col>
-          <Col md={6}>
-            <Form.Group className="mb-3">
-              <Form.Label>Motivo*</Form.Label>
-              <Form.Control type="text" value={reporte.motivo?.motivo || ""} disabled readOnly className="bg-light" />
-              <Form.Text className="text-muted">El motivo no se puede modificar</Form.Text>
-            </Form.Group>
-          </Col>
-          <Col md={12}>
-            <Form.Group className="mb-4">
-              <Form.Label>Observaciones</Form.Label>
-              <Form.Control
-                as="textarea"
-                rows={4}
-                name="observacion"
-                value={reporte.observacion}
-                onChange={handleInputChange}
-                placeholder="Observaciones generales del caso..."
-              />
-            </Form.Group>
-          </Col>
-        </Row>
+    <div className="p-4 bg-white rounded-lg text-gray-800">
+      <form onSubmit={handleSubmit}>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+          <div className="mb-3">
+            <label className="block text-sm font-medium text-gray-700 mb-1">Fecha de Apertura*</label>
+            <input
+              type="date"
+              name="fecha"
+              value={reporte.fecha}
+              onChange={handleInputChange}
+              disabled
+              className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm bg-gray-100 text-gray-500 cursor-not-allowed"
+            />
+            <p className="mt-1 text-xs text-gray-500">La fecha de apertura no se puede modificar</p>
+          </div>
+          <div className="mb-3">
+            <label className="block text-sm font-medium text-gray-700 mb-1">Hora Inicio*</label>
+            <input
+              type="time"
+              name="hora_inicio_display"
+              value={reporte.hora_inicio_display}
+              onChange={handleInputChange}
+              disabled
+              className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm bg-gray-100 text-gray-500 cursor-not-allowed"
+            />
+            <p className="mt-1 text-xs text-gray-500">La hora de inicio no se puede modificar</p>
+          </div>
+          <div className="mb-3">
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              Fecha de Cierre {reporte.estado === "CERRADO" && "*"}
+            </label>
+            <input
+              type="date"
+              name="fecha_cierre"
+              value={reporte.fecha_cierre}
+              onChange={handleInputChange}
+              required={reporte.estado === "CERRADO"}
+              min={reporte.fecha}
+              className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-orange-500 focus:border-orange-500"
+            />
+            {reporte.fecha_cierre && reporte.fecha_cierre !== reporte.fecha && (
+              <p className="mt-1 text-xs text-blue-600 flex items-center">
+                <i className="bi bi-info-circle mr-1"></i>
+                La fecha de cierre es diferente a la fecha de apertura
+              </p>
+            )}
+          </div>
+          <div className="mb-3">
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              Hora Fin {reporte.estado === "CERRADO" && "*"}
+            </label>
+            <input
+              type="time"
+              name="hora_fin_display"
+              value={reporte.hora_fin_display}
+              onChange={handleInputChange}
+              required={reporte.estado === "CERRADO"}
+              className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-orange-500 focus:border-orange-500"
+            />
+            {duracionCalculada && (
+              <p className={`mt-1 text-xs flex items-center ${duracionCalculada.includes("Error") ? "text-red-600" : "text-green-600"}`}>
+                <i className={`bi ${duracionCalculada.includes("Error") ? "bi-exclamation-triangle" : "bi-clock"} mr-1`}></i>
+                {duracionCalculada}
+              </p>
+            )}
+          </div>
+          <div className="mb-3">
+            <label className="block text-sm font-medium text-gray-700 mb-1">Estado*</label>
+            <select
+              name="estado"
+              value={reporte.estado}
+              onChange={handleInputChange}
+              required
+              className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-orange-500 focus:border-orange-500 bg-white"
+            >
+              <option value="">Seleccione...</option>
+              <option value="ABIERTO">ABIERTO</option>
+              <option value="CERRADO">CERRADO</option>
+            </select>
+            {reporte.estado === "CERRADO" && (
+              <p className="mt-1 text-xs text-blue-600 flex items-center">
+                <i className="bi bi-info-circle mr-1"></i>
+                Al cerrar un caso, asegúrese de completar la fecha y hora de fin
+              </p>
+            )}
+            {reporte.estado !== estadoOriginal && (
+              <p className="mt-1 text-xs text-yellow-600 flex items-center">
+                <i className="bi bi-arrow-right mr-1"></i>
+                El estado cambiará de <strong className="mx-1">{estadoOriginal}</strong> a <strong className="ml-1">{reporte.estado}</strong>
+              </p>
+            )}
+          </div>
+          <div className="mb-3">
+            <label className="block text-sm font-medium text-gray-700 mb-1">Motivo*</label>
+            <input
+              type="text"
+              value={reporte.motivo?.motivo || ""}
+              disabled
+              readOnly
+              className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm bg-gray-100 text-gray-500 cursor-not-allowed"
+            />
+            <p className="mt-1 text-xs text-gray-500">El motivo no se puede modificar</p>
+          </div>
+          <div className="md:col-span-2 mb-4">
+            <label className="block text-sm font-medium text-gray-700 mb-1">Observaciones</label>
+            <textarea
+              rows={4}
+              name="observacion"
+              value={reporte.observacion}
+              onChange={handleInputChange}
+              placeholder="Observaciones generales del caso..."
+              className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-orange-500 focus:border-orange-500"
+            />
+          </div>
+        </div>
 
-        <Card className="mb-4">
-          <Card.Header>
-            <h5 className="mb-0">
-              <i className="bi bi-building me-2"></i>
+        <div className="mb-6 bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+          <div className="px-5 py-3 border-b border-gray-100 bg-gray-50">
+            <h5 className="m-0 font-semibold text-gray-800 flex items-center">
+              <i className="bi bi-building mr-2 text-orange-500"></i>
               Información de la Farmacia
             </h5>
-          </Card.Header>
-          <Card.Body>
-            <Row>
-              <Col md={6}>
-                <Form.Group className="mb-3">
-                  <Form.Label>Nombre de la Farmacia</Form.Label>
-                  <Form.Control type="text" value={reporte.farmacia?.nombre || ""} disabled />
-                </Form.Group>
-              </Col>
-              <Col md={6}>
-                <Form.Group className="mb-3">
-                  <Form.Label>Dirección</Form.Label>
-                  <Form.Control type="text" value={reporte.farmacia?.direccion || ""} disabled />
-                </Form.Group>
-              </Col>
-              <Col md={6}>
-                <Form.Group className="mb-3">
-                  <Form.Label>Ciudad</Form.Label>
-                  <Form.Control type="text" value={reporte.farmacia?.ciudad?.nombre_ciudad || ""} disabled />
-                </Form.Group>
-              </Col>
-              <Col md={6}>
-                <Form.Group className="mb-3">
-                  <Form.Label>Proveedor de Internet</Form.Label>
-                  <Form.Control type="text" value={reporte.farmacia?.proveedorInternet?.nombre || ""} disabled />
-                </Form.Group>
-              </Col>
-            </Row>
-          </Card.Body>
-        </Card>
+          </div>
+          <div className="p-5">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="mb-2">
+                <label className="block text-sm font-medium text-gray-700 mb-1">Nombre de la Farmacia</label>
+                <input
+                  type="text"
+                  value={reporte.farmacia?.nombre || ""}
+                  disabled
+                  readOnly
+                  className="w-full px-3 py-2 border border-gray-200 rounded-md shadow-sm bg-gray-100 text-gray-500"
+                />
+              </div>
+              <div className="mb-2">
+                <label className="block text-sm font-medium text-gray-700 mb-1">Dirección</label>
+                <input
+                  type="text"
+                  value={reporte.farmacia?.direccion || ""}
+                  disabled
+                  readOnly
+                  className="w-full px-3 py-2 border border-gray-200 rounded-md shadow-sm bg-gray-100 text-gray-500"
+                />
+              </div>
+              <div className="mb-2">
+                <label className="block text-sm font-medium text-gray-700 mb-1">Ciudad</label>
+                <input
+                  type="text"
+                  value={reporte.farmacia?.ciudad?.nombre_ciudad || ""}
+                  disabled
+                  readOnly
+                  className="w-full px-3 py-2 border border-gray-200 rounded-md shadow-sm bg-gray-100 text-gray-500"
+                />
+              </div>
+              <div className="mb-2">
+                <label className="block text-sm font-medium text-gray-700 mb-1">Proveedor de Internet</label>
+                <input
+                  type="text"
+                  value={reporte.farmacia?.proveedorInternet?.nombre || ""}
+                  disabled
+                  readOnly
+                  className="w-full px-3 py-2 border border-gray-200 rounded-md shadow-sm bg-gray-100 text-gray-500"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
 
-        <div className="text-center mt-4">
-          <Button
-            style={{
-              backgroundColor: "#f6952c",
-              borderColor: "#f6952c",
-              cursor: "pointer",
-              background: isHovered2 ? "#ffff" : "#f6952c",
-              color: isHovered2 ? "#f6952c" : "#ffff",
-            }}
-            onMouseEnter={() => setIsHovered2(true)}
-            onMouseLeave={() => setIsHovered2(false)}
+        <div className="flex justify-center gap-3 mt-6">
+          <button
             type="submit"
-            variant="secondary"
-            className="me-2"
             disabled={loading}
+            className={`flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white transition-colors
+              ${loading ? 'bg-orange-400 cursor-not-allowed' : 'bg-orange-500 hover:bg-orange-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500'}
+            `}
           >
             {loading ? (
               <>
-                <Spinner as="span" animation="border" size="sm" role="status" aria-hidden="true" className="me-2" />
+                <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
                 Actualizando...
               </>
             ) : (
               <>
-                <i className="bi bi-check-circle me-2"></i>
+                <i className="bi bi-check-circle mr-2"></i>
                 Actualizar Reporte
               </>
             )}
-          </Button>
-          <Button
-            style={{
-              backgroundColor: isHovered ? "#f6952c" : "#ffff",
-              color: isHovered ? "#fff" : "#f6952c",
-              borderColor: "#f6952c",
-              cursor: "pointer",
-            }}
-            onMouseEnter={() => setIsHovered(true)}
-            onMouseLeave={() => setIsHovered(false)}
+          </button>
+          <button
             type="button"
             onClick={onClose}
             disabled={loading}
+            className="flex items-center justify-center px-4 py-2 border border-orange-500 text-orange-500 rounded-md shadow-sm text-sm font-medium hover:bg-orange-50 transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500"
           >
-            <i className="bi bi-x-circle me-2"></i>
+            <i className="bi bi-x-circle mr-2"></i>
             Cancelar
-          </Button>
+          </button>
         </div>
-      </Form>
+      </form>
     </div>
   )
 }

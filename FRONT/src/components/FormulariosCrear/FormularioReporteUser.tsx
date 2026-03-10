@@ -2,7 +2,6 @@
 
 import type React from "react"
 import { useState, useEffect } from "react"
-import { Row, Col, Form, Button, Spinner, Card, Alert } from "react-bootstrap"
 import Swal from "sweetalert2"
 import { createReporte } from "../../servicios/reportesService"
 import { getMotivos } from "../../servicios/motivoreporteService"
@@ -146,7 +145,7 @@ const FormularioReporteUser: React.FC = () => {
         isDeleted: false,
       }
 
-      console.log("Datos a enviar:", JSON.stringify(reporteFormateado, null, 2))
+
 
       await createReporte(reporteFormateado)
 
@@ -179,14 +178,12 @@ const FormularioReporteUser: React.FC = () => {
 
   if (loadingData) {
     return (
-      <div className="d-flex justify-content-center align-items-center" style={{ minHeight: "60vh" }}>
+      <div className="flex justify-center items-center min-h-[60vh]">
         <div className="text-center">
-          <Spinner animation="border" role="status" style={{ color: "#f6952c" }}>
-            <span className="visually-hidden">Cargando...</span>
-          </Spinner>
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-orange-500 mx-auto"></div>
           <div className="mt-3">
-            <h5>Cargando información...</h5>
-            <p className="text-muted">Por favor espere un momento</p>
+            <h5 className="text-lg font-medium text-gray-800">Cargando información...</h5>
+            <p className="text-gray-500">Por favor espere un momento</p>
           </div>
         </div>
       </div>
@@ -195,17 +192,17 @@ const FormularioReporteUser: React.FC = () => {
 
   if (!userDetails || !userDetails.farmacia) {
     return (
-      <div className="container">
-        <div className="row justify-content-center">
-          <div className="col-md-8">
-            <Alert variant="danger" className="text-center">
-              <Alert.Heading>
-                <i className="bi bi-exclamation-triangle me-2"></i>
+      <div className="container mx-auto px-4">
+        <div className="flex justify-center">
+          <div className="w-full md:w-2/3 lg:w-1/2">
+            <div className="bg-red-50 border border-red-200 text-red-800 rounded-lg p-4 text-center">
+              <h4 className="flex items-center justify-center text-lg font-bold mb-2">
+                <i className="bi bi-exclamation-triangle mr-2"></i>
                 Error de Configuración
-              </Alert.Heading>
+              </h4>
               <p>Su usuario no tiene una farmacia asignada.</p>
               <p className="mb-0">Por favor contacte al administrador del sistema.</p>
-            </Alert>
+            </div>
           </div>
         </div>
       </div>
@@ -213,116 +210,109 @@ const FormularioReporteUser: React.FC = () => {
   }
 
   return (
-    <div className="container">
-      <div className="row justify-content-center">
-        <div className="col-lg-8">
+    <div className="container mx-auto px-4 py-6">
+      <div className="flex justify-center">
+        <div className="w-full lg:w-2/3">
           {/* Header de bienvenida */}
-          <div className="text-center mb-4">
-            <h2 className="fw-bold" style={{ color: "#f6952c" }}>
-              <i className="bi bi-plus-circle me-2"></i>
+          <div className="text-center mb-8">
+            <h2 className="text-2xl font-bold flex items-center justify-center text-orange-500 mb-2">
+              <i className="bi bi-plus-circle mr-2"></i>
               Crear Reporte de Incidente
             </h2>
-            <p className="text-muted">Complete la información del incidente que está reportando</p>
+            <p className="text-gray-500">Complete la información del incidente que está reportando</p>
           </div>
 
           {/* Información de la farmacia */}
-          <Card className="mb-4 shadow-sm">
-            <Card.Header className="bg-light">
-              <h6 className="mb-0">
-                <i className="bi bi-building me-2"></i>
+          <div className="mb-6 bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+            <div className="px-5 py-3 border-b border-gray-100 bg-gray-50">
+              <h6 className="m-0 font-semibold text-gray-800 flex items-center">
+                <i className="bi bi-building mr-2 text-orange-500"></i>
                 Mi Farmacia Asignada
               </h6>
-            </Card.Header>
-            <Card.Body>
-              <Row>
-                <Col md={6}>
-                  <div className="mb-2">
-                    <strong>Nombre:</strong>
-                    <div>{userDetails.farmacia.nombre}</div>
-                  </div>
-                </Col>
-                <Col md={6}>
-                  <div className="mb-2">
-                    <strong>Ciudad:</strong>
-                    <div>{userDetails.farmacia.ciudad?.nombre_ciudad}</div>
-                  </div>
-                </Col>
-                <Col md={12}>
-                  <div className="mb-2">
-                    <strong>Dirección:</strong>
-                    <div>{userDetails.farmacia.direccion}</div>
-                  </div>
-                </Col>
-                <Col md={12}>
-                  <div className="mb-0">
-                    <strong>Proveedor de Internet:</strong>
-                    <div>{userDetails.farmacia.proveedorInternet?.nombre}</div>
-                  </div>
-                </Col>
-              </Row>
-            </Card.Body>
-          </Card>
+            </div>
+            <div className="p-5">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="mb-2">
+                  <strong className="block text-sm text-gray-600 mb-1">Nombre:</strong>
+                  <div className="text-gray-800">{userDetails.farmacia.nombre}</div>
+                </div>
+                <div className="mb-2">
+                  <strong className="block text-sm text-gray-600 mb-1">Ciudad:</strong>
+                  <div className="text-gray-800">{userDetails.farmacia.ciudad?.nombre_ciudad}</div>
+                </div>
+                <div className="md:col-span-2 mb-2">
+                  <strong className="block text-sm text-gray-600 mb-1">Dirección:</strong>
+                  <div className="text-gray-800">{userDetails.farmacia.direccion}</div>
+                </div>
+                <div className="md:col-span-2 mb-0">
+                  <strong className="block text-sm text-gray-600 mb-1">Proveedor de Internet:</strong>
+                  <div className="text-gray-800">{userDetails.farmacia.proveedorInternet?.nombre}</div>
+                </div>
+              </div>
+            </div>
+          </div>
 
           {/* Formulario de reporte */}
-          <Card className="shadow-sm">
-            <Card.Header>
-              <h6 className="mb-0">
-                <i className="bi bi-file-text me-2"></i>
+          <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+            <div className="px-5 py-3 border-b border-gray-100 bg-gray-50">
+              <h6 className="m-0 font-semibold text-gray-800 flex items-center">
+                <i className="bi bi-file-text mr-2 text-orange-500"></i>
                 Información del Reporte
               </h6>
-            </Card.Header>
-            <Card.Body className="p-4">
-              <Form onSubmit={handleSubmit}>
-                <Row>
-                  <Col md={6}>
-                    <Form.Group className="mb-3">
-                      <Form.Label className="fw-semibold">
-                        <i className="bi bi-calendar me-1"></i>
+            </div>
+            <div className="p-6">
+              <form onSubmit={handleSubmit}>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-5 mb-6">
+                  <div>
+                    <div className="mb-4">
+                      <label className="block text-sm font-semibold text-gray-700 mb-1 flex items-center">
+                        <i className="bi bi-calendar mr-1 text-gray-500"></i>
                         Fecha*
-                      </Form.Label>
-                      <Form.Control
+                      </label>
+                      <input
                         type="date"
                         name="fecha"
                         value={reporte.fecha}
                         onChange={handleInputChange}
                         required
                         readOnly
-                        className="bg-light"
+                        className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm bg-gray-100 text-gray-500 cursor-not-allowed"
                       />
-                      <Form.Text className="text-muted">
-                        <i className="bi bi-info-circle me-1"></i>
+                      <p className="mt-1 text-xs text-gray-500 flex items-center">
+                        <i className="bi bi-info-circle mr-1"></i>
                         La fecha se establece automáticamente
-                      </Form.Text>
-                    </Form.Group>
-                  </Col>
-                  <Col md={6}>
-                    <Form.Group className="mb-3">
-                      <Form.Label className="fw-semibold">
-                        <i className="bi bi-clock me-1"></i>
+                      </p>
+                    </div>
+                  </div>
+                  <div>
+                    <div className="mb-4">
+                      <label className="block text-sm font-semibold text-gray-700 mb-1 flex items-center">
+                        <i className="bi bi-clock mr-1 text-gray-500"></i>
                         Hora de Inicio del Incidente*
-                      </Form.Label>
-                      <Form.Control
+                      </label>
+                      <input
                         type="time"
                         name="fecha_hora_inicio"
                         value={reporte.fecha_hora_inicio}
                         onChange={handleInputChange}
                         required
+                        className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-orange-500 focus:border-orange-500"
                       />
-                      <Form.Text className="text-muted">¿A qué hora comenzó el problema?</Form.Text>
-                    </Form.Group>
-                  </Col>
-                  <Col md={12}>
-                    <Form.Group className="mb-3">
-                      <Form.Label className="fw-semibold">
-                        <i className="bi bi-exclamation-triangle me-1"></i>
+                      <p className="mt-1 text-xs text-gray-500">¿A qué hora comenzó el problema?</p>
+                    </div>
+                  </div>
+                  <div className="md:col-span-2">
+                    <div className="mb-4">
+                      <label className="block text-sm font-semibold text-gray-700 mb-1 flex items-center">
+                        <i className="bi bi-exclamation-triangle mr-1 text-gray-500"></i>
                         Motivo del Reporte*
-                      </Form.Label>
-                      <Form.Select
+                      </label>
+                      <select
                         name="motivo_id"
                         value={reporte.motivo?.id || ""}
                         onChange={handleInputChange}
                         required
-                        size="lg"
+                        className="w-full px-4 py-2 text-lg border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-orange-500 focus:border-orange-500 bg-white"
                       >
                         <option value="">Seleccione el tipo de problema...</option>
                         {motivos.map((motivo) => (
@@ -330,76 +320,49 @@ const FormularioReporteUser: React.FC = () => {
                             {motivo.motivo}
                           </option>
                         ))}
-                      </Form.Select>
-                    </Form.Group>
-                  </Col>
-                  <Col md={12}>
-                    <Form.Group className="mb-4">
-                      <Form.Label className="fw-semibold">
-                        <i className="bi bi-chat-text me-1"></i>
+                      </select>
+                    </div>
+                  </div>
+                  <div className="md:col-span-2">
+                    <div className="mb-5">
+                      <label className="block text-sm font-semibold text-gray-700 mb-1 flex items-center">
+                        <i className="bi bi-chat-text mr-1 text-gray-500"></i>
                         Descripción del Problema
-                      </Form.Label>
-                      <Form.Control
-                        as="textarea"
+                      </label>
+                      <textarea
                         rows={4}
                         name="observacion"
                         value={reporte.observacion}
                         onChange={handleInputChange}
                         placeholder="Describa con detalle qué está sucediendo..."
-                        style={{ resize: "vertical" }}
+                        className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-orange-500 focus:border-orange-500 resize-y"
                       />
-                      
-                    </Form.Group>
-                  </Col>
-                </Row>
+                    </div>
+                  </div>
+                </div>
 
-                <div className="text-center">
-                  <Button
-                    style={{
-                      backgroundColor: "#f6952c",
-                      borderColor: "#f6952c",
-                      cursor: "pointer",
-                      background: isHovered2 ? "#ffff" : "#f6952c",
-                      color: isHovered2 ? "#f6952c" : "#ffff",
-                    }}
-                    onMouseEnter={() => setIsHovered2(true)}
-                    onMouseLeave={() => setIsHovered2(false)}
+                <div className="flex justify-center items-center gap-4">
+                  <button
                     type="submit"
-                    size="lg"
-                    className="me-3 px-5"
                     disabled={loading}
+                    className={`flex items-center justify-center px-8 py-3 border border-transparent rounded-md shadow-sm text-lg font-medium text-white transition-colors
+                      ${loading ? 'bg-orange-400 cursor-not-allowed' : 'bg-orange-500 hover:bg-orange-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500'}
+                    `}
                   >
                     {loading ? (
                       <>
-                        <Spinner
-                          as="span"
-                          animation="border"
-                          size="sm"
-                          role="status"
-                          aria-hidden="true"
-                          className="me-2"
-                        />
+                        <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white mr-2"></div>
                         Enviando...
                       </>
                     ) : (
                       <>
-                        <i className="bi bi-send me-2"></i>
+                        <i className="bi bi-send mr-2"></i>
                         Enviar Reporte
                       </>
                     )}
-                  </Button>
-                  <Button
-                    style={{
-                      backgroundColor: isHovered ? "#f6952c" : "#ffff",
-                      color: isHovered ? "#fff" : "#f6952c",
-                      borderColor: "#f6952c",
-                      cursor: "pointer",
-                    }}
-                    onMouseEnter={() => setIsHovered(true)}
-                    onMouseLeave={() => setIsHovered(false)}
+                  </button>
+                  <button
                     type="button"
-                    size="lg"
-                    className="px-4"
                     onClick={() => {
                       setReporte({
                         fecha: new Date().toISOString().split("T")[0],
@@ -409,15 +372,15 @@ const FormularioReporteUser: React.FC = () => {
                       })
                     }}
                     disabled={loading}
+                    className="flex items-center justify-center px-6 py-3 border border-orange-500 text-orange-500 rounded-md shadow-sm text-lg font-medium hover:bg-orange-50 transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500"
                   >
-                    <i className="bi bi-arrow-clockwise me-2"></i>
+                    <i className="bi bi-arrow-clockwise mr-2"></i>
                     Limpiar
-                  </Button>
+                  </button>
                 </div>
-              </Form>
-            </Card.Body>
-          </Card>
-
+              </form>
+            </div>
+          </div>
         </div>
       </div>
     </div>

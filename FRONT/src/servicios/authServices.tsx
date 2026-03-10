@@ -1,11 +1,11 @@
-import axios from 'axios';
+import axios from './axiosConfig';
 
 const API_URL = 'http://localhost:8080/api/auth/login';
 
 interface User {
   id: number;
   username: string;
-  role: {
+  roles: {
     id: number;
     name: string;
   };
@@ -18,14 +18,14 @@ export const login = async (username: string, password: string): Promise<User> =
     // El backend ahora devuelve { token: "...", user: {...} }
     const { token, user } = response.data;
 
-    if (!user || !user.role || typeof user.role.id === 'undefined') {
+    if (!user || !user.roles || typeof user.roles.id === 'undefined') {
       throw new Error('Estructura de usuario inválida');
     }
 
     const userInfo = {
       id: user.id,
       username: user.username,
-      roleId: user.role.id,
+      roleId: user.roles.id,
       token: token
     };
 
@@ -36,13 +36,11 @@ export const login = async (username: string, password: string): Promise<User> =
 
     return user;
   } catch (error) {
-    console.error('Login error:', error);
     throw error;
   }
 };
 
 export const logout = () => {
-  console.log('Cerrando sesión, eliminando token');
   localStorage.removeItem('user');
   localStorage.removeItem('token');
 };
@@ -53,7 +51,6 @@ export const getCurrentUser = () => {
     try {
       return JSON.parse(userStr);
     } catch (error) {
-      console.error('Error parsing user from localStorage:', error);
       return null;
     }
   }

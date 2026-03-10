@@ -17,6 +17,9 @@ public class UsuariosService {
     private org.springframework.security.crypto.password.PasswordEncoder passwordEncoder;
 
     public Usuarios createUser(Usuarios usuarios) {
+        if (usuarios.getUsername() != null && getUserByUsername(usuarios.getUsername()) != null) {
+            throw new RuntimeException("El nombre de usuario ya existe: " + usuarios.getUsername());
+        }
         if (usuarios.getPassword() != null) {
             usuarios.setPassword(passwordEncoder.encode(usuarios.getPassword()));
         }
@@ -52,8 +55,8 @@ public class UsuariosService {
             if (usuarios.getPassword() != null && !usuarios.getPassword().isEmpty()) {
                 existingUser.setPassword(passwordEncoder.encode(usuarios.getPassword()));
             }
-            if (usuarios.getRole() != null) {
-                existingUser.setRole(usuarios.getRole());
+            if (usuarios.getRoles() != null) {
+                existingUser.setRoles(usuarios.getRoles());
             }
             if (usuarios.getFarmacia() != null) {
                 existingUser.setFarmacia(usuarios.getFarmacia());

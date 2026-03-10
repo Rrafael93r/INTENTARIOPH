@@ -2,11 +2,10 @@
 
 import type React from "react"
 import { useState, useEffect } from "react"
-import { Badge, FormControl, Card, Button, Spinner, Modal } from "react-bootstrap"
 import Swal from "sweetalert2"
 import { getModems, deleteModems, updateModemStatus } from "../../servicios/modemService"
 import { getCurrentUser } from "../../servicios/authServices"
-import { Download } from "react-bootstrap-icons"
+import { Download } from "lucide-react"
 import * as XLSX from "xlsx"
 import { format } from "date-fns"
 import FormularioCrearModem from "../FormulariosCrear/FormularioCrearM"
@@ -92,20 +91,14 @@ const ModemsTable: React.FC = () => {
       })
 
       const data = await getModems()
-      console.log("[v0] Datos obtenidos en loadModems:", data)
-      console.log("[v0] Tipo del array:", Array.isArray(data))
-      console.log("[v0] Cantidad de items:", data?.length)
 
       if (Array.isArray(data)) {
-        console.log("[v0] Guardando en setModems:", data)
         setModems(data)
       } else {
-        console.log("[v0] ERROR: data NO es un array, es:", typeof data)
         setError("Los datos recibidos no son válidos")
       }
     } catch (error) {
       setError("Error al cargar el listado de Módems")
-      console.error("[v0] Error en loadModems:", error)
       Swal.fire({
         icon: "error",
         title: "Error",
@@ -234,7 +227,6 @@ const ModemsTable: React.FC = () => {
         Swal.fire("¡Eliminado!", "El Módem ha sido eliminado.", "success")
       }
     } catch (error) {
-      console.error("Error al eliminar:", error)
       Swal.fire({
         icon: "error",
         title: "Error",
@@ -266,7 +258,6 @@ const ModemsTable: React.FC = () => {
         timer: 1500,
       })
     } catch (error) {
-      console.error("Error al actualizar estado:", error)
       Swal.fire({
         icon: "error",
         title: "Error",
@@ -304,217 +295,253 @@ const ModemsTable: React.FC = () => {
 
   if (loading) {
     return (
-      <div className="d-flex justify-content-center align-items-center" style={{ height: "300px" }}>
-        <Spinner animation="border" role="status">
-          <span className="visually-hidden">Cargando...</span>
-        </Spinner>
+      <div className="flex justify-center items-center h-[300px]">
+        <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-orange-500"></div>
       </div>
     )
   }
 
   if (error) {
-    return <div className="alert alert-danger">{error}</div>
+    return (
+      <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg relative" role="alert">
+        <span className="block sm:inline">{error}</span>
+      </div>
+    )
   }
 
   return (
     <>
       {/* Modal para Crear Módem */}
-      <Modal show={showCreateModal} onHide={handleCloseCreate} centered size="lg">
-        <Modal.Header closeButton>
-          <Modal.Title>
-            <i className="bi bi-plus-circle me-2"></i>
-            Nuevo Módem
-          </Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <FormularioCrearModem onSuccess={handleCloseCreate} onClose={handleCloseCreate} />
-        </Modal.Body>
-      </Modal>
+      {showCreateModal && (
+        <div className="fixed inset-0 z-50 overflow-y-auto">
+          <div className="flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:p-0">
+            <div className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" onClick={handleCloseCreate}></div>
+            <div className="inline-block align-bottom bg-white rounded-xl text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-4xl sm:w-full">
+              <div className="bg-white px-6 py-4 border-b border-gray-100 flex justify-between items-center">
+                <h3 className="text-lg leading-6 font-semibold text-gray-800 flex items-center">
+                  <i className="bi bi-plus-circle mr-2 text-orange-500"></i> Nuevo Módem
+                </h3>
+                <button onClick={handleCloseCreate} className="text-gray-400 hover:text-gray-500 focus:outline-none transition-colors">
+                  <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" /></svg>
+                </button>
+              </div>
+              <div className="px-6 py-5 sm:p-6 bg-gray-50">
+                <FormularioCrearModem onSuccess={handleCloseCreate} onClose={handleCloseCreate} />
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Modal para Editar Módem */}
-      <Modal show={showEditModal} onHide={handleCloseEdit} centered size="lg">
-        <Modal.Header closeButton>
-          <Modal.Title>
-            <i className="bi bi-pencil-square me-2"></i>
-            Editar Módem
-          </Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          {selectedModemId && (
-            <FormularioEditarModem
-              modemId={selectedModemId}
-              onClose={handleCloseEdit}
-              onSuccess={() => {
-                loadModems()
-              }}
-            />
-          )}
-        </Modal.Body>
-      </Modal>
+      {showEditModal && (
+        <div className="fixed inset-0 z-50 overflow-y-auto">
+          <div className="flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:p-0">
+            <div className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" onClick={handleCloseEdit}></div>
+            <div className="inline-block align-bottom bg-white rounded-xl text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-4xl sm:w-full">
+              <div className="bg-white px-6 py-4 border-b border-gray-100 flex justify-between items-center">
+                <h3 className="text-lg leading-6 font-semibold text-gray-800 flex items-center">
+                  <i className="bi bi-pencil-square mr-2 text-orange-500"></i> Editar Módem
+                </h3>
+                <button onClick={handleCloseEdit} className="text-gray-400 hover:text-gray-500 focus:outline-none transition-colors">
+                  <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" /></svg>
+                </button>
+              </div>
+              <div className="px-6 py-5 sm:p-6 bg-gray-50">
+                {selectedModemId && (
+                  <FormularioEditarModem
+                    modemId={selectedModemId}
+                    onClose={handleCloseEdit}
+                    onSuccess={() => {
+                      loadModems()
+                    }}
+                  />
+                )}
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
 
-      <div className="d-flex align-items-center mb-3" style={{ color: "black" }}>
-        <div className="pagetitle">
-          <h1>Gestión de Módems</h1>
-          <nav>
-            <ol className="breadcrumb">
-              <li className="breadcrumb-item">Inicio</li>
-              <li className="breadcrumb-item active">Módems</li>
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 text-gray-800 gap-4">
+        <div>
+          <h1 className="text-2xl font-bold m-0 text-gray-900">Gestión de Módems</h1>
+          <nav className="text-sm text-gray-500 mt-1">
+            <ol className="list-none p-0 inline-flex">
+              <li className="flex items-center">Inicio <span className="mx-2 text-gray-300">/</span></li>
+              <li className="font-medium text-gray-700">Módems</li>
             </ol>
           </nav>
         </div>
-        <div className="ms-auto">
-          <Button title="Exportar a Excel" onClick={exportToExcel} className="btn me-2" variant="success">
-            <Download className="me-1" /> Exportar
-          </Button>
-          <Button
-            onClick={handleShowCreate}
-            className="btn"
-            style={{ backgroundColor: "#f6952c", borderColor: "#f6952c", color: "#fff" }}
+        <div className="flex gap-3 w-full sm:w-auto">
+          <button
+            title="Exportar a Excel"
+            onClick={exportToExcel}
+            className="flex-1 sm:flex-none flex justify-center items-center px-4 py-2 bg-emerald-500 hover:bg-emerald-600 text-white rounded-lg transition-colors font-medium text-sm shadow-sm"
           >
-            <i className="bi bi-plus-circle-fill me-2"></i> Nuevo Módem
-          </Button>
+            <Download className="mr-2" size={16} /> Exportar
+          </button>
+          <button
+            onClick={handleShowCreate}
+            className="flex-1 sm:flex-none flex justify-center items-center px-4 py-2 bg-orange-500 hover:bg-orange-600 text-white rounded-lg transition-colors font-medium text-sm shadow-sm"
+          >
+            <i className="bi bi-plus-circle-fill mr-2"></i> Nuevo Módem
+          </button>
         </div>
       </div>
 
-      <div className="p-2" style={{ backgroundColor: "#ffff", borderRadius: "0.6rem" }}>
-        <div className="table-responsive" style={{ maxHeight: "50vh" }}>
-          <table className="table table-hover text-nowrap">
-            <thead>
+      <div className="bg-white rounded-t-xl border border-gray-200 overflow-hidden shadow-sm">
+        <div className="overflow-x-auto max-h-[60vh] custom-scrollbar">
+          <table className="w-full text-left border-collapse whitespace-nowrap">
+            <thead className="bg-gray-50 sticky top-0 z-10">
               <tr>
-                <th onClick={() => handleSort("marca")} style={{ cursor: "pointer" }}>
-                  <FormControl
-                    size="sm"
+                <th onClick={() => handleSort("marca")} className="p-3 text-xs font-semibold text-gray-600 uppercase tracking-wider border-b border-gray-200 cursor-pointer hover:bg-gray-100 transition-colors align-top min-w-[150px]">
+                  <input
                     type="text"
+                    className="w-full px-2 py-1.5 mb-2 text-sm border border-gray-300 rounded focus:outline-none focus:border-orange-500 focus:ring-1 focus:ring-orange-500 font-normal normal-case bg-white"
                     placeholder="Filtrar marca"
                     value={filterMarca}
                     onChange={(e) => setFilterMarca(e.target.value)}
+                    onClick={(e) => e.stopPropagation()}
                   />
-                  MARCA {getSortIcon("marca")}
+                  <div className="flex items-center justify-between">MARCA <span className="text-gray-400">{getSortIcon("marca")}</span></div>
                 </th>
-                <th onClick={() => handleSort("modelo")} style={{ cursor: "pointer" }}>
-                  <FormControl
-                    size="sm"
+                <th onClick={() => handleSort("modelo")} className="p-3 text-xs font-semibold text-gray-600 uppercase tracking-wider border-b border-gray-200 cursor-pointer hover:bg-gray-100 transition-colors align-top min-w-[150px]">
+                  <input
                     type="text"
+                    className="w-full px-2 py-1.5 mb-2 text-sm border border-gray-300 rounded focus:outline-none focus:border-orange-500 focus:ring-1 focus:ring-orange-500 font-normal normal-case bg-white"
                     placeholder="Filtrar modelo"
                     value={filterModelo}
                     onChange={(e) => setFilterModelo(e.target.value)}
+                    onClick={(e) => e.stopPropagation()}
                   />
-                  MODELO {getSortIcon("modelo")}
+                  <div className="flex items-center justify-between">MODELO <span className="text-gray-400">{getSortIcon("modelo")}</span></div>
                 </th>
-                <th onClick={() => handleSort("serial")} style={{ cursor: "pointer" }}>
-                  <FormControl
-                    size="sm"
+                <th onClick={() => handleSort("serial")} className="p-3 text-xs font-semibold text-gray-600 uppercase tracking-wider border-b border-gray-200 cursor-pointer hover:bg-gray-100 transition-colors align-top min-w-[150px]">
+                  <input
                     type="text"
+                    className="w-full px-2 py-1.5 mb-2 text-sm border border-gray-300 rounded focus:outline-none focus:border-orange-500 focus:ring-1 focus:ring-orange-500 font-normal normal-case bg-white"
                     placeholder="Filtrar serial"
                     value={filterNumeroSerie}
                     onChange={(e) => setFilterNumeroSerie(e.target.value)}
+                    onClick={(e) => e.stopPropagation()}
                   />
-                  SERIAL {getSortIcon("serial")}
+                  <div className="flex items-center justify-between">SERIAL <span className="text-gray-400">{getSortIcon("serial")}</span></div>
                 </th>
-                <th onClick={() => handleSort("ubicacion")} style={{ cursor: "pointer" }}>
-                  <FormControl
-                    size="sm"
+                <th onClick={() => handleSort("ubicacion")} className="p-3 text-xs font-semibold text-gray-600 uppercase tracking-wider border-b border-gray-200 cursor-pointer hover:bg-gray-100 transition-colors align-top min-w-[180px]">
+                  <input
                     type="text"
+                    className="w-full px-2 py-1.5 mb-2 text-sm border border-gray-300 rounded focus:outline-none focus:border-orange-500 focus:ring-1 focus:ring-orange-500 font-normal normal-case bg-white"
                     placeholder="Filtrar ubicación"
                     value={filterUbicacion}
                     onChange={(e) => setFilterUbicacion(e.target.value)}
+                    onClick={(e) => e.stopPropagation()}
                   />
-                  UBICACIÓN {getSortIcon("ubicacion")}
+                  <div className="flex items-center justify-between">UBICACIÓN <span className="text-gray-400">{getSortIcon("ubicacion")}</span></div>
                 </th>
-                <th onClick={() => handleSort("operador")} style={{ cursor: "pointer" }}>
-                  <FormControl
-                    size="sm"
+                <th onClick={() => handleSort("operador")} className="p-3 text-xs font-semibold text-gray-600 uppercase tracking-wider border-b border-gray-200 cursor-pointer hover:bg-gray-100 transition-colors align-top min-w-[150px]">
+                  <input
                     type="text"
+                    className="w-full px-2 py-1.5 mb-2 text-sm border border-gray-300 rounded focus:outline-none focus:border-orange-500 focus:ring-1 focus:ring-orange-500 font-normal normal-case bg-white"
                     placeholder="Filtrar operador"
                     value={filterOperador}
                     onChange={(e) => setFilterOperador(e.target.value)}
+                    onClick={(e) => e.stopPropagation()}
                   />
-                  OPERADOR {getSortIcon("operador")}
+                  <div className="flex items-center justify-between">OPERADOR <span className="text-gray-400">{getSortIcon("operador")}</span></div>
                 </th>
-                <th onClick={() => handleSort("numero")} style={{ cursor: "pointer" }}>
-                  <FormControl
-                    size="sm"
+                <th onClick={() => handleSort("numero")} className="p-3 text-xs font-semibold text-gray-600 uppercase tracking-wider border-b border-gray-200 cursor-pointer hover:bg-gray-100 transition-colors align-top min-w-[150px]">
+                  <input
                     type="text"
+                    className="w-full px-2 py-1.5 mb-2 text-sm border border-gray-300 rounded focus:outline-none focus:border-orange-500 focus:ring-1 focus:ring-orange-500 font-normal normal-case bg-white"
                     placeholder="Filtrar número"
                     value={filterNumero}
                     onChange={(e) => setFilterNumero(e.target.value)}
+                    onClick={(e) => e.stopPropagation()}
                   />
-                  NÚMERO {getSortIcon("numero")}
+                  <div className="flex items-center justify-between">NÚMERO <span className="text-gray-400">{getSortIcon("numero")}</span></div>
                 </th>
-                <th onClick={() => handleSort("estado")} style={{ cursor: "pointer" }}>
-                  <FormControl
-                    size="sm"
+                <th onClick={() => handleSort("estado")} className="p-3 text-xs font-semibold text-gray-600 uppercase tracking-wider border-b border-gray-200 cursor-pointer hover:bg-gray-100 transition-colors align-top min-w-[150px]">
+                  <input
                     type="text"
+                    className="w-full px-2 py-1.5 mb-2 text-sm border border-gray-300 rounded focus:outline-none focus:border-orange-500 focus:ring-1 focus:ring-orange-500 font-normal normal-case bg-white"
                     placeholder="Filtrar estado"
                     value={filterEstado}
                     onChange={(e) => setFilterEstado(e.target.value)}
+                    onClick={(e) => e.stopPropagation()}
                   />
-                  ESTADO {getSortIcon("estado")}
+                  <div className="flex items-center justify-between">ESTADO <span className="text-gray-400">{getSortIcon("estado")}</span></div>
                 </th>
-                <th className="text-center">
-                  <button
-                    className="btn btn-light btn-sm"
-                    style={{ backgroundColor: "#ffb361", color: "#fff", borderColor: "#ffb361" }}
-                    onClick={clearFilters}
-                  >
-                    <i className="bi bi-brush" />
-                  </button>
-                  <span style={{ display: "block", marginTop: "4px" }}>Acciones</span>
+                <th className="p-3 text-xs font-semibold text-gray-600 uppercase tracking-wider border-b border-gray-200 text-center align-top w-24">
+                  <div className="flex flex-col items-center justify-center">
+                    <button
+                      className="p-1.5 mb-2 bg-orange-100 text-orange-600 hover:bg-orange-200 rounded transition-colors tooltip flex items-center justify-center w-8 h-8"
+                      title="Limpiar filtros"
+                      onClick={clearFilters}
+                    >
+                      <i className="bi bi-brush"></i>
+                    </button>
+                    <span>Acciones</span>
+                  </div>
                 </th>
               </tr>
             </thead>
-            <tbody>
+            <tbody className="divide-y divide-gray-100">
               {currentModems.length === 0 ? (
                 <tr>
-                  <td colSpan={8} className="text-center py-3">
+                  <td colSpan={8} className="text-center py-8 text-gray-500">
+                    <div className="flex justify-center mb-2">
+                      <i className="bi bi-inbox text-3xl text-gray-300"></i>
+                    </div>
                     No se encontraron módems con los filtros aplicados
                   </td>
                 </tr>
               ) : (
                 currentModems.map((modem) => (
-                  <tr key={modem.id}>
-                    <td>
-                      <div className="d-flex align-items-center">
-                        <div>
-                          <div>{modem.marca}</div>
-                          <small className="text-muted">ID: {modem.id}</small>
-                        </div>
+                  <tr key={modem.id} className="hover:bg-orange-50/30 transition-colors group">
+                    <td className="p-3 align-middle">
+                      <div className="flex flex-col">
+                        <span className="font-semibold text-gray-800">{modem.marca}</span>
+                        <span className="text-xs text-gray-500 font-medium">ID: {modem.id}</span>
                       </div>
                     </td>
-                    <td>{modem.modelo}</td>
-                    <td>{modem.numero_serie}</td>
-                    <td>{modem.farmacia?.nombre || "No asignado"}</td>
-                    <td>{modem.proveedorInternet?.nombre}</td>
-                    <td>{modem.numero}</td>
-                    <td>
-                      <Badge bg={modem.estado === "DISPONIBLE" ? "success" : "danger"}>{modem.estado}</Badge>
+                    <td className="p-3 align-middle text-gray-600">{modem.modelo}</td>
+                    <td className="p-3 align-middle font-mono text-sm text-gray-600">{modem.numero_serie}</td>
+                    <td className="p-3 align-middle text-gray-700">{modem.farmacia?.nombre || "No asignado"}</td>
+                    <td className="p-3 align-middle text-gray-600">{modem.proveedorInternet?.nombre}</td>
+                    <td className="p-3 align-middle text-gray-600">{modem.numero}</td>
+                    <td className="p-3 align-middle">
+                      <span className={`inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium border ${modem.estado === "DISPONIBLE"
+                        ? "bg-emerald-50 text-emerald-700 border-emerald-200"
+                        : "bg-red-50 text-red-700 border-red-200"
+                        }`}>
+                        {modem.estado === "DISPONIBLE" && <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 mr-1.5"></span>}
+                        {modem.estado !== "DISPONIBLE" && <span className="w-1.5 h-1.5 rounded-full bg-red-500 mr-1.5"></span>}
+                        {modem.estado}
+                      </span>
                     </td>
-                    <td>
-                      <div className="d-flex justify-content-end btn-group">
+                    <td className="p-3 align-middle">
+                      <div className="flex justify-center gap-2">
                         <button
-                          className="btn btn-light btn-sm"
-                          style={{ backgroundColor: "#ffb361", color: "#fff", borderColor: "#ffb361" }}
+                          className="flex items-center justify-center w-8 h-8 rounded-lg bg-orange-100 text-orange-600 hover:bg-orange-500 hover:text-white transition-colors border border-transparent hover:border-orange-600"
+                          title="Editar"
                           onClick={() => handleShowEdit(modem.id)}
                         >
                           <i className="bi bi-pencil"></i>
                         </button>
 
-                        {/* Botón para cambiar estado */}
                         <button
-                          className="btn btn-light btn-sm"
-                          style={{
-                            backgroundColor: modem.estado === "DISPONIBLE" ? "#dc3545" : "#28a745",
-                            color: "#fff",
-                            borderColor: modem.estado === "DISPONIBLE" ? "#dc3545" : "#28a745",
-                          }}
+                          className={`flex items-center justify-center w-8 h-8 rounded-lg transition-colors border ${modem.estado === "DISPONIBLE"
+                            ? "bg-red-50 text-red-600 hover:bg-red-500 hover:text-white border-transparent hover:border-red-600"
+                            : "bg-emerald-50 text-emerald-600 hover:bg-emerald-500 hover:text-white border-transparent hover:border-emerald-600"
+                            }`}
+                          title={modem.estado === "DISPONIBLE" ? "Marcar en uso" : "Marcar disponible"}
                           onClick={() =>
                             handleChangeStatus(modem.id, modem.estado === "DISPONIBLE" ? "EN USO" : "DISPONIBLE")
                           }
                         >
                           <i className={`bi bi-${modem.estado === "DISPONIBLE" ? "x-circle" : "check-circle"}`}></i>
                         </button>
-
-
                       </div>
                     </td>
                   </tr>
@@ -524,63 +551,57 @@ const ModemsTable: React.FC = () => {
           </table>
         </div>
       </div>
-      <Card.Footer
-        style={{
-          display: "flex",
-          justifyContent: "space-between",
-          backgroundColor: "#ffff",
-          borderRadius: "0 0 0.6rem 0.6rem",
-        }}
-      >
-        <div>
-          <small className="text-muted">
-            Mostrando {currentModems.length} de {filteredModems.length} módems
-          </small>
+
+      <div className="bg-white border border-t-0 border-gray-200 rounded-b-xl px-4 py-3 flex items-center justify-between sm:px-6 shadow-sm">
+        <div className="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between">
+          <div>
+            <p className="text-sm text-gray-700 m-0">
+              Mostrando <span className="font-medium">{currentModems.length}</span> de <span className="font-medium">{filteredModems.length}</span> módems
+            </p>
+          </div>
+          <div>
+            <nav className="relative z-0 inline-flex rounded-md shadow-sm -space-x-px" aria-label="Pagination">
+              <button
+                onClick={() => handlePageChange(1)}
+                disabled={currentPage === 1}
+                className={`relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium ${currentPage === 1 ? 'text-gray-300 cursor-not-allowed' : 'text-gray-500 hover:bg-gray-50 text-orange-500'
+                  }`}
+              >
+                <i className="bi bi-chevron-double-left"></i>
+              </button>
+              <button
+                onClick={() => handlePageChange(currentPage - 1)}
+                disabled={currentPage === 1}
+                className={`relative inline-flex items-center px-2 py-2 border border-gray-300 bg-white text-sm font-medium ${currentPage === 1 ? 'text-gray-300 cursor-not-allowed' : 'text-gray-500 hover:bg-gray-50 text-orange-500'
+                  }`}
+              >
+                <i className="bi bi-chevron-left"></i>
+              </button>
+
+              <span className="relative inline-flex items-center px-4 py-2 border border-orange-500 bg-orange-50 text-sm font-medium text-orange-600">
+                {currentPage}
+              </span>
+
+              <button
+                onClick={() => handlePageChange(currentPage + 1)}
+                disabled={currentPage === totalPages || totalPages === 0}
+                className={`relative inline-flex items-center px-2 py-2 border border-gray-300 bg-white text-sm font-medium ${currentPage === totalPages || totalPages === 0 ? 'text-gray-300 cursor-not-allowed' : 'text-gray-500 hover:bg-gray-50 text-orange-500'
+                  }`}
+              >
+                <i className="bi bi-chevron-right"></i>
+              </button>
+              <button
+                onClick={() => handlePageChange(totalPages)}
+                disabled={currentPage === totalPages || totalPages === 0}
+                className={`relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium ${currentPage === totalPages || totalPages === 0 ? 'text-gray-300 cursor-not-allowed' : 'text-gray-500 hover:bg-gray-50 text-orange-500'
+                  }`}
+              >
+                <i className="bi bi-chevron-double-right"></i>
+              </button>
+            </nav>
+          </div>
         </div>
-        <ul className="pagination pagination-sm">
-          <li className={`m-1 page-item ${currentPage === 1 ? "disabled" : ""}`}>
-            <button
-              className="page-link"
-              style={{ backgroundColor: "#ffb361", color: "#fff", borderColor: "#ffb361" }}
-              onClick={() => handlePageChange(1)}
-            >
-              <i className="bi bi-chevron-double-left"></i>
-            </button>
-          </li>
-          <li className={`m-1 page-item ${currentPage === 1 ? "disabled" : ""}`}>
-            <button
-              className="page-link"
-              style={{ backgroundColor: "#ffb361", color: "#fff", borderColor: "#ffb361" }}
-              onClick={() => handlePageChange(currentPage - 1)}
-            >
-              <i className="bi bi-chevron-left"></i>
-            </button>
-          </li>
-          <li className="m-1 page-item active">
-            <span className="page-link" style={{ backgroundColor: "#ffb361", color: "#fff", borderColor: "#ffb361" }}>
-              {currentPage}
-            </span>
-          </li>
-          <li className={`m-1 page-item ${currentPage === totalPages ? "disabled" : ""}`}>
-            <button
-              className="page-link"
-              style={{ backgroundColor: "#ffb361", color: "#fff", borderColor: "#ffb361" }}
-              onClick={() => handlePageChange(currentPage + 1)}
-            >
-              <i className="bi bi-chevron-right"></i>
-            </button>
-          </li>
-          <li className={`m-1 page-item ${currentPage === totalPages ? "disabled" : ""}`}>
-            <button
-              className="page-link"
-              style={{ backgroundColor: "#ffb361", color: "#fff", borderColor: "#ffb361" }}
-              onClick={() => handlePageChange(totalPages)}
-            >
-              <i className="bi bi-chevron-double-right"></i>
-            </button>
-          </li>
-        </ul>
-      </Card.Footer>
+      </div>
     </>
   )
 }

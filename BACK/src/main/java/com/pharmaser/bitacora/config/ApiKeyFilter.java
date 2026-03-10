@@ -26,28 +26,32 @@ public class ApiKeyFilter extends OncePerRequestFilter {
             @org.springframework.lang.NonNull FilterChain filterChain)
             throws ServletException, IOException {
 
-        // Permitir OPTIONS (CORS preflight) sin API Key
+        // Permitir OPTIONS (CORS preflight) sin validación
         if ("OPTIONS".equalsIgnoreCase(request.getMethod())) {
             filterChain.doFilter(request, response);
             return;
         }
 
-        // Permitir login sin API Key (o requerirla, depende. Mejor requerirla para todo
-        // excepto login público)
-        // Pero el plan dice "poner una api key a mis endpoint".
-        // Si el frontend llama a login, también debería enviar la API key.
-        // Vamos a asumir que TODO requiere API Key para proteger el backend
-        // completamente.
+        // Permitir endpoints públicos de autenticación
+        String requestUri = request.getRequestURI();
+        if ("/api/auth/login".equals(requestUri) || "/api/auth/setup".equals(requestUri)) {
+            filterChain.doFilter(request, response);
+            return;
+        }
 
+        // Si la petición trae un JWT Bearer token, dejarlo pasar al JwtRequestFilter
+        String authHeader = request.getHeader("Authorization");
+        if (authHeader != null && authHeader.startsWith("Bearer ")) {
+            filterChain.doFilter(request, response);
+            return;
+        }
+
+        // Sin JWT, verificar la API Key
         String requestApiKey = request.getHeader("x-api-key");
 
         if (apiKey != null && apiKey.equals(requestApiKey)) {
-            // Establecer una autenticación "dummy" validada por API Key para que Spring
-            // Security esté feliz
-            // si más adelante usamos .authenticated()
             Authentication auth = new UsernamePasswordAuthenticationToken("API_USER", null, Collections.emptyList());
             SecurityContextHolder.getContext().setAuthentication(auth);
-
             filterChain.doFilter(request, response);
         } else {
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);

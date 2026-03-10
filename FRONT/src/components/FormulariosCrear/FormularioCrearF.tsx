@@ -26,8 +26,6 @@ function FormularioCrearF({ handleClose }: { handleClose: () => void }) {
   const [ciudades, setCiudades] = useState<Ciudad[]>([]);
   const [proveedores, setProveedores] = useState<Proveedor[]>([]);
   const [canalesTransmision, setCanalesTransmision] = useState<CanalTransmision[]>([]);
-  const [isHovered, setIsHovered] = useState(false);
-  const [isHovered2, setIsHovered2] = useState(false);
 
 
   const [formData, setFormData] = useState({
@@ -112,7 +110,7 @@ function FormularioCrearF({ handleClose }: { handleClose: () => void }) {
 
     try {
       const response = await createFarmacia(formData);
-      console.log("Farmacia Creada:", response);
+
 
       Swal.fire({
         icon: 'success',
@@ -142,137 +140,154 @@ function FormularioCrearF({ handleClose }: { handleClose: () => void }) {
   };
 
   return (
-    <div className="p-4">
-      <form className="row g-3" onSubmit={handleSubmit}>
-        <div className="col-md-6">
-          <label htmlFor="nombre" className="form-label">Nombre*</label>
-          <input
-            type="text"
-            className="form-control"
-            id="nombre"
-            value={formData.nombre}
-            onChange={handleChange}
-          />
-        </div>
-        <div className="col-md-6">
-          <label htmlFor="coordenadas" className="form-label">Coordenadas*</label>
-          <input
-            type="text"
-            className="form-control"
-            id="coordenadas"
-            value={formData.coordenadas}
-            onChange={handleChange}
-          />
-        </div>
-        <div className="col-md-6">
-          <label htmlFor="cantidadEquipos" className="form-label">Cantidad Equipos</label>
-          <input
-            type="number"
-            className="form-control"
-            id="cantidadEquipos"
-            value={formData.cantidadEquipos}
-            onChange={handleChange}
-          />
-        </div>
-        <div className="col-md-12">
-          <label htmlFor="direccion" className="form-label">Dirección*</label>
-          <input
-            type="text"
-            className="form-control"
-            id="direccion"
-            value={formData.direccion}
-            onChange={handleChange}
-          />
-        </div>
-        <div className="col-md-6">
-          <label htmlFor="ciudad" className="form-label">Ciudad*</label>
-          <select
-            id="ciudad"
-            className="form-select"
-            value={formData.ciudad.id}
-            onChange={handleChange}
-          >
-            <option value="">Seleccione una ciudad</option>
-            {ciudades.map(ciudad => (
-              <option key={ciudad.id} value={ciudad.id}>
-                {ciudad.nombre_ciudad}
-              </option>
-            ))}
-          </select>
-        </div>
-        <div className="col-6">
-          <label htmlFor="proveedorInternet" className="form-label">Proveedor*</label>
-          <select
-            id="proveedorInternet"
-            className="form-select"
-            value={formData.proveedorInternet.id}
-            onChange={handleChange}
-          >
-            <option value="">Seleccione un proveedor</option>
-            {proveedores.map(proveedor => (
-              <option key={proveedor.id} value={proveedor.id}>
-                {proveedor.nombre}
-              </option>
-            ))}
-          </select>
-        </div>
-        <div className="col-6">
-          <label htmlFor="canalTransmision" className="form-label">Canal de Transmisión*</label>
-          <select
-            id="canalTransmision"
-            className="form-select"
-            value={formData.canalTransmision.id}
-            onChange={handleChange}
-          >
-            <option value="">Seleccione un canal</option>
-            {canalesTransmision.map(canal => (
-              <option key={canal.id} value={canal.id}>
-                {canal.nombre}
-              </option>
-            ))}
-          </select>
-        </div>
-        <div className="col-6">
-          <label htmlFor="pertenece" className="form-label">Pertenece*</label>
-          <select
-            id="pertenece"
-            className="form-select"
-            value={formData.pertenece}
-            onChange={handleChange}
-          >
-            <option value="">Seleccione una opción</option>
-            <option value="PHARMASER">PHARMASER</option>
-            <option value="CONSORCIO">CONSORCIO</option>
-          </select>
+    <div className="p-2 sm:p-4">
+      <form onSubmit={handleSubmit} className="space-y-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
+
+          <div className="flex flex-col space-y-1.5">
+            <label htmlFor="nombre" className="text-sm font-semibold text-gray-700">Nombre <span className="text-orange-500">*</span></label>
+            <input
+              type="text"
+              id="nombre"
+              value={formData.nombre}
+              onChange={handleChange}
+              required
+              placeholder="Nombre de la farmacia"
+              className="px-3 py-2 bg-white border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all placeholder-gray-400"
+            />
+          </div>
+
+          <div className="flex flex-col space-y-1.5">
+            <label htmlFor="coordenadas" className="text-sm font-semibold text-gray-700">Coordenadas <span className="text-orange-500">*</span></label>
+            <input
+              type="text"
+              id="coordenadas"
+              value={formData.coordenadas}
+              onChange={handleChange}
+              required
+              placeholder="Ej: 4.6097, -74.0817"
+              className="px-3 py-2 bg-white border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all placeholder-gray-400"
+            />
+          </div>
+
+          <div className="flex flex-col space-y-1.5 md:col-span-2">
+            <label htmlFor="direccion" className="text-sm font-semibold text-gray-700">Dirección <span className="text-orange-500">*</span></label>
+            <input
+              type="text"
+              id="direccion"
+              value={formData.direccion}
+              onChange={handleChange}
+              required
+              placeholder="Dirección completa"
+              className="px-3 py-2 bg-white border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all placeholder-gray-400"
+            />
+          </div>
+
+          <div className="flex flex-col space-y-1.5">
+            <label htmlFor="ciudad" className="text-sm font-semibold text-gray-700">Ciudad <span className="text-orange-500">*</span></label>
+            <div className="relative">
+              <select
+                id="ciudad"
+                value={formData.ciudad.id}
+                onChange={handleChange}
+                required
+                className="w-full px-3 py-2 bg-white border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all appearance-none cursor-pointer"
+              >
+                <option value="" disabled>Seleccione una ciudad...</option>
+                {ciudades.map(ciudad => (
+                  <option key={ciudad.id} value={ciudad.id}>
+                    {ciudad.nombre_ciudad}
+                  </option>
+                ))}
+              </select>
+              <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-500">
+                <i className="bi bi-chevron-down text-xs"></i>
+              </div>
+            </div>
+          </div>
+
+          <div className="flex flex-col space-y-1.5">
+            <label htmlFor="cantidadEquipos" className="text-sm font-semibold text-gray-700">Cantidad Equipos</label>
+            <input
+              type="number"
+              id="cantidadEquipos"
+              value={formData.cantidadEquipos}
+              onChange={handleChange}
+              placeholder="0"
+              className="px-3 py-2 bg-white border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all placeholder-gray-400"
+            />
+          </div>
+
+          <div className="flex flex-col space-y-1.5">
+            <label htmlFor="proveedorInternet" className="text-sm font-semibold text-gray-700">Proveedor de Internet <span className="text-orange-500">*</span></label>
+            <div className="relative">
+              <select
+                id="proveedorInternet"
+                value={formData.proveedorInternet.id}
+                onChange={handleChange}
+                required
+                className="w-full px-3 py-2 bg-white border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all appearance-none cursor-pointer"
+              >
+                <option value="" disabled>Seleccione un proveedor...</option>
+                {proveedores.map(proveedor => (
+                  <option key={proveedor.id} value={proveedor.id}>
+                    {proveedor.nombre}
+                  </option>
+                ))}
+              </select>
+              <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-500">
+                <i className="bi bi-chevron-down text-xs"></i>
+              </div>
+            </div>
+          </div>
+
+          <div className="flex flex-col space-y-1.5">
+            <label htmlFor="canalTransmision" className="text-sm font-semibold text-gray-700">Canal de Transmisión <span className="text-orange-500">*</span></label>
+            <div className="relative">
+              <select
+                id="canalTransmision"
+                value={formData.canalTransmision.id}
+                onChange={handleChange}
+                required
+                className="w-full px-3 py-2 bg-white border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all appearance-none cursor-pointer"
+              >
+                <option value="" disabled>Seleccione un canal...</option>
+                {canalesTransmision.map(canal => (
+                  <option key={canal.id} value={canal.id}>
+                    {canal.nombre}
+                  </option>
+                ))}
+              </select>
+              <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-500">
+                <i className="bi bi-chevron-down text-xs"></i>
+              </div>
+            </div>
+          </div>
+
+          <div className="flex flex-col space-y-1.5 md:col-span-2">
+            <label htmlFor="pertenece" className="text-sm font-semibold text-gray-700">Pertenece <span className="text-orange-500">*</span></label>
+            <div className="relative">
+              <select
+                id="pertenece"
+                value={formData.pertenece}
+                onChange={handleChange}
+                required
+                className="w-full px-3 py-2 bg-white border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all appearance-none cursor-pointer"
+              >
+                <option value="" disabled>Seleccione una opción...</option>
+                <option value="PHARMASER">PHARMASER</option>
+                <option value="CONSORCIO">CONSORCIO</option>
+              </select>
+              <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-500">
+                <i className="bi bi-chevron-down text-xs"></i>
+              </div>
+            </div>
+          </div>
         </div>
 
-        <div className="text-center">
+        <div className="flex flex-col sm:flex-row justify-end items-center gap-3 pt-6 mt-6 border-t border-gray-100">
           <button
-            style={{
-              backgroundColor: '#f6952c', borderColor: '#f6952c',
-              cursor: 'pointer',
-              background: isHovered2 ? '#ffff' : '#f6952c',
-
-              color: isHovered2 ? '#f6952c' : '#ffff',
-
-            }}
-            onClick={handleClose}
-            onMouseEnter={() => setIsHovered2(true)}
-            onMouseLeave={() => setIsHovered2(false)}
-            type="submit" className="btn btn-secondary me-4">
-            <i className="bi bi-floppy m-1" />GUARDAR
-          </button>
-          <button
-            style={{
-              backgroundColor: isHovered ? '#f6952c' : '#ffff',
-              color: isHovered ? '#fff' : '#f6952c',
-              borderColor: '#f6952c',
-              cursor: 'pointer'
-            }}
-            onMouseEnter={() => setIsHovered(true)}
-            onMouseLeave={() => setIsHovered(false)}
-            type="reset"
-            className="btn btn-outline-secondary"
+            type="button"
             onClick={() => setFormData({
               nombre: '',
               direccion: '',
@@ -284,8 +299,18 @@ function FormularioCrearF({ handleClose }: { handleClose: () => void }) {
               canalTransmision: { id: '' },
               cantidadEquipos: 0,
             })}
+            className="w-full sm:w-auto px-5 py-2.5 rounded-lg border border-gray-300 text-gray-700 bg-white hover:bg-gray-50 hover:text-gray-900 font-medium text-sm transition-all focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-200 flex items-center justify-center"
           >
-            <i className="bi bi-trash-fill m-1" />LIMPIAR
+            <i className="bi bi-trash-fill mr-2"></i>
+            Limpiar
+          </button>
+          <button
+            type="submit"
+            onClick={handleClose}
+            className="w-full sm:w-auto px-5 py-2.5 rounded-lg border border-transparent bg-orange-500 text-white hover:bg-orange-600 font-medium text-sm transition-all shadow-sm shadow-orange-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500 flex items-center justify-center"
+          >
+            <i className="bi bi-floppy mr-2"></i>
+            Guardar Farmacia
           </button>
         </div>
       </form>

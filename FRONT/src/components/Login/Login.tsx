@@ -16,7 +16,7 @@ const Login = () => {
 
     try {
       const user = await login(username, password); // Llamada a la función login del servicio authServices
-      if (user && user.role) {
+      if (user && user.roles) {
         Swal.fire({
           icon: 'success',
           title: 'Login exitoso',
@@ -24,7 +24,7 @@ const Login = () => {
           timer: 2000,
           showConfirmButton: false,
         });
-        navigate(user.role.id === 1 ? '/proveedores' : '/reportes');
+        navigate(user.roles.id === 1 ? '/proveedores' : '/reportes');
       } else {
         Swal.fire({
           icon: 'error',
@@ -43,72 +43,79 @@ const Login = () => {
   };
 
   return (
-    <div className="min-vh-100 bg-light d-flex align-items-center">
-      <div className="container">
-        <div className="row justify-content-center">
-          <div className="col-12 col-lg-10">
-            <div className="card shadow-lg">
-              <div className="row g-0">
-                <div className="col-lg-6 p-5">
-                  <div className="d-lg-none text-center mb-4">
-                    <img src={logoph} alt="Logo" className="img-fluid" style={{ maxWidth: '100px' }} />
-                  </div>
-                  <div className="d-none d-lg-block position-absolute top-50 start-50 translate-middle">
-                    <div className="bg-white p-3 rounded-circle shadow">
-                      <img src={logoph} alt="Logo" className="img-fluid" style={{ width: '50px' }} />
-                    </div>
-                  </div>
-                  <h2 className="fw-bold mb-4">Iniciar Sesión</h2>
-                  <h4 className="h6 fw-bold mb-2">Accede a tu cuenta</h4>
-                  <p className="text-muted small mb-4">
-                    Bienvenido de vuelta a <strong>nuestro sistema</strong>
-                  </p>
+    <div className="min-h-screen bg-gray-100 flex items-center justify-center p-4">
+      <div className="container mx-auto max-w-5xl">
+        <div className="bg-white rounded-2xl shadow-xl overflow-hidden flex flex-col lg:flex-row relative">
 
-                  <form onSubmit={handleSubmit}>
-                    <div className="mb-3">
-                      <input
-                        type="text"
-                        className="form-control form-control-lg"
-                        placeholder="Usuario"
-                        value={username}
-                        onChange={(e) => setUsername(e.target.value)}
-                        required
-                      />
-                    </div>
-                    <div className="mb-4">
-                      <input
-                        type="password"
-                        className="form-control form-control-lg"
-                        placeholder="Contraseña"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                        required
-                      />
-                    </div>
-                    <button type="submit" className="btn  btn-lg w-100" style={{ backgroundColor: '#f6952c', color: '#fff' }}>
-                      Iniciar Sesión
-                    </button>
-                  </form>
+          {/* Formulario (Izquierda) */}
+          <div className="w-full lg:w-1/2 p-8 lg:p-12 flex flex-col justify-center">
 
-                  <div className="position-relative my-4">
-                    <hr />
-                    <span className="position-absolute top-50 start-50 translate-middle px-3 bg-white text-muted">
-                      o
-                    </span>
-                  </div>
+            <div className="lg:hidden text-center mb-8">
+              <img src={logoph} alt="Logo" className="max-w-[100px] inline-block h-auto" />
+            </div>
 
-                  <p className="text-center text-muted small">
-                    Copyright © 2024 Todos los derechos reservados
-                  </p>
-                </div>
-                <div className="col-lg-6 bg-light">
-                  <div className="h-100 d-flex align-items-center justify-content-center">
-                    <img src={sistemas} className="img-fluid" alt="Sistema" />
-                  </div>
-                </div>
+            <h2 className="text-3xl font-bold mb-4 text-gray-800">Iniciar Sesión</h2>
+            <h4 className="text-lg font-bold mb-2 text-gray-700">Accede a tu cuenta</h4>
+            <p className="text-gray-500 text-sm mb-8">
+              Bienvenido de vuelta a <strong className="font-semibold text-gray-700">nuestro sistema</strong>
+            </p>
+
+            <form onSubmit={handleSubmit} className="space-y-6">
+              <div>
+                <input
+                  type="text"
+                  className="w-full px-4 py-3 rounded-lg bg-gray-50 border border-gray-200 focus:border-orange-500 focus:bg-white focus:ring-2 focus:ring-orange-200 outline-none transition-all"
+                  placeholder="Usuario"
+                  value={username}
+                  onChange={(e) => setUsername(e.target.value)}
+                  required
+                />
               </div>
+              <div>
+                <input
+                  type="password"
+                  className="w-full px-4 py-3 rounded-lg bg-gray-50 border border-gray-200 focus:border-orange-500 focus:bg-white focus:ring-2 focus:ring-orange-200 outline-none transition-all"
+                  placeholder="Contraseña"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  required
+                />
+              </div>
+              <button
+                type="submit"
+                className="w-full py-3 rounded-lg font-semibold text-white transition-colors duration-200 hover:bg-orange-600"
+                style={{ backgroundColor: '#f6952c' }}
+              >
+                Iniciar Sesión
+              </button>
+            </form>
+
+            <div className="relative my-8 text-center bg-transparent">
+              <div className="absolute inset-0 flex items-center">
+                <div className="w-full border-t border-gray-200"></div>
+              </div>
+              <span className="relative px-4 bg-white text-sm text-gray-500">
+                o
+              </span>
+            </div>
+
+            <p className="text-center text-gray-400 text-xs">
+              Copyright © 2024 Todos los derechos reservados
+            </p>
+          </div>
+
+          {/* Logo central (Escritorio) */}
+          <div className="hidden lg:block absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-10">
+            <div className="bg-white p-4 rounded-full shadow-lg">
+              <img src={logoph} alt="Logo" className="w-[60px] h-[60px] object-contain" />
             </div>
           </div>
+
+          {/* Imagen ilustrativa (Derecha) */}
+          <div className="w-full lg:w-1/2 bg-gray-50 hidden lg:flex items-center justify-center p-8">
+            <img src={sistemas} className="max-w-full h-auto object-contain drop-shadow-md hover:scale-105 transition-transform duration-500" alt="Sistema" />
+          </div>
+
         </div>
       </div>
     </div>

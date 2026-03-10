@@ -2,7 +2,6 @@
 
 import type React from "react"
 import { useState, useEffect } from "react"
-import { Row, Col, Form, Button, Spinner, Card, Alert } from "react-bootstrap"
 import Swal from "sweetalert2"
 import { getEnvioById, updateEnvio } from "../../servicios/EnvioModemService"
 
@@ -145,7 +144,7 @@ const FormularioEditarEnvio: React.FC<IFormularioEditarEnvioProps> = ({ envioId,
         estado_envio: envio.estado_envio,
       }
 
-      console.log("Enviando datos:", envioData)
+
 
       await updateEnvio(envioId, envioData)
 
@@ -171,300 +170,270 @@ const FormularioEditarEnvio: React.FC<IFormularioEditarEnvioProps> = ({ envioId,
 
   if (loading) {
     return (
-      <div className="d-flex justify-content-center align-items-center" style={{ minHeight: "200px" }}>
-        <Spinner animation="border" role="status">
-          <span className="visually-hidden">Cargando...</span>
-        </Spinner>
+      <div className="flex justify-center items-center min-h-[200px]">
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-orange-500"></div>
+        <span className="sr-only">Cargando...</span>
       </div>
     )
   }
 
   if (error) {
     return (
-      <div className="alert alert-danger" role="alert">
+      <div className="p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 border border-red-200" role="alert">
         {error}
       </div>
     )
   }
 
   return (
-    <div className="p-4">
-      <Form onSubmit={handleSubmit}>
+    <div className="p-4 bg-white rounded-lg text-gray-800">
+      <form onSubmit={handleSubmit}>
         {/* Información del envío */}
-        <Row className="mb-4">
-          <Col md={6}>
-            <Form.Group className="mb-3">
-              <Form.Label>
-                <i className="bi bi-calendar me-2"></i>
-                Fecha de Envío*
-              </Form.Label>
-              <Form.Control
-                type="date"
-                name="fecha_envio"
-                value={envio.fecha_envio}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+          <div className="mb-3">
+            <label className="block text-sm font-medium text-gray-700 mb-1 flex items-center">
+              <i className="bi bi-calendar mr-2 text-orange-500"></i>
+              Fecha de Envío*
+            </label>
+            <input
+              type="date"
+              name="fecha_envio"
+              value={envio.fecha_envio}
+              onChange={handleInputChange}
+              required
+              className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-orange-500 focus:border-orange-500"
+            />
+          </div>
+          <div className="mb-3">
+            <label className="block text-sm font-medium text-gray-700 mb-1 flex items-center">
+              <i className="bi bi-currency-dollar mr-2 text-orange-500"></i>
+              Costo de Envío*
+            </label>
+            <div className="relative rounded-md shadow-sm">
+              <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                <span className="text-gray-500 sm:text-sm">$</span>
+              </div>
+              <input
+                type="number"
+                name="costo_envio"
+                value={envio.costo_envio}
                 onChange={handleInputChange}
                 required
+                min="0"
+                step="0.01"
+                placeholder="0.00"
+                className="w-full pl-7 pr-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-orange-500 focus:border-orange-500"
               />
-            </Form.Group>
-          </Col>
-          <Col md={6}>
-            <Form.Group className="mb-3">
-              <Form.Label>
-                <i className="bi bi-currency-dollar me-2"></i>
-                Costo de Envío*
-              </Form.Label>
-              <div className="input-group">
-                <div className="input-group-text">$</div>
-                <Form.Control
-                  type="number"
-                  name="costo_envio"
-                  value={envio.costo_envio}
-                  onChange={handleInputChange}
-                  required
-                  min="0"
-                  step="0.01"
-                  placeholder="0.00"
-                />
-              </div>
-            </Form.Group>
-          </Col>
-          <Col md={12}>
-            <Form.Group className="mb-3">
-              <Form.Label>
-                <i className="bi bi-truck me-2"></i>
-                Estado del Envío*
-              </Form.Label>
-              <Form.Select name="estado_envio" value={envio.estado_envio} onChange={handleInputChange} required>
-                <option value="">Seleccione un estado...</option>
-                <option value="PENDIENTE">PENDIENTE</option>
-                <option value="EN CAMINO">EN CAMINO</option>
-                <option value="ENTREGADO">ENTREGADO</option>
-                <option value="DEVUELTO">DEVUELTO</option>
-                <option value="CANCELADO">CANCELADO</option>
-              </Form.Select>
-            </Form.Group>
-          </Col>
-        </Row>
+            </div>
+          </div>
+          <div className="md:col-span-2 mb-3">
+            <label className="block text-sm font-medium text-gray-700 mb-1 flex items-center">
+              <i className="bi bi-truck mr-2 text-orange-500"></i>
+              Estado del Envío*
+            </label>
+            <select
+              name="estado_envio"
+              value={envio.estado_envio}
+              onChange={handleInputChange}
+              required
+              className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-orange-500 focus:border-orange-500 bg-white"
+            >
+              <option value="">Seleccione un estado...</option>
+              <option value="PENDIENTE">PENDIENTE</option>
+              <option value="EN CAMINO">EN CAMINO</option>
+              <option value="ENTREGADO">ENTREGADO</option>
+              <option value="DEVUELTO">DEVUELTO</option>
+              <option value="CANCELADO">CANCELADO</option>
+            </select>
+          </div>
+        </div>
 
         {/* Información de la farmacia destino */}
-        <Card className="mb-4">
-          <Card.Header>
-            <h6 className="mb-0">
-              <i className="bi bi-building me-2"></i>
+        <div className="mb-6 bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+          <div className="px-5 py-3 border-b border-gray-100 bg-gray-50">
+            <h6 className="m-0 font-semibold text-gray-800 flex items-center">
+              <i className="bi bi-building mr-2 text-orange-500"></i>
               Farmacia Destino
             </h6>
-          </Card.Header>
-          <Card.Body>
-            <Row>
-              <Col md={6}>
-                <Form.Group className="mb-3">
-                  <Form.Label>Nombre</Form.Label>
-                  <Form.Control
-                    type="text"
-                    value={envio.farmacia?.nombre || ""}
-                    disabled
-                    readOnly
-                    className="bg-light"
-                  />
-                </Form.Group>
-              </Col>
-              <Col md={6}>
-                <Form.Group className="mb-3">
-                  <Form.Label>Ciudad</Form.Label>
-                  <Form.Control
-                    type="text"
-                    value={envio.farmacia?.ciudad?.nombre_ciudad || ""}
-                    disabled
-                    readOnly
-                    className="bg-light"
-                  />
-                </Form.Group>
-              </Col>
-              <Col md={12}>
-                <Form.Group className="mb-3">
-                  <Form.Label>Dirección</Form.Label>
-                  <Form.Control
-                    type="text"
-                    value={envio.farmacia?.direccion || ""}
-                    disabled
-                    readOnly
-                    className="bg-light"
-                  />
-                </Form.Group>
-              </Col>
-            </Row>
-          </Card.Body>
-        </Card>
+          </div>
+          <div className="p-5">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="mb-2">
+                <label className="block text-sm font-medium text-gray-700 mb-1">Nombre</label>
+                <input
+                  type="text"
+                  value={envio.farmacia?.nombre || ""}
+                  disabled
+                  readOnly
+                  className="w-full px-3 py-2 border border-gray-200 rounded-md shadow-sm bg-gray-100 text-gray-500"
+                />
+              </div>
+              <div className="mb-2">
+                <label className="block text-sm font-medium text-gray-700 mb-1">Ciudad</label>
+                <input
+                  type="text"
+                  value={envio.farmacia?.ciudad?.nombre_ciudad || ""}
+                  disabled
+                  readOnly
+                  className="w-full px-3 py-2 border border-gray-200 rounded-md shadow-sm bg-gray-100 text-gray-500"
+                />
+              </div>
+              <div className="md:col-span-2 mb-2">
+                <label className="block text-sm font-medium text-gray-700 mb-1">Dirección</label>
+                <input
+                  type="text"
+                  value={envio.farmacia?.direccion || ""}
+                  disabled
+                  readOnly
+                  className="w-full px-3 py-2 border border-gray-200 rounded-md shadow-sm bg-gray-100 text-gray-500"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
 
         {/* Información del módem principal */}
-        <Card className="mb-4">
-          <Card.Header>
-            <h6 className="mb-0">
-              <i className="bi bi-router me-2"></i>
+        <div className="mb-6 bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+          <div className="px-5 py-3 border-b border-gray-100 bg-gray-50">
+            <h6 className="m-0 font-semibold text-gray-800 flex items-center">
+              <i className="bi bi-router mr-2 text-orange-500"></i>
               Módem Principal
             </h6>
-          </Card.Header>
-          <Card.Body>
-            <Row>
-              <Col md={4}>
-                <Form.Group className="mb-3">
-                  <Form.Label>Marca</Form.Label>
-                  <Form.Control
-                    type="text"
-                    value={envio.modemPrincipal?.marca || ""}
-                    disabled
-                    readOnly
-                    className="bg-light"
-                  />
-                </Form.Group>
-              </Col>
-              <Col md={4}>
-                <Form.Group className="mb-3">
-                  <Form.Label>Modelo</Form.Label>
-                  <Form.Control
-                    type="text"
-                    value={envio.modemPrincipal?.modelo || ""}
-                    disabled
-                    readOnly
-                    className="bg-light"
-                  />
-                </Form.Group>
-              </Col>
-              <Col md={4}>
-                <Form.Group className="mb-3">
-                  <Form.Label>Número de Serie</Form.Label>
-                  <Form.Control
-                    type="text"
-                    value={envio.modemPrincipal?.numero_serie || ""}
-                    disabled
-                    readOnly
-                    className="bg-light"
-                  />
-                </Form.Group>
-              </Col>
-            </Row>
-          </Card.Body>
-        </Card>
+          </div>
+          <div className="p-5">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <div className="mb-2">
+                <label className="block text-sm font-medium text-gray-700 mb-1">Marca</label>
+                <input
+                  type="text"
+                  value={envio.modemPrincipal?.marca || ""}
+                  disabled
+                  readOnly
+                  className="w-full px-3 py-2 border border-gray-200 rounded-md shadow-sm bg-gray-100 text-gray-500"
+                />
+              </div>
+              <div className="mb-2">
+                <label className="block text-sm font-medium text-gray-700 mb-1">Modelo</label>
+                <input
+                  type="text"
+                  value={envio.modemPrincipal?.modelo || ""}
+                  disabled
+                  readOnly
+                  className="w-full px-3 py-2 border border-gray-200 rounded-md shadow-sm bg-gray-100 text-gray-500"
+                />
+              </div>
+              <div className="mb-2">
+                <label className="block text-sm font-medium text-gray-700 mb-1">Número de Serie</label>
+                <input
+                  type="text"
+                  value={envio.modemPrincipal?.numero_serie || ""}
+                  disabled
+                  readOnly
+                  className="w-full px-3 py-2 border border-gray-200 rounded-md shadow-sm bg-gray-100 text-gray-500"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
 
         {/* Información del módem secundario si existe */}
         {envio.modemSecundario && (
-          <Card className="mb-4">
-            <Card.Header>
-              <h6 className="mb-0">
-                <i className="bi bi-router me-2"></i>
+          <div className="mb-6 bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+            <div className="px-5 py-3 border-b border-gray-100 bg-gray-50">
+              <h6 className="m-0 font-semibold text-gray-800 flex items-center">
+                <i className="bi bi-router mr-2 text-gray-400"></i>
                 Módem Secundario
               </h6>
-            </Card.Header>
-            <Card.Body>
-              <Row>
-                <Col md={4}>
-                  <Form.Group className="mb-3">
-                    <Form.Label>Marca</Form.Label>
-                    <Form.Control
-                      type="text"
-                      value={envio.modemSecundario?.marca || ""}
-                      disabled
-                      readOnly
-                      className="bg-light"
-                    />
-                  </Form.Group>
-                </Col>
-                <Col md={4}>
-                  <Form.Group className="mb-3">
-                    <Form.Label>Modelo</Form.Label>
-                    <Form.Control
-                      type="text"
-                      value={envio.modemSecundario?.modelo || ""}
-                      disabled
-                      readOnly
-                      className="bg-light"
-                    />
-                  </Form.Group>
-                </Col>
-                <Col md={4}>
-                  <Form.Group className="mb-3">
-                    <Form.Label>Número de Serie</Form.Label>
-                    <Form.Control
-                      type="text"
-                      value={envio.modemSecundario?.numero_serie || ""}
-                      disabled
-                      readOnly
-                      className="bg-light"
-                    />
-                  </Form.Group>
-                </Col>
-              </Row>
-            </Card.Body>
-          </Card>
+            </div>
+            <div className="p-5">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div className="mb-2">
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Marca</label>
+                  <input
+                    type="text"
+                    value={envio.modemSecundario?.marca || ""}
+                    disabled
+                    readOnly
+                    className="w-full px-3 py-2 border border-gray-200 rounded-md shadow-sm bg-gray-100 text-gray-500"
+                  />
+                </div>
+                <div className="mb-2">
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Modelo</label>
+                  <input
+                    type="text"
+                    value={envio.modemSecundario?.modelo || ""}
+                    disabled
+                    readOnly
+                    className="w-full px-3 py-2 border border-gray-200 rounded-md shadow-sm bg-gray-100 text-gray-500"
+                  />
+                </div>
+                <div className="mb-2">
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Número de Serie</label>
+                  <input
+                    type="text"
+                    value={envio.modemSecundario?.numero_serie || ""}
+                    disabled
+                    readOnly
+                    className="w-full px-3 py-2 border border-gray-200 rounded-md shadow-sm bg-gray-100 text-gray-500"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
         )}
 
         {/* Resumen del envío */}
-        <Alert variant="info" className="mb-4">
-          <Alert.Heading>
-            <i className="bi bi-info-circle me-2"></i>
+        <div className="mb-6 p-4 rounded-lg bg-blue-50 border border-blue-100 text-blue-800">
+          <h4 className="flex items-center text-lg font-medium mb-3 text-blue-900">
+            <i className="bi bi-info-circle mr-2"></i>
             Resumen del Envío
-          </Alert.Heading>
+          </h4>
           <p className="mb-2">
-            <strong>ID del Envío:</strong> {envio.id}
+            <strong className="font-semibold">ID del Envío:</strong> {envio.id}
           </p>
           <p className="mb-2">
-            <strong>Destino:</strong> {envio.farmacia?.nombre} - {envio.farmacia?.ciudad?.nombre_ciudad}
+            <strong className="font-semibold">Destino:</strong> {envio.farmacia?.nombre} - {envio.farmacia?.ciudad?.nombre_ciudad}
           </p>
           <p className="mb-2">
-            <strong>Módem(s):</strong> {envio.modemPrincipal?.marca} {envio.modemPrincipal?.modelo}
+            <strong className="font-semibold">Módem(s):</strong> {envio.modemPrincipal?.marca} {envio.modemPrincipal?.modelo}
             {envio.modemSecundario && ` + ${envio.modemSecundario?.marca} ${envio.modemSecundario?.modelo}`}
           </p>
           <p className="mb-0">
-            <strong>Costo Total:</strong> ${envio.costo_envio?.toLocaleString("es-CO")}
+            <strong className="font-semibold">Costo Total:</strong> ${envio.costo_envio?.toLocaleString("es-CO")}
           </p>
-        </Alert>
+        </div>
 
-        <div className="text-center mt-4">
-          <Button
-            style={{
-              backgroundColor: "#f6952c",
-              borderColor: "#f6952c",
-              cursor: "pointer",
-              background: isHovered2 ? "#ffff" : "#f6952c",
-              color: isHovered2 ? "#f6952c" : "#ffff",
-            }}
-            onMouseEnter={() => setIsHovered2(true)}
-            onMouseLeave={() => setIsHovered2(false)}
+        <div className="flex justify-center gap-3 mt-6">
+          <button
             type="submit"
-            variant="secondary"
-            className="me-2"
             disabled={loading}
+            className={`flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white transition-colors
+              ${loading ? 'bg-orange-400 cursor-not-allowed' : 'bg-orange-500 hover:bg-orange-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500'}
+            `}
           >
             {loading ? (
               <>
-                <Spinner as="span" animation="border" size="sm" role="status" aria-hidden="true" className="me-2" />
+                <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
                 Actualizando...
               </>
             ) : (
               <>
-                <i className="bi bi-check-circle me-2"></i>
+                <i className="bi bi-check-circle mr-2"></i>
                 Actualizar Envío
               </>
             )}
-          </Button>
-          <Button
-            style={{
-              backgroundColor: isHovered ? "#f6952c" : "#ffff",
-              color: isHovered ? "#fff" : "#f6952c",
-              borderColor: "#f6952c",
-              cursor: "pointer",
-            }}
-            onMouseEnter={() => setIsHovered(true)}
-            onMouseLeave={() => setIsHovered(false)}
+          </button>
+          <button
             type="button"
             onClick={onClose}
             disabled={loading}
+            className="flex items-center justify-center px-4 py-2 border border-orange-500 text-orange-500 rounded-md shadow-sm text-sm font-medium hover:bg-orange-50 transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500"
           >
-            <i className="bi bi-x-circle me-2"></i>
+            <i className="bi bi-x-circle mr-2"></i>
             Cancelar
-          </Button>
+          </button>
         </div>
-      </Form>
+      </form>
     </div>
   )
 }

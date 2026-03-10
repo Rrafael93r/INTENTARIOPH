@@ -2,7 +2,6 @@
 
 import type React from "react"
 import { useState, useEffect } from "react"
-import { Row, Col, Form, Button, Spinner } from "react-bootstrap"
 import Swal from "sweetalert2"
 import { getProveedorInternetById, updateProveedorInternet } from "../../servicios/ProveedoresService"
 
@@ -26,8 +25,6 @@ const FormularioEditarP: React.FC<IFormularioEditarPProps> = ({ proveedorId, onC
     observacion: "",
   })
   const [error, setError] = useState<string | null>(null)
-  const [isHovered, setIsHovered] = useState(false)
-  const [isHovered2, setIsHovered2] = useState(false)
 
   // Función para formatear fecha
   const formatearFecha = (fechaISO: string | null | undefined): string => {
@@ -122,8 +119,6 @@ const FormularioEditarP: React.FC<IFormularioEditarPProps> = ({ proveedorId, onC
       return
     }
 
-
-    
     try {
       setLoading(true)
 
@@ -143,8 +138,6 @@ const FormularioEditarP: React.FC<IFormularioEditarPProps> = ({ proveedorId, onC
         nit: Number(proveedor.nit),
         numero_contacto: Number(proveedor.numero_contacto),
       }
-
-      console.log("Enviando datos:", proveedorData)
 
       await updateProveedorInternet(proveedorId, proveedorData)
 
@@ -170,177 +163,163 @@ const FormularioEditarP: React.FC<IFormularioEditarPProps> = ({ proveedorId, onC
 
   if (loading) {
     return (
-      <div className="d-flex justify-content-center align-items-center" style={{ minHeight: "200px" }}>
-        <Spinner animation="border" role="status">
-          <span className="visually-hidden">Cargando...</span>
-        </Spinner>
+      <div className="flex justify-center items-center min-h-[200px]">
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-orange-500"></div>
       </div>
     )
   }
 
   if (error) {
     return (
-      <div className="alert alert-danger" role="alert">
+      <div className="bg-red-50 text-red-700 p-4 rounded-lg border border-red-200" role="alert">
         {error}
       </div>
     )
   }
 
   return (
-    <div className="p-4">
-      <Form onSubmit={handleSubmit}>
-        <Row className="mb-4">
-          <Col md={6}>
-            <Form.Group className="mb-3">
-              <Form.Label>Nombre*</Form.Label>
-              <Form.Control
-                type="text"
-                name="nombre"
-                value={proveedor.nombre}
-                onChange={handleInputChange}
-                required
-                placeholder="Nombre del proveedor"
-              />
-            </Form.Group>
-          </Col>
-          <Col md={6}>
-            <Form.Group className="mb-3">
-              <Form.Label>NIT*</Form.Label>
-              <Form.Control
-                type="number"
-                name="nit"
-                value={proveedor.nit}
-                onChange={handleInputChange}
-                required
-                min="0"
-                max="99999999999"
-                placeholder="Número de identificación tributaria"
-              />
-            </Form.Group>
-          </Col>
-          <Col md={12}>
-            <Form.Group className="mb-3">
-              <Form.Label>Nombre de la persona encargada*</Form.Label>
-              <Form.Control
-                type="text"
-                name="nombre_contacto"
-                value={proveedor.nombre_contacto}
-                onChange={handleInputChange}
-                required
-                placeholder="Nombre del contacto principal"
-              />
-            </Form.Group>
-          </Col>
-          <Col md={6}>
-            <Form.Group className="mb-3">
-              <Form.Label>Número de contacto*</Form.Label>
-              <Form.Control
-                type="number"
-                name="numero_contacto"
-                value={proveedor.numero_contacto}
-                onChange={handleInputChange}
-                required
-                min="0"
-                max="99999999999"
-                placeholder="+57"
-              />
-            </Form.Group>
-          </Col>
-          <Col md={6}>
-            <Form.Group className="mb-3">
-              <Form.Label>Correo*</Form.Label>
-              <Form.Control
-                type="email"
-                name="correo"
-                value={proveedor.correo}
-                onChange={handleInputChange}
-                required
-                placeholder="ejemplo@gmail.com"
-              />
-            </Form.Group>
-          </Col>
-          <Col md={6}>
-            <Form.Group className="mb-3">
-              <Form.Label>Estado*</Form.Label>
-              <Form.Select name="estado" value={proveedor.estado} onChange={handleInputChange} required>
-                <option value="">Seleccione un estado</option>
-                <option value="ACTIVO">ACTIVO</option>
-                <option value="NO ACTIVO">NO ACTIVO</option>
-              </Form.Select>
-            </Form.Group>
-          </Col>
-          <Col md={6}>
-            <Form.Group className="mb-3">
-              <Form.Label>Fecha de contratación</Form.Label>
-              <Form.Control
-                type="date"
-                name="fecha_contratacion"
-                value={proveedor.fecha_contratacion}
-                onChange={handleInputChange}
-              />
-            </Form.Group>
-          </Col>
-          <Col md={12}>
-            <Form.Group className="mb-4">
-              <Form.Label>Observaciones</Form.Label>
-              <Form.Control
-                as="textarea"
-                rows={3}
-                name="observacion"
-                value={proveedor.observacion}
-                onChange={handleInputChange}
-                placeholder="Observaciones adicionales..."
-              />
-            </Form.Group>
-          </Col>
-        </Row>
+    <div className="p-4 bg-white rounded-lg">
+      <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div className="md:col-span-2 text-sm text-gray-500 mb-2">
+          <strong>ID G-TIC:</strong> {proveedor.id}
+        </div>
 
-        <div className="text-center mt-4">
-          <Button
-            style={{
-              backgroundColor: "#f6952c",
-              borderColor: "#f6952c",
-              cursor: "pointer",
-              background: isHovered2 ? "#ffff" : "#f6952c",
-              color: isHovered2 ? "#f6952c" : "#ffff",
-            }}
-            onMouseEnter={() => setIsHovered2(true)}
-            onMouseLeave={() => setIsHovered2(false)}
+        <div className="md:col-span-1">
+          <label className="block text-sm font-medium text-gray-700 mb-1">Nombre*</label>
+          <input
+            type="text"
+            name="nombre"
+            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-colors"
+            value={proveedor.nombre}
+            onChange={handleInputChange}
+            required
+            placeholder="Nombre del proveedor"
+          />
+        </div>
+
+        <div className="md:col-span-1">
+          <label className="block text-sm font-medium text-gray-700 mb-1">NIT*</label>
+          <input
+            type="number"
+            name="nit"
+            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-colors"
+            value={proveedor.nit}
+            onChange={handleInputChange}
+            required
+            min="0"
+            max="99999999999"
+            placeholder="Número de identificación tributaria"
+          />
+        </div>
+
+        <div className="md:col-span-2">
+          <label className="block text-sm font-medium text-gray-700 mb-1">Nombre de la persona encargada*</label>
+          <input
+            type="text"
+            name="nombre_contacto"
+            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-colors"
+            value={proveedor.nombre_contacto}
+            onChange={handleInputChange}
+            required
+            placeholder="Nombre del contacto principal"
+          />
+        </div>
+
+        <div className="md:col-span-1">
+          <label className="block text-sm font-medium text-gray-700 mb-1">Número de contacto*</label>
+          <input
+            type="number"
+            name="numero_contacto"
+            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-colors"
+            value={proveedor.numero_contacto}
+            onChange={handleInputChange}
+            required
+            min="0"
+            max="99999999999"
+            placeholder="+57"
+          />
+        </div>
+
+        <div className="md:col-span-1">
+          <label className="block text-sm font-medium text-gray-700 mb-1">Correo*</label>
+          <input
+            type="email"
+            name="correo"
+            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-colors"
+            value={proveedor.correo}
+            onChange={handleInputChange}
+            required
+            placeholder="ejemplo@gmail.com"
+          />
+        </div>
+
+        <div className="md:col-span-1">
+          <label className="block text-sm font-medium text-gray-700 mb-1">Estado*</label>
+          <select
+            name="estado"
+            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-colors"
+            value={proveedor.estado}
+            onChange={handleInputChange}
+            required
+          >
+            <option value="">Seleccione un estado</option>
+            <option value="ACTIVO">ACTIVO</option>
+            <option value="NO ACTIVO">NO ACTIVO</option>
+          </select>
+        </div>
+
+        <div className="md:col-span-1">
+          <label className="block text-sm font-medium text-gray-700 mb-1">Fecha de contratación</label>
+          <input
+            type="date"
+            name="fecha_contratacion"
+            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-colors"
+            value={proveedor.fecha_contratacion}
+            onChange={handleInputChange}
+          />
+        </div>
+
+        <div className="md:col-span-2">
+          <label className="block text-sm font-medium text-gray-700 mb-1">Observaciones</label>
+          <textarea
+            name="observacion"
+            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-colors"
+            rows={3}
+            value={proveedor.observacion}
+            onChange={handleInputChange}
+            placeholder="Observaciones adicionales..."
+          />
+        </div>
+
+        <div className="md:col-span-2 flex justify-center gap-4 mt-4">
+          <button
             type="submit"
-            variant="secondary"
-            className="me-2"
+            className="flex items-center justify-center px-6 py-2.5 bg-orange-500 text-white font-medium rounded-lg hover:bg-orange-600 focus:ring-4 focus:ring-orange-300 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
             disabled={loading}
           >
             {loading ? (
               <>
-                <Spinner as="span" animation="border" size="sm" role="status" aria-hidden="true" className="me-2" />
+                <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
                 Actualizando...
               </>
             ) : (
               <>
-                <i className="bi bi-check-circle me-2"></i>
+                <i className="bi bi-check-circle mr-2"></i>
                 Actualizar Proveedor
               </>
             )}
-          </Button>
-          <Button
-            style={{
-              backgroundColor: isHovered ? "#f6952c" : "#ffff",
-              color: isHovered ? "#fff" : "#f6952c",
-              borderColor: "#f6952c",
-              cursor: "pointer",
-            }}
-            onMouseEnter={() => setIsHovered(true)}
-            onMouseLeave={() => setIsHovered(false)}
+          </button>
+          <button
             type="button"
+            className="flex items-center justify-center px-6 py-2.5 border-2 border-orange-500 text-orange-500 font-medium rounded-lg hover:bg-orange-50 focus:ring-4 focus:ring-orange-200 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
             onClick={onClose}
             disabled={loading}
           >
-            <i className="bi bi-x-circle me-2"></i>
+            <i className="bi bi-x-circle mr-2"></i>
             Cancelar
-          </Button>
+          </button>
         </div>
-      </Form>
+      </form>
     </div>
   )
 }

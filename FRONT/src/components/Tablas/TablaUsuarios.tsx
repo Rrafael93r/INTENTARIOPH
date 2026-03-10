@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { FormControl, Card, Modal, Button } from 'react-bootstrap';
 import Swal from 'sweetalert2';
 import { getAllUsers, updateUser } from '../../servicios/usuarioService';
 import FormularioCrearUsuario from '../FormulariosCrear/FormularioCrearUsuario';
@@ -51,7 +50,7 @@ const TablaUsuarios: React.FC = () => {
         return (
             (!filterUsername || (item.username || '').toLowerCase().includes(normalizedFilterUsername)) &&
             (!filterFarmacia || (item.farmacia ? item.farmacia.nombre : '').toLowerCase().includes(normalizedFilterFarmacia)) &&
-            (!filterRole || (item.role ? item.role.name : '').toLowerCase().includes(normalizedFilterRole))
+            (!filterRole || (item.roles ? item.roles.name : '').toLowerCase().includes(normalizedFilterRole))
         );
     });
 
@@ -76,7 +75,7 @@ const TablaUsuarios: React.FC = () => {
                     ...item,
                     status: !item.status,
                     farmacia: item.farmacia ? { id: item.farmacia.id } : null, // Flatten for backend if needed
-                    role: { id: item.role.id }, // Flatten
+                    roles: { id: item.roles?.id }, // Flatten
                     // Watch out for password. If backend requires it, this might fail.
                     // Ideally backend handles 'password': null or ignore if empty string.
                 };
@@ -109,162 +108,262 @@ const TablaUsuarios: React.FC = () => {
         setFilterRole('');
     };
 
-    if (loading) return <div>Cargando...</div>;
-    if (error) return <div>{error}</div>;
+    if (loading) {
+        return (
+            <div className="flex justify-center items-center min-h-[400px]">
+                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-orange-500"></div>
+            </div>
+        );
+    }
+
+    if (error) {
+        return (
+            <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg relative" role="alert">
+                <span className="block sm:inline">{error}</span>
+            </div>
+        );
+    }
 
     return (
         <>
-            <Modal show={showModal} onHide={handleClose} centered size="lg">
-                <Modal.Header closeButton>
-                    <Modal.Title>Nuevo Usuario</Modal.Title>
-                </Modal.Header>
-                <Modal.Body>
-                    <FormularioCrearUsuario handleClose={() => { handleClose(); loadItems(); }} />
-                </Modal.Body>
-            </Modal>
+            {/* Modal para Nuevo Usuario */}
+            {showModal && (
+                <div className="fixed inset-0 z-50 overflow-y-auto">
+                    <div className="flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:p-0">
+                        <div className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" onClick={handleClose}></div>
+                        <div className="inline-block align-bottom bg-white rounded-xl text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-4xl sm:w-full">
+                            <div className="bg-white px-6 py-4 border-b border-gray-100 flex justify-between items-center">
+                                <h3 className="text-lg leading-6 font-semibold text-gray-800 flex items-center">
+                                    <i className="bi bi-person-plus mr-2 text-orange-500"></i> Nuevo Usuario
+                                </h3>
+                                <button onClick={handleClose} className="text-gray-400 hover:text-gray-500 focus:outline-none transition-colors">
+                                    <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" /></svg>
+                                </button>
+                            </div>
+                            <div className="px-6 py-5 sm:p-6 bg-gray-50">
+                                <FormularioCrearUsuario handleClose={() => { handleClose(); loadItems(); }} />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            )}
 
-            <div className="d-flex align-items-center" style={{ color: 'black' }}>
-                <div className="pagetitle">
-                    <h1>Usuarios</h1>
-                    <nav>
-                        <ol className="breadcrumb">
-                            <li className="breadcrumb-item">Administración</li>
-                            <li className="breadcrumb-item active">Usuarios</li>
+            {/* Modal para Editar Usuario */}
+            {showModal2 && (
+                <div className="fixed inset-0 z-50 overflow-y-auto">
+                    <div className="flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:p-0">
+                        <div className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" onClick={handleClose2}></div>
+                        <div className="inline-block align-bottom bg-white rounded-xl text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-4xl sm:w-full">
+                            <div className="bg-white px-6 py-4 border-b border-gray-100 flex justify-between items-center">
+                                <h3 className="text-lg leading-6 font-semibold text-gray-800 flex items-center">
+                                    <i className="bi bi-pencil-square mr-2 text-orange-500"></i> Editar Usuario
+                                </h3>
+                                <button onClick={handleClose2} className="text-gray-400 hover:text-gray-500 focus:outline-none transition-colors">
+                                    <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" /></svg>
+                                </button>
+                            </div>
+                            <div className="px-6 py-5 sm:p-6 bg-gray-50">
+                                {selectedId && (
+                                    <FormularioEditarUsuario
+                                        id={selectedId}
+                                        handleClose={handleClose2}
+                                        onSuccess={loadItems}
+                                    />
+                                )}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            )}
+
+            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 text-gray-800 gap-4">
+                <div>
+                    <h1 className="text-2xl font-bold m-0 text-gray-900">Usuarios</h1>
+                    <nav className="text-sm text-gray-500 mt-1">
+                        <ol className="list-none p-0 inline-flex">
+                            <li className="flex items-center">Administración <span className="mx-2 text-gray-300">/</span></li>
+                            <li className="font-medium text-gray-700">Usuarios</li>
                         </ol>
                     </nav>
                 </div>
-                <div className="ms-auto">
-                    <Button
+                <div className="flex gap-3 w-full sm:w-auto">
+                    <button
                         onClick={handleShow}
-                        className="btn" style={{ backgroundColor: '#f6952c', borderColor: '#f6952c' }}>
-                        <i className="bi bi-plus-circle-fill me-2"></i> Agregar Usuario
-                    </Button>
+                        className="flex-1 sm:flex-none flex justify-center items-center px-4 py-2 bg-orange-500 hover:bg-orange-600 text-white rounded-lg transition-colors font-medium text-sm shadow-sm"
+                    >
+                        <i className="bi bi-plus-circle-fill mr-2"></i> Agregar Usuario
+                    </button>
                 </div>
             </div>
 
-            <div className='p-2' style={{ backgroundColor: '#ffff' }}>
-                <div className="table-responsive">
-                    <table className="table table-hover">
-                        <thead>
+            <div className="bg-white rounded-t-xl border border-gray-200 overflow-hidden shadow-sm">
+                <div className="overflow-x-auto max-h-[60vh] custom-scrollbar">
+                    <table className="w-full text-left border-collapse whitespace-nowrap">
+                        <thead className="bg-gray-50 sticky top-0 z-10">
                             <tr>
-                                <th>ID</th>
-                                <th>
-                                    <FormControl
-                                        size="sm"
+                                <th className="p-3 text-xs font-semibold text-gray-600 uppercase tracking-wider border-b border-gray-200 align-top">
+                                    <div className="flex items-center h-full pt-[38px]">ID</div>
+                                </th>
+                                <th className="p-3 text-xs font-semibold text-gray-600 uppercase tracking-wider border-b border-gray-200 align-top min-w-[200px]">
+                                    <input
                                         type="text"
+                                        className="w-full px-2 py-1.5 mb-2 text-sm border border-gray-300 rounded focus:outline-none focus:border-orange-500 focus:ring-1 focus:ring-orange-500 font-normal normal-case bg-white"
                                         placeholder="Filtrar Username"
                                         value={filterUsername}
                                         onChange={(e) => setFilterUsername(e.target.value)}
                                     />
-                                    USERNAME
+                                    <div className="flex items-center">USERNAME</div>
                                 </th>
-                                <th>
-                                    <FormControl
-                                        size="sm"
+                                <th className="p-3 text-xs font-semibold text-gray-600 uppercase tracking-wider border-b border-gray-200 align-top min-w-[150px]">
+                                    <input
                                         type="text"
+                                        className="w-full px-2 py-1.5 mb-2 text-sm border border-gray-300 rounded focus:outline-none focus:border-orange-500 focus:ring-1 focus:ring-orange-500 font-normal normal-case bg-white"
                                         placeholder="Filtrar Rol"
                                         value={filterRole}
                                         onChange={(e) => setFilterRole(e.target.value)}
                                     />
-                                    ROL
+                                    <div className="flex items-center">ROL</div>
                                 </th>
-                                <th>
-                                    <FormControl
-                                        size="sm"
+                                <th className="p-3 text-xs font-semibold text-gray-600 uppercase tracking-wider border-b border-gray-200 align-top min-w-[200px]">
+                                    <input
                                         type="text"
+                                        className="w-full px-2 py-1.5 mb-2 text-sm border border-gray-300 rounded focus:outline-none focus:border-orange-500 focus:ring-1 focus:ring-orange-500 font-normal normal-case bg-white"
                                         placeholder="Filtrar Farmacia"
                                         value={filterFarmacia}
                                         onChange={(e) => setFilterFarmacia(e.target.value)}
                                     />
-                                    FARMACIA
+                                    <div className="flex items-center">FARMACIA</div>
                                 </th>
-                                <th>STATUS</th>
-                                <th className="text-center">
-                                    <button style={{ backgroundColor: "#ffb361", color: '#fff', borderColor: '#ffb361' }} onClick={clearFilters} type="button" className="btn btn-sm">
-                                        <i className='bi bi-brush' />
-                                    </button>
-                                    <span style={{ display: 'block', marginTop: '4px' }}>ACCIONES</span>
+                                <th className="p-3 text-xs font-semibold text-gray-600 uppercase tracking-wider border-b border-gray-200 align-top">
+                                    <div className="flex items-center h-full pt-[38px]">STATUS</div>
+                                </th>
+                                <th className="p-3 text-xs font-semibold text-gray-600 uppercase tracking-wider border-b border-gray-200 text-center align-top w-24">
+                                    <div className="flex flex-col items-center justify-center">
+                                        <button
+                                            className="p-1.5 mb-2 bg-orange-100 text-orange-600 hover:bg-orange-200 rounded transition-colors tooltip flex items-center justify-center w-8 h-8"
+                                            title="Limpiar filtros"
+                                            onClick={clearFilters}
+                                        >
+                                            <i className="bi bi-brush"></i>
+                                        </button>
+                                        <span>ACCIONES</span>
+                                    </div>
                                 </th>
                             </tr>
                         </thead>
-                        <tbody>
-                            {currentItems.map((item) => (
-                                <tr key={item.id}>
-                                    <td>{item.id}</td>
-                                    <td>{item.username}</td>
-                                    <td>{item.role ? item.role.name : 'N/A'}</td>
-                                    <td>{item.farmacia ? item.farmacia.nombre : 'N/A'}</td>
-                                    <td>{item.status ? 'Activo' : 'Inactivo'}</td>
-                                    <td>
-                                        <div className="d-flex justify-content-center btn-group" role="group">
-                                            <button
-                                                className="btn btn-light btn-sm"
-                                                style={{ backgroundColor: "#ffb361", color: '#fff', borderColor: '#ffb361' }}
-                                                onClick={() => {
-                                                    setSelectedId(item.id);
-                                                    handleShow2();
-                                                }}
-                                            >
-                                                <i className="bi bi-pencil"></i>
-                                            </button>
-                                            <button
-                                                className={`btn btn-sm ${item.status ? 'btn-outline-danger' : 'btn-outline-success'} ms-2`}
-                                                title={item.status ? 'Deshabilitar' : 'Habilitar'}
-                                                onClick={() => handleToggleStatus(item)}
-                                            >
-                                                <i className={`bi ${item.status ? 'bi-slash-circle' : 'bi-check-circle'}`}></i>
-                                            </button>
+                        <tbody className="divide-y divide-gray-100">
+                            {currentItems.length === 0 ? (
+                                <tr>
+                                    <td colSpan={6} className="text-center py-8 text-gray-500">
+                                        <div className="flex justify-center mb-2">
+                                            <i className="bi bi-inbox text-3xl text-gray-300"></i>
                                         </div>
+                                        No se encontraron usuarios con los filtros aplicados
                                     </td>
                                 </tr>
-                            ))}
+                            ) : (
+                                currentItems.map((item) => (
+                                    <tr key={item.id} className="hover:bg-orange-50/30 transition-colors group">
+                                        <td className="p-3 align-middle text-gray-500 font-mono text-sm">{item.id}</td>
+                                        <td className="p-3 align-middle font-semibold text-gray-800">{item.username}</td>
+                                        <td className="p-3 align-middle">
+                                            <span className="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-blue-50 text-blue-700 border border-blue-200">
+                                                {item.roles ? item.roles.name : 'N/A'}
+                                            </span>
+                                        </td>
+                                        <td className="p-3 align-middle text-gray-600">{item.farmacia ? item.farmacia.nombre : 'N/A'}</td>
+                                        <td className="p-3 align-middle">
+                                            <span className={`inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium border ${item.status
+                                                ? "bg-emerald-50 text-emerald-700 border-emerald-200"
+                                                : "bg-red-50 text-red-700 border-red-200"
+                                                }`}>
+                                                {item.status && <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 mr-1.5"></span>}
+                                                {!item.status && <span className="w-1.5 h-1.5 rounded-full bg-red-500 mr-1.5"></span>}
+                                                {item.status ? 'Activo' : 'Inactivo'}
+                                            </span>
+                                        </td>
+                                        <td className="p-3 align-middle">
+                                            <div className="flex justify-center gap-2">
+                                                <button
+                                                    className="flex items-center justify-center w-8 h-8 rounded-lg bg-orange-100 text-orange-600 hover:bg-orange-500 hover:text-white transition-colors border border-transparent hover:border-orange-600"
+                                                    title="Editar"
+                                                    onClick={() => {
+                                                        setSelectedId(item.id);
+                                                        handleShow2();
+                                                    }}
+                                                >
+                                                    <i className="bi bi-pencil"></i>
+                                                </button>
+                                                <button
+                                                    className={`flex items-center justify-center w-8 h-8 rounded-lg transition-colors border ${item.status
+                                                        ? "bg-red-50 text-red-600 hover:bg-red-500 hover:text-white border-transparent hover:border-red-600"
+                                                        : "bg-emerald-50 text-emerald-600 hover:bg-emerald-500 hover:text-white border-transparent hover:border-emerald-600"
+                                                        }`}
+                                                    title={item.status ? 'Deshabilitar' : 'Habilitar'}
+                                                    onClick={() => handleToggleStatus(item)}
+                                                >
+                                                    <i className={`bi ${item.status ? 'bi-slash-circle' : 'bi-check-circle'}`}></i>
+                                                </button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                ))
+                            )}
                         </tbody>
                     </table>
                 </div>
-
-                <Card.Footer style={{ display: 'flex', justifyContent: 'flex-end', backgroundColor: '#ffff' }}>
-                    <ul className="pagination pagination-sm" >
-                        <li className={`m-1 page-item ${currentPage === 1 ? 'disabled' : ''}`}>
-                            <button className="page-link" style={{ backgroundColor: "#ffb361", color: '#fff', borderColor: '#ffb361' }} onClick={() => handlePageChange(1)}>
-                                <i className="bi bi-chevron-double-left"></i>
-                            </button>
-                        </li>
-                        <li className={`m-1 page-item ${currentPage === 1 ? 'disabled' : ''}`}>
-                            <button className="page-link" style={{ backgroundColor: "#ffb361", color: '#fff', borderColor: '#ffb361' }} onClick={() => handlePageChange(currentPage - 1)}>
-                                <i className="bi bi-chevron-left"></i>
-                            </button>
-                        </li>
-                        <li className=" m-1 page-item active">
-                            <span className="page-link" style={{ backgroundColor: "#ffb361", color: '#fff', borderColor: '#ffb361' }}>{currentPage}</span>
-                        </li>
-                        <li className={` m-1 page-item ${currentPage === totalPages ? 'disabled' : ''}`}>
-                            <button className="page-link" style={{ backgroundColor: "#ffb361", color: '#fff', borderColor: '#ffb361' }} onClick={() => handlePageChange(currentPage + 1)}>
-                                <i className="bi bi-chevron-right"></i>
-                            </button>
-                        </li>
-                        <li className={` m-1 page-item ${currentPage === totalPages ? 'disabled' : ''}`}>
-                            <button className="page-link" style={{ backgroundColor: "#ffb361", color: '#fff', borderColor: '#ffb361' }} onClick={() => handlePageChange(totalPages)}>
-                                <i className="bi bi-chevron-double-right"></i>
-                            </button>
-                        </li>
-                    </ul>
-                </Card.Footer>
             </div>
 
-            <Modal show={showModal2} onHide={handleClose2} centered size="lg">
-                <Modal.Header closeButton>
-                    <Modal.Title>Editar Usuario</Modal.Title>
-                </Modal.Header>
-                <Modal.Body>
-                    {selectedId && (
-                        <FormularioEditarUsuario
-                            id={selectedId}
-                            handleClose={handleClose2}
-                            onSuccess={loadItems}
-                        />
-                    )}
-                </Modal.Body>
-            </Modal>
+            <div className="bg-white border border-t-0 border-gray-200 rounded-b-xl px-4 py-3 flex items-center justify-between sm:px-6 shadow-sm">
+                <div className="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between">
+                    <div>
+                        <p className="text-sm text-gray-700 m-0">
+                            Mostrando <span className="font-medium">{currentItems.length}</span> de <span className="font-medium">{filteredItems.length}</span> usuarios
+                        </p>
+                    </div>
+                    <div>
+                        <nav className="relative z-0 inline-flex rounded-md shadow-sm -space-x-px" aria-label="Pagination">
+                            <button
+                                onClick={() => handlePageChange(1)}
+                                disabled={currentPage === 1}
+                                className={`relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium ${currentPage === 1 ? 'text-gray-300 cursor-not-allowed' : 'text-gray-500 hover:bg-gray-50 text-orange-500'
+                                    }`}
+                            >
+                                <i className="bi bi-chevron-double-left"></i>
+                            </button>
+                            <button
+                                onClick={() => handlePageChange(currentPage - 1)}
+                                disabled={currentPage === 1}
+                                className={`relative inline-flex items-center px-2 py-2 border border-gray-300 bg-white text-sm font-medium ${currentPage === 1 ? 'text-gray-300 cursor-not-allowed' : 'text-gray-500 hover:bg-gray-50 text-orange-500'
+                                    }`}
+                            >
+                                <i className="bi bi-chevron-left"></i>
+                            </button>
+
+                            <span className="relative inline-flex items-center px-4 py-2 border border-orange-500 bg-orange-50 text-sm font-medium text-orange-600">
+                                {currentPage}
+                            </span>
+
+                            <button
+                                onClick={() => handlePageChange(currentPage + 1)}
+                                disabled={currentPage === totalPages || totalPages === 0}
+                                className={`relative inline-flex items-center px-2 py-2 border border-gray-300 bg-white text-sm font-medium ${currentPage === totalPages || totalPages === 0 ? 'text-gray-300 cursor-not-allowed' : 'text-gray-500 hover:bg-gray-50 text-orange-500'
+                                    }`}
+                            >
+                                <i className="bi bi-chevron-right"></i>
+                            </button>
+                            <button
+                                onClick={() => handlePageChange(totalPages)}
+                                disabled={currentPage === totalPages || totalPages === 0}
+                                className={`relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium ${currentPage === totalPages || totalPages === 0 ? 'text-gray-300 cursor-not-allowed' : 'text-gray-500 hover:bg-gray-50 text-orange-500'
+                                    }`}
+                            >
+                                <i className="bi bi-chevron-double-right"></i>
+                            </button>
+                        </nav>
+                    </div>
+                </div>
+            </div>
         </>
     );
 };

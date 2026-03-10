@@ -24,8 +24,6 @@ interface FormularioEditarDiademaProps {
 const FormularioEditarDiadema: React.FC<FormularioEditarDiademaProps> = ({ id, handleClose, onSuccess }) => {
     const [funcionarios, setFuncionarios] = useState<Funcionario[]>([]);
     const [marcas, setMarcas] = useState<Marca[]>([]);
-    const [isHovered, setIsHovered] = useState(false);
-    const [isHovered2, setIsHovered2] = useState(false);
 
     const [formData, setFormData] = useState({
         marca: { id: '' },
@@ -134,126 +132,128 @@ const FormularioEditarDiadema: React.FC<FormularioEditarDiademaProps> = ({ id, h
     };
 
     return (
-        <div className="p-4">
-            <form className="row g-3" onSubmit={handleSubmit}>
-                <div className="col-md-6">
-                    <label htmlFor="marca" className="form-label">Marca*</label>
-                    <select
-                        id="marca"
-                        className="form-select"
-                        value={formData.marca.id}
-                        onChange={handleChange}
-                    >
-                        <option value="">Seleccione una marca</option>
-                        {marcas.map(marca => (
-                            <option key={marca.id} value={marca.id}>
-                                {marca.nombre}
-                            </option>
-                        ))}
-                    </select>
+        <div className="p-4 bg-white rounded-lg shadow-sm">
+            <div className="mb-4 pb-4 border-b border-gray-100 flex justify-between items-center">
+                <div>
+                    <h3 className="text-lg font-semibold text-gray-800 m-0">Información de la Diadema</h3>
+                    <p className="text-sm text-gray-500 m-0 mt-1">Actualice los detalles del registro <span className="font-semibold text-orange-500 bg-orange-50 px-2 py-0.5 rounded ml-1">ID: {id}</span></p>
                 </div>
-                <div className="col-md-6">
-                    <label htmlFor="modelo" className="form-label">Modelo*</label>
-                    <input
-                        type="text"
-                        className="form-control"
-                        id="modelo"
-                        value={formData.modelo}
-                        onChange={handleChange}
-                    />
-                </div>
-                <div className="col-md-6">
-                    <label htmlFor="serial" className="form-label">Serial*</label>
-                    <input
-                        type="text"
-                        className="form-control"
-                        id="serial"
-                        value={formData.serial}
-                        onChange={handleChange}
-                    />
-                </div>
-                <div className="col-md-6">
-                    <label htmlFor="estado" className="form-label">Estado*</label>
-                    <select
-                        id="estado"
-                        className="form-select"
-                        value={formData.estado}
-                        onChange={handleChange}
-                    >
-                        <option value="">Seleccione un estado</option>
-                        <option value="ACTIVO">ACTIVO</option>
-                        <option value="INACTIVO">INACTIVO</option>
-                        <option value="DAÑADO">DAÑADO</option>
-                        <option value="EN SOPORTE">EN SOPORTE</option>
-                    </select>
+            </div>
+
+            <form className="space-y-6" onSubmit={handleSubmit}>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div className="space-y-1">
+                        <label htmlFor="marca" className="block text-sm font-medium text-gray-700">Marca <span className="text-red-500">*</span></label>
+                        <select
+                            id="marca"
+                            className="block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-orange-500 focus:border-orange-500 sm:text-sm transition-colors"
+                            value={formData.marca.id}
+                            onChange={handleChange}
+                        >
+                            <option value="">Seleccione una marca</option>
+                            {marcas.map(marca => (
+                                <option key={marca.id} value={marca.id}>
+                                    {marca.nombre}
+                                </option>
+                            ))}
+                        </select>
+                    </div>
+
+                    <div className="space-y-1">
+                        <label htmlFor="modelo" className="block text-sm font-medium text-gray-700">Modelo <span className="text-red-500">*</span></label>
+                        <input
+                            type="text"
+                            className="block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-orange-500 focus:border-orange-500 sm:text-sm transition-colors"
+                            id="modelo"
+                            value={formData.modelo}
+                            onChange={handleChange}
+                            placeholder="Ej. Blackwire 3220"
+                        />
+                    </div>
+
+                    <div className="space-y-1">
+                        <label htmlFor="serial" className="block text-sm font-medium text-gray-700">Serial <span className="text-red-500">*</span></label>
+                        <input
+                            type="text"
+                            className="block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-orange-500 focus:border-orange-500 sm:text-sm transition-colors"
+                            id="serial"
+                            value={formData.serial}
+                            onChange={handleChange}
+                            placeholder="Número de serie"
+                        />
+                    </div>
+
+                    <div className="space-y-1">
+                        <label htmlFor="estado" className="block text-sm font-medium text-gray-700">Estado <span className="text-red-500">*</span></label>
+                        <select
+                            id="estado"
+                            className="block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-orange-500 focus:border-orange-500 sm:text-sm transition-colors"
+                            value={formData.estado}
+                            onChange={handleChange}
+                        >
+                            <option value="">Seleccione un estado</option>
+                            <option value="ACTIVO">ACTIVO</option>
+                            <option value="INACTIVO">INACTIVO</option>
+                            <option value="DAÑADO">DAÑADO</option>
+                            <option value="EN SOPORTE">EN SOPORTE</option>
+                            <option value="ASIGNADO">ASIGNADO</option>
+                        </select>
+                    </div>
+
+                    <div className="space-y-1">
+                        <label htmlFor="fecha_compra" className="block text-sm font-medium text-gray-700">Fecha de Compra</label>
+                        <input
+                            type="date"
+                            className="block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-orange-500 focus:border-orange-500 sm:text-sm transition-colors"
+                            id="fecha_compra"
+                            value={formData.fecha_compra}
+                            onChange={handleChange}
+                        />
+                    </div>
+
+                    <div className="space-y-1">
+                        <label htmlFor="funcionarios" className="block text-sm font-medium text-gray-700">Asignado a</label>
+                        <select
+                            id="funcionarios"
+                            className="block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-orange-500 focus:border-orange-500 sm:text-sm transition-colors"
+                            value={formData.funcionarios.id}
+                            onChange={handleChange}
+                        >
+                            <option value="">Ninguno / Sin asignar</option>
+                            {funcionarios.map(func => (
+                                <option key={func.id} value={func.id}>
+                                    {func.nombre} {func.apellido}
+                                </option>
+                            ))}
+                        </select>
+                    </div>
                 </div>
 
-                <div className="col-md-6">
-                    <label htmlFor="fecha_compra" className="form-label">Fecha de Compra</label>
-                    <input
-                        type="date"
-                        className="form-control"
-                        id="fecha_compra"
-                        value={formData.fecha_compra}
-                        onChange={handleChange}
-                    />
-                </div>
-
-                <div className="col-md-6">
-                    <label htmlFor="funcionarios" className="form-label">Asignado a</label>
-                    <select
-                        id="funcionarios"
-                        className="form-select"
-                        value={formData.funcionarios.id}
-                        onChange={handleChange}
-                    >
-                        <option value="">Seleccione un funcionario</option>
-                        {funcionarios.map(func => (
-                            <option key={func.id} value={func.id}>
-                                {func.nombre} {func.apellido}
-                            </option>
-                        ))}
-                    </select>
-                </div>
-
-                <div className="col-12">
-                    <label htmlFor="descripcion" className="form-label">Descripción</label>
+                <div className="space-y-1">
+                    <label htmlFor="descripcion" className="block text-sm font-medium text-gray-700">Descripción / Detalles adicionales</label>
                     <textarea
-                        className="form-control"
+                        className="block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-orange-500 focus:border-orange-500 sm:text-sm transition-colors"
                         id="descripcion"
                         rows={3}
                         value={formData.descripcion}
                         onChange={handleChange}
+                        placeholder="Observaciones sobre el estado, características, etc."
                     ></textarea>
                 </div>
 
-                <div className="text-center mt-4">
+                <div className="flex items-center justify-end gap-3 pt-4 border-t border-gray-100">
                     <button
-                        style={{
-                            backgroundColor: '#f6952c', borderColor: '#f6952c',
-                            cursor: 'pointer',
-                            background: isHovered2 ? '#ffff' : '#f6952c',
-                            color: isHovered2 ? '#f6952c' : '#ffff',
-                        }}
-                        onMouseEnter={() => setIsHovered2(true)}
-                        onMouseLeave={() => setIsHovered2(false)}
-                        type="submit" className="btn btn-primary me-4">
-                        <i className="bi bi-floppy m-1" />ACTUALIZAR
-                    </button>
-                    <button
-                        style={{
-                            backgroundColor: isHovered ? '#f6952c' : '#ffff',
-                            color: isHovered ? '#fff' : '#f6952c',
-                            borderColor: '#f6952c',
-                            cursor: 'pointer'
-                        }}
-                        onMouseEnter={() => setIsHovered(true)}
-                        onMouseLeave={() => setIsHovered(false)}
                         type="button"
-                        className="btn btn-outline-secondary"
+                        className="px-4 py-2 bg-white border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500 transition-colors flex items-center"
                         onClick={handleClose}
                     >
-                        <i className="bi bi-x-circle m-1" />CANCELAR
+                        <i className="bi bi-x-circle mr-2" /> Cancelar
+                    </button>
+                    <button
+                        type="submit"
+                        className="px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-orange-500 hover:bg-orange-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500 transition-colors flex items-center"
+                    >
+                        <i className="bi bi-floppy mr-2" /> Actualizar Diadema
                     </button>
                 </div>
             </form>

@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { Badge, FormControl, Card, Modal, Button } from 'react-bootstrap';
 import Swal from 'sweetalert2';
 import { getFarmacias, deleteFarmacia } from '../../servicios/farmaciaService';
 import FormularioCrearF from '../FormulariosCrear/FormularioCrearF';
@@ -130,227 +129,285 @@ const FarmaciaTabla: React.FC = () => {
 
   return (
     <>
-      <Modal show={showModal} onHide={handleClose} centered size="lg">
-        <Modal.Header closeButton>
-          <Modal.Title>Nueva Farmacia</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <FormularioCrearF handleClose={handleClose} />
-        </Modal.Body>
-      </Modal>
+      {/* Modal para Nueva Farmacia */}
+      {showModal && (
+        <div className="fixed inset-0 z-50 overflow-y-auto">
+          <div className="flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:p-0">
+            <div className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" onClick={handleClose}></div>
+            <div className="inline-block align-bottom bg-white rounded-xl text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-4xl sm:w-full">
+              <div className="bg-white px-6 py-4 border-b border-gray-100 flex justify-between items-center">
+                <h3 className="text-lg leading-6 font-semibold text-gray-800 flex items-center">
+                  <i className="bi bi-building-add mr-2 text-orange-500"></i> Nueva Farmacia
+                </h3>
+                <button onClick={handleClose} className="text-gray-400 hover:text-gray-500 focus:outline-none transition-colors">
+                  <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" /></svg>
+                </button>
+              </div>
+              <div className="px-6 py-5 sm:p-6 bg-gray-50">
+                <FormularioCrearF handleClose={handleClose} />
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
 
-      <div className="d-flex align-items-center" style={{ color: 'black' }}>
-        <div className="pagetitle">
-          <h1>Farmacias</h1>
-          <nav>
-            <ol className="breadcrumb">
-              <li className="breadcrumb-item">Inicio</li>
+      {/* Modal para Editar Farmacia */}
+      {showModal2 && (
+        <div className="fixed inset-0 z-50 overflow-y-auto">
+          <div className="flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:p-0">
+            <div className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" onClick={handleClose2}></div>
+            <div className="inline-block align-bottom bg-white rounded-xl text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-4xl sm:w-full">
+              <div className="bg-white px-6 py-4 border-b border-gray-100 flex justify-between items-center">
+                <h3 className="text-lg leading-6 font-semibold text-gray-800 flex items-center">
+                  <i className="bi bi-pencil-square mr-2 text-orange-500"></i> Editar Farmacia
+                </h3>
+                <button onClick={handleClose2} className="text-gray-400 hover:text-gray-500 focus:outline-none transition-colors">
+                  <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" /></svg>
+                </button>
+              </div>
+              <div className="px-6 py-5 sm:p-6 bg-gray-50">
+                {selectedFarmaciaId && (
+                  <FormularioEditarF
+                    farmaciaId={selectedFarmaciaId}
+                    onClose={handleClose2}
+                    onSuccess={() => {
+                      const loadFarmacia = async () => {
+                        try {
+                          const data = await getFarmacias();
+                          setFarmacias(data);
+                        } catch (error) {
+                          console.error('Error al recargar farmacias:', error);
+                        }
+                      };
+                      loadFarmacia();
+                    }}
+                  />
+                )}
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
 
-              <li className="breadcrumb-item active">
-                <a className="text-decoration-none" href="/Proveedores">Proveedores</a>
-              </li>
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 text-gray-800 gap-4">
+        <div>
+          <h1 className="text-2xl font-bold m-0 text-gray-900">Farmacias</h1>
+          <nav className="text-sm text-gray-500 mt-1">
+            <ol className="list-none p-0 inline-flex">
+              <li className="flex items-center">Inicio <span className="mx-2 text-gray-300">/</span></li>
+              <li className="flex items-center text-gray-400 hover:text-orange-500 transition-colors cursor-pointer">Proveedores <span className="mx-2 text-gray-300">/</span></li>
+              <li className="font-medium text-gray-700">Farmacias</li>
             </ol>
           </nav>
         </div>
-        <div className="ms-auto">
-
-          <Button
+        <div className="flex gap-3 w-full sm:w-auto">
+          <button
             onClick={handleShow}
-            className="btn" style={{ backgroundColor: '#f6952c', borderColor: '#f6952c' }}>
-            <i className="bi bi-plus-circle-fill me-2"></i> Agregar Farmacia
-          </Button>
-
+            className="flex-1 sm:flex-none flex justify-center items-center px-4 py-2 bg-orange-500 hover:bg-orange-600 text-white rounded-lg transition-colors font-medium text-sm shadow-sm"
+          >
+            <i className="bi bi-plus-circle-fill mr-2"></i> Agregar Farmacia
+          </button>
         </div>
       </div>
-      <div className='p-2' style={{ backgroundColor: '#ffff', borderBlockEndColor: '10px' }}>
-        <div className="table-responsive hv-100" style={{ maxHeight: '50vh' }}>
-          <table className="table table-hover text-nowrap" >
-            <thead>
+
+      <div className="bg-white rounded-t-xl border border-gray-200 overflow-hidden shadow-sm">
+        <div className="overflow-x-auto max-h-[60vh] custom-scrollbar">
+          <table className="w-full text-left border-collapse whitespace-nowrap">
+            <thead className="bg-gray-50 sticky top-0 z-10">
               <tr>
-                <th>
-                  <FormControl
-                    size="sm"
+                <th className="p-3 text-xs font-semibold text-gray-600 uppercase tracking-wider border-b border-gray-200 align-top min-w-[200px]">
+                  <input
                     type="text"
+                    className="w-full px-2 py-1.5 mb-2 text-sm border border-gray-300 rounded focus:outline-none focus:border-orange-500 focus:ring-1 focus:ring-orange-500 font-normal normal-case bg-white"
                     placeholder="Filtrar nombre"
                     value={filterNombre}
                     onChange={(e) => setFilterNombre(e.target.value)}
                   />
-                  NOMBRE
+                  <div className="flex items-center">NOMBRE</div>
                 </th>
-                <th>
-                  <FormControl
-                    size="sm"
+                <th className="p-3 text-xs font-semibold text-gray-600 uppercase tracking-wider border-b border-gray-200 align-top min-w-[200px]">
+                  <input
                     type="text"
+                    className="w-full px-2 py-1.5 mb-2 text-sm border border-gray-300 rounded focus:outline-none focus:border-orange-500 focus:ring-1 focus:ring-orange-500 font-normal normal-case bg-white"
                     placeholder="Filtrar dirección"
                     value={filterDireccion}
                     onChange={(e) => setFilterDireccion(e.target.value)}
                   />
-                  DIRECCIÓN
+                  <div className="flex items-center">DIRECCIÓN</div>
                 </th>
-                <th>
-                  <FormControl
-                    size="sm"
+                <th className="p-3 text-xs font-semibold text-gray-600 uppercase tracking-wider border-b border-gray-200 align-top min-w-[150px]">
+                  <input
                     type="text"
+                    className="w-full px-2 py-1.5 mb-2 text-sm border border-gray-300 rounded focus:outline-none focus:border-orange-500 focus:ring-1 focus:ring-orange-500 font-normal normal-case bg-white"
                     placeholder="Filtrar ciudad"
                     value={filterCiudad}
                     onChange={(e) => setFilterCiudad(e.target.value)}
                   />
-                  CIUDAD
+                  <div className="flex items-center">CIUDAD</div>
                 </th>
-                <th>
-                  <FormControl
-                    size="sm"
+                <th className="p-3 text-xs font-semibold text-gray-600 uppercase tracking-wider border-b border-gray-200 align-top min-w-[150px]">
+                  <input
                     type="text"
+                    className="w-full px-2 py-1.5 mb-2 text-sm border border-gray-300 rounded focus:outline-none focus:border-orange-500 focus:ring-1 focus:ring-orange-500 font-normal normal-case bg-white"
                     placeholder="Filtrar departamento"
                     value={filterDepartamento}
                     onChange={(e) => setFilterDepartamento(e.target.value)}
                   />
-                  DEPARTAMENTO
+                  <div className="flex items-center">DEPARTAMENTO</div>
                 </th>
-                <th>
-                  <FormControl
-                    size="sm"
+                <th className="p-3 text-xs font-semibold text-gray-600 uppercase tracking-wider border-b border-gray-200 align-top min-w-[150px]">
+                  <input
                     type="text"
+                    className="w-full px-2 py-1.5 mb-2 text-sm border border-gray-300 rounded focus:outline-none focus:border-orange-500 focus:ring-1 focus:ring-orange-500 font-normal normal-case bg-white"
                     placeholder="Filtrar proveedor"
                     value={filterProveedor}
                     onChange={(e) => setFilterProveedor(e.target.value)}
                   />
-                  PROVEEDOR
+                  <div className="flex items-center">PROVEEDOR</div>
                 </th>
-                <th>
-                  <FormControl
-                    size="sm"
+                <th className="p-3 text-xs font-semibold text-gray-600 uppercase tracking-wider border-b border-gray-200 align-top min-w-[150px]">
+                  <input
                     type="text"
+                    className="w-full px-2 py-1.5 mb-2 text-sm border border-gray-300 rounded focus:outline-none focus:border-orange-500 focus:ring-1 focus:ring-orange-500 font-normal normal-case bg-white"
                     placeholder="Filtrar cantidad"
                     value={filterCantidadEquipos}
                     onChange={(e) => setFilterCantidadEquipos(e.target.value)}
                   />
-
-                  CANTIDAD DE EQUIPOS
+                  <div className="flex items-center">CANT. EQUIPOS</div>
                 </th>
-
-                <th>
-                  <FormControl
-                    size="sm"
+                <th className="p-3 text-xs font-semibold text-gray-600 uppercase tracking-wider border-b border-gray-200 align-top min-w-[150px]">
+                  <input
                     type="text"
+                    className="w-full px-2 py-1.5 mb-2 text-sm border border-gray-300 rounded focus:outline-none focus:border-orange-500 focus:ring-1 focus:ring-orange-500 font-normal normal-case bg-white"
                     placeholder="Filtrar pertenece"
                     value={filterPertenece}
                     onChange={(e) => setFilterPertenece(e.target.value)}
                   />
-                  PERTENECE
+                  <div className="flex items-center">PERTENECE</div>
                 </th>
-                <th className="text-center">
-                  <button style={{ backgroundColor: "#ffb361", color: '#fff', borderColor: '#ffb361' }} onClick={clearFilters} type="button" className="btn btn-sm">
-                    <i className='bi bi-brush' />
-                  </button>
-                  <span style={{ display: 'block', marginTop: '4px' }}>
-                    ACCIONES
-                  </span>
+                <th className="p-3 text-xs font-semibold text-gray-600 uppercase tracking-wider border-b border-gray-200 text-center align-top w-24">
+                  <div className="flex flex-col items-center justify-center">
+                    <button
+                      className="p-1.5 mb-2 bg-orange-100 text-orange-600 hover:bg-orange-200 rounded transition-colors tooltip flex items-center justify-center w-8 h-8"
+                      title="Limpiar filtros"
+                      onClick={clearFilters}
+                    >
+                      <i className="bi bi-brush"></i>
+                    </button>
+                    <span>ACCIONES</span>
+                  </div>
                 </th>
               </tr>
             </thead>
-            <tbody>
-              {currentFarmacias.map((farmacia) => (
-                <tr key={farmacia.id}>
-                  <td>
-                    <div className="d-flex align-items-center">
-                      <div>
-                        <div>{farmacia?.nombre || '-'}</div>
-                        <small className="text-muted">ID: {farmacia.id}</small>
-                      </div>
+            <tbody className="divide-y divide-gray-100">
+              {currentFarmacias.length === 0 ? (
+                <tr>
+                  <td colSpan={8} className="text-center py-8 text-gray-500">
+                    <div className="flex justify-center mb-2">
+                      <i className="bi bi-inbox text-3xl text-gray-300"></i>
                     </div>
-                  </td>
-                  <td>{farmacia?.direccion || '-'}</td>
-                  <td>
-                    <div>{farmacia?.ciudad?.nombre_ciudad || '-'}</div>
-                  </td>
-                  <td>{farmacia?.ciudad?.departamento?.name_departamento || '-'}</td>
-                  <td>
-                    <div>{farmacia?.proveedor?.nombre || '-'}</div>
-                    <small className="text-muted">NIT: {farmacia?.proveedor?.nit || '-'}</small>
-                  </td>
-                  <td>
-                    <div>{farmacia?.cantidad_equipo || '-'}</div>
-                  </td>
-                  <td>
-                    <Badge bg={farmacia?.pertenece === 'PHARMASER' ? 'warning' : 'primary'} className="rounded-pill">
-                      {farmacia?.pertenece || '-'}
-                    </Badge>
-                  </td>
-                  <td>
-                    <div className="d-flex justify-content-end btn-group" role="group">
-                      <button
-                        className="btn btn-light btn-sm"
-                        style={{ backgroundColor: "#ffb361", color: '#fff', borderColor: '#ffb361' }}
-                        onClick={() => {
-                          setSelectedFarmaciaId(farmacia.id); // Guardamos el ID de la farmacia
-                          handleShow2(); // Abrimos el modal
-                        }}
-                      >
-                        <i className="bi bi-pencil"></i>
-                      </button>
-
-                    </div>
+                    No se encontraron farmacias con los filtros aplicados
                   </td>
                 </tr>
-              ))}
+              ) : (
+                currentFarmacias.map((farmacia) => (
+                  <tr key={farmacia.id} className="hover:bg-orange-50/30 transition-colors group">
+                    <td className="p-3 align-middle">
+                      <div className="flex items-center">
+                        <div>
+                          <div className="font-semibold text-gray-800">{farmacia?.nombre || '-'}</div>
+                          <div className="text-xs text-gray-500 font-mono">ID: {farmacia.id}</div>
+                        </div>
+                      </div>
+                    </td>
+                    <td className="p-3 align-middle text-gray-600">{farmacia?.direccion || '-'}</td>
+                    <td className="p-3 align-middle text-gray-700">{farmacia?.ciudad?.nombre_ciudad || '-'}</td>
+                    <td className="p-3 align-middle text-gray-700">{farmacia?.ciudad?.departamento?.name_departamento || '-'}</td>
+                    <td className="p-3 align-middle">
+                      <div className="text-gray-800">{farmacia?.proveedor?.nombre || '-'}</div>
+                      <div className="text-xs text-gray-500">NIT: {farmacia?.proveedor?.nit || '-'}</div>
+                    </td>
+                    <td className="p-3 align-middle text-center font-medium text-gray-700">{farmacia?.cantidad_equipo || '0'}</td>
+                    <td className="p-3 align-middle">
+                      <span className={`inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium border ${farmacia?.pertenece === 'PHARMASER'
+                        ? "bg-amber-50 text-amber-700 border-amber-200"
+                        : "bg-blue-50 text-blue-700 border-blue-200"
+                        }`}>
+                        {farmacia?.pertenece || '-'}
+                      </span>
+                    </td>
+                    <td className="p-3 align-middle">
+                      <div className="flex justify-center gap-2">
+                        <button
+                          className="flex items-center justify-center w-8 h-8 rounded-lg bg-orange-100 text-orange-600 hover:bg-orange-500 hover:text-white transition-colors border border-transparent hover:border-orange-600"
+                          title="Editar"
+                          onClick={() => {
+                            setSelectedFarmaciaId(farmacia.id);
+                            handleShow2();
+                          }}
+                        >
+                          <i className="bi bi-pencil"></i>
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                ))
+              )}
             </tbody>
           </table>
-        </div >
-      </div >
+        </div>
+      </div>
 
-      <Modal show={showModal2} onHide={handleClose2} centered size="lg">
-        <Modal.Header closeButton>
-          <Modal.Title>Editar Farmacia</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          {selectedFarmaciaId && (
-            <FormularioEditarF
-              farmaciaId={selectedFarmaciaId}
-              onClose={handleClose2}
-              onSuccess={() => {
-                const loadFarmacia = async () => {
-                  try {
-                    const data = await getFarmacias();
-                    setFarmacias(data);
-                  } catch (error) {
-                    console.error('Error al recargar farmacias:', error);
-                  }
-                };
-                loadFarmacia();
-              }}
-            />
-          )}
-        </Modal.Body>
-      </Modal>
+      <div className="bg-white border border-t-0 border-gray-200 rounded-b-xl px-4 py-3 flex items-center justify-between sm:px-6 shadow-sm">
+        <div className="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between">
+          <div>
+            <p className="text-sm text-gray-700 m-0">
+              Mostrando <span className="font-medium">{currentFarmacias.length}</span> de <span className="font-medium">{filteredFarmacias.length}</span> farmacias
+            </p>
+          </div>
+          <div>
+            <nav className="relative z-0 inline-flex rounded-md shadow-sm -space-x-px" aria-label="Pagination">
+              <button
+                onClick={() => handlePageChange(1)}
+                disabled={currentPage === 1}
+                className={`relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium ${currentPage === 1 ? 'text-gray-300 cursor-not-allowed' : 'text-gray-500 hover:bg-gray-50 text-orange-500'
+                  }`}
+              >
+                <i className="bi bi-chevron-double-left"></i>
+              </button>
+              <button
+                onClick={() => handlePageChange(currentPage - 1)}
+                disabled={currentPage === 1}
+                className={`relative inline-flex items-center px-2 py-2 border border-gray-300 bg-white text-sm font-medium ${currentPage === 1 ? 'text-gray-300 cursor-not-allowed' : 'text-gray-500 hover:bg-gray-50 text-orange-500'
+                  }`}
+              >
+                <i className="bi bi-chevron-left"></i>
+              </button>
 
-      <Card.Footer style={{ display: 'flex', justifyContent: 'flex-end', backgroundColor: '#ffff', borderBottom: '20px' }}>
-        <ul className="pagination pagination-sm" >
-          <li className={`m-1 page-item ${currentPage === 1 ? 'disabled' : ''}`}>
-            <button className="page-link" style={{ backgroundColor: "#ffb361", color: '#fff', borderColor: '#ffb361' }} onClick={() => handlePageChange(1)}>
-              <i className="bi bi-chevron-double-left"></i>
-            </button>
-          </li>
-          <li className={`m-1 page-item ${currentPage === 1 ? 'disabled' : ''}`}>
-            <button className="page-link" style={{ backgroundColor: "#ffb361", color: '#fff', borderColor: '#ffb361' }} onClick={() => handlePageChange(currentPage - 1)}>
-              <i className="bi bi-chevron-left"></i>
-            </button>
-          </li>
-          <li className=" m-1 page-item active">
-            <span className="page-link" style={{ backgroundColor: "#ffb361", color: '#fff', borderColor: '#ffb361' }}>{currentPage}</span>
-          </li>
-          <li className={` m-1 page-item ${currentPage === totalPages ? 'disabled' : ''}`}>
-            <button className="page-link" style={{ backgroundColor: "#ffb361", color: '#fff', borderColor: '#ffb361' }} onClick={() => handlePageChange(currentPage + 1)}>
-              <i className="bi bi-chevron-right"></i>
-            </button>
-          </li>
-          <li className={` m-1 page-item ${currentPage === totalPages ? 'disabled' : ''}`}>
-            <button className="page-link" style={{ backgroundColor: "#ffb361", color: '#fff', borderColor: '#ffb361' }} onClick={() => handlePageChange(totalPages)}>
-              <i className="bi bi-chevron-double-right"></i>
-            </button>
-          </li>
-        </ul>
-      </Card.Footer>
+              <span className="relative inline-flex items-center px-4 py-2 border border-orange-500 bg-orange-50 text-sm font-medium text-orange-600">
+                {currentPage}
+              </span>
+
+              <button
+                onClick={() => handlePageChange(currentPage + 1)}
+                disabled={currentPage === totalPages || totalPages === 0}
+                className={`relative inline-flex items-center px-2 py-2 border border-gray-300 bg-white text-sm font-medium ${currentPage === totalPages || totalPages === 0 ? 'text-gray-300 cursor-not-allowed' : 'text-gray-500 hover:bg-gray-50 text-orange-500'
+                  }`}
+              >
+                <i className="bi bi-chevron-right"></i>
+              </button>
+              <button
+                onClick={() => handlePageChange(totalPages)}
+                disabled={currentPage === totalPages || totalPages === 0}
+                className={`relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium ${currentPage === totalPages || totalPages === 0 ? 'text-gray-300 cursor-not-allowed' : 'text-gray-500 hover:bg-gray-50 text-orange-500'
+                  }`}
+              >
+                <i className="bi bi-chevron-double-right"></i>
+              </button>
+            </nav>
+          </div>
+        </div>
+      </div>
     </>
   );
 };

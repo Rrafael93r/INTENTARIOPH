@@ -33,10 +33,6 @@ public class ModemsController {
     @PostMapping("")
     public ResponseEntity<Modems> createModem(@RequestBody Modems modem) {
         try {
-            System.out.println("=== CREANDO NUEVO MODEM ===");
-            System.out.println("Datos recibidos: " + modem.toString());
-
-            // Validaciones básicas
             if (modem.getMarca() == null || modem.getMarca().trim().isEmpty()) {
                 throw new RuntimeException("La marca es requerida");
             }
@@ -49,8 +45,6 @@ public class ModemsController {
             if (modem.getProveedorInternet() == null || modem.getProveedorInternet().getId() == 0) {
                 throw new RuntimeException("El proveedor de internet es requerido");
             }
-
-            // Establecer valores por defecto
             if (modem.getEstado() == null || modem.getEstado().trim().isEmpty()) {
                 modem.setEstado("DISPONIBLE");
             }
@@ -59,12 +53,8 @@ public class ModemsController {
             }
 
             Modems savedModem = modemsService.save(modem);
-            System.out.println("Modem creado con ID: " + savedModem.getId());
             return ResponseEntity.ok(savedModem);
-
         } catch (Exception e) {
-            System.err.println("Error al crear modem: " + e.getMessage());
-            e.printStackTrace();
             throw new RuntimeException("Error al crear el modem: " + e.getMessage());
         }
     }
@@ -72,42 +62,28 @@ public class ModemsController {
     @PutMapping("/{id}")
     public ResponseEntity<Modems> updateModem(@PathVariable Long id, @RequestBody Modems modemDetails) {
         try {
-            System.out.println("=== ACTUALIZANDO MODEM ID: " + id + " ===");
-            System.out.println("Datos recibidos: " + modemDetails.toString());
-
             Modems modem = modemsService.findById(id);
             if (modem != null) {
-                // Actualizar campos
-                if (modemDetails.getMarca() != null) {
+                if (modemDetails.getMarca() != null)
                     modem.setMarca(modemDetails.getMarca());
-                }
-                if (modemDetails.getModelo() != null) {
+                if (modemDetails.getModelo() != null)
                     modem.setModelo(modemDetails.getModelo());
-                }
-                if (modemDetails.getNumero_serie() != null) {
+                if (modemDetails.getNumero_serie() != null)
                     modem.setNumero_serie(modemDetails.getNumero_serie());
-                }
-                if (modemDetails.getEstado() != null) {
+                if (modemDetails.getEstado() != null)
                     modem.setEstado(modemDetails.getEstado());
-                }
-                if (modemDetails.getNumero() != null) {
+                if (modemDetails.getNumero() != null)
                     modem.setNumero(modemDetails.getNumero());
-                }
-                if (modemDetails.getProveedorInternet() != null) {
+                if (modemDetails.getProveedorInternet() != null)
                     modem.setProveedorInternet(modemDetails.getProveedorInternet());
-                }
-                if (modemDetails.getFarmacia() != null) {
+                if (modemDetails.getFarmacia() != null)
                     modem.setFarmacia(modemDetails.getFarmacia());
-                }
 
                 Modems updatedModem = modemsService.save(modem);
-                System.out.println("Modem actualizado exitosamente");
                 return ResponseEntity.ok(updatedModem);
             }
             return ResponseEntity.notFound().build();
         } catch (Exception e) {
-            System.err.println("Error al actualizar modem: " + e.getMessage());
-            e.printStackTrace();
             throw new RuntimeException("Error al actualizar el modem: " + e.getMessage());
         }
     }

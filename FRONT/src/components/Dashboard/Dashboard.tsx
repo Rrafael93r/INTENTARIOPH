@@ -1,6 +1,4 @@
-
 import React, { useEffect, useState } from 'react';
-import { Card, Row, Col, Spinner, Alert, Container, Table } from 'react-bootstrap';
 import {
     BarChart,
     Bar,
@@ -39,8 +37,19 @@ const Dashboard = () => {
         fetchData();
     }, []);
 
-    if (loading) return <div className="text-center p-5"><Spinner animation="border" variant="primary" /> Cargando estadísticas...</div>;
-    if (error) return <Alert variant="danger">{error}</Alert>;
+    if (loading) return (
+        <div className="flex justify-center items-center h-64 p-5">
+            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-orange-500 mr-3"></div>
+            <span className="text-gray-600">Cargando estadísticas...</span>
+        </div>
+    );
+
+    if (error) return (
+        <div className="p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 m-4">
+            {error}
+        </div>
+    );
+
     if (!data) return null;
 
     // Process data for charts
@@ -85,168 +94,148 @@ const Dashboard = () => {
 
 
     return (
-        <Container fluid className="p-4 bg-light min-vh-100">
-            <h2 className="mb-4 fw-bold text-dark">Dashboard General</h2>
+        <div className="w-full px-4 sm:px-6 lg:px-8 py-6 bg-gray-50 min-h-screen">
+            <h2 className="mb-6 text-2xl font-bold text-gray-900">Dashboard General</h2>
 
             {/* Stats Cards */}
-            <Row className="mb-4 g-3">
-                <Col md={3}>
-                    <Card className="shadow-sm border-0 h-100">
-                        <Card.Body className="d-flex align-items-center justify-content-between">
-                            <div>
-                                <h6 className="text-muted text-uppercase mb-2">Reportes Abiertos</h6>
-                                <h2 className="fw-bold mb-0 text-danger">{reportesAbiertos}</h2>
-                            </div>
-                            <div className="bg-danger bg-opacity-10 p-3 rounded-circle text-danger">
-                                <IconAlertCircle size={32} />
-                            </div>
-                        </Card.Body>
-                    </Card>
-                </Col>
-                <Col md={3}>
-                    <Card className="shadow-sm border-0 h-100">
-                        <Card.Body className="d-flex align-items-center justify-content-between">
-                            <div>
-                                <h6 className="text-muted text-uppercase mb-2">Reportes Gestionados</h6>
-                                <h2 className="fw-bold mb-0 text-success">{reportesCerrados}</h2>
-                            </div>
-                            <div className="bg-success bg-opacity-10 p-3 rounded-circle text-success">
-                                <IconCheck size={32} />
-                            </div>
-                        </Card.Body>
-                    </Card>
-                </Col>
-                <Col md={3}>
-                    <Card className="shadow-sm border-0 h-100">
-                        <Card.Body className="d-flex align-items-center justify-content-between">
-                            <div>
-                                <h6 className="text-muted text-uppercase mb-2">Usuarios Activos</h6>
-                                <h2 className="fw-bold mb-0 text-primary">{data.usersCount}</h2>
-                            </div>
-                            <div className="bg-primary bg-opacity-10 p-3 rounded-circle text-primary">
-                                <IconUsers size={32} />
-                            </div>
-                        </Card.Body>
-                    </Card>
-                </Col>
-                <Col md={3}>
-                    <Card className="shadow-sm border-0 h-100">
-                        <Card.Body className="d-flex align-items-center justify-content-between">
-                            <div>
-                                <h6 className="text-muted text-uppercase mb-2">Inventario Total</h6>
-                                <h2 className="fw-bold mb-0 text-warning">
-                                    {Object.values(data.inventory).reduce((a, b) => a + b, 0)}
-                                </h2>
-                            </div>
-                            <div className="bg-warning bg-opacity-10 p-3 rounded-circle text-warning">
-                                <IconServer size={32} />
-                            </div>
-                        </Card.Body>
-                    </Card>
-                </Col>
-            </Row>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+                <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6 flex items-center justify-between">
+                    <div>
+                        <h6 className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">Reportes Abiertos</h6>
+                        <h2 className="text-3xl font-bold m-0 text-red-500">{reportesAbiertos}</h2>
+                    </div>
+                    <div className="bg-red-50 p-3 rounded-full text-red-500">
+                        <IconAlertCircle size={32} />
+                    </div>
+                </div>
 
-            <Row className="mb-4 g-3">
+                <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6 flex items-center justify-between">
+                    <div>
+                        <h6 className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">Reportes Gestionados</h6>
+                        <h2 className="text-3xl font-bold m-0 text-emerald-500">{reportesCerrados}</h2>
+                    </div>
+                    <div className="bg-emerald-50 p-3 rounded-full text-emerald-500">
+                        <IconCheck size={32} />
+                    </div>
+                </div>
+
+                <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6 flex items-center justify-between">
+                    <div>
+                        <h6 className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">Usuarios Activos</h6>
+                        <h2 className="text-3xl font-bold m-0 text-blue-500">{data.usersCount}</h2>
+                    </div>
+                    <div className="bg-blue-50 p-3 rounded-full text-blue-500">
+                        <IconUsers size={32} />
+                    </div>
+                </div>
+
+                <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6 flex items-center justify-between">
+                    <div>
+                        <h6 className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">Inventario Total</h6>
+                        <h2 className="text-3xl font-bold m-0 text-amber-500">
+                            {Object.values(data.inventory).reduce((a, b) => a + b, 0)}
+                        </h2>
+                    </div>
+                    <div className="bg-amber-50 p-3 rounded-full text-amber-500">
+                        <IconServer size={32} />
+                    </div>
+                </div>
+            </div>
+
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
                 {/* Inventory Chart */}
-                <Col lg={8}>
-                    <Card className="shadow-sm border-0 h-100">
-                        <Card.Header className="bg-white border-0 py-3">
-                            <h5 className="mb-0 fw-bold">Distribución de Inventario</h5>
-                        </Card.Header>
-                        <Card.Body style={{ minHeight: '300px' }}>
-                            <ResponsiveContainer width="100%" height={300}>
-                                <BarChart data={inventoryData}>
-                                    <CartesianGrid strokeDasharray="3 3" vertical={false} />
-                                    <XAxis dataKey="name" axisLine={false} tickLine={false} />
-                                    <YAxis axisLine={false} tickLine={false} />
-                                    <Tooltip
-                                        cursor={{ fill: '#f8f9fa' }}
-                                        contentStyle={{ borderRadius: '8px', border: 'none', boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)' }}
-                                    />
-                                    <Bar dataKey="cantidad" fill="#4dabf7" radius={[4, 4, 0, 0]} barSize={50} />
-                                </BarChart>
-                            </ResponsiveContainer>
-                        </Card.Body>
-                    </Card>
-                </Col>
+                <div className="lg:col-span-2 bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+                    <div className="px-6 py-4 border-b border-gray-100">
+                        <h5 className="m-0 font-bold text-gray-800">Distribución de Inventario</h5>
+                    </div>
+                    <div className="p-6" style={{ minHeight: '300px' }}>
+                        <ResponsiveContainer width="100%" height={300}>
+                            <BarChart data={inventoryData}>
+                                <CartesianGrid strokeDasharray="3 3" vertical={false} />
+                                <XAxis dataKey="name" axisLine={false} tickLine={false} />
+                                <YAxis axisLine={false} tickLine={false} />
+                                <Tooltip
+                                    cursor={{ fill: '#f8f9fa' }}
+                                    contentStyle={{ borderRadius: '8px', border: 'none', boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)' }}
+                                />
+                                <Bar dataKey="cantidad" fill="#4dabf7" radius={[4, 4, 0, 0]} barSize={50} />
+                            </BarChart>
+                        </ResponsiveContainer>
+                    </div>
+                </div>
 
                 {/* Status Pie Chart */}
-                <Col lg={4}>
-                    <Card className="shadow-sm border-0 h-100">
-                        <Card.Header className="bg-white border-0 py-3">
-                            <h5 className="mb-0 fw-bold">Estado de Reportes</h5>
-                        </Card.Header>
-                        <Card.Body className="d-flex align-items-center justify-content-center" style={{ minHeight: '300px' }}>
-                            <ResponsiveContainer width="100%" height={250}>
-                                <PieChart>
-                                    <Pie
-                                        data={pieData}
-                                        cx="50%"
-                                        cy="50%"
-                                        innerRadius={60}
-                                        outerRadius={80}
-                                        paddingAngle={5}
-                                        dataKey="value"
-                                    >
-                                        {pieData.map((entry, index) => (
-                                            <Cell key={`cell-${index}`} fill={index === 0 ? '#ff6b6b' : '#51cf66'} />
-                                        ))}
-                                    </Pie>
-                                    <Tooltip />
-                                    <Legend verticalAlign="bottom" height={36} />
-                                </PieChart>
-                            </ResponsiveContainer>
-                        </Card.Body>
-                    </Card>
-                </Col>
-            </Row>
+                <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+                    <div className="px-6 py-4 border-b border-gray-100">
+                        <h5 className="m-0 font-bold text-gray-800">Estado de Reportes</h5>
+                    </div>
+                    <div className="p-6 flex items-center justify-center" style={{ minHeight: '300px' }}>
+                        <ResponsiveContainer width="100%" height={250}>
+                            <PieChart>
+                                <Pie
+                                    data={pieData}
+                                    cx="50%"
+                                    cy="50%"
+                                    innerRadius={60}
+                                    outerRadius={80}
+                                    paddingAngle={5}
+                                    dataKey="value"
+                                >
+                                    {pieData.map((entry, index) => (
+                                        <Cell key={`cell-${index}`} fill={index === 0 ? '#ff6b6b' : '#51cf66'} />
+                                    ))}
+                                </Pie>
+                                <Tooltip />
+                                <Legend verticalAlign="bottom" height={36} />
+                            </PieChart>
+                        </ResponsiveContainer>
+                    </div>
+                </div>
+            </div>
 
             {/* Recent Reports Table */}
-            <Row>
-                <Col>
-                    <Card className="shadow-sm border-0">
-                        <Card.Header className="bg-white border-0 py-3 d-flex justify-content-between align-items-center">
-                            <h5 className="mb-0 fw-bold">Reportes Recientes (Abiertos)</h5>
-                        </Card.Header>
-                        <Table responsive hover className="mb-0">
-                            <thead className="bg-light">
-                                <tr>
-                                    <th className="border-0">ID</th>
-                                    <th className="border-0">Fecha</th>
-                                    <th className="border-0">Asunto/Motivo</th>
-                                    <th className="border-0">Estado</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {recentReports.length > 0 ? (
-                                    recentReports.map(report => (
-                                        <tr key={report.id}>
-                                            <td>#{report.id}</td>
-                                            <td>{new Date(report.fecha).toLocaleDateString()}</td>
-                                            <td>
-                                                {/* Accessing nested property safely */}
-                                                {report.motivo?.descripcion || "Sin motivo"}
-                                            </td>
-                                            <td>
-                                                <span className="badge bg-danger bg-opacity-10 text-danger px-3 py-2 rounded-pill">
-                                                    {report.estado}
-                                                </span>
-                                            </td>
-                                        </tr>
-                                    ))
-                                ) : (
-                                    <tr>
-                                        <td colSpan={4} className="text-center py-4 text-muted">
-                                            No hay reportes abiertos recientes.
+            <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+                <div className="px-6 py-4 border-b border-gray-100 flex justify-between items-center">
+                    <h5 className="m-0 font-bold text-gray-800">Reportes Recientes (Abiertos)</h5>
+                </div>
+                <div className="overflow-x-auto">
+                    <table className="w-full text-left border-collapse whitespace-nowrap">
+                        <thead className="bg-gray-50">
+                            <tr>
+                                <th className="p-4 text-xs font-semibold text-gray-600 uppercase tracking-wider border-b border-gray-100 font-medium">ID</th>
+                                <th className="p-4 text-xs font-semibold text-gray-600 uppercase tracking-wider border-b border-gray-100 font-medium">Fecha</th>
+                                <th className="p-4 text-xs font-semibold text-gray-600 uppercase tracking-wider border-b border-gray-100 font-medium">Asunto/Motivo</th>
+                                <th className="p-4 text-xs font-semibold text-gray-600 uppercase tracking-wider border-b border-gray-100 font-medium">Estado</th>
+                            </tr>
+                        </thead>
+                        <tbody className="divide-y divide-gray-100">
+                            {recentReports.length > 0 ? (
+                                recentReports.map(report => (
+                                    <tr key={report.id} className="hover:bg-gray-50 transition-colors">
+                                        <td className="p-4 align-middle text-gray-800 font-medium">#{report.id}</td>
+                                        <td className="p-4 align-middle text-gray-600">{new Date(report.fecha).toLocaleDateString()}</td>
+                                        <td className="p-4 align-middle text-gray-600">
+                                            {report.motivo?.descripcion || "Sin motivo"}
+                                        </td>
+                                        <td className="p-4 align-middle">
+                                            <span className="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold bg-red-50 text-red-600">
+                                                {report.estado}
+                                            </span>
                                         </td>
                                     </tr>
-                                )}
-                            </tbody>
-                        </Table>
-                    </Card>
-                </Col>
-            </Row>
-        </Container>
+                                ))
+                            ) : (
+                                <tr>
+                                    <td colSpan={4} className="text-center py-8 text-gray-500">
+                                        No hay reportes abiertos recientes.
+                                    </td>
+                                </tr>
+                            )}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
     );
 };
 

@@ -2,11 +2,9 @@
 
 import type React from "react"
 import { useState, useEffect } from "react"
-import { Badge, FormControl, Card, Button, Spinner, Row, Col, Modal } from "react-bootstrap"
 import Swal from "sweetalert2"
 import { getEnvios, deleteEnvio } from "../../servicios/EnvioModemService"
 import { format } from "date-fns"
-import { Download } from "react-bootstrap-icons"
 import * as XLSX from "xlsx"
 import { getCurrentUser } from "../../servicios/authServices"
 import FormularioEditarEnvio from "../FormulariosEditar.tsx/FormularioEditarEnvioM"
@@ -242,262 +240,239 @@ const EnviosTable: React.FC = () => {
 
   if (loading && envios.length === 0) {
     return (
-      <div className="d-flex justify-content-center align-items-center" style={{ height: "300px" }}>
-        <Spinner animation="border" role="status">
-          <span className="visually-hidden">Cargando...</span>
-        </Spinner>
+      <div className="flex justify-center items-center h-64">
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-orange-500"></div>
       </div>
     )
   }
 
   if (error && envios.length === 0) {
-    return <div className="alert alert-danger">{error}</div>
+    return <div className="p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50">{error}</div>
   }
 
   return (
-    <>
-      {/* Modal para Editar Envío */}
-      <Modal show={showEditModal} onHide={handleCloseEdit} centered size="lg">
-        <Modal.Header closeButton>
-          <Modal.Title>
-            <i className="bi bi-pencil-square me-2"></i>
-            Editar Envío
-          </Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          {selectedEnvioId && (
-            <FormularioEditarEnvio
-              envioId={selectedEnvioId}
-              onClose={handleCloseEdit}
-              onSuccess={() => {
-                loadEnvios()
-              }}
-            />
-          )}
-        </Modal.Body>
-      </Modal>
-
-      <div className="d-flex align-items-center mb-3" style={{ color: "black" }}>
-        <div className="pagetitle">
-          <h1>Envíos de Módems</h1>
-          <nav>
-            <ol className="breadcrumb">
-              <li className="breadcrumb-item">Inicio</li>
-              <li className="breadcrumb-item active">Envíos</li>
-            </ol>
-          </nav>
+    <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+      {showEditModal && (
+        <div className="fixed inset-0 z-50 overflow-y-auto">
+          <div className="flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:p-0">
+            <div className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" onClick={handleCloseEdit}></div>
+            <div className="inline-block align-bottom bg-white rounded-xl text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-4xl sm:w-full">
+              <div className="bg-white px-6 py-4 border-b border-gray-100 flex justify-between items-center">
+                <h3 className="text-lg leading-6 font-semibold text-gray-800 flex items-center">
+                  <i className="bi bi-pencil-square mr-2 text-orange-500"></i> Editar Envío
+                </h3>
+                <button onClick={handleCloseEdit} className="text-gray-400 hover:text-gray-500 focus:outline-none transition-colors">
+                  <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" /></svg>
+                </button>
+              </div>
+              <div className="px-6 py-5 sm:p-6 bg-gray-50">
+                {selectedEnvioId && (
+                  <FormularioEditarEnvio
+                    envioId={selectedEnvioId}
+                    onClose={handleCloseEdit}
+                    onSuccess={() => {
+                      loadEnvios()
+                    }}
+                  />
+                )}
+              </div>
+            </div>
+          </div>
         </div>
-        <div className="ms-auto">
-          <Button title="Exportar a Excel" onClick={exportToExcel} className="btn me-2" variant="success">
-            <Download className="me-1" /> Exportar
-          </Button>
-          
+      )}
+
+      <div className="p-5 border-b border-gray-100 bg-white">
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+          <div>
+            <h2 className="text-xl font-bold text-gray-800 m-0 flex items-center gap-2">
+              Envíos de Módems
+            </h2>
+            <nav className="flex" aria-label="Breadcrumb">
+              <ol className="inline-flex items-center space-x-1 md:space-x-3 mt-1 text-sm text-gray-500">
+                <li className="inline-flex items-center">Inicio</li>
+                <li>
+                  <div className="flex items-center">
+                    <i className="bi bi-chevron-right mx-2 text-gray-400"></i>
+                    <span className="font-semibold text-gray-800">Envíos</span>
+                  </div>
+                </li>
+              </ol>
+            </nav>
+          </div>
+          <div className="flex gap-2 w-full sm:w-auto">
+            <button
+              onClick={exportToExcel}
+              className="bg-emerald-500 hover:bg-emerald-600 text-white px-4 py-2 rounded-lg font-medium text-sm flex items-center gap-2 transition-colors w-full sm:w-auto justify-center"
+            >
+              <i className="bi bi-download"></i>
+              <span>Exportar</span>
+            </button>
+          </div>
         </div>
       </div>
 
-      <div className="p-2" style={{ backgroundColor: "#ffff", borderRadius: "0.6rem" }}>
-        <Row className="mb-2">
-          <Col>
-            <small className="text-muted">
-              Mostrando {currentEnvios.length} de {filteredEnvios.length} envíos
-            </small>
-          </Col>
-        </Row>
+      <div className="p-4 bg-gray-50 border-b border-gray-100">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3">
+          <input
+            type="text"
+            className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-orange-500 focus:border-orange-500 bg-white"
+            placeholder="Filtrar Farmacia..."
+            value={filterFarmacia}
+            onChange={(e) => setFilterFarmacia(e.target.value)}
+          />
+          <input
+            type="text"
+            className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-orange-500 focus:border-orange-500 bg-white"
+            placeholder="Filtrar Módem..."
+            value={filterModem}
+            onChange={(e) => setFilterModem(e.target.value)}
+          />
+          <input
+            type="date"
+            className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-orange-500 focus:border-orange-500 bg-white"
+            value={filterFecha}
+            onChange={(e) => setFilterFecha(e.target.value)}
+          />
+          <div className="flex gap-2 lg:col-span-2">
+            <input
+              type="text"
+              className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-orange-500 focus:border-orange-500 bg-white"
+              placeholder="Filtrar Estado..."
+              value={filterEstado}
+              onChange={(e) => setFilterEstado(e.target.value)}
+            />
+            <button
+              onClick={clearFilters}
+              title="Limpiar filtros"
+              className="px-3 py-2 bg-gray-100 text-gray-600 rounded-lg border border-gray-300 hover:bg-gray-200 transition-colors"
+            >
+              <i className='bi bi-eraser-fill'></i>
+            </button>
+          </div>
+        </div>
+      </div>
 
-        <div className="table-responsive" style={{ maxHeight: "50vh" }}>
-          <table className="table table-hover text-nowrap">
-            <thead>
+      <div className="overflow-x-auto">
+        <table className="w-full text-left border-collapse">
+          <thead>
+            <tr className="bg-gray-50 border-b border-gray-200 text-xs uppercase tracking-wider text-gray-500 font-semibold cursor-pointer">
+              <th className="p-3 hover:bg-gray-100" onClick={() => handleSort("farmacia")}>FARMACIA {getSortIcon("farmacia")}</th>
+              <th className="p-3 hover:bg-gray-100" onClick={() => handleSort("modem")}>MÓDEM {getSortIcon("modem")}</th>
+              <th className="p-3 hover:bg-gray-100" onClick={() => handleSort("fecha")}>FECHA ENVÍO {getSortIcon("fecha")}</th>
+              <th className="p-3 hover:bg-gray-100" onClick={() => handleSort("costo")}>COSTO ENVÍO {getSortIcon("costo")}</th>
+              <th className="p-3 hover:bg-gray-100" onClick={() => handleSort("estado")}>ESTADO {getSortIcon("estado")}</th>
+              <th className="p-3 text-center cursor-default">ACCIONES</th>
+            </tr>
+          </thead>
+          <tbody className="divide-y divide-gray-100 bg-white">
+            {currentEnvios.length === 0 ? (
               <tr>
-                <th onClick={() => handleSort("farmacia")} style={{ cursor: "pointer" }}>
-                  <FormControl
-                    size="sm"
-                    type="text"
-                    placeholder="Filtrar farmacia"
-                    value={filterFarmacia}
-                    onChange={(e) => setFilterFarmacia(e.target.value)}
-                  />
-                  FARMACIA {getSortIcon("farmacia")}
-                </th>
-                <th onClick={() => handleSort("modem")} style={{ cursor: "pointer" }}>
-                  <FormControl
-                    size="sm"
-                    type="text"
-                    placeholder="Filtrar módem"
-                    value={filterModem}
-                    onChange={(e) => setFilterModem(e.target.value)}
-                  />
-                  MÓDEM {getSortIcon("modem")}
-                </th>
-                <th onClick={() => handleSort("fecha")} style={{ cursor: "pointer" }}>
-                  <FormControl
-                    size="sm"
-                    type="date"
-                    value={filterFecha}
-                    onChange={(e) => setFilterFecha(e.target.value)}
-                  />
-                  FECHA ENVÍO {getSortIcon("fecha")}
-                </th>
-                <th onClick={() => handleSort("costo")} style={{ cursor: "pointer" }}>
-                  COSTO ENVÍO {getSortIcon("costo")}
-                </th>
-                <th onClick={() => handleSort("estado")} style={{ cursor: "pointer" }}>
-                  <FormControl
-                    size="sm"
-                    type="text"
-                    placeholder="Filtrar estado"
-                    value={filterEstado}
-                    onChange={(e) => setFilterEstado(e.target.value)}
-                  />
-                  ESTADO {getSortIcon("estado")}
-                </th>
-                <th className="text-center">
-                  <button
-                    className="btn btn-light btn-sm"
-                    style={{ backgroundColor: "#ffb361", color: "#fff", borderColor: "#ffb361" }}
-                    onClick={clearFilters}
-                  >
-                    <i className="bi bi-brush" />
-                  </button>
-                  <span style={{ display: "block", marginTop: "4px" }}>Acciones</span>
-                </th>
+                <td colSpan={6} className="p-8 text-center text-gray-500">
+                  <div className="flex flex-col items-center justify-center">
+                    <i className="bi bi-inbox text-4xl text-gray-300 mb-2"></i>
+                    <p>No se encontraron envíos con los filtros aplicados.</p>
+                  </div>
+                </td>
               </tr>
-            </thead>
-            <tbody>
-              {currentEnvios.length === 0 ? (
-                <tr>
-                  <td colSpan={6} className="text-center py-3">
-                    No se encontraron envíos con los filtros aplicados
+            ) : (
+              currentEnvios.map((envio) => (
+                <tr key={envio?.id || Math.random()} className="hover:bg-gray-50 transition-colors">
+                  <td className="p-3 align-middle text-sm text-gray-800">
+                    <div className="font-medium text-gray-900">{envio?.farmacia?.nombre}</div>
+                    <div className="text-xs text-gray-500">ID: {envio?.id}</div>
+                  </td>
+                  <td className="p-3 align-middle text-sm text-gray-800">
+                    <div>{envio?.modemPrincipal?.marca} - {envio?.modemPrincipal?.modelo}</div>
+                    <div className="text-xs text-gray-500">Serie: {envio?.modemPrincipal?.numero_serie}</div>
+                    {envio?.modemSecundario && (
+                      <div className="text-xs text-blue-600 mt-1">
+                        + {envio.modemSecundario.marca} - {envio.modemSecundario.modelo}
+                      </div>
+                    )}
+                  </td>
+                  <td className="p-3 align-middle text-sm text-gray-800">{envio?.fecha_envio ? format(new Date(envio.fecha_envio), "dd/MM/yyyy") : "N/A"}</td>
+                  <td className="p-3 align-middle text-sm text-gray-800">${envio?.costo_envio?.toLocaleString("es-CO") ?? ""}</td>
+                  <td className="p-3 align-middle">
+                    <span className={`inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium border ${envio?.estado_envio === "ENTREGADO" ? "bg-emerald-50 text-emerald-700 border-emerald-200" :
+                        envio?.estado_envio === "DEVUELTO" ? "bg-red-50 text-red-700 border-red-200" :
+                          envio?.estado_envio === "EN CAMINO" ? "bg-blue-50 text-blue-700 border-blue-200" :
+                            "bg-yellow-50 text-yellow-700 border-yellow-200"
+                      }`}>
+                      {envio?.estado_envio || "Desconocido"}
+                    </span>
+                  </td>
+                  <td className="p-3 align-middle">
+                    <div className="flex justify-center gap-2">
+                      <button
+                        className="flex items-center justify-center w-8 h-8 rounded-lg bg-orange-100 text-orange-600 hover:bg-orange-500 hover:text-white transition-colors border border-transparent hover:border-orange-600"
+                        onClick={() => handleShowEdit(envio?.id)}
+                        title="Editar envío"
+                      >
+                        <i className="bi bi-pencil"></i>
+                      </button>
+                      {isAdmin && (
+                        <button
+                          onClick={() => handleDelete(envio?.id)}
+                          className="flex items-center justify-center w-8 h-8 rounded-lg bg-red-100 text-red-600 hover:bg-red-600 hover:text-white transition-colors border border-transparent hover:border-red-600"
+                          title="Eliminar envío"
+                        >
+                          <i className="bi bi-trash"></i>
+                        </button>
+                      )}
+                    </div>
                   </td>
                 </tr>
-              ) : (
-                currentEnvios.map((envio) => (
-                  <tr key={envio?.id || Math.random()}>
-                    <td>
-                      <div className="d-flex align-items-center">
-                        <div>
-                          <div>{envio?.farmacia?.nombre}</div>
-                          <small className="text-muted">ID: {envio?.id}</small>
-                        </div>
-                      </div>
-                    </td>
-                    <td>
-                      <div>
-                        {envio?.modemPrincipal?.marca} - {envio?.modemPrincipal?.modelo}
-                      </div>
-                      <small className="text-muted">Serie: {envio?.modemPrincipal?.numero_serie}</small>
-                      {envio?.modemSecundario && (
-                        <div>
-                          <small className="text-info">
-                            + {envio.modemSecundario.marca} - {envio.modemSecundario.modelo}
-                          </small>
-                        </div>
-                      )}
-                    </td>
-                    <td>{envio?.fecha_envio ? format(new Date(envio.fecha_envio), "dd/MM/yyyy") : "N/A"}</td>
-                    <td>${envio?.costo_envio?.toLocaleString("es-CO") ?? ""}</td>
-                    <td>
-                      <Badge
-                        bg={
-                          envio?.estado_envio === "ENTREGADO"
-                            ? "success"
-                            : envio?.estado_envio === "DEVUELTO"
-                              ? "danger"
-                              : envio?.estado_envio === "EN CAMINO"
-                                ? "primary"
-                                : "warning"
-                        }
-                      >
-                        {envio?.estado_envio || "Desconocido"}
-                      </Badge>
-                    </td>
-                    <td>
-                      <div className="d-flex justify-content-end btn-group">
-                        <button
-                          className="btn btn-light btn-sm"
-                          style={{ backgroundColor: "#ffb361", color: "#fff", borderColor: "#ffb361" }}
-                          onClick={() => handleShowEdit(envio?.id)}
-                          title="Editar envío"
-                        >
-                          <i className="bi bi-pencil"></i>
-                        </button>
-                        {/* Solo mostrar el botón de eliminar para administradores */}
-                        {isAdmin && (
-                          <button
-                            onClick={() => handleDelete(envio?.id)}
-                            className="btn btn-light btn-sm"
-                            style={{ backgroundColor: "#dc3545", color: "#fff", borderColor: "#dc3545" }}
-                            title="Eliminar envío"
-                          >
-                            <i className="bi bi-trash"></i>
-                          </button>
-                        )}
-                      </div>
-                    </td>
-                  </tr>
-                ))
-              )}
-            </tbody>
-          </table>
+              ))
+            )}
+          </tbody>
+        </table>
+      </div>
+
+      <div className="bg-white border-t border-gray-200 px-4 py-3 flex items-center justify-between sm:px-6">
+        <div className="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between">
+          <div>
+            <p className="text-sm text-gray-700 m-0">
+              Mostrando <span className="font-medium">{currentEnvios.length}</span> de <span className="font-medium">{filteredEnvios.length}</span> envíos
+            </p>
+          </div>
+          <div>
+            <nav className="relative z-0 inline-flex rounded-md shadow-sm -space-x-px" aria-label="Pagination">
+              <button
+                onClick={() => handlePageChange(1)}
+                disabled={currentPage === 1}
+                className={`relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium ${currentPage === 1 ? 'text-gray-300 cursor-not-allowed' : 'text-gray-500 hover:bg-gray-50 text-orange-500'}`}
+              >
+                <i className="bi bi-chevron-double-left"></i>
+              </button>
+              <button
+                onClick={() => handlePageChange(currentPage - 1)}
+                disabled={currentPage === 1}
+                className={`relative inline-flex items-center px-2 py-2 border border-gray-300 bg-white text-sm font-medium ${currentPage === 1 ? 'text-gray-300 cursor-not-allowed' : 'text-gray-500 hover:bg-gray-50 text-orange-500'}`}
+              >
+                <i className="bi bi-chevron-left"></i>
+              </button>
+              <span className="relative inline-flex items-center px-4 py-2 border border-orange-500 bg-orange-50 text-sm font-medium text-orange-600">
+                {currentPage}
+              </span>
+              <button
+                onClick={() => handlePageChange(currentPage + 1)}
+                disabled={currentPage === totalPages || totalPages === 0}
+                className={`relative inline-flex items-center px-2 py-2 border border-gray-300 bg-white text-sm font-medium ${currentPage === totalPages || totalPages === 0 ? 'text-gray-300 cursor-not-allowed' : 'text-gray-500 hover:bg-gray-50 text-orange-500'}`}
+              >
+                <i className="bi bi-chevron-right"></i>
+              </button>
+              <button
+                onClick={() => handlePageChange(totalPages)}
+                disabled={currentPage === totalPages || totalPages === 0}
+                className={`relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium ${currentPage === totalPages || totalPages === 0 ? 'text-gray-300 cursor-not-allowed' : 'text-gray-500 hover:bg-gray-50 text-orange-500'}`}
+              >
+                <i className="bi bi-chevron-double-right"></i>
+              </button>
+            </nav>
+          </div>
         </div>
       </div>
-      <Card.Footer
-        style={{
-          display: "flex",
-          justifyContent: "space-between",
-          backgroundColor: "#ffff",
-          borderRadius: "0 0 0.6rem 0.6rem",
-        }}
-      >
-        <div>
-          <small className="text-muted">
-            Mostrando {currentEnvios.length} de {filteredEnvios.length} envíos
-          </small>
-        </div>
-        <ul className="pagination pagination-sm">
-          <li className={`m-1 page-item ${currentPage === 1 ? "disabled" : ""}`}>
-            <button
-              className="page-link"
-              style={{ backgroundColor: "#ffb361", color: "#fff", borderColor: "#ffb361" }}
-              onClick={() => handlePageChange(1)}
-            >
-              <i className="bi bi-chevron-double-left"></i>
-            </button>
-          </li>
-          <li className={`m-1 page-item ${currentPage === 1 ? "disabled" : ""}`}>
-            <button
-              className="page-link"
-              style={{ backgroundColor: "#ffb361", color: "#fff", borderColor: "#ffb361" }}
-              onClick={() => handlePageChange(currentPage - 1)}
-            >
-              <i className="bi bi-chevron-left"></i>
-            </button>
-          </li>
-          <li className="m-1 page-item active">
-            <span className="page-link" style={{ backgroundColor: "#ffb361", color: "#fff", borderColor: "#ffb361" }}>
-              {currentPage}
-            </span>
-          </li>
-          <li className={`m-1 page-item ${currentPage === totalPages ? "disabled" : ""}`}>
-            <button
-              className="page-link"
-              style={{ backgroundColor: "#ffb361", color: "#fff", borderColor: "#ffb361" }}
-              onClick={() => handlePageChange(currentPage + 1)}
-            >
-              <i className="bi bi-chevron-right"></i>
-            </button>
-          </li>
-          <li className={`m-1 page-item ${currentPage === totalPages ? "disabled" : ""}`}>
-            <button
-              className="page-link"
-              style={{ backgroundColor: "#ffb361", color: "#fff", borderColor: "#ffb361" }}
-              onClick={() => handlePageChange(totalPages)}
-            >
-              <i className="bi bi-chevron-double-right"></i>
-            </button>
-          </li>
-        </ul>
-      </Card.Footer>
-    </>
+    </div>
   )
 }
 

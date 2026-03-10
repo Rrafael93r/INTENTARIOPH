@@ -35,21 +35,9 @@ public class EnvioDeModemsController {
         }
     }
 
-    @PostMapping(
-            consumes = MediaType.APPLICATION_JSON_VALUE,
-            produces = MediaType.APPLICATION_JSON_VALUE
-    )
+    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<EnvioDeModems> createEnvio(@RequestBody EnvioDeModems envio) {
         try {
-            System.out.println("=== CREANDO NUEVO ENVÍO ===");
-            System.out.println("Farmacia ID: " + (envio.getFarmacia() != null ? envio.getFarmacia().getId() : "null"));
-            System.out.println("Modem Principal ID: " + (envio.getModemPrincipal() != null ? envio.getModemPrincipal().getId() : "null"));
-            System.out.println("Modem Secundario ID: " + (envio.getModemSecundario() != null ? envio.getModemSecundario().getId() : "null"));
-            System.out.println("Fecha envío: " + envio.getFecha_envio());
-            System.out.println("Costo envío: " + envio.getCosto_envio());
-            System.out.println("Estado envío: " + envio.getEstado_envio());
-
-            // Validaciones
             if (envio.getFarmacia() == null || envio.getFarmacia().getId() == 0) {
                 throw new RuntimeException("Farmacia es requerida");
             }
@@ -57,44 +45,26 @@ public class EnvioDeModemsController {
                 throw new RuntimeException("Módem principal es requerido");
             }
 
-            // Crear el envío
             EnvioDeModems savedEnvio = envioService.save(envio);
 
-            // Actualizar estado del módem principal a "EN USO"
             if (envio.getModemPrincipal() != null) {
                 modemsService.updateEstado(envio.getModemPrincipal().getId(), "EN USO");
-                System.out.println("Módem principal actualizado a EN USO: " + envio.getModemPrincipal().getId());
             }
-
-            // Actualizar estado del módem secundario a "EN USO" si existe
             if (envio.getModemSecundario() != null) {
                 modemsService.updateEstado(envio.getModemSecundario().getId(), "EN USO");
-                System.out.println("Módem secundario actualizado a EN USO: " + envio.getModemSecundario().getId());
             }
 
-            System.out.println("Envío creado exitosamente con ID: " + savedEnvio.getId());
             return ResponseEntity.ok(savedEnvio);
-
         } catch (Exception e) {
-            System.err.println("Error al crear envío: " + e.getMessage());
-            e.printStackTrace();
             throw new RuntimeException("Error al crear el envío: " + e.getMessage());
         }
     }
 
-    @PutMapping(
-            value = "/{id}",
-            consumes = MediaType.APPLICATION_JSON_VALUE,
-            produces = MediaType.APPLICATION_JSON_VALUE
-    )
+    @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<EnvioDeModems> updateEnvio(@PathVariable Long id, @RequestBody EnvioDeModems envioDetails) {
         try {
-            System.out.println("=== ACTUALIZANDO ENVÍO ID: " + id + " ===");
-            System.out.println("Datos recibidos: " + envioDetails.toString());
-
             EnvioDeModems envio = envioService.findById(id);
             if (envio != null) {
-                // Actualizar campos
                 if (envioDetails.getFecha_envio() != null) {
                     envio.setFecha_envio(envioDetails.getFecha_envio());
                 }
@@ -106,14 +76,11 @@ public class EnvioDeModemsController {
                 }
 
                 EnvioDeModems updatedEnvio = envioService.save(envio);
-                System.out.println("Envío actualizado exitosamente");
                 return ResponseEntity.ok(updatedEnvio);
             } else {
                 return ResponseEntity.notFound().build();
             }
         } catch (Exception e) {
-            System.err.println("Error al actualizar envío: " + e.getMessage());
-            e.printStackTrace();
             throw new RuntimeException("Error al actualizar el envío: " + e.getMessage());
         }
     }

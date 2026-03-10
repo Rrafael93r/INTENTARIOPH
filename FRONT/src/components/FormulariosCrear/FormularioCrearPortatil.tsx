@@ -18,8 +18,6 @@ interface Marca {
 const FormularioCrearPortatil = ({ handleClose }: { handleClose: () => void }) => {
     const [funcionarios, setFuncionarios] = useState<Funcionario[]>([]);
     const [marcas, setMarcas] = useState<Marca[]>([]);
-    const [isHovered, setIsHovered] = useState(false);
-    const [isHovered2, setIsHovered2] = useState(false);
 
     const [formData, setFormData] = useState({
         marca: { id: '' },
@@ -119,13 +117,13 @@ const FormularioCrearPortatil = ({ handleClose }: { handleClose: () => void }) =
     };
 
     return (
-        <div className="p-4">
-            <form className="row g-3" onSubmit={handleSubmit}>
-                <div className="col-md-6">
-                    <label htmlFor="marca" className="form-label">Marca*</label>
+        <div className="p-4 bg-white rounded-lg shadow-sm">
+            <form className="grid grid-cols-1 md:grid-cols-2 gap-4" onSubmit={handleSubmit}>
+                <div className="space-y-1">
+                    <label htmlFor="marca" className="block text-sm font-medium text-gray-700">Marca*</label>
                     <select
                         id="marca"
-                        className="form-select"
+                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-colors"
                         value={formData.marca.id}
                         onChange={handleChange}
                     >
@@ -137,31 +135,33 @@ const FormularioCrearPortatil = ({ handleClose }: { handleClose: () => void }) =
                         ))}
                     </select>
                 </div>
-                <div className="col-md-6">
-                    <label htmlFor="modelo" className="form-label">Modelo*</label>
+                <div className="space-y-1">
+                    <label htmlFor="modelo" className="block text-sm font-medium text-gray-700">Modelo*</label>
                     <input
                         type="text"
-                        className="form-control"
+                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-colors"
                         id="modelo"
                         value={formData.modelo}
                         onChange={handleChange}
+                        placeholder="Ej: Latitude 3420"
                     />
                 </div>
-                <div className="col-md-6">
-                    <label htmlFor="serial" className="form-label">Serial*</label>
+                <div className="space-y-1">
+                    <label htmlFor="serial" className="block text-sm font-medium text-gray-700">Serial*</label>
                     <input
                         type="text"
-                        className="form-control"
+                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-colors"
                         id="serial"
                         value={formData.serial}
                         onChange={handleChange}
+                        placeholder="Número de serie"
                     />
                 </div>
-                <div className="col-md-6">
-                    <label htmlFor="estado" className="form-label">Estado*</label>
+                <div className="space-y-1">
+                    <label htmlFor="estado" className="block text-sm font-medium text-gray-700">Estado*</label>
                     <select
                         id="estado"
-                        className="form-select"
+                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-colors"
                         value={formData.estado}
                         onChange={handleChange}
                     >
@@ -173,22 +173,22 @@ const FormularioCrearPortatil = ({ handleClose }: { handleClose: () => void }) =
                     </select>
                 </div>
 
-                <div className="col-md-6">
-                    <label htmlFor="fecha_compra" className="form-label">Fecha de Compra</label>
+                <div className="space-y-1">
+                    <label htmlFor="fecha_compra" className="block text-sm font-medium text-gray-700">Fecha de Compra</label>
                     <input
                         type="date"
-                        className="form-control"
+                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-colors"
                         id="fecha_compra"
                         value={formData.fecha_compra}
                         onChange={handleChange}
                     />
                 </div>
 
-                <div className="col-md-6">
-                    <label htmlFor="funcionario" className="form-label">Asignado a</label>
+                <div className="space-y-1">
+                    <label htmlFor="funcionario" className="block text-sm font-medium text-gray-700">Asignado a</label>
                     <select
                         id="funcionario"
-                        className="form-select"
+                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-colors"
                         value={formData.funcionario.id}
                         onChange={handleChange}
                     >
@@ -201,41 +201,27 @@ const FormularioCrearPortatil = ({ handleClose }: { handleClose: () => void }) =
                     </select>
                 </div>
 
-                <div className="col-12">
-                    <label htmlFor="descripcion" className="form-label">Descripción</label>
+                <div className="md:col-span-2 space-y-1">
+                    <label htmlFor="descripcion" className="block text-sm font-medium text-gray-700">Descripción</label>
                     <textarea
-                        className="form-control"
+                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-colors resize-y"
                         id="descripcion"
                         rows={3}
                         value={formData.descripcion}
                         onChange={handleChange}
+                        placeholder="Detalles adicionales sobre el portátil..."
                     ></textarea>
                 </div>
 
-                <div className="text-center mt-4">
+                <div className="md:col-span-2 flex justify-center gap-4 mt-6">
                     <button
-                        style={{
-                            backgroundColor: '#f6952c', borderColor: '#f6952c',
-                            cursor: 'pointer',
-                            background: isHovered2 ? '#ffff' : '#f6952c',
-                            color: isHovered2 ? '#f6952c' : '#ffff',
-                        }}
-                        onMouseEnter={() => setIsHovered2(true)}
-                        onMouseLeave={() => setIsHovered2(false)}
-                        type="submit" className="btn btn-primary me-4">
-                        <i className="bi bi-floppy m-1" />GUARDAR
+                        type="submit"
+                        className="flex items-center justify-center px-6 py-2.5 bg-orange-500 text-white font-medium rounded-lg hover:bg-orange-600 focus:ring-4 focus:ring-orange-300 transition-all duration-200"
+                    >
+                        <i className="bi bi-floppy mr-2" /> GUARDAR
                     </button>
                     <button
-                        style={{
-                            backgroundColor: isHovered ? '#f6952c' : '#ffff',
-                            color: isHovered ? '#fff' : '#f6952c',
-                            borderColor: '#f6952c',
-                            cursor: 'pointer'
-                        }}
-                        onMouseEnter={() => setIsHovered(true)}
-                        onMouseLeave={() => setIsHovered(false)}
                         type="button"
-                        className="btn btn-outline-secondary"
                         onClick={() => setFormData({
                             marca: { id: '' },
                             modelo: '',
@@ -245,8 +231,9 @@ const FormularioCrearPortatil = ({ handleClose }: { handleClose: () => void }) =
                             funcionario: { id: '' },
                             descripcion: ''
                         })}
+                        className="flex items-center justify-center px-6 py-2.5 bg-white text-orange-500 border border-orange-500 font-medium rounded-lg hover:bg-orange-50 focus:ring-4 focus:ring-orange-100 transition-all duration-200"
                     >
-                        <i className="bi bi-trash-fill m-1" />LIMPIAR
+                        <i className="bi bi-trash-fill mr-2" /> LIMPIAR
                     </button>
                 </div>
             </form>

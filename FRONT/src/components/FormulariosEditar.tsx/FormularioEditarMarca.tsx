@@ -12,8 +12,6 @@ const FormularioEditarMarca: React.FC<FormularioEditarMarcaProps> = ({ id, handl
     const [formData, setFormData] = useState({
         nombre: ''
     });
-    const [isHovered, setIsHovered] = useState(false);
-    const [isHovered2, setIsHovered2] = useState(false);
 
     useEffect(() => {
         const cargarDatos = async () => {
@@ -80,46 +78,44 @@ const FormularioEditarMarca: React.FC<FormularioEditarMarcaProps> = ({ id, handl
     };
 
     return (
-        <div className="p-4">
-            <form className="row g-3" onSubmit={handleSubmit}>
-                <div className="col-md-12">
-                    <label htmlFor="nombre" className="form-label">Nombre de la Marca*</label>
-                    <input
-                        type="text"
-                        className="form-control"
-                        id="nombre"
-                        value={formData.nombre}
-                        onChange={handleChange}
-                    />
+        <div className="p-2 sm:p-4">
+            <div className="mb-4 text-sm font-semibold text-gray-500 bg-gray-50 p-2 rounded-lg border border-gray-100 inline-block">
+                ID: {id}
+            </div>
+
+            <form onSubmit={handleSubmit} className="space-y-6">
+                <div className="grid grid-cols-1 gap-4 sm:gap-6">
+
+                    <div className="flex flex-col space-y-1.5">
+                        <label htmlFor="nombre" className="text-sm font-semibold text-gray-700">Nombre de la Marca <span className="text-orange-500">*</span></label>
+                        <input
+                            type="text"
+                            id="nombre"
+                            value={formData.nombre}
+                            onChange={handleChange}
+                            required
+                            placeholder="Ej. HP"
+                            className="px-3 py-2 bg-white border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all placeholder-gray-400"
+                        />
+                    </div>
+
                 </div>
 
-                <div className="text-center mt-4">
+                <div className="flex flex-col sm:flex-row justify-end items-center gap-3 pt-6 mt-6 border-t border-gray-100">
                     <button
-                        style={{
-                            backgroundColor: '#f6952c', borderColor: '#f6952c',
-                            cursor: 'pointer',
-                            background: isHovered2 ? '#ffff' : '#f6952c',
-                            color: isHovered2 ? '#f6952c' : '#ffff',
-                        }}
-                        onMouseEnter={() => setIsHovered2(true)}
-                        onMouseLeave={() => setIsHovered2(false)}
-                        type="submit" className="btn btn-primary me-4">
-                        <i className="bi bi-floppy m-1" />ACTUALIZAR
+                        type="button"
+                        onClick={handleClose}
+                        className="w-full sm:w-auto px-5 py-2.5 rounded-lg border border-gray-300 text-gray-700 bg-white hover:bg-gray-50 hover:text-gray-900 font-medium text-sm transition-all focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-200 flex items-center justify-center"
+                    >
+                        <i className="bi bi-x-circle mr-2"></i>
+                        Cancelar
                     </button>
                     <button
-                        style={{
-                            backgroundColor: isHovered ? '#f6952c' : '#ffff',
-                            color: isHovered ? '#fff' : '#f6952c',
-                            borderColor: '#f6952c',
-                            cursor: 'pointer'
-                        }}
-                        onMouseEnter={() => setIsHovered(true)}
-                        onMouseLeave={() => setIsHovered(false)}
-                        type="button"
-                        className="btn btn-outline-secondary"
-                        onClick={handleClose}
+                        type="submit"
+                        className="w-full sm:w-auto px-5 py-2.5 rounded-lg border border-transparent bg-orange-500 text-white hover:bg-orange-600 font-medium text-sm transition-all shadow-sm shadow-orange-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500 flex items-center justify-center"
                     >
-                        <i className="bi bi-x-circle m-1" />CANCELAR
+                        <i className="bi bi-floppy mr-2"></i>
+                        Actualizar Marca
                     </button>
                 </div>
             </form>

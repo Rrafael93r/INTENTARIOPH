@@ -27,10 +27,6 @@ axios.interceptors.request.use(
 axios.interceptors.response.use(
     (response) => response,
     (error) => {
-        if (error.response && error.response.status === 401) {
-            console.error("Acceso no autorizado: API Key inválida o faltante.");
-            // Opcional: Redirigir a login o mostrar alerta
-        }
         return Promise.reject(error);
     }
 );

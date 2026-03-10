@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { Badge, FormControl, Card, Modal, Button } from 'react-bootstrap';
 import Swal from 'sweetalert2';
 import { getProveedor_internet, deleteProveedor } from '../../servicios/ProveedoresService';
 import FormularioCrear from '../FormulariosCrear/FormularioCrear';
@@ -111,212 +110,271 @@ const ProveedorTable: React.FC = () => {
 
   return (
     <>
-
-      <Modal show={showModal} onHide={handleClose} centered size="lg">
-        <Modal.Header closeButton>
-          <Modal.Title>Nueva Farmacia</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <FormularioCrear />
-        </Modal.Body>
-      </Modal>
-
-      <div className="d-flex align-items-center" style={{ color: 'black' }}>
-        <div className="pagetitle">
-          <h1>Proveedores</h1>
-          <nav>
-            <ol className="breadcrumb">
-              <li className="breadcrumb-item">Inicio</li>
-              <li className="breadcrumb-item active">Farmacias</li>
-            </ol>
-          </nav>
-        </div>
-        <div className="ms-auto">
-
-          <Button onClick={handleShow} className="btn" style={{ backgroundColor: '#f6952c', borderColor: '#f6952c' }}
-          >
-            <i className="bi bi-plus-circle-fill me-2"></i> Agregar Proveedor
-          </Button>
-
-        </div>
-      </div>
-
-      <div className='p-2' style={{ backgroundColor: '#ffff', borderBlockEndColor: '10px' }}>
-        <div className="table-responsive hv-100" style={{ maxHeight: '50vh' }}>
-          <table className='table table-hover text-nowarp'>
-            <thead>
-              <tr>
-                <th>
-                  <FormControl
-                    size="sm"
-                    type="text"
-                    placeholder="Filtrar nombre"
-                    value={filterNombre}
-                    onChange={(e) => setFilterNombre(e.target.value)}
-                  />
-                  Nombre
-                </th>
-                <th>
-                  <FormControl
-                    size="sm"
-                    type="text"
-                    placeholder="Filtrar correo"
-                    value={filterCorreo}
-                    onChange={(e) => setFilterCorreo(e.target.value)}
-                  />
-                  Correo
-                </th>
-                <th>
-                  <FormControl
-                    size="sm"
-                    type="text"
-                    placeholder="Filtrar contacto"
-                    value={filterNombreContacto}
-                    onChange={(e) => setFilterNombreContacto(e.target.value)}
-                  />
-                  Contacto
-                </th>
-                <th>
-                  <FormControl
-                    size="sm"
-                    type="text"
-                    placeholder="Filtrar número"
-                    value={filterNumeroContacto}
-                    onChange={(e) => setFilterNumeroContacto(e.target.value)}
-                  />
-                  Número
-                </th>
-                <th>
-                  <FormControl
-                    size="sm"
-                    type="text"
-                    placeholder="Filtrar estado"
-                    value={filterEstado}
-                    onChange={(e) => setFilterEstado(e.target.value)}
-                  />
-                  Estado
-                </th>
-                <th className="text-center">
-                  <button style={{ backgroundColor: "#ffb361", color: '#fff', borderColor: '#ffb361' }} onClick={clearFilters} type="button" className="btn btn-light btn-sm">
-                    <i className='bi bi-brush' />
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 text-gray-800 gap-4">
+        {showModal && (
+          <div className="fixed inset-0 z-50 overflow-y-auto">
+            <div className="flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:p-0">
+              <div className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" onClick={handleClose}></div>
+              <div className="inline-block align-bottom bg-white rounded-xl text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-4xl sm:w-full">
+                <div className="bg-white px-6 py-4 border-b border-gray-100 flex justify-between items-center">
+                  <h3 className="text-lg leading-6 font-semibold text-gray-800 flex items-center">
+                    <i className="bi bi-plus-circle mr-2 text-orange-500"></i> Nueva Farmacia
+                  </h3>
+                  <button onClick={handleClose} className="text-gray-400 hover:text-gray-500 focus:outline-none transition-colors">
+                    <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" /></svg>
                   </button>
-                  <span style={{ display: 'block', marginTop: '4px' }}>
-                    Acciones
-                  </span>
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              {currentProveedor_internet.map((proveedor) => (
-                <tr key={proveedor.id}>
-                  <td>
-                    <div className="d-flex align-items-center">
-                      <div>
-                        <div >{proveedor.nombre}</div>
-                        <small className="text-muted">ID: {proveedor.id}</small>
-                      </div>
-                    </div>
-                  </td>
-                  <td>{proveedor.correo}</td>
-                  <td>
-                    <div >{proveedor.nombre_contacto}</div>
-                  </td>
-                  <td>{proveedor.numero_contacto}</td>
-                  <td>
-                    <Badge bg={proveedor.estado === 'NO ACTIVO' ? 'danger' : 'success'} className="rounded-pill">
-                      {proveedor.estado}
-                    </Badge>
-                  </td>
-                  <td>
-                    <div className="d-flex justify-content-end btn-group" role="group">
+                </div>
+                <div className="px-6 py-5 sm:p-6 bg-gray-50">
+                  <FormularioCrear />
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 text-gray-800 gap-4">
+          <div>
+            <h1 className="text-2xl font-bold m-0 text-gray-900">Proveedores</h1>
+            <nav className="text-sm text-gray-500 mt-1">
+              <ol className="list-none p-0 inline-flex">
+                <li className="flex items-center">Inicio <span className="mx-2 text-gray-300">/</span></li>
+                <li className="font-medium text-gray-700">Farmacias</li>
+              </ol>
+            </nav>
+          </div>
+          <div className="flex gap-3 w-full sm:w-auto">
+            <button
+              onClick={handleShow}
+              className="flex-1 sm:flex-none flex justify-center items-center px-4 py-2 bg-orange-500 hover:bg-orange-600 text-white rounded-lg transition-colors font-medium text-sm shadow-sm"
+            >
+              <i className="bi bi-plus-circle-fill mr-2"></i> Agregar Proveedor
+            </button>
+          </div>
+        </div>
+
+        <div className="bg-white rounded-t-xl border border-gray-200 overflow-hidden shadow-sm">
+          <div className="overflow-x-auto max-h-[60vh] custom-scrollbar">
+            <table className="w-full text-left border-collapse whitespace-nowrap">
+              <thead className="bg-gray-50 sticky top-0 z-10">
+                <tr>
+                  <th className="p-3 text-xs font-semibold text-gray-600 uppercase tracking-wider border-b border-gray-200 align-top min-w-[200px]">
+                    <input
+                      type="text"
+                      className="w-full px-2 py-1.5 mb-2 text-sm border border-gray-300 rounded focus:outline-none focus:border-orange-500 focus:ring-1 focus:ring-orange-500 font-normal normal-case bg-white"
+                      placeholder="Filtrar nombre"
+                      value={filterNombre}
+                      onChange={(e) => setFilterNombre(e.target.value)}
+                    />
+                    <div className="flex items-center">Nombre</div>
+                  </th>
+                  <th className="p-3 text-xs font-semibold text-gray-600 uppercase tracking-wider border-b border-gray-200 align-top min-w-[200px]">
+                    <input
+                      type="text"
+                      className="w-full px-2 py-1.5 mb-2 text-sm border border-gray-300 rounded focus:outline-none focus:border-orange-500 focus:ring-1 focus:ring-orange-500 font-normal normal-case bg-white"
+                      placeholder="Filtrar correo"
+                      value={filterCorreo}
+                      onChange={(e) => setFilterCorreo(e.target.value)}
+                    />
+                    <div className="flex items-center">Correo</div>
+                  </th>
+                  <th className="p-3 text-xs font-semibold text-gray-600 uppercase tracking-wider border-b border-gray-200 align-top min-w-[200px]">
+                    <input
+                      type="text"
+                      className="w-full px-2 py-1.5 mb-2 text-sm border border-gray-300 rounded focus:outline-none focus:border-orange-500 focus:ring-1 focus:ring-orange-500 font-normal normal-case bg-white"
+                      placeholder="Filtrar contacto"
+                      value={filterNombreContacto}
+                      onChange={(e) => setFilterNombreContacto(e.target.value)}
+                    />
+                    <div className="flex items-center">Contacto</div>
+                  </th>
+                  <th className="p-3 text-xs font-semibold text-gray-600 uppercase tracking-wider border-b border-gray-200 align-top min-w-[150px]">
+                    <input
+                      type="text"
+                      className="w-full px-2 py-1.5 mb-2 text-sm border border-gray-300 rounded focus:outline-none focus:border-orange-500 focus:ring-1 focus:ring-orange-500 font-normal normal-case bg-white"
+                      placeholder="Filtrar número"
+                      value={filterNumeroContacto}
+                      onChange={(e) => setFilterNumeroContacto(e.target.value)}
+                    />
+                    <div className="flex items-center">Número</div>
+                  </th>
+                  <th className="p-3 text-xs font-semibold text-gray-600 uppercase tracking-wider border-b border-gray-200 align-top min-w-[150px]">
+                    <input
+                      type="text"
+                      className="w-full px-2 py-1.5 mb-2 text-sm border border-gray-300 rounded focus:outline-none focus:border-orange-500 focus:ring-1 focus:ring-orange-500 font-normal normal-case bg-white"
+                      placeholder="Filtrar estado"
+                      value={filterEstado}
+                      onChange={(e) => setFilterEstado(e.target.value)}
+                    />
+                    <div className="flex items-center">Estado</div>
+                  </th>
+                  <th className="p-3 text-xs font-semibold text-gray-600 uppercase tracking-wider border-b border-gray-200 text-center align-top w-24">
+                    <div className="flex flex-col items-center justify-center">
                       <button
-                        className="btn btn-light btn-sm"
-                        style={{ backgroundColor: "#ffb361", color: '#fff', borderColor: '#ffb361' }}
-                        onClick={() => {
-                          setSelectedProveedorId(proveedor.id);
-                          setShowModal2(true);
-                        }}
+                        className="p-1.5 mb-2 bg-orange-100 text-orange-600 hover:bg-orange-200 rounded transition-colors tooltip flex items-center justify-center w-8 h-8"
+                        title="Limpiar filtros"
+                        onClick={clearFilters}
                       >
-                        <i className="bi bi-pencil"></i>
+                        <i className="bi bi-brush"></i>
                       </button>
+                      <span>Acciones</span>
                     </div>
-                  </td>
+                  </th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody className="divide-y divide-gray-100">
+                {currentProveedor_internet.length === 0 ? (
+                  <tr>
+                    <td colSpan={6} className="text-center py-8 text-gray-500">
+                      <div className="flex justify-center mb-2">
+                        <i className="bi bi-inbox text-3xl text-gray-300"></i>
+                      </div>
+                      No se encontraron proveedores con los filtros aplicados
+                    </td>
+                  </tr>
+                ) : (
+                  currentProveedor_internet.map((proveedor) => (
+                    <tr key={proveedor.id} className="hover:bg-orange-50/30 transition-colors group">
+                      <td className="p-3 align-middle">
+                        <div className="flex flex-col">
+                          <span className="font-medium text-gray-900">{proveedor.nombre}</span>
+                          <span className="text-xs text-gray-500">ID: {proveedor.id}</span>
+                        </div>
+                      </td>
+                      <td className="p-3 align-middle text-sm text-gray-800">{proveedor.correo}</td>
+                      <td className="p-3 align-middle text-sm text-gray-800">{proveedor.nombre_contacto}</td>
+                      <td className="p-3 align-middle text-sm text-gray-800">{proveedor.numero_contacto}</td>
+                      <td className="p-3 align-middle">
+                        <span className={`inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium border ${proveedor.estado === 'NO ACTIVO'
+                          ? "bg-red-50 text-red-700 border-red-200"
+                          : "bg-emerald-50 text-emerald-700 border-emerald-200"
+                          }`}>
+                          {proveedor.estado !== "NO ACTIVO" && <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 mr-1.5"></span>}
+                          {proveedor.estado === "NO ACTIVO" && <span className="w-1.5 h-1.5 rounded-full bg-red-500 mr-1.5"></span>}
+                          {proveedor.estado}
+                        </span>
+                      </td>
+                      <td className="p-3 align-middle">
+                        <div className="flex justify-center gap-2">
+                          <button
+                            className="flex items-center justify-center w-8 h-8 rounded-lg bg-orange-100 text-orange-600 hover:bg-orange-500 hover:text-white transition-colors border border-transparent hover:border-orange-600"
+                            title="Editar"
+                            onClick={() => {
+                              setSelectedProveedorId(proveedor.id);
+                              setShowModal2(true);
+                            }}
+                          >
+                            <i className="bi bi-pencil"></i>
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                  ))
+                )}
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        {showModal2 && (
+          <div className="fixed inset-0 z-50 overflow-y-auto">
+            <div className="flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:p-0">
+              <div className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" onClick={handleClose2}></div>
+              <div className="inline-block align-bottom bg-white rounded-xl text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-4xl sm:w-full">
+                <div className="bg-white px-6 py-4 border-b border-gray-100 flex justify-between items-center">
+                  <h3 className="text-lg leading-6 font-semibold text-gray-800 flex items-center">
+                    <i className="bi bi-pencil-square mr-2 text-orange-500"></i> Editar Proveedor
+                  </h3>
+                  <button onClick={handleClose2} className="text-gray-400 hover:text-gray-500 focus:outline-none transition-colors">
+                    <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" /></svg>
+                  </button>
+                </div>
+                <div className="px-6 py-5 sm:p-6 bg-gray-50">
+                  {selectedProveedorId && (
+                    <FormularioEditarP
+                      proveedorId={selectedProveedorId}
+                      onClose={handleClose2}
+                      onSuccess={() => {
+                        const loadProveedor = async () => {
+                          try {
+                            const data = await getProveedor_internet();
+                            setProveedor_internet(data);
+                            handleClose2();
+                            Swal.fire({
+                              icon: 'success',
+                              title: '¡Actualizado!',
+                              text: 'El proveedor ha sido actualizado exitosamente',
+                              timer: 1500
+                            });
+                          } catch (error) {
+                            console.error('Error al recargar proveedores:', error);
+                            Swal.fire({
+                              icon: 'error',
+                              title: 'Error',
+                              text: 'No se pudieron recargar los proveedores'
+                            });
+                          }
+                        };
+                        loadProveedor();
+                      }}
+                    />
+                  )}
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
+        <div className="bg-white border border-t-0 border-gray-200 rounded-b-xl px-4 py-3 flex items-center justify-between sm:px-6 shadow-sm">
+          <div className="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between">
+            <div>
+              <p className="text-sm text-gray-700 m-0">
+                Mostrando <span className="font-medium">{currentProveedor_internet.length}</span> de <span className="font-medium">{filteredProveedor_internet.length}</span> proveedores
+              </p>
+            </div>
+            <div>
+              <nav className="relative z-0 inline-flex rounded-md shadow-sm -space-x-px" aria-label="Pagination">
+                <button
+                  onClick={() => handlePageChange(1)}
+                  disabled={currentPage === 1}
+                  className={`relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium ${currentPage === 1 ? 'text-gray-300 cursor-not-allowed' : 'text-gray-500 hover:bg-gray-50 text-orange-500'
+                    }`}
+                >
+                  <i className="bi bi-chevron-double-left"></i>
+                </button>
+                <button
+                  onClick={() => handlePageChange(currentPage - 1)}
+                  disabled={currentPage === 1}
+                  className={`relative inline-flex items-center px-2 py-2 border border-gray-300 bg-white text-sm font-medium ${currentPage === 1 ? 'text-gray-300 cursor-not-allowed' : 'text-gray-500 hover:bg-gray-50 text-orange-500'
+                    }`}
+                >
+                  <i className="bi bi-chevron-left"></i>
+                </button>
+
+                <span className="relative inline-flex items-center px-4 py-2 border border-orange-500 bg-orange-50 text-sm font-medium text-orange-600">
+                  {currentPage}
+                </span>
+
+                <button
+                  onClick={() => handlePageChange(currentPage + 1)}
+                  disabled={currentPage === totalPages || totalPages === 0}
+                  className={`relative inline-flex items-center px-2 py-2 border border-gray-300 bg-white text-sm font-medium ${currentPage === totalPages || totalPages === 0 ? 'text-gray-300 cursor-not-allowed' : 'text-gray-500 hover:bg-gray-50 text-orange-500'
+                    }`}
+                >
+                  <i className="bi bi-chevron-right"></i>
+                </button>
+                <button
+                  onClick={() => handlePageChange(totalPages)}
+                  disabled={currentPage === totalPages || totalPages === 0}
+                  className={`relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium ${currentPage === totalPages || totalPages === 0 ? 'text-gray-300 cursor-not-allowed' : 'text-gray-500 hover:bg-gray-50 text-orange-500'
+                    }`}
+                >
+                  <i className="bi bi-chevron-double-right"></i>
+                </button>
+              </nav>
+            </div>
+          </div>
         </div>
       </div>
-
-
-      <Modal show={showModal2} onHide={handleClose2} centered size="lg">
-        <Modal.Header closeButton style={{ backgroundColor: '#f8f9fa' }}>
-          <Modal.Title>
-            <i className="bi bi-pencil-square me-2"></i>
-            Editar Proveedor
-          </Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          {selectedProveedorId && (
-            <FormularioEditarP
-              proveedorId={selectedProveedorId}
-              onClose={handleClose2}
-              onSuccess={() => {
-                const loadProveedor = async () => {
-                  try {
-                    const data = await getProveedor_internet();
-                    setProveedor_internet(data);
-                    handleClose2();
-                    Swal.fire({
-                      icon: 'success',
-                      title: '¡Actualizado!',
-                      text: 'El proveedor ha sido actualizado exitosamente',
-                      timer: 1500
-                    });
-                  } catch (error) {
-                    console.error('Error al recargar proveedores:', error);
-                    Swal.fire({
-                      icon: 'error',
-                      title: 'Error',
-                      text: 'No se pudieron recargar los proveedores'
-                    });
-                  }
-                };
-                loadProveedor();
-              }}
-            />
-          )}
-        </Modal.Body>
-      </Modal>
-
-
-      <Card.Footer style={{ display: 'flex', justifyContent: 'flex-end', backgroundColor: '#ffff', borderBottom: '20px' }}>
-        <ul className="pagination pagination-sm" >
-          <li className={`m-1 page-item ${currentPage === 1 ? 'disabled' : ''}`}>
-            <button className="page-link" style={{ backgroundColor: "#ffb361", color: '#fff', borderColor: '#ffb361' }} onClick={() => handlePageChange(1)}>
-              <i className="bi bi-chevron-double-left"></i>
-            </button>
-          </li>
-          <li className={`m-1 page-item ${currentPage === 1 ? 'disabled' : ''}`}>
-            <button className="page-link" style={{ backgroundColor: "#ffb361", color: '#fff', borderColor: '#ffb361' }} onClick={() => handlePageChange(currentPage - 1)}>
-              <i className="bi bi-chevron-left"></i>
-            </button>
-          </li>
-          <li className=" m-1 page-item active">
-            <span className="page-link" style={{ backgroundColor: "#ffb361", color: '#fff', borderColor: '#ffb361' }}>{currentPage}</span>
-          </li>
-          <li className={` m-1 page-item ${currentPage === totalPages ? 'disabled' : ''}`}>
-            <button className="page-link" style={{ backgroundColor: "#ffb361", color: '#fff', borderColor: '#ffb361' }} onClick={() => handlePageChange(currentPage + 1)}>
-              <i className="bi bi-chevron-right"></i>
-            </button>
-          </li>
-          <li className={` m-1 page-item ${currentPage === totalPages ? 'disabled' : ''}`}>
-            <button className="page-link" style={{ backgroundColor: "#ffb361", color: '#fff', borderColor: '#ffb361' }} onClick={() => handlePageChange(totalPages)}>
-              <i className="bi bi-chevron-double-right"></i>
-            </button>
-          </li>
-        </ul>
-      </Card.Footer>
     </>
   );
 };

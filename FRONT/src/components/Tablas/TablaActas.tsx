@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { FormControl, Card, Modal, Button } from 'react-bootstrap';
 import Swal from 'sweetalert2';
 import { getActas, deleteActa } from '../../servicios/actaService';
 import FormularioCrearActa from '../FormulariosCrear/FormularioCrearActa';
@@ -92,153 +91,231 @@ const TablaActas: React.FC = () => {
 
     return (
         <>
-            <Modal show={showModal} onHide={handleClose} centered size="lg">
-                <Modal.Header closeButton>
-                    <Modal.Title>Nueva Acta</Modal.Title>
-                </Modal.Header>
-                <Modal.Body>
-                    <FormularioCrearActa handleClose={() => { handleClose(); loadActas(); }} />
-                </Modal.Body>
-            </Modal>
+            {/* Modal para Nueva Acta */}
+            {showModal && (
+                <div className="fixed inset-0 z-50 overflow-y-auto">
+                    <div className="flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:p-0">
+                        <div className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" onClick={handleClose}></div>
+                        <div className="inline-block align-bottom bg-white rounded-xl text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-4xl sm:w-full">
+                            <div className="bg-white px-6 py-4 border-b border-gray-100 flex justify-between items-center">
+                                <h3 className="text-lg leading-6 font-semibold text-gray-800 flex items-center">
+                                    <i className="bi bi-file-earmark-plus mr-2 text-orange-500"></i> Nueva Acta
+                                </h3>
+                                <button onClick={handleClose} className="text-gray-400 hover:text-gray-500 focus:outline-none transition-colors">
+                                    <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" /></svg>
+                                </button>
+                            </div>
+                            <div className="px-6 py-5 sm:p-6 bg-gray-50">
+                                <FormularioCrearActa handleClose={() => { handleClose(); loadActas(); }} />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            )}
 
-            <div className="d-flex align-items-center" style={{ color: 'black' }}>
-                <div className="pagetitle">
-                    <h1>Actas</h1>
-                    <nav>
-                        <ol className="breadcrumb">
-                            <li className="breadcrumb-item">Inicio</li>
-                            <li className="breadcrumb-item">Documentación</li>
-                            <li className="breadcrumb-item active">Actas</li>
+            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 text-gray-800 gap-4">
+                <div>
+                    <h1 className="text-2xl font-bold m-0 text-gray-900">Actas</h1>
+                    <nav className="text-sm text-gray-500 mt-1">
+                        <ol className="list-none p-0 inline-flex">
+                            <li className="flex items-center">Inicio <span className="mx-2 text-gray-300">/</span></li>
+                            <li className="flex items-center text-gray-400 hover:text-orange-500 transition-colors cursor-pointer">Documentación <span className="mx-2 text-gray-300">/</span></li>
+                            <li className="font-medium text-gray-700">Actas</li>
                         </ol>
                     </nav>
                 </div>
-                <div className="ms-auto">
-                    <Button
+                <div className="flex gap-3 w-full sm:w-auto">
+                    <button
                         onClick={handleShow}
-                        className="btn" style={{ backgroundColor: '#f6952c', borderColor: '#f6952c' }}>
-                        <i className="bi bi-plus-circle-fill me-2"></i> Agregar Acta
-                    </Button>
+                        className="flex-1 sm:flex-none flex justify-center items-center px-4 py-2 bg-orange-500 hover:bg-orange-600 text-white rounded-lg transition-colors font-medium text-sm shadow-sm"
+                    >
+                        <i className="bi bi-plus-circle-fill mr-2"></i> Agregar Acta
+                    </button>
                 </div>
             </div>
 
-            <div className='p-2' style={{ backgroundColor: '#ffff' }}>
-                <div className="table-responsive">
-                    <table className="table table-hover">
-                        <thead>
+            <div className="bg-white rounded-t-xl border border-gray-200 overflow-hidden shadow-sm">
+                <div className="overflow-x-auto max-h-[60vh] custom-scrollbar">
+                    <table className="w-full text-left border-collapse whitespace-nowrap">
+                        <thead className="bg-gray-50 sticky top-0 z-10">
                             <tr>
-                                <th>ID</th>
-                                <th>
-                                    <FormControl
-                                        size="sm"
+                                <th className="p-3 text-xs font-semibold text-gray-600 uppercase tracking-wider border-b border-gray-200 align-top w-20">
+                                    <div className="flex items-center h-full">ID</div>
+                                </th>
+                                <th className="p-3 text-xs font-semibold text-gray-600 uppercase tracking-wider border-b border-gray-200 align-top min-w-[250px]">
+                                    <input
                                         type="text"
+                                        className="w-full px-2 py-1.5 mb-2 text-sm border border-gray-300 rounded focus:outline-none focus:border-orange-500 focus:ring-1 focus:ring-orange-500 font-normal normal-case bg-white"
                                         placeholder="Filtrar Título"
                                         value={filterTitulo}
                                         onChange={(e) => setFilterTitulo(e.target.value)}
                                     />
-                                    TÍTULO
+                                    <div className="flex items-center">TÍTULO</div>
                                 </th>
-                                <th>
-                                    <FormControl
-                                        size="sm"
+                                <th className="p-3 text-xs font-semibold text-gray-600 uppercase tracking-wider border-b border-gray-200 align-top w-48">
+                                    <input
                                         type="text"
+                                        className="w-full px-2 py-1.5 mb-2 text-sm border border-gray-300 rounded focus:outline-none focus:border-orange-500 focus:ring-1 focus:ring-orange-500 font-normal normal-case bg-white"
                                         placeholder="Filtrar Fecha"
                                         value={filterFecha}
                                         onChange={(e) => setFilterFecha(e.target.value)}
                                     />
-                                    FECHA
+                                    <div className="flex items-center">FECHA</div>
                                 </th>
-                                <th>DESCRIPCIÓN</th>
-                                <th>ARCHIVO</th>
-                                <th className="text-center">
-                                    <button style={{ backgroundColor: "#ffb361", color: '#fff', borderColor: '#ffb361' }} onClick={clearFilters} type="button" className="btn btn-sm">
-                                        <i className='bi bi-brush' />
-                                    </button>
-                                    <span style={{ display: 'block', marginTop: '4px' }}>ACCIONES</span>
+                                <th className="p-3 text-xs font-semibold text-gray-600 uppercase tracking-wider border-b border-gray-200 align-top min-w-[300px]">
+                                    <div className="flex items-center h-full">DESCRIPCIÓN</div>
+                                </th>
+                                <th className="p-3 text-xs font-semibold text-gray-600 uppercase tracking-wider border-b border-gray-200 align-top w-32">
+                                    <div className="flex items-center h-full">ARCHIVO</div>
+                                </th>
+                                <th className="p-3 text-xs font-semibold text-gray-600 uppercase tracking-wider border-b border-gray-200 text-center align-top w-24">
+                                    <div className="flex flex-col items-center justify-center">
+                                        <button
+                                            className="p-1.5 mb-2 bg-orange-100 text-orange-600 hover:bg-orange-200 rounded transition-colors tooltip flex items-center justify-center w-8 h-8"
+                                            title="Limpiar filtros"
+                                            onClick={clearFilters}
+                                        >
+                                            <i className="bi bi-brush"></i>
+                                        </button>
+                                        <span>ACCIONES</span>
+                                    </div>
                                 </th>
                             </tr>
                         </thead>
-                        <tbody>
-                            {currentActas.map((acta) => (
-                                <tr key={acta.id}>
-                                    <td>{acta.id}</td>
-                                    <td>{acta.titulo}</td>
-                                    <td>{acta.fecha}</td>
-                                    <td>{acta.descripcion}</td>
-                                    <td>
-                                        {acta.url_archivo ? (
-                                            <a href={acta.url_archivo} target="_blank" rel="noopener noreferrer">Ver Archivo</a>
-                                        ) : 'N/A'}
-                                    </td>
-                                    <td>
-                                        <div className="d-flex justify-content-center btn-group" role="group">
-                                            <button
-                                                className="btn btn-light btn-sm"
-                                                style={{ backgroundColor: "#ffb361", color: '#fff', borderColor: '#ffb361' }}
-                                                onClick={() => {
-                                                    setSelectedId(acta.id);
-                                                    handleShow2();
-                                                }}
-                                            >
-                                                <i className="bi bi-pencil"></i>
-                                            </button>
-                                            <button
-                                                className="btn btn-danger btn-sm ms-2"
-                                                onClick={() => handleDelete(acta.id)}
-                                                title="Eliminar"
-                                            >
-                                                <i className="bi bi-trash"></i>
-                                            </button>
+                        <tbody className="divide-y divide-gray-100">
+                            {currentActas.length === 0 ? (
+                                <tr>
+                                    <td colSpan={6} className="text-center py-8 text-gray-500">
+                                        <div className="flex justify-center mb-2">
+                                            <i className="bi bi-inbox text-3xl text-gray-300"></i>
                                         </div>
+                                        No se encontraron actas con los filtros aplicados
                                     </td>
                                 </tr>
-                            ))}
+                            ) : (
+                                currentActas.map((acta) => (
+                                    <tr key={acta.id} className="hover:bg-orange-50/30 transition-colors group">
+                                        <td className="p-3 align-middle text-sm font-medium text-gray-900">{acta.id}</td>
+                                        <td className="p-3 align-middle text-sm text-gray-800 font-medium">{acta.titulo}</td>
+                                        <td className="p-3 align-middle text-sm text-gray-600 whitespace-nowrap">{acta.fecha}</td>
+                                        <td className="p-3 align-middle text-sm text-gray-600 whitespace-nowrap overflow-hidden text-ellipsis max-w-[300px] hover:whitespace-normal" title={acta.descripcion}>{acta.descripcion}</td>
+                                        <td className="p-3 align-middle text-sm">
+                                            {acta.url_archivo ? (
+                                                <a href={acta.url_archivo} target="_blank" rel="noopener noreferrer" className="inline-flex items-center text-orange-600 hover:text-orange-800 transition-colors font-medium">
+                                                    <i className="bi bi-file-earmark-pdf mr-1.5"></i>
+                                                    Ver Archivo
+                                                </a>
+                                            ) : (
+                                                <span className="text-gray-400 italic">N/A</span>
+                                            )}
+                                        </td>
+                                        <td className="p-3 align-middle">
+                                            <div className="flex justify-center gap-2">
+                                                <button
+                                                    className="flex items-center justify-center w-8 h-8 rounded-lg bg-orange-100 text-orange-600 hover:bg-orange-500 hover:text-white transition-colors border border-transparent hover:border-orange-600"
+                                                    title="Editar"
+                                                    onClick={() => {
+                                                        setSelectedId(acta.id);
+                                                        handleShow2();
+                                                    }}
+                                                >
+                                                    <i className="bi bi-pencil"></i>
+                                                </button>
+                                                <button
+                                                    className="flex items-center justify-center w-8 h-8 rounded-lg bg-red-100 text-red-600 hover:bg-red-500 hover:text-white transition-colors border border-transparent hover:border-red-600"
+                                                    title="Eliminar"
+                                                    onClick={() => handleDelete(acta.id)}
+                                                >
+                                                    <i className="bi bi-trash"></i>
+                                                </button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                ))
+                            )}
                         </tbody>
                     </table>
                 </div>
-
-                <Card.Footer style={{ display: 'flex', justifyContent: 'flex-end', backgroundColor: '#ffff' }}>
-                    <ul className="pagination pagination-sm" >
-                        <li className={`m-1 page-item ${currentPage === 1 ? 'disabled' : ''}`}>
-                            <button className="page-link" style={{ backgroundColor: "#ffb361", color: '#fff', borderColor: '#ffb361' }} onClick={() => handlePageChange(1)}>
-                                <i className="bi bi-chevron-double-left"></i>
-                            </button>
-                        </li>
-                        <li className={`m-1 page-item ${currentPage === 1 ? 'disabled' : ''}`}>
-                            <button className="page-link" style={{ backgroundColor: "#ffb361", color: '#fff', borderColor: '#ffb361' }} onClick={() => handlePageChange(currentPage - 1)}>
-                                <i className="bi bi-chevron-left"></i>
-                            </button>
-                        </li>
-                        <li className=" m-1 page-item active">
-                            <span className="page-link" style={{ backgroundColor: "#ffb361", color: '#fff', borderColor: '#ffb361' }}>{currentPage}</span>
-                        </li>
-                        <li className={` m-1 page-item ${currentPage === totalPages ? 'disabled' : ''}`}>
-                            <button className="page-link" style={{ backgroundColor: "#ffb361", color: '#fff', borderColor: '#ffb361' }} onClick={() => handlePageChange(currentPage + 1)}>
-                                <i className="bi bi-chevron-right"></i>
-                            </button>
-                        </li>
-                        <li className={` m-1 page-item ${currentPage === totalPages ? 'disabled' : ''}`}>
-                            <button className="page-link" style={{ backgroundColor: "#ffb361", color: '#fff', borderColor: '#ffb361' }} onClick={() => handlePageChange(totalPages)}>
-                                <i className="bi bi-chevron-double-right"></i>
-                            </button>
-                        </li>
-                    </ul>
-                </Card.Footer>
             </div>
 
-            <Modal show={showModal2} onHide={handleClose2} centered size="lg">
-                <Modal.Header closeButton>
-                    <Modal.Title>Editar Acta</Modal.Title>
-                </Modal.Header>
-                <Modal.Body>
-                    {selectedId && (
-                        <FormularioEditarActa
-                            id={selectedId}
-                            handleClose={handleClose2}
-                            onSuccess={loadActas}
-                        />
-                    )}
-                </Modal.Body>
-            </Modal>
+            <div className="bg-white border border-t-0 border-gray-200 rounded-b-xl px-4 py-3 flex items-center justify-between sm:px-6 shadow-sm">
+                <div className="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between">
+                    <div>
+                        <p className="text-sm text-gray-700 m-0">
+                            Mostrando <span className="font-medium">{currentActas.length}</span> de <span className="font-medium">{filteredActas.length}</span> actas
+                        </p>
+                    </div>
+                    <div>
+                        <nav className="relative z-0 inline-flex rounded-md shadow-sm -space-x-px" aria-label="Pagination">
+                            <button
+                                onClick={() => handlePageChange(1)}
+                                disabled={currentPage === 1}
+                                className={`relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium ${currentPage === 1 ? 'text-gray-300 cursor-not-allowed' : 'text-gray-500 hover:bg-gray-50 text-orange-500'
+                                    }`}
+                            >
+                                <i className="bi bi-chevron-double-left"></i>
+                            </button>
+                            <button
+                                onClick={() => handlePageChange(currentPage - 1)}
+                                disabled={currentPage === 1}
+                                className={`relative inline-flex items-center px-2 py-2 border border-gray-300 bg-white text-sm font-medium ${currentPage === 1 ? 'text-gray-300 cursor-not-allowed' : 'text-gray-500 hover:bg-gray-50 text-orange-500'
+                                    }`}
+                            >
+                                <i className="bi bi-chevron-left"></i>
+                            </button>
+
+                            <span className="relative inline-flex items-center px-4 py-2 border border-orange-500 bg-orange-50 text-sm font-medium text-orange-600">
+                                {currentPage}
+                            </span>
+
+                            <button
+                                onClick={() => handlePageChange(currentPage + 1)}
+                                disabled={currentPage === totalPages || totalPages === 0}
+                                className={`relative inline-flex items-center px-2 py-2 border border-gray-300 bg-white text-sm font-medium ${currentPage === totalPages || totalPages === 0 ? 'text-gray-300 cursor-not-allowed' : 'text-gray-500 hover:bg-gray-50 text-orange-500'
+                                    }`}
+                            >
+                                <i className="bi bi-chevron-right"></i>
+                            </button>
+                            <button
+                                onClick={() => handlePageChange(totalPages)}
+                                disabled={currentPage === totalPages || totalPages === 0}
+                                className={`relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium ${currentPage === totalPages || totalPages === 0 ? 'text-gray-300 cursor-not-allowed' : 'text-gray-500 hover:bg-gray-50 text-orange-500'
+                                    }`}
+                            >
+                                <i className="bi bi-chevron-double-right"></i>
+                            </button>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+
+            {/* Modal para Editar Acta */}
+            {showModal2 && (
+                <div className="fixed inset-0 z-50 overflow-y-auto">
+                    <div className="flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:p-0">
+                        <div className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" onClick={handleClose2}></div>
+                        <div className="inline-block align-bottom bg-white rounded-xl text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-4xl sm:w-full">
+                            <div className="bg-white px-6 py-4 border-b border-gray-100 flex justify-between items-center">
+                                <h3 className="text-lg leading-6 font-semibold text-gray-800 flex items-center">
+                                    <i className="bi bi-journal-check mr-2 text-orange-500"></i> Editar Acta
+                                </h3>
+                                <button onClick={handleClose2} className="text-gray-400 hover:text-gray-500 focus:outline-none transition-colors">
+                                    <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" /></svg>
+                                </button>
+                            </div>
+                            <div className="px-6 py-5 sm:p-6 bg-gray-50">
+                                {selectedId && (
+                                    <FormularioEditarActa
+                                        id={selectedId}
+                                        handleClose={handleClose2}
+                                        onSuccess={loadActas}
+                                    />
+                                )}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            )}
         </>
     );
 };

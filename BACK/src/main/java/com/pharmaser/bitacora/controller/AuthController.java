@@ -44,6 +44,8 @@ public class AuthController {
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
         } catch (BadCredentialsException e) {
             return ResponseEntity.status(401).body("Invalid credentials");
+        } catch (Exception e) {
+            return ResponseEntity.status(401).body("Error en la autenticación");
         }
 
         final UserDetails userDetails = userDetailsService.loadUserByUsername(username);

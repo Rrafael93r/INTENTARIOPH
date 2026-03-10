@@ -7,16 +7,12 @@ interface LayoutProps {
 
 const Layout: React.FC<LayoutProps> = ({ children }) => {
   return (
-    <>
-      <div className="container-fluid vh-100">
-        <div className="row h-100">
-          <Sidebar />
-          <main className=" ms-sm-auto col-lg-10 p-4 overflow-auto" style={{ maxHeight: "100vh" }}>
-            {children}
-          </main>
-        </div>
-      </div>
-    </>
+    <div className="flex h-screen w-full bg-gray-100 overflow-hidden font-sans">
+      <Sidebar />
+      <main className="flex-1 overflow-y-auto p-4 md:p-6 lg:p-8">
+        {children}
+      </main>
+    </div>
   )
 }
 

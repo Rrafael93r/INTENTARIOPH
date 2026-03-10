@@ -2,14 +2,12 @@
 
 import type React from "react"
 import { useState, useEffect, useRef } from "react"
-import { Badge, FormControl, Card, Modal, Button, Spinner, Row, Col, Form } from "react-bootstrap"
 import Swal from "sweetalert2"
 import { getReporte, deleteReporte } from "../../servicios/reportesService"
 import FormularioCrearR from "../FormulariosCrear/FormularioCrearR"
 import FormularioEditarR from "../FormulariosEditar.tsx/FormularioEditarR"
 import FormularioEnvioM from "../FormulariosCrear/FormularioEnvioM"
 import { format } from "date-fns"
-import { Download, ArrowUp, ArrowDown } from "react-bootstrap-icons"
 import * as XLSX from "xlsx"
 import { getCurrentUser } from "../../servicios/authServices"
 
@@ -112,7 +110,11 @@ const ReporteTable: React.FC = () => {
 
   const getSortIcon = (field: string) => {
     if (field !== sortField) return null
-    return sortDirection === "asc" ? <ArrowUp size={12} /> : <ArrowDown size={12} />
+    return sortDirection === "asc" ? (
+      <svg className="w-3 h-3 inline-block ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 15l7-7 7 7" /></svg>
+    ) : (
+      <svg className="w-3 h-3 inline-block ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" /></svg>
+    )
   }
 
   // Filtrar reportes
@@ -308,456 +310,487 @@ const ReporteTable: React.FC = () => {
 
   if (loading && reportes.length === 0) {
     return (
-      <div className="d-flex justify-content-center align-items-center" style={{ height: "300px" }}>
-        <Spinner animation="border" role="status">
-          <span className="visually-hidden">Cargando...</span>
-        </Spinner>
+      <div className="flex justify-center items-center h-64">
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-orange-500"></div>
       </div>
     )
   }
 
   if (error && reportes.length === 0) {
-    return <div className="alert alert-danger">{error}</div>
+    return <div className="p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50">{error}</div>
   }
 
   return (
     <>
       {/* Modal para Crear Reporte */}
-      <Modal show={showModal} onHide={handleClose} centered size="lg">
-        <Modal.Header closeButton>
-          <Modal.Title>
-            <i className="bi bi-plus-circle me-2"></i>
-            Nuevo Reporte
-          </Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <FormularioCrearR onSuccess={handleClose} />
-        </Modal.Body>
-      </Modal>
+      {showModal && (
+        <div className="fixed inset-0 z-50 overflow-y-auto">
+          <div className="flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:p-0">
+            <div className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" onClick={handleClose}></div>
+            <div className="inline-block align-bottom bg-white rounded-xl text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-4xl sm:w-full">
+              <div className="bg-white px-6 py-4 border-b border-gray-100 flex justify-between items-center">
+                <h3 className="text-lg leading-6 font-semibold text-gray-800 flex items-center">
+                  <i className="bi bi-plus-circle mr-2 text-orange-500"></i> Nuevo Reporte
+                </h3>
+                <button onClick={handleClose} className="text-gray-400 hover:text-gray-500 focus:outline-none transition-colors">
+                  <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" /></svg>
+                </button>
+              </div>
+              <div className="px-6 py-5 sm:p-6 bg-gray-50">
+                <FormularioCrearR onSuccess={handleClose} />
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Modal para Editar Reporte */}
-      <Modal show={showModal2} onHide={handleClose2} centered size="lg">
-        <Modal.Header closeButton>
-          <Modal.Title>
-            <i className="bi bi-pencil-square me-2"></i>
-            Editar Reporte
-          </Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          {selectedReporteId && (
-            <FormularioEditarR
-              reporteId={selectedReporteId}
-              onClose={handleClose2}
-              onSuccess={() => {
-                loadReportes()
-              }}
-            />
-          )}
-        </Modal.Body>
-      </Modal>
+      {showModal2 && (
+        <div className="fixed inset-0 z-50 overflow-y-auto">
+          <div className="flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:p-0">
+            <div className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" onClick={handleClose2}></div>
+            <div className="inline-block align-bottom bg-white rounded-xl text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-4xl sm:w-full">
+              <div className="bg-white px-6 py-4 border-b border-gray-100 flex justify-between items-center">
+                <h3 className="text-lg leading-6 font-semibold text-gray-800 flex items-center">
+                  <i className="bi bi-pencil-square mr-2 text-orange-500"></i> Editar Reporte
+                </h3>
+                <button onClick={handleClose2} className="text-gray-400 hover:text-gray-500 focus:outline-none transition-colors">
+                  <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" /></svg>
+                </button>
+              </div>
+              <div className="px-6 py-5 sm:p-6 bg-gray-50">
+                {selectedReporteId && (
+                  <FormularioEditarR
+                    reporteId={selectedReporteId}
+                    onClose={handleClose2}
+                    onSuccess={() => {
+                      loadReportes()
+                    }}
+                  />
+                )}
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Modal para Enviar Modem */}
-      <Modal show={showEnvioModal} onHide={handleCloseEnvio} centered size="lg">
-        <Modal.Header closeButton>
-          <Modal.Title>
-            <i className="bi bi-router me-2"></i>
-            Enviar Modem
-          </Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          {selectedReporteId && (
-            <FormularioEnvioM
-              farmacia={reportes.find((r) => r.id === selectedReporteId)?.farmacia}
-              onClose={() => {
-                handleCloseEnvio()
-                loadReportes()
-              }}
-            />
-          )}
-        </Modal.Body>
-      </Modal>
+      {showEnvioModal && (
+        <div className="fixed inset-0 z-50 overflow-y-auto">
+          <div className="flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:p-0">
+            <div className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" onClick={handleCloseEnvio}></div>
+            <div className="inline-block align-bottom bg-white rounded-xl text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-4xl sm:w-full">
+              <div className="bg-white px-6 py-4 border-b border-gray-100 flex justify-between items-center">
+                <h3 className="text-lg leading-6 font-semibold text-gray-800 flex items-center">
+                  <i className="bi bi-router mr-2 text-orange-500"></i> Enviar Modem
+                </h3>
+                <button onClick={handleCloseEnvio} className="text-gray-400 hover:text-gray-500 focus:outline-none transition-colors">
+                  <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" /></svg>
+                </button>
+              </div>
+              <div className="px-6 py-5 sm:p-6 bg-gray-50">
+                {selectedReporteId && (
+                  <FormularioEnvioM
+                    farmacia={reportes.find((r) => r.id === selectedReporteId)?.farmacia}
+                    onClose={() => {
+                      handleCloseEnvio()
+                      loadReportes()
+                    }}
+                  />
+                )}
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Modal para Ver Detalles */}
-      <Modal show={showDetalleModal} onHide={handleCloseDetalle} centered size="lg">
-        <Modal.Header closeButton>
-          <Modal.Title>
-            <i className="bi bi-info-circle me-2"></i>
-            Detalles del Reporte
-          </Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          {selectedReporteId && (
-            <div>
-              {loading ? (
-                <div className="text-center py-4">
-                  <Spinner animation="border" role="status">
-                    <span className="visually-hidden">Cargando...</span>
-                  </Spinner>
-                </div>
-              ) : (
-                <>
-                  {reportes.find((r) => r.id === selectedReporteId) && (
-                    <div>
-                      <Row className="mb-4">
-                        <Col md={6}>
-                          <h5>Información del Reporte</h5>
-                          <table className="table table-bordered">
-                            <tbody>
-                              <tr>
-                                <th>ID</th>
-                                <td>{reportes.find((r) => r.id === selectedReporteId)?.id}</td>
-                              </tr>
-                              <tr>
-                                <th>Fecha</th>
-                                <td>{reportes.find((r) => r.id === selectedReporteId)?.fecha}</td>
-                              </tr>
-                              <tr>
-                                <th>Inicio</th>
-                                <td>
-                                  {formatFecha(reportes.find((r) => r.id === selectedReporteId)?.fecha_hora_inicio)}{" "}
-                                  {formatHora(reportes.find((r) => r.id === selectedReporteId)?.fecha_hora_inicio)}
-                                </td>
-                              </tr>
-                              <tr>
-                                <th>Fin</th>
-                                <td>
-                                  {reportes.find((r) => r.id === selectedReporteId)?.fecha_hora_fin
-                                    ? `${formatFecha(
-                                      reportes.find((r) => r.id === selectedReporteId)?.fecha_hora_fin,
-                                    )} ${formatHora(
-                                      reportes.find((r) => r.id === selectedReporteId)?.fecha_hora_fin,
-                                    )}`
-                                    : "No establecido"}
-                                </td>
-                              </tr>
-                              <tr>
-                                <th>Duración</th>
-                                <td>{reportes.find((r) => r.id === selectedReporteId)?.duracion_incidente || "N/A"}</td>
-                              </tr>
-                              <tr>
-                                <th>Estado</th>
-                                <td>
-                                  <Badge
-                                    bg={
-                                      reportes.find((r) => r.id === selectedReporteId)?.estado === "ABIERTO"
-                                        ? "success"
-                                        : "danger"
-                                    }
-                                    className="rounded-pill"
-                                  >
-                                    {reportes.find((r) => r.id === selectedReporteId)?.estado}
-                                  </Badge>
-                                </td>
-                              </tr>
-                              <tr>
-                                <th>Motivo</th>
-                                <td>
-                                  {reportes.find((r) => r.id === selectedReporteId)?.motivo?.motivo || "Sin motivo"}
-                                </td>
-                              </tr>
-                            </tbody>
-                          </table>
-                        </Col>
-                        <Col md={6}>
-                          <h5>Información de la Farmacia</h5>
-                          <table className="table table-bordered">
-                            <tbody>
-                              <tr>
-                                <th>Nombre</th>
-                                <td>{reportes.find((r) => r.id === selectedReporteId)?.farmacia?.nombre}</td>
-                              </tr>
-                              <tr>
-                                <th>Dirección</th>
-                                <td>
-                                  {reportes.find((r) => r.id === selectedReporteId)?.farmacia?.direccion || "N/A"}
-                                </td>
-                              </tr>
-                              <tr>
-                                <th>Ciudad</th>
-                                <td>
-                                  {reportes.find((r) => r.id === selectedReporteId)?.farmacia?.ciudad?.nombre_ciudad ||
-                                    "N/A"}
-                                </td>
-                              </tr>
-                              <tr>
-                                <th>Proveedor</th>
-                                <td>
-                                  {
-                                    reportes.find((r) => r.id === selectedReporteId)?.farmacia?.proveedorInternet
-                                      ?.nombre
-                                  }
-                                </td>
-                              </tr>
-                              <tr>
-                                <th>Coordenadas</th>
-                                <td>
-                                  {reportes.find((r) => r.id === selectedReporteId)?.farmacia?.coordenadas || "N/A"}
-                                </td>
-                              </tr>
-                              <tr>
-                                <th>Cantidad Equipos</th>
-                                <td>
-                                  {reportes.find((r) => r.id === selectedReporteId)?.farmacia?.cantidadEquipos || 0}
-                                </td>
-                              </tr>
-                            </tbody>
-                          </table>
-                        </Col>
-                      </Row>
-                      <Row>
-                        <Col>
-                          <h5>Observaciones</h5>
-                          <div className="p-3 bg-light rounded">
-                            {reportes.find((r) => r.id === selectedReporteId)?.observacion || "Sin observaciones"}
+      {showDetalleModal && (
+        <div className="fixed inset-0 z-50 overflow-y-auto">
+          <div className="flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:p-0">
+            <div className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" onClick={handleCloseDetalle}></div>
+            <div className="inline-block align-bottom bg-white rounded-xl text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-6xl sm:w-full">
+              <div className="bg-white px-6 py-4 border-b border-gray-100 flex justify-between items-center">
+                <h3 className="text-lg leading-6 font-semibold text-gray-800 flex items-center">
+                  <i className="bi bi-info-circle mr-2 text-orange-500"></i> Detalles del Reporte
+                </h3>
+                <button onClick={handleCloseDetalle} className="text-gray-400 hover:text-gray-500 focus:outline-none transition-colors">
+                  <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" /></svg>
+                </button>
+              </div>
+              <div className="px-6 py-5 sm:p-6 bg-gray-50">
+                {selectedReporteId && (
+                  <div>
+                    {loading ? (
+                      <div className="flex justify-center py-4">
+                        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-orange-500"></div>
+                      </div>
+                    ) : (
+                      <>
+                        {reportes.find((r) => r.id === selectedReporteId) && (
+                          <div className="space-y-6">
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                              <div>
+                                <h5 className="font-semibold text-gray-800 mb-3 border-b pb-2">Información del Reporte</h5>
+                                <div className="bg-white rounded-lg border border-gray-200 overflow-hidden">
+                                  <table className="min-w-full divide-y divide-gray-200 text-sm">
+                                    <tbody className="divide-y divide-gray-200">
+                                      <tr>
+                                        <th className="px-4 py-3 bg-gray-50 text-left font-medium text-gray-500 w-1/3">ID</th>
+                                        <td className="px-4 py-3 text-gray-900">{reportes.find((r) => r.id === selectedReporteId)?.id}</td>
+                                      </tr>
+                                      <tr>
+                                        <th className="px-4 py-3 bg-gray-50 text-left font-medium text-gray-500">Fecha</th>
+                                        <td className="px-4 py-3 text-gray-900">{reportes.find((r) => r.id === selectedReporteId)?.fecha}</td>
+                                      </tr>
+                                      <tr>
+                                        <th className="px-4 py-3 bg-gray-50 text-left font-medium text-gray-500">Inicio</th>
+                                        <td className="px-4 py-3 text-gray-900">
+                                          {formatFecha(reportes.find((r) => r.id === selectedReporteId)?.fecha_hora_inicio)}{" "}
+                                          {formatHora(reportes.find((r) => r.id === selectedReporteId)?.fecha_hora_inicio)}
+                                        </td>
+                                      </tr>
+                                      <tr>
+                                        <th className="px-4 py-3 bg-gray-50 text-left font-medium text-gray-500">Fin</th>
+                                        <td className="px-4 py-3 text-gray-900">
+                                          {reportes.find((r) => r.id === selectedReporteId)?.fecha_hora_fin
+                                            ? `${formatFecha(
+                                              reportes.find((r) => r.id === selectedReporteId)?.fecha_hora_fin as string,
+                                            )} ${formatHora(
+                                              reportes.find((r) => r.id === selectedReporteId)?.fecha_hora_fin as string,
+                                            )}`
+                                            : "No establecido"}
+                                        </td>
+                                      </tr>
+                                      <tr>
+                                        <th className="px-4 py-3 bg-gray-50 text-left font-medium text-gray-500">Duración</th>
+                                        <td className="px-4 py-3 text-gray-900">{reportes.find((r) => r.id === selectedReporteId)?.duracion_incidente || "N/A"}</td>
+                                      </tr>
+                                      <tr>
+                                        <th className="px-4 py-3 bg-gray-50 text-left font-medium text-gray-500">Estado</th>
+                                        <td className="px-4 py-3">
+                                          <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${reportes.find((r) => r.id === selectedReporteId)?.estado === "ABIERTO" ? 'bg-emerald-100 text-emerald-800' : 'bg-red-100 text-red-800'
+                                            }`}>
+                                            {reportes.find((r) => r.id === selectedReporteId)?.estado}
+                                          </span>
+                                        </td>
+                                      </tr>
+                                      <tr>
+                                        <th className="px-4 py-3 bg-gray-50 text-left font-medium text-gray-500">Motivo</th>
+                                        <td className="px-4 py-3 text-gray-900">
+                                          {reportes.find((r) => r.id === selectedReporteId)?.motivo?.motivo || "Sin motivo"}
+                                        </td>
+                                      </tr>
+                                    </tbody>
+                                  </table>
+                                </div>
+                              </div>
+                              <div>
+                                <h5 className="font-semibold text-gray-800 mb-3 border-b pb-2">Información de la Farmacia</h5>
+                                <div className="bg-white rounded-lg border border-gray-200 overflow-hidden">
+                                  <table className="min-w-full divide-y divide-gray-200 text-sm">
+                                    <tbody className="divide-y divide-gray-200">
+                                      <tr>
+                                        <th className="px-4 py-3 bg-gray-50 text-left font-medium text-gray-500 w-1/3">Nombre</th>
+                                        <td className="px-4 py-3 text-gray-900">{reportes.find((r) => r.id === selectedReporteId)?.farmacia?.nombre}</td>
+                                      </tr>
+                                      <tr>
+                                        <th className="px-4 py-3 bg-gray-50 text-left font-medium text-gray-500">Dirección</th>
+                                        <td className="px-4 py-3 text-gray-900">
+                                          {reportes.find((r) => r.id === selectedReporteId)?.farmacia?.direccion || "N/A"}
+                                        </td>
+                                      </tr>
+                                      <tr>
+                                        <th className="px-4 py-3 bg-gray-50 text-left font-medium text-gray-500">Ciudad</th>
+                                        <td className="px-4 py-3 text-gray-900">
+                                          {reportes.find((r) => r.id === selectedReporteId)?.farmacia?.ciudad?.nombre_ciudad ||
+                                            "N/A"}
+                                        </td>
+                                      </tr>
+                                      <tr>
+                                        <th className="px-4 py-3 bg-gray-50 text-left font-medium text-gray-500">Proveedor</th>
+                                        <td className="px-4 py-3 text-gray-900">
+                                          {
+                                            reportes.find((r) => r.id === selectedReporteId)?.farmacia?.proveedorInternet
+                                              ?.nombre
+                                          }
+                                        </td>
+                                      </tr>
+                                      <tr>
+                                        <th className="px-4 py-3 bg-gray-50 text-left font-medium text-gray-500">Coordenadas</th>
+                                        <td className="px-4 py-3 text-gray-900">
+                                          {reportes.find((r) => r.id === selectedReporteId)?.farmacia?.coordenadas || "N/A"}
+                                        </td>
+                                      </tr>
+                                      <tr>
+                                        <th className="px-4 py-3 bg-gray-50 text-left font-medium text-gray-500">Cantidad Equipos</th>
+                                        <td className="px-4 py-3 text-gray-900">
+                                          {reportes.find((r) => r.id === selectedReporteId)?.farmacia?.cantidadEquipos || 0}
+                                        </td>
+                                      </tr>
+                                    </tbody>
+                                  </table>
+                                </div>
+                              </div>
+                            </div>
+                            <div>
+                              <h5 className="font-semibold text-gray-800 mb-3 border-b pb-2">Observaciones</h5>
+                              <div className="p-4 bg-white border border-gray-200 rounded-lg text-gray-700 text-sm">
+                                {reportes.find((r) => r.id === selectedReporteId)?.observacion || "Sin observaciones"}
+                              </div>
+                            </div>
                           </div>
-                        </Col>
-                      </Row>
-                    </div>
-                  )}
-                </>
-              )}
+                        )}
+                      </>
+                    )}
+                  </div>
+                )}
+              </div>
+              <div className="bg-gray-50 px-6 py-4 flex justify-end gap-3 border-t border-gray-200 rounded-b-xl">
+                <button
+                  onClick={handleCloseDetalle}
+                  className="px-4 py-2 border border-gray-300 rounded-lg text-gray-700 bg-white hover:bg-gray-50 transition-colors font-medium text-sm"
+                >
+                  Cerrar
+                </button>
+                {selectedReporteId && (
+                  <button
+                    className="px-4 py-2 bg-orange-500 text-white rounded-lg hover:bg-orange-600 transition-colors font-medium text-sm flex items-center gap-2"
+                    onClick={() => {
+                      handleCloseDetalle()
+                      handleShow2()
+                    }}
+                  >
+                    <i className="bi bi-pencil"></i>
+                    Editar
+                  </button>
+                )}
+              </div>
             </div>
-          )}
-        </Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={handleCloseDetalle}>
-            Cerrar
-          </Button>
-          {selectedReporteId && (
-            <Button
-              style={{ backgroundColor: "#f6952c", borderColor: "#f6952c" }}
-              onClick={() => {
-                handleCloseDetalle()
-                handleShow2()
-              }}
-            >
-              <i className="bi bi-pencil me-2"></i>
-              Editar
-            </Button>
-          )}
-        </Modal.Footer>
-      </Modal>
+          </div>
+        </div>
+      )}
 
-      <div className="d-flex align-items-center mb-3" style={{ color: "black" }}>
-        <div className="pagetitle">
-          <h1>Reportes de Internet</h1>
-          <nav>
-            <ol className="breadcrumb">
-              <li className="breadcrumb-item">Inicio</li>
-              <li className="breadcrumb-item active">Reportes</li>
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 text-gray-800 gap-4">
+        <div>
+          <h1 className="text-2xl font-bold m-0 text-gray-900">Reportes de Internet</h1>
+          <nav className="text-sm text-gray-500 mt-1">
+            <ol className="list-none p-0 inline-flex">
+              <li className="flex items-center">Inicio <span className="mx-2 text-gray-300">/</span></li>
+              <li className="font-medium text-gray-700">Reportes</li>
             </ol>
           </nav>
         </div>
-        <div className="ms-auto">
-          <Button
+        <div className="flex gap-3 w-full sm:w-auto">
+          <button
             ref={exportButtonRef}
             title="Exportar a Excel"
             onClick={exportToExcel}
-            className="btn me-2"
-            variant="success"
+            className="flex-1 sm:flex-none flex justify-center items-center px-4 py-2 bg-emerald-500 hover:bg-emerald-600 text-white rounded-lg transition-colors font-medium text-sm shadow-sm"
           >
-            <Download className="me-1" /> Exportar
-          </Button>
-          <Button
+            <svg className="w-4 h-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" /></svg> Exportar
+          </button>
+          <button
             title="Crear nuevo reporte"
             onClick={handleShow}
-            className="btn"
-            style={{ backgroundColor: "#f6952c", borderColor: "#f6952c" }}
+            className="flex-1 sm:flex-none flex justify-center items-center px-4 py-2 bg-orange-500 hover:bg-orange-600 text-white rounded-lg transition-colors font-medium text-sm shadow-sm"
           >
-            <i className="bi bi-plus-circle-fill me-2"></i> Nuevo Reporte
-          </Button>
+            <i className="bi bi-plus-circle-fill mr-2"></i> Nuevo Reporte
+          </button>
         </div>
       </div>
 
-      <div className="p-2" style={{ backgroundColor: "#ffff", borderRadius: "0.6rem" }}>
-        <Row className="mb-2">
-          <Col>
-            <small className="text-muted">
-              Mostrando {currentReportes.length} de {sortedReportes().length} reportes
-            </small>
-          </Col>
-        </Row>
-
-        <div className="table-responsive" style={{ maxHeight: "50vh" }}>
-          <table className="table table-hover text-nowrap">
-            <thead>
+      <div className="bg-white rounded-t-xl border border-gray-200 overflow-hidden shadow-sm">
+        <div className="overflow-x-auto max-h-[60vh] custom-scrollbar">
+          <table className="w-full text-left border-collapse whitespace-nowrap">
+            <thead className="bg-gray-50 sticky top-0 z-10">
               <tr>
                 <th
                   onClick={() => handleSort("fecha")}
-                  style={{ cursor: "pointer", whiteSpace: "nowrap" }}
-                  className="user-select-none"
+                  className="p-3 text-xs font-semibold text-gray-600 uppercase tracking-wider border-b border-gray-200 cursor-pointer hover:bg-gray-100 transition-colors align-top min-w-[150px]"
                 >
-                  <FormControl
-                    size="sm"
+                  <input
                     type="date"
+                    className="w-full px-2 py-1.5 mb-2 text-sm border border-gray-300 rounded focus:outline-none focus:border-orange-500 focus:ring-1 focus:ring-orange-500 font-normal normal-case bg-white"
                     placeholder="Filtrar fecha"
                     value={filterFecha}
                     onChange={(e) => setFilterFecha(e.target.value)}
-                    className="form-control-sm"
+                    onClick={(e) => e.stopPropagation()}
                   />
-                  Fecha {getSortIcon("fecha")}
+                  <div className="flex items-center justify-between">FECHA <span className="text-gray-400">{getSortIcon("fecha")}</span></div>
                 </th>
                 <th
                   onClick={() => handleSort("farmacia")}
-                  style={{ cursor: "pointer", whiteSpace: "nowrap" }}
-                  className="user-select-none"
+                  className="p-3 text-xs font-semibold text-gray-600 uppercase tracking-wider border-b border-gray-200 cursor-pointer hover:bg-gray-100 transition-colors align-top min-w-[180px]"
                 >
-                  <FormControl
-                    size="sm"
+                  <input
                     type="text"
+                    className="w-full px-2 py-1.5 mb-2 text-sm border border-gray-300 rounded focus:outline-none focus:border-orange-500 focus:ring-1 focus:ring-orange-500 font-normal normal-case bg-white"
                     placeholder="Filtrar farmacia"
                     value={filterFarmacia}
                     onChange={(e) => setFilterFarmacia(e.target.value)}
+                    onClick={(e) => e.stopPropagation()}
                   />
-                  Farmacia {getSortIcon("farmacia")}
+                  <div className="flex items-center justify-between">FARMACIA <span className="text-gray-400">{getSortIcon("farmacia")}</span></div>
                 </th>
                 <th
                   onClick={() => handleSort("inicio")}
-                  style={{ cursor: "pointer", whiteSpace: "nowrap" }}
-                  className="user-select-none"
+                  className="p-3 text-xs font-semibold text-gray-600 uppercase tracking-wider border-b border-gray-200 cursor-pointer hover:bg-gray-100 transition-colors align-top min-w-[150px]"
                 >
-                  <FormControl
-                    size="sm"
+                  <input
                     type="text"
+                    className="w-full px-2 py-1.5 mb-2 text-sm border border-gray-300 rounded focus:outline-none focus:border-orange-500 focus:ring-1 focus:ring-orange-500 font-normal normal-case bg-white"
                     placeholder="Filtrar inicio"
                     value={filterFechaHoraInicio}
                     onChange={(e) => setFilterFechaHoraInicio(e.target.value)}
+                    onClick={(e) => e.stopPropagation()}
                   />
-                  Fecha/Hora Inicio {getSortIcon("inicio")}
+                  <div className="flex items-center justify-between">INICIO <span className="text-gray-400">{getSortIcon("inicio")}</span></div>
                 </th>
                 <th
                   onClick={() => handleSort("fin")}
-                  style={{ cursor: "pointer", whiteSpace: "nowrap" }}
-                  className="user-select-none"
+                  className="p-3 text-xs font-semibold text-gray-600 uppercase tracking-wider border-b border-gray-200 cursor-pointer hover:bg-gray-100 transition-colors align-top min-w-[150px]"
                 >
-                  <FormControl
-                    size="sm"
+                  <input
                     type="text"
+                    className="w-full px-2 py-1.5 mb-2 text-sm border border-gray-300 rounded focus:outline-none focus:border-orange-500 focus:ring-1 focus:ring-orange-500 font-normal normal-case bg-white"
                     placeholder="Filtrar fin"
                     value={filterFechaHoraFin}
                     onChange={(e) => setFilterFechaHoraFin(e.target.value)}
+                    onClick={(e) => e.stopPropagation()}
                   />
-                  Fecha/Hora Fin {getSortIcon("fin")}
+                  <div className="flex items-center justify-between">FIN <span className="text-gray-400">{getSortIcon("fin")}</span></div>
                 </th>
                 <th
                   onClick={() => handleSort("duracion")}
-                  style={{ cursor: "pointer", whiteSpace: "nowrap" }}
-                  className="user-select-none"
+                  className="p-3 text-xs font-semibold text-gray-600 uppercase tracking-wider border-b border-gray-200 cursor-pointer hover:bg-gray-100 transition-colors align-top min-w-[120px]"
                 >
-                  <FormControl
-                    size="sm"
+                  <input
                     type="text"
+                    className="w-full px-2 py-1.5 mb-2 text-sm border border-gray-300 rounded focus:outline-none focus:border-orange-500 focus:ring-1 focus:ring-orange-500 font-normal normal-case bg-white"
                     placeholder="Filtrar duración"
                     value={filterDuracionIncidente}
                     onChange={(e) => setFilterDuracionIncidente(e.target.value)}
+                    onClick={(e) => e.stopPropagation()}
                   />
-                  Duración {getSortIcon("duracion")}
+                  <div className="flex items-center justify-between">DURACIÓN <span className="text-gray-400">{getSortIcon("duracion")}</span></div>
                 </th>
                 <th
                   onClick={() => handleSort("proveedor")}
-                  style={{ cursor: "pointer", whiteSpace: "nowrap" }}
-                  className="user-select-none"
+                  className="p-3 text-xs font-semibold text-gray-600 uppercase tracking-wider border-b border-gray-200 cursor-pointer hover:bg-gray-100 transition-colors align-top min-w-[150px]"
                 >
-                  <FormControl
-                    size="sm"
+                  <input
                     type="text"
+                    className="w-full px-2 py-1.5 mb-2 text-sm border border-gray-300 rounded focus:outline-none focus:border-orange-500 focus:ring-1 focus:ring-orange-500 font-normal normal-case bg-white"
                     placeholder="Filtrar proveedor"
                     value={filterProveedor}
                     onChange={(e) => setFilterProveedor(e.target.value)}
+                    onClick={(e) => e.stopPropagation()}
                   />
-                  Proveedor {getSortIcon("proveedor")}
+                  <div className="flex items-center justify-between">PROVEEDOR <span className="text-gray-400">{getSortIcon("proveedor")}</span></div>
                 </th>
                 <th
                   onClick={() => handleSort("motivo")}
-                  style={{ cursor: "pointer", whiteSpace: "nowrap" }}
-                  className="user-select-none"
+                  className="p-3 text-xs font-semibold text-gray-600 uppercase tracking-wider border-b border-gray-200 cursor-pointer hover:bg-gray-100 transition-colors align-top min-w-[150px]"
                 >
-                  <FormControl
-                    size="sm"
+                  <input
                     type="text"
+                    className="w-full px-2 py-1.5 mb-2 text-sm border border-gray-300 rounded focus:outline-none focus:border-orange-500 focus:ring-1 focus:ring-orange-500 font-normal normal-case bg-white"
                     placeholder="Filtrar motivo"
                     value={filterMotivo}
                     onChange={(e) => setFilterMotivo(e.target.value)}
+                    onClick={(e) => e.stopPropagation()}
                   />
-                  Motivo {getSortIcon("motivo")}
+                  <div className="flex items-center justify-between">MOTIVO <span className="text-gray-400">{getSortIcon("motivo")}</span></div>
                 </th>
                 <th
                   onClick={() => handleSort("estado")}
-                  style={{ cursor: "pointer", whiteSpace: "nowrap" }}
-                  className="user-select-none"
+                  className="p-3 text-xs font-semibold text-gray-600 uppercase tracking-wider border-b border-gray-200 cursor-pointer hover:bg-gray-100 transition-colors align-top min-w-[120px]"
                 >
-                  <Form.Select size="sm" value={filterEstado} onChange={(e) => setFilterEstado(e.target.value)}>
+                  <select
+                    className="w-full px-2 py-1.5 mb-2 text-sm border border-gray-300 rounded focus:outline-none focus:border-orange-500 focus:ring-1 focus:ring-orange-500 font-normal normal-case bg-white"
+                    value={filterEstado}
+                    onChange={(e) => setFilterEstado(e.target.value)}
+                    onClick={(e) => e.stopPropagation()}
+                  >
                     <option value="">Todos</option>
                     <option value="ABIERTO">ABIERTO</option>
                     <option value="CERRADO">CERRADO</option>
-                  </Form.Select>
-                  Estado {getSortIcon("estado")}
+                  </select>
+                  <div className="flex items-center justify-between">ESTADO <span className="text-gray-400">{getSortIcon("estado")}</span></div>
                 </th>
-                <th className="text-center">
-                  <button
-                    title="Limpiar filtros"
-                    style={{ backgroundColor: "#ffb361", color: "#fff", borderColor: "#ffb361" }}
-                    onClick={clearFilters}
-                    type="button"
-                    className="btn btn-light btn-sm"
-                  >
-                    <i className="bi bi-brush" />
-                  </button>
-                  <span style={{ display: "block", marginTop: "4px" }}>Acciones</span>
+                <th className="p-3 text-xs font-semibold text-gray-600 uppercase tracking-wider border-b border-gray-200 text-center align-top w-28">
+                  <div className="flex flex-col items-center justify-center">
+                    <button
+                      className="p-1.5 mb-2 bg-orange-100 text-orange-600 hover:bg-orange-200 rounded transition-colors tooltip flex items-center justify-center w-8 h-8"
+                      title="Limpiar filtros"
+                      onClick={clearFilters}
+                    >
+                      <i className="bi bi-brush"></i>
+                    </button>
+                    <span>Acciones</span>
+                  </div>
                 </th>
               </tr>
             </thead>
-            <tbody>
+            <tbody className="divide-y divide-gray-100">
               {currentReportes.length === 0 ? (
                 <tr>
-                  <td colSpan={9} className="text-center py-3">
+                  <td colSpan={9} className="text-center py-8 text-gray-500">
+                    <div className="flex justify-center mb-2">
+                      <i className="bi bi-inbox text-3xl text-gray-300"></i>
+                    </div>
                     No se encontraron reportes con los filtros aplicados
                   </td>
                 </tr>
               ) : (
                 currentReportes.map((reporte) => (
-                  <tr key={reporte.id}>
-                    <td>
-                      <div className="d-flex align-items-center">
-                        <div>
-                          <div>{reporte.fecha}</div>
-                          <small className="text-muted">ID: {reporte.id}</small>
-                        </div>
+                  <tr key={reporte.id} className="hover:bg-orange-50/30 transition-colors group">
+                    <td className="p-3 align-middle">
+                      <div className="flex flex-col">
+                        <span className="font-semibold text-gray-800">{reporte.fecha}</span>
+                        <span className="text-xs text-gray-500 font-medium">ID: {reporte.id}</span>
                       </div>
                     </td>
-                    <td>
-                      <div>{reporte.farmacia?.nombre}</div>
+                    <td className="p-3 align-middle text-gray-700">{reporte.farmacia?.nombre}</td>
+                    <td className="p-3 align-middle">
+                      <div className="flex flex-col text-gray-600">
+                        <span>{formatFecha(reporte.fecha_hora_inicio)}</span>
+                        <span className="text-xs text-gray-400">{formatHora(reporte.fecha_hora_inicio)}</span>
+                      </div>
                     </td>
-                    <td>
-                      <div>{formatFecha(reporte.fecha_hora_inicio)}</div>
-                      <small className="text-muted">{formatHora(reporte.fecha_hora_inicio)}</small>
-                    </td>
-                    <td>
+                    <td className="p-3 align-middle">
                       {reporte.fecha_hora_fin ? (
-                        <>
-                          <div>{formatFecha(reporte.fecha_hora_fin)}</div>
-                          <small className="text-muted">{formatHora(reporte.fecha_hora_fin)}</small>
-                        </>
+                        <div className="flex flex-col text-gray-600">
+                          <span>{formatFecha(reporte.fecha_hora_fin)}</span>
+                          <span className="text-xs text-gray-400">{formatHora(reporte.fecha_hora_fin)}</span>
+                        </div>
                       ) : (
-                        <span className="text-muted">No establecido</span>
+                        <span className="text-gray-400 italic text-sm">No establecido</span>
                       )}
                     </td>
-                    <td>{reporte.duracion_incidente || "N/A"}</td>
-                    <td>
-                      <div>{reporte.farmacia?.proveedorInternet?.nombre}</div>
+                    <td className="p-3 align-middle text-gray-600 font-mono text-sm">{reporte.duracion_incidente || "N/A"}</td>
+                    <td className="p-3 align-middle text-gray-600">{reporte.farmacia?.proveedorInternet?.nombre}</td>
+                    <td className="p-3 align-middle text-gray-600">
+                      <div className="truncate max-w-[150px]" title={reporte.motivo?.motivo || "Sin motivo"}>
+                        {reporte.motivo?.motivo || "Sin motivo"}
+                      </div>
                     </td>
-                    <td>{reporte.motivo?.motivo || "Sin motivo"}</td>
-                    <td>
-                      <Badge bg={reporte.estado === "ABIERTO" ? "success" : "danger"} className="rounded-pill">
+                    <td className="p-3 align-middle">
+                      <span className={`inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium border ${reporte.estado === "ABIERTO"
+                          ? "bg-emerald-50 text-emerald-700 border-emerald-200"
+                          : "bg-red-50 text-red-700 border-red-200"
+                        }`}>
+                        {reporte.estado === "ABIERTO" && <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 mr-1.5"></span>}
+                        {reporte.estado !== "ABIERTO" && <span className="w-1.5 h-1.5 rounded-full bg-red-500 mr-1.5"></span>}
                         {reporte.estado}
-                      </Badge>
+                      </span>
                     </td>
-                    <td>
-                      <div className="d-flex justify-content-end btn-group" role="group">
+                    <td className="p-3 align-middle">
+                      <div className="flex justify-center gap-1.5">
                         <button
+                          className="flex items-center justify-center w-8 h-8 rounded-lg bg-blue-50 text-blue-600 hover:bg-blue-500 hover:text-white transition-colors border border-transparent hover:border-blue-600"
                           title="Ver detalles"
-                          className="btn btn-light btn-sm"
-                          style={{ backgroundColor: "#f8f9fa", color: "#212529", borderColor: "#f8f9fa" }}
                           onClick={() => {
                             setSelectedReporteId(reporte.id)
                             handleShowDetalle()
@@ -766,9 +799,8 @@ const ReporteTable: React.FC = () => {
                           <i className="bi bi-eye"></i>
                         </button>
                         <button
+                          className="flex items-center justify-center w-8 h-8 rounded-lg bg-orange-100 text-orange-600 hover:bg-orange-500 hover:text-white transition-colors border border-transparent hover:border-orange-600"
                           title="Editar reporte"
-                          className="btn btn-light btn-sm"
-                          style={{ backgroundColor: "#ffb361", color: "#fff", borderColor: "#ffb361" }}
                           onClick={() => {
                             setSelectedReporteId(reporte.id)
                             handleShow2()
@@ -777,26 +809,14 @@ const ReporteTable: React.FC = () => {
                           <i className="bi bi-pencil"></i>
                         </button>
                         <button
+                          className="flex items-center justify-center w-8 h-8 rounded-lg bg-purple-50 text-purple-600 hover:bg-purple-500 hover:text-white transition-colors border border-transparent hover:border-purple-600"
                           title="Enviar Modem"
-                          className="btn btn-sm"
-                          style={{ backgroundColor: "#ffb361", color: "#fff", borderColor: "#ffb361" }}
                           onClick={() => {
                             setSelectedReporteId(reporte.id)
                             handleShowEnvio()
                           }}
                         >
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            width="16"
-                            height="16"
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            stroke="currentColor"
-                            strokeWidth="2"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            className="icon icon-tabler icons-tabler-outline icon-tabler-router"
-                          >
+                          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                             <path stroke="none" d="M0 0h24v24H0z" fill="none" />
                             <path d="M3 13m0 2a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v4a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2z" />
                             <path d="M17 17l0 .01" />
@@ -806,12 +826,10 @@ const ReporteTable: React.FC = () => {
                             <path d="M8.5 6.5a8 8 0 0 1 13 0" />
                           </svg>
                         </button>
-                        {/* Solo mostrar el botón de eliminar para administradores */}
                         {isAdmin && (
                           <button
+                            className="flex items-center justify-center w-8 h-8 rounded-lg bg-red-50 text-red-600 hover:bg-red-500 hover:text-white transition-colors border border-transparent hover:border-red-600"
                             title="Eliminar reporte"
-                            className="btn btn-light btn-sm"
-                            style={{ backgroundColor: "#dc3545", color: "#fff", borderColor: "#dc3545" }}
                             onClick={() => handleDeleteReporte(reporte.id)}
                           >
                             <i className="bi bi-trash"></i>
@@ -826,63 +844,57 @@ const ReporteTable: React.FC = () => {
           </table>
         </div>
       </div>
-      <Card.Footer
-        style={{
-          display: "flex",
-          justifyContent: "space-between",
-          backgroundColor: "#ffff",
-          borderRadius: "0 0 0.6rem 0.6rem",
-        }}
-      >
-        <div>
-          <small className="text-muted">
-            Página {currentPage} de {totalPages}
-          </small>
+
+      <div className="bg-white border border-t-0 border-gray-200 rounded-b-xl px-4 py-3 flex items-center justify-between sm:px-6 shadow-sm">
+        <div className="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between">
+          <div>
+            <p className="text-sm text-gray-700 m-0">
+              Mostrando <span className="font-medium">{currentReportes.length}</span> de <span className="font-medium">{filteredReportes().length}</span> reportes
+            </p>
+          </div>
+          <div>
+            <nav className="relative z-0 inline-flex rounded-md shadow-sm -space-x-px" aria-label="Pagination">
+              <button
+                onClick={() => handlePageChange(1)}
+                disabled={currentPage === 1}
+                className={`relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium ${currentPage === 1 ? 'text-gray-300 cursor-not-allowed' : 'text-gray-500 hover:bg-gray-50 text-orange-500'
+                  }`}
+              >
+                <i className="bi bi-chevron-double-left"></i>
+              </button>
+              <button
+                onClick={() => handlePageChange(currentPage - 1)}
+                disabled={currentPage === 1}
+                className={`relative inline-flex items-center px-2 py-2 border border-gray-300 bg-white text-sm font-medium ${currentPage === 1 ? 'text-gray-300 cursor-not-allowed' : 'text-gray-500 hover:bg-gray-50 text-orange-500'
+                  }`}
+              >
+                <i className="bi bi-chevron-left"></i>
+              </button>
+
+              <span className="relative inline-flex items-center px-4 py-2 border border-orange-500 bg-orange-50 text-sm font-medium text-orange-600">
+                {currentPage}
+              </span>
+
+              <button
+                onClick={() => handlePageChange(currentPage + 1)}
+                disabled={currentPage === totalPages || totalPages === 0}
+                className={`relative inline-flex items-center px-2 py-2 border border-gray-300 bg-white text-sm font-medium ${currentPage === totalPages || totalPages === 0 ? 'text-gray-300 cursor-not-allowed' : 'text-gray-500 hover:bg-gray-50 text-orange-500'
+                  }`}
+              >
+                <i className="bi bi-chevron-right"></i>
+              </button>
+              <button
+                onClick={() => handlePageChange(totalPages)}
+                disabled={currentPage === totalPages || totalPages === 0}
+                className={`relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium ${currentPage === totalPages || totalPages === 0 ? 'text-gray-300 cursor-not-allowed' : 'text-gray-500 hover:bg-gray-50 text-orange-500'
+                  }`}
+              >
+                <i className="bi bi-chevron-double-right"></i>
+              </button>
+            </nav>
+          </div>
         </div>
-        <ul className="pagination pagination-sm">
-          <li className={`m-1 page-item ${currentPage === 1 ? "disabled" : ""}`}>
-            <button
-              className="page-link"
-              style={{ backgroundColor: "#ffb361", color: "#fff", borderColor: "#ffb361" }}
-              onClick={() => handlePageChange(1)}
-            >
-              <i className="bi bi-chevron-double-left"></i>
-            </button>
-          </li>
-          <li className={`m-1 page-item ${currentPage === 1 ? "disabled" : ""}`}>
-            <button
-              className="page-link"
-              style={{ backgroundColor: "#ffb361", color: "#fff", borderColor: "#ffb361" }}
-              onClick={() => handlePageChange(currentPage - 1)}
-            >
-              <i className="bi bi-chevron-left"></i>
-            </button>
-          </li>
-          <li className=" m-1 page-item active">
-            <span className="page-link" style={{ backgroundColor: "#ffb361", color: "#fff", borderColor: "#ffb361" }}>
-              {currentPage}
-            </span>
-          </li>
-          <li className={` m-1 page-item ${currentPage === totalPages ? "disabled" : ""}`}>
-            <button
-              className="page-link"
-              style={{ backgroundColor: "#ffb361", color: "#fff", borderColor: "#ffb361" }}
-              onClick={() => handlePageChange(currentPage + 1)}
-            >
-              <i className="bi bi-chevron-right"></i>
-            </button>
-          </li>
-          <li className={` m-1 page-item ${currentPage === totalPages ? "disabled" : ""}`}>
-            <button
-              className="page-link"
-              style={{ backgroundColor: "#ffb361", color: "#fff", borderColor: "#ffb361" }}
-              onClick={() => handlePageChange(totalPages)}
-            >
-              <i className="bi bi-chevron-double-right"></i>
-            </button>
-          </li>
-        </ul>
-      </Card.Footer>
+      </div>
     </>
   )
 }

@@ -2,7 +2,6 @@
 
 import type React from "react"
 import { useState, useEffect } from "react"
-import { Row, Col, Form, Button, Spinner } from "react-bootstrap"
 import Swal from "sweetalert2"
 import { createReporte } from "../../servicios/reportesService"
 import { getFarmacias } from "../../servicios/farmaciaService"
@@ -141,7 +140,7 @@ const FormularioCrearR: React.FC<IFormularioCrearRProps> = ({ onSuccess }) => {
         isDeleted: false,
       }
 
-      console.log("Datos a enviar:", JSON.stringify(reporteFormateado, null, 2))
+
 
       await createReporte(reporteFormateado)
 
@@ -181,181 +180,167 @@ const FormularioCrearR: React.FC<IFormularioCrearRProps> = ({ onSuccess }) => {
 
   if (loadingData) {
     return (
-      <div className="d-flex justify-content-center align-items-center" style={{ minHeight: "200px" }}>
-        <Spinner animation="border" role="status">
-          <span className="visually-hidden">Cargando...</span>
-        </Spinner>
+      <div className="flex justify-center items-center min-h-[200px]">
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-orange-500"></div>
+        <span className="sr-only">Cargando...</span>
       </div>
     )
   }
 
   return (
-    <div className="p-4">
-      <Form onSubmit={handleSubmit}>
-        <Row className="mb-4">
-          <Col md={6}>
-            <Form.Group className="mb-3">
-              <Form.Label>Fecha*</Form.Label>
-              <Form.Control type="date" name="fecha" value={reporte.fecha} onChange={handleInputChange} required />
-            </Form.Group>
-          </Col>
-          <Col md={6}>
-            <Form.Group className="mb-3">
-              <Form.Label>Hora Inicio*</Form.Label>
-              <Form.Control
-                type="time"
-                name="fecha_hora_inicio"
-                value={reporte.fecha_hora_inicio}
-                onChange={handleInputChange}
-                required
-              />
-            </Form.Group>
-          </Col>
-          <Col md={6}>
-            <Form.Group className="mb-3">
-              <Form.Label>Farmacia*</Form.Label>
-              <Form.Select name="farmacia_id" value={reporte.farmacia?.id || ""} onChange={handleInputChange} required>
-                <option value="">Seleccione una farmacia...</option>
-                {farmacias.map((farmacia) => (
-                  <option key={farmacia.id} value={farmacia.id}>
-                    {farmacia.nombre}
-                  </option>
-                ))}
-              </Form.Select>
-            </Form.Group>
-          </Col>
-          <Col md={6}>
-            <Form.Group className="mb-3">
-              <Form.Label>Motivo*</Form.Label>
-              <Form.Select name="motivo_id" value={reporte.motivo?.id || ""} onChange={handleInputChange} required>
-                <option value="">Seleccione un motivo...</option>
-                {motivos.map((motivo) => (
-                  <option key={motivo.id} value={motivo.id}>
-                    {motivo.motivo}
-                  </option>
-                ))}
-              </Form.Select>
-            </Form.Group>
-          </Col>
-          <Col md={12}>
-            <Form.Group className="mb-4">
-              <Form.Label>Observaciones</Form.Label>
-              <Form.Control
-                as="textarea"
-                rows={3}
-                name="observacion"
-                value={reporte.observacion}
-                onChange={handleInputChange}
-                placeholder="Observaciones generales del caso..."
-              />
-            </Form.Group>
-          </Col>
-        </Row>
+    <div className="p-4 bg-white rounded-lg">
+      <form onSubmit={handleSubmit}>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+          <div className="mb-3">
+            <label className="block text-sm font-medium text-gray-700 mb-1">Fecha*</label>
+            <input
+              type="date"
+              name="fecha"
+              value={reporte.fecha}
+              onChange={handleInputChange}
+              required
+              className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-orange-500 focus:border-orange-500"
+            />
+          </div>
+          <div className="mb-3">
+            <label className="block text-sm font-medium text-gray-700 mb-1">Hora Inicio*</label>
+            <input
+              type="time"
+              name="fecha_hora_inicio"
+              value={reporte.fecha_hora_inicio}
+              onChange={handleInputChange}
+              required
+              className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-orange-500 focus:border-orange-500"
+            />
+          </div>
+          <div className="mb-3">
+            <label className="block text-sm font-medium text-gray-700 mb-1">Farmacia*</label>
+            <select
+              name="farmacia_id"
+              value={reporte.farmacia?.id || ""}
+              onChange={handleInputChange}
+              required
+              className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-orange-500 focus:border-orange-500 bg-white"
+            >
+              <option value="">Seleccione una farmacia...</option>
+              {farmacias.map((farmacia) => (
+                <option key={farmacia.id} value={farmacia.id}>
+                  {farmacia.nombre}
+                </option>
+              ))}
+            </select>
+          </div>
+          <div className="mb-3">
+            <label className="block text-sm font-medium text-gray-700 mb-1">Motivo*</label>
+            <select
+              name="motivo_id"
+              value={reporte.motivo?.id || ""}
+              onChange={handleInputChange}
+              required
+              className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-orange-500 focus:border-orange-500 bg-white"
+            >
+              <option value="">Seleccione un motivo...</option>
+              {motivos.map((motivo) => (
+                <option key={motivo.id} value={motivo.id}>
+                  {motivo.motivo}
+                </option>
+              ))}
+            </select>
+          </div>
+          <div className="md:col-span-2 mb-4">
+            <label className="block text-sm font-medium text-gray-700 mb-1">Observaciones</label>
+            <textarea
+              rows={3}
+              name="observacion"
+              value={reporte.observacion}
+              onChange={handleInputChange}
+              placeholder="Observaciones generales del caso..."
+              className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-orange-500 focus:border-orange-500"
+            />
+          </div>
+        </div>
 
         {reporte.farmacia && (
-          <div className="mb-4">
-            <h5 className="mb-3">Información de la Farmacia Seleccionada</h5>
-            <Row>
-              <Col md={6}>
-                <Form.Group className="mb-3">
-                  <Form.Label>Nombre</Form.Label>
-                  <Form.Control
-                    type="text"
-                    value={reporte.farmacia?.nombre || ""}
-                    disabled
-                    readOnly
-                    className="bg-light"
-                  />
-                </Form.Group>
-              </Col>
-              <Col md={6}>
-                <Form.Group className="mb-3">
-                  <Form.Label>Dirección</Form.Label>
-                  <Form.Control
-                    type="text"
-                    value={reporte.farmacia?.direccion || ""}
-                    disabled
-                    readOnly
-                    className="bg-light"
-                  />
-                </Form.Group>
-              </Col>
-              <Col md={6}>
-                <Form.Group className="mb-3">
-                  <Form.Label>Ciudad</Form.Label>
-                  <Form.Control
-                    type="text"
-                    value={reporte.farmacia?.ciudad?.nombre_ciudad || ""}
-                    disabled
-                    readOnly
-                    className="bg-light"
-                  />
-                </Form.Group>
-              </Col>
-              <Col md={6}>
-                <Form.Group className="mb-3">
-                  <Form.Label>Proveedor de Internet</Form.Label>
-                  <Form.Control
-                    type="text"
-                    value={reporte.farmacia?.proveedorInternet?.nombre || ""}
-                    disabled
-                    readOnly
-                    className="bg-light"
-                  />
-                </Form.Group>
-              </Col>
-            </Row>
+          <div className="mb-6 p-4 bg-gray-50 rounded-lg border border-gray-200">
+            <h5 className="mb-4 text-lg font-medium text-gray-800 border-b pb-2">Información de la Farmacia Seleccionada</h5>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="mb-2">
+                <label className="block text-sm font-medium text-gray-700 mb-1">Nombre</label>
+                <input
+                  type="text"
+                  value={reporte.farmacia?.nombre || ""}
+                  disabled
+                  readOnly
+                  className="w-full px-3 py-2 border border-gray-200 rounded-md shadow-sm bg-gray-100 text-gray-500"
+                />
+              </div>
+              <div className="mb-2">
+                <label className="block text-sm font-medium text-gray-700 mb-1">Dirección</label>
+                <input
+                  type="text"
+                  value={reporte.farmacia?.direccion || ""}
+                  disabled
+                  readOnly
+                  className="w-full px-3 py-2 border border-gray-200 rounded-md shadow-sm bg-gray-100 text-gray-500"
+                />
+              </div>
+              <div className="mb-2">
+                <label className="block text-sm font-medium text-gray-700 mb-1">Ciudad</label>
+                <input
+                  type="text"
+                  value={reporte.farmacia?.ciudad?.nombre_ciudad || ""}
+                  disabled
+                  readOnly
+                  className="w-full px-3 py-2 border border-gray-200 rounded-md shadow-sm bg-gray-100 text-gray-500"
+                />
+              </div>
+              <div className="mb-2">
+                <label className="block text-sm font-medium text-gray-700 mb-1">Proveedor de Internet</label>
+                <input
+                  type="text"
+                  value={reporte.farmacia?.proveedorInternet?.nombre || ""}
+                  disabled
+                  readOnly
+                  className="w-full px-3 py-2 border border-gray-200 rounded-md shadow-sm bg-gray-100 text-gray-500"
+                />
+              </div>
+            </div>
           </div>
         )}
 
-        <div className="text-center mt-4">
-          <Button
-            style={{
-              backgroundColor: "#f6952c",
-              borderColor: "#f6952c",
-              cursor: "pointer",
-              background: isHovered2 ? "#ffff" : "#f6952c",
-              color: isHovered2 ? "#f6952c" : "#ffff",
-            }}
-            onMouseEnter={() => setIsHovered2(true)}
-            onMouseLeave={() => setIsHovered2(false)}
+        <div className="flex justify-center gap-3 mt-6">
+          <button
             type="submit"
-            variant="secondary"
-            className="me-2"
             disabled={loading}
+            className={`flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white transition-colors
+              ${loading ? 'bg-orange-400 cursor-not-allowed' : 'bg-orange-500 hover:bg-orange-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500'}
+            `}
           >
             {loading ? (
               <>
-                <Spinner as="span" animation="border" size="sm" role="status" aria-hidden="true" className="me-2" />
+                <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
                 Creando...
               </>
             ) : (
               <>
-                <i className="bi bi-plus-circle me-2"></i>
+                <i className="bi bi-plus-circle mr-2"></i>
                 Crear Reporte
               </>
             )}
-          </Button>
-          <Button
-            style={{
-              backgroundColor: isHovered ? "#f6952c" : "#ffff",
-              color: isHovered ? "#fff" : "#f6952c",
-              borderColor: "#f6952c",
-              cursor: "pointer",
-            }}
-            onMouseEnter={() => setIsHovered(true)}
-            onMouseLeave={() => setIsHovered(false)}
+          </button>
+          <button
             type="button"
             onClick={() => {
               if (onSuccess) onSuccess()
             }}
             disabled={loading}
+            className="flex items-center justify-center px-4 py-2 border border-orange-500 text-orange-500 rounded-md shadow-sm text-sm font-medium hover:bg-orange-50 transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500"
           >
-            <i className="bi bi-x-circle me-2"></i>
+            <i className="bi bi-x-circle mr-2"></i>
             Cancelar
-          </Button>
+          </button>
         </div>
-      </Form>
+      </form>
     </div>
   )
 }
