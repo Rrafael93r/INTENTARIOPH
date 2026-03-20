@@ -6,9 +6,9 @@ import jakarta.persistence.*;
 public class Ciudades {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
 
-    private String nombre_ciudad;
+    private String nombreCiudad;
 
     @ManyToOne
     @JoinColumn(name = "id_departamento")
@@ -22,19 +22,19 @@ public class Ciudades {
         this.departamento = departamento;
     }
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
-    public String getNombre_ciudad() {
-        return nombre_ciudad;
+    public String getNombreCiudad() {
+        return nombreCiudad;
     }
 
-    public void setNombre_ciudad(String nombre_ciudad) {
-        this.nombre_ciudad = nombre_ciudad;
+    public void setNombreCiudad(String nombreCiudad) {
+        this.nombreCiudad = nombreCiudad;
     }
 }

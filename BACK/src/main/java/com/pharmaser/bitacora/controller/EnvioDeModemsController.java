@@ -65,14 +65,14 @@ public class EnvioDeModemsController {
         try {
             EnvioDeModems envio = envioService.findById(id);
             if (envio != null) {
-                if (envioDetails.getFecha_envio() != null) {
-                    envio.setFecha_envio(envioDetails.getFecha_envio());
+                if (envioDetails.getFechaEnvio() != null) {
+                    envio.setFechaEnvio(envioDetails.getFechaEnvio());
                 }
-                if (envioDetails.getCosto_envio() != null) {
-                    envio.setCosto_envio(envioDetails.getCosto_envio());
+                if (envioDetails.getCostoEnvio() != null) {
+                    envio.setCostoEnvio(envioDetails.getCostoEnvio());
                 }
-                if (envioDetails.getEstado_envio() != null) {
-                    envio.setEstado_envio(envioDetails.getEstado_envio());
+                if (envioDetails.getEstadoEnvio() != null) {
+                    envio.setEstadoEnvio(envioDetails.getEstadoEnvio());
                 }
 
                 EnvioDeModems updatedEnvio = envioService.save(envio);

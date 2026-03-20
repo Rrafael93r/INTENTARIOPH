@@ -4,7 +4,7 @@ import { createDepartamento } from '../../servicios/departamentosService';
 
 const FormularioCrearDepartamento = ({ handleClose }: { handleClose: () => void }) => {
     const [formData, setFormData] = useState({
-        name_departamento: ''
+        nameDepartamento: ''
     });
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -18,7 +18,7 @@ const FormularioCrearDepartamento = ({ handleClose }: { handleClose: () => void 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
-        if (!formData.name_departamento) {
+        if (!formData.nameDepartamento) {
             Swal.fire({
                 icon: 'error',
                 title: 'Campos incompletos',
@@ -37,7 +37,7 @@ const FormularioCrearDepartamento = ({ handleClose }: { handleClose: () => void 
             });
 
             setFormData({
-                name_departamento: ''
+                nameDepartamento: ''
             });
             handleClose();
 
@@ -57,11 +57,11 @@ const FormularioCrearDepartamento = ({ handleClose }: { handleClose: () => void 
                 <div className="grid grid-cols-1 gap-4 sm:gap-6">
 
                     <div className="flex flex-col space-y-1.5">
-                        <label htmlFor="name_departamento" className="text-sm font-semibold text-gray-700">Nombre del Departamento <span className="text-orange-500">*</span></label>
+                        <label htmlFor="nameDepartamento" className="text-sm font-semibold text-gray-700">Nombre del Departamento <span className="text-orange-500">*</span></label>
                         <input
                             type="text"
-                            id="name_departamento"
-                            value={formData.name_departamento}
+                            id="nameDepartamento"
+                            value={formData.nameDepartamento}
                             onChange={handleChange}
                             required
                             placeholder="Ej. Cundinamarca"
@@ -74,7 +74,7 @@ const FormularioCrearDepartamento = ({ handleClose }: { handleClose: () => void 
                 <div className="flex flex-col sm:flex-row justify-end items-center gap-3 pt-6 mt-6 border-t border-gray-100">
                     <button
                         type="button"
-                        onClick={() => setFormData({ name_departamento: '' })}
+                        onClick={() => setFormData({ nameDepartamento: '' })}
                         className="w-full sm:w-auto px-5 py-2.5 rounded-lg border border-gray-300 text-gray-700 bg-white hover:bg-gray-50 hover:text-gray-900 font-medium text-sm transition-all focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-200 flex items-center justify-center"
                     >
                         <i className="bi bi-trash-fill mr-2"></i>

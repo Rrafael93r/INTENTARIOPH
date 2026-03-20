@@ -43,7 +43,7 @@ public class ReporteController {
             if (reporte.getFecha() == null) {
                 throw new RuntimeException("Fecha es requerida");
             }
-            if (reporte.getFecha_hora_inicio() == null) {
+            if (reporte.getFechaHoraInicio() == null) {
                 throw new RuntimeException("Fecha y hora de inicio es requerida");
             }
             if (reporte.getEstado() == null || reporte.getEstado().isEmpty()) {
@@ -77,10 +77,10 @@ public class ReporteController {
                     reporte.setRadicado(reporteDetails.getRadicado());
                 if (reporteDetails.getFarmacia() != null)
                     reporte.setFarmacia(reporteDetails.getFarmacia());
-                if (reporteDetails.getFecha_hora_inicio() != null)
-                    reporte.setFecha_hora_inicio(reporteDetails.getFecha_hora_inicio());
-                if (reporteDetails.getFecha_hora_fin() != null)
-                    reporte.setFecha_hora_fin(reporteDetails.getFecha_hora_fin());
+                if (reporteDetails.getFechaHoraInicio() != null)
+                    reporte.setFechaHoraInicio(reporteDetails.getFechaHoraInicio());
+                if (reporteDetails.getFechaHoraFin() != null)
+                    reporte.setFechaHoraFin(reporteDetails.getFechaHoraFin());
                 if (reporteDetails.getMotivo() != null)
                     reporte.setMotivo(reporteDetails.getMotivo());
                 if (reporteDetails.getObservacion() != null)
@@ -97,10 +97,10 @@ public class ReporteController {
                 }
 
                 // Calcular duración automáticamente si tenemos fecha inicio y fin
-                if (reporte.getFecha_hora_inicio() != null && reporte.getFecha_hora_fin() != null) {
+                if (reporte.getFechaHoraInicio() != null && reporte.getFechaHoraFin() != null) {
                     try {
-                        Timestamp inicio = reporte.getFecha_hora_inicio();
-                        Timestamp fin = reporte.getFecha_hora_fin();
+                        Timestamp inicio = reporte.getFechaHoraInicio();
+                        Timestamp fin = reporte.getFechaHoraFin();
                         long diffMs = fin.getTime() - inicio.getTime();
 
                         if (diffMs >= 0) {
@@ -118,7 +118,7 @@ public class ReporteController {
                                 long totalHours = diffMs / (1000 * 60 * 60);
                                 duracionStr.append(" (").append(totalHours).append("h total)");
                             }
-                            reporte.setDuracion_incidente(duracionStr.toString());
+                            reporte.setDuracionIncidente(duracionStr.toString());
                         }
                     } catch (Exception ignored) {
                         // Si hay error en el cálculo, mantener la duración existente

@@ -6,17 +6,17 @@
     public class ProveedorInternet {
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
-        private long id;
+        private Long id;
 
         private String nombre;
-        private String nombre_contacto;
-        private String numero_contacto;
+        private String nombreContacto;
+        private String numeroContacto;
         private String nit;
         private String correo;
         private String estado;
 
         @Temporal(TemporalType.DATE)
-        private Date fecha_contratacion; // Corregido: usar minúsculas consistentemente
+        private Date fechaContratacion; // Corregido: usar minúsculas consistentemente
 
         private String observacion; // Corregido: usar minúsculas consistentemente
         private Boolean isDeleted = false;
@@ -38,20 +38,20 @@
             this.observacion = observacion;
         }
 
-        public Date getFecha_contratacion() {
-            return fecha_contratacion;
+        public Date getFechaContratacion() {
+            return fechaContratacion;
         }
 
-        public void setFecha_contratacion(Date fecha_contratacion) {
-            this.fecha_contratacion = fecha_contratacion;
+        public void setFechaContratacion(Date fechaContratacion) {
+            this.fechaContratacion = fechaContratacion;
         }
 
-        public String getNumero_contacto() {
-            return numero_contacto;
+        public String getNumeroContacto() {
+            return numeroContacto;
         }
 
-        public void setNumero_contacto(String numero_contacto) {
-            this.numero_contacto = numero_contacto;
+        public void setNumeroContacto(String numeroContacto) {
+            this.numeroContacto = numeroContacto;
         }
 
         public String getNit() {
@@ -70,12 +70,12 @@
             isDeleted = deleted;
         }
 
-        public String getNombre_contacto() {
-            return nombre_contacto;
+        public String getNombreContacto() {
+            return nombreContacto;
         }
 
-        public void setNombre_contacto(String nombre_contacto) {
-            this.nombre_contacto = nombre_contacto;
+        public void setNombreContacto(String nombreContacto) {
+            this.nombreContacto = nombreContacto;
         }
 
         public String getNombre() {
@@ -86,11 +86,11 @@
             this.nombre = nombre;
         }
 
-        public long getId() {
+        public Long getId() {
             return id;
         }
 
-        public void setId(long id) {
+        public void setId(Long id) {
             this.id = id;
         }
 
@@ -115,12 +115,12 @@
             return "ProveedorInternet{" +
                     "id=" + id +
                     ", nombre='" + nombre + '\'' +
-                    ", nombre_contacto='" + nombre_contacto + '\'' +
-                    ", numero_contacto=" + numero_contacto +
+                    ", nombre_contacto='" + nombreContacto + '\'' +
+                    ", numero_contacto=" + numeroContacto +
                     ", nit=" + nit +
                     ", correo='" + correo + '\'' +
                     ", estado='" + estado + '\'' +
-                    ", fecha_contratacion=" + fecha_contratacion +
+                    ", fecha_contratacion=" + fechaContratacion +
                     ", observacion='" + observacion + '\'' +
                     ", isDeleted=" + isDeleted +
                     '}';

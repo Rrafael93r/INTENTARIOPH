@@ -80,7 +80,7 @@ const ReporteTable: React.FC = () => {
       const data = await getReporte()
       // Ordenar los reportes por fecha (más recientes primero)
       const sortedData = data.sort((a: any, b: any) => {
-        return new Date(b.fecha_hora_inicio).getTime() - new Date(a.fecha_hora_inicio).getTime()
+        return new Date(b.fechaHoraInicio).getTime() - new Date(a.fechaHoraInicio).getTime()
       })
       setReportes(sortedData)
     } catch (error) {
@@ -133,13 +133,13 @@ const ReporteTable: React.FC = () => {
       // Convertir fechas a formato string para comparación
       const fechaStr = reporte?.fecha?.toLowerCase() || ""
       const farmaciaStr = reporte?.farmacia?.nombre?.toLowerCase() || ""
-      const fechaHoraInicioStr = reporte?.fecha_hora_inicio
-        ? format(new Date(reporte.fecha_hora_inicio), "yyyy-MM-dd HH:mm:ss").toLowerCase()
+      const fechaHoraInicioStr = reporte?.fechaHoraInicio
+        ? format(new Date(reporte.fechaHoraInicio), "yyyy-MM-dd HH:mm:ss").toLowerCase()
         : ""
-      const fechaHoraFinStr = reporte?.fecha_hora_fin
-        ? format(new Date(reporte.fecha_hora_fin), "yyyy-MM-dd HH:mm:ss").toLowerCase()
+      const fechaHoraFinStr = reporte?.fechaHoraFin
+        ? format(new Date(reporte.fechaHoraFin), "yyyy-MM-dd HH:mm:ss").toLowerCase()
         : ""
-      const duracionStr = reporte?.duracion_incidente?.toLowerCase() || ""
+      const duracionStr = reporte?.duracionIncidente?.toLowerCase() || ""
       const proveedorStr = reporte?.farmacia?.proveedorInternet?.nombre?.toLowerCase() || ""
       const motivoStr = reporte?.motivo?.motivo?.toLowerCase() || ""
       const estadoStr = reporte?.estado?.toLowerCase() || ""
@@ -175,16 +175,16 @@ const ReporteTable: React.FC = () => {
           valueB = b.farmacia?.nombre?.toLowerCase() || ""
           break
         case "inicio":
-          valueA = new Date(a.fecha_hora_inicio || 0).getTime()
-          valueB = new Date(b.fecha_hora_inicio || 0).getTime()
+          valueA = new Date(a.fechaHoraInicio || 0).getTime()
+          valueB = new Date(b.fechaHoraInicio || 0).getTime()
           break
         case "fin":
-          valueA = new Date(a.fecha_hora_fin || 0).getTime()
-          valueB = new Date(b.fecha_hora_fin || 0).getTime()
+          valueA = new Date(a.fechaHoraFin || 0).getTime()
+          valueB = new Date(b.fechaHoraFin || 0).getTime()
           break
         case "duracion":
-          valueA = a.duracion_incidente?.toLowerCase() || ""
-          valueB = b.duracion_incidente?.toLowerCase() || ""
+          valueA = a.duracionIncidente?.toLowerCase() || ""
+          valueB = b.duracionIncidente?.toLowerCase() || ""
           break
         case "proveedor":
           valueA = a.farmacia?.proveedorInternet?.nombre?.toLowerCase() || ""
@@ -264,11 +264,11 @@ const ReporteTable: React.FC = () => {
       ID: reporte.id,
       Fecha: reporte.fecha || "",
       Farmacia: reporte.farmacia?.nombre || "",
-      "Fecha/Hora Inicio": reporte.fecha_hora_inicio
-        ? format(new Date(reporte.fecha_hora_inicio), "yyyy-MM-dd HH:mm:ss")
+      "Fecha/Hora Inicio": reporte.fechaHoraInicio
+        ? format(new Date(reporte.fechaHoraInicio), "yyyy-MM-dd HH:mm:ss")
         : "",
-      "Fecha/Hora Fin": reporte.fecha_hora_fin ? format(new Date(reporte.fecha_hora_fin), "yyyy-MM-dd HH:mm:ss") : "",
-      Duración: reporte.duracion_incidente || "",
+      "Fecha/Hora Fin": reporte.fechaHoraFin ? format(new Date(reporte.fechaHoraFin), "yyyy-MM-dd HH:mm:ss") : "",
+      Duración: reporte.duracionIncidente || "",
       Proveedor: reporte.farmacia?.proveedorInternet?.nombre || "",
       "NIT Proveedor": reporte.farmacia?.proveedorInternet?.nit || "",
       Motivo: reporte.motivo?.motivo || "",
@@ -446,25 +446,25 @@ const ReporteTable: React.FC = () => {
                                       <tr>
                                         <th className="px-4 py-3 bg-gray-50 text-left font-medium text-gray-500">Inicio</th>
                                         <td className="px-4 py-3 text-gray-900">
-                                          {formatFecha(reportes.find((r) => r.id === selectedReporteId)?.fecha_hora_inicio)}{" "}
-                                          {formatHora(reportes.find((r) => r.id === selectedReporteId)?.fecha_hora_inicio)}
+                                          {formatFecha(reportes.find((r) => r.id === selectedReporteId)?.fechaHoraInicio)}{" "}
+                                          {formatHora(reportes.find((r) => r.id === selectedReporteId)?.fechaHoraInicio)}
                                         </td>
                                       </tr>
                                       <tr>
                                         <th className="px-4 py-3 bg-gray-50 text-left font-medium text-gray-500">Fin</th>
                                         <td className="px-4 py-3 text-gray-900">
-                                          {reportes.find((r) => r.id === selectedReporteId)?.fecha_hora_fin
+                                          {reportes.find((r) => r.id === selectedReporteId)?.fechaHoraFin
                                             ? `${formatFecha(
-                                              reportes.find((r) => r.id === selectedReporteId)?.fecha_hora_fin as string,
+                                              reportes.find((r) => r.id === selectedReporteId)?.fechaHoraFin as string,
                                             )} ${formatHora(
-                                              reportes.find((r) => r.id === selectedReporteId)?.fecha_hora_fin as string,
+                                              reportes.find((r) => r.id === selectedReporteId)?.fechaHoraFin as string,
                                             )}`
                                             : "No establecido"}
                                         </td>
                                       </tr>
                                       <tr>
                                         <th className="px-4 py-3 bg-gray-50 text-left font-medium text-gray-500">Duración</th>
-                                        <td className="px-4 py-3 text-gray-900">{reportes.find((r) => r.id === selectedReporteId)?.duracion_incidente || "N/A"}</td>
+                                        <td className="px-4 py-3 text-gray-900">{reportes.find((r) => r.id === selectedReporteId)?.duracionIncidente || "N/A"}</td>
                                       </tr>
                                       <tr>
                                         <th className="px-4 py-3 bg-gray-50 text-left font-medium text-gray-500">Estado</th>
@@ -503,7 +503,7 @@ const ReporteTable: React.FC = () => {
                                       <tr>
                                         <th className="px-4 py-3 bg-gray-50 text-left font-medium text-gray-500">Ciudad</th>
                                         <td className="px-4 py-3 text-gray-900">
-                                          {reportes.find((r) => r.id === selectedReporteId)?.farmacia?.ciudad?.nombre_ciudad ||
+                                          {reportes.find((r) => r.id === selectedReporteId)?.farmacia?.ciudad?.nombreCiudad ||
                                             "N/A"}
                                         </td>
                                       </tr>
@@ -755,21 +755,21 @@ const ReporteTable: React.FC = () => {
                     <td className="p-3 align-middle text-gray-700">{reporte.farmacia?.nombre}</td>
                     <td className="p-3 align-middle">
                       <div className="flex flex-col text-gray-600">
-                        <span>{formatFecha(reporte.fecha_hora_inicio)}</span>
-                        <span className="text-xs text-gray-400">{formatHora(reporte.fecha_hora_inicio)}</span>
+                        <span>{formatFecha(reporte.fechaHoraInicio)}</span>
+                        <span className="text-xs text-gray-400">{formatHora(reporte.fechaHoraInicio)}</span>
                       </div>
                     </td>
                     <td className="p-3 align-middle">
-                      {reporte.fecha_hora_fin ? (
+                      {reporte.fechaHoraFin ? (
                         <div className="flex flex-col text-gray-600">
-                          <span>{formatFecha(reporte.fecha_hora_fin)}</span>
-                          <span className="text-xs text-gray-400">{formatHora(reporte.fecha_hora_fin)}</span>
+                          <span>{formatFecha(reporte.fechaHoraFin)}</span>
+                          <span className="text-xs text-gray-400">{formatHora(reporte.fechaHoraFin)}</span>
                         </div>
                       ) : (
                         <span className="text-gray-400 italic text-sm">No establecido</span>
                       )}
                     </td>
-                    <td className="p-3 align-middle text-gray-600 font-mono text-sm">{reporte.duracion_incidente || "N/A"}</td>
+                    <td className="p-3 align-middle text-gray-600 font-mono text-sm">{reporte.duracionIncidente || "N/A"}</td>
                     <td className="p-3 align-middle text-gray-600">{reporte.farmacia?.proveedorInternet?.nombre}</td>
                     <td className="p-3 align-middle text-gray-600">
                       <div className="truncate max-w-[150px]" title={reporte.motivo?.motivo || "Sin motivo"}>

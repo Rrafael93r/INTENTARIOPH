@@ -71,8 +71,8 @@ const FarmaciaTabla: React.FC = () => {
     if (
       (filterNombre && !(farmacia?.nombre || '').toLowerCase().includes(normalizedFilterNombre)) ||
       (filterDireccion && !(farmacia?.direccion || '').toLowerCase().includes(normalizedFilterDireccion)) ||
-      (filterCiudad && !(farmacia?.ciudad?.nombre_ciudad || '').toLowerCase().includes(normalizedFilterCiudad)) ||
-      (filterDepartamento && !(farmacia?.ciudad?.departamento?.name_departamento || '').toLowerCase().includes(normalizedFilterDepartamento)) ||
+      (filterCiudad && !(farmacia?.ciudad?.nombreCiudad || '').toLowerCase().includes(normalizedFilterCiudad)) ||
+      (filterDepartamento && !(farmacia?.ciudad?.departamento?.nameDepartamento || '').toLowerCase().includes(normalizedFilterDepartamento)) ||
       (filterProveedor && !(farmacia?.proveedor?.nombre || '').toLowerCase().includes(normalizedFilterProveedor)) ||
       (filterPertenece && !(farmacia?.pertenece || '').toLowerCase().includes(normalizedFilterPertenece)) ||
       (filterCantidadEquipos && !(String(farmacia?.cantidad_equipo || '')).toLowerCase().includes(normalizedFilterCantidadEquipos))
@@ -321,8 +321,8 @@ const FarmaciaTabla: React.FC = () => {
                       </div>
                     </td>
                     <td className="p-3 align-middle text-gray-600">{farmacia?.direccion || '-'}</td>
-                    <td className="p-3 align-middle text-gray-700">{farmacia?.ciudad?.nombre_ciudad || '-'}</td>
-                    <td className="p-3 align-middle text-gray-700">{farmacia?.ciudad?.departamento?.name_departamento || '-'}</td>
+                    <td className="p-3 align-middle text-gray-700">{farmacia?.ciudad?.nombreCiudad || '-'}</td>
+                    <td className="p-3 align-middle text-gray-700">{farmacia?.ciudad?.departamento?.nameDepartamento || '-'}</td>
                     <td className="p-3 align-middle">
                       <div className="text-gray-800">{farmacia?.proveedor?.nombre || '-'}</div>
                       <div className="text-xs text-gray-500">NIT: {farmacia?.proveedor?.nit || '-'}</div>

@@ -18,9 +18,9 @@ const FormularioEditarEnvio: React.FC<IFormularioEditarEnvioProps> = ({ envioId,
     farmacia: null,
     modemPrincipal: null,
     modemSecundario: null,
-    fecha_envio: "",
-    costo_envio: 0,
-    estado_envio: "",
+    fechaEnvio: "",
+    costoEnvio: 0,
+    estadoEnvio: "",
   })
   const [error, setError] = useState<string | null>(null)
   const [isHovered, setIsHovered] = useState(false)
@@ -66,7 +66,7 @@ const FormularioEditarEnvio: React.FC<IFormularioEditarEnvioProps> = ({ envioId,
         // Formatear las fechas antes de establecer el estado
         const envioFormateado = {
           ...data,
-          fecha_envio: formatearFecha(data.fecha_envio),
+          fechaEnvio: formatearFecha(data.fechaEnvio),
         }
 
         setEnvio(envioFormateado)
@@ -90,7 +90,7 @@ const FormularioEditarEnvio: React.FC<IFormularioEditarEnvioProps> = ({ envioId,
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target
 
-    if (name === "costo_envio") {
+    if (name === "costoEnvio") {
       setEnvio((prev: any) => ({
         ...prev,
         [name]: Number(value),
@@ -107,7 +107,7 @@ const FormularioEditarEnvio: React.FC<IFormularioEditarEnvioProps> = ({ envioId,
     e.preventDefault()
 
     // Validaciones básicas
-    if (!envio.fecha_envio || !envio.estado_envio) {
+    if (!envio.fechaEnvio || !envio.estadoEnvio) {
       Swal.fire({
         icon: "error",
         title: "Error",
@@ -116,7 +116,7 @@ const FormularioEditarEnvio: React.FC<IFormularioEditarEnvioProps> = ({ envioId,
       return
     }
 
-    if (envio.costo_envio < 0) {
+    if (envio.costoEnvio < 0) {
       Swal.fire({
         icon: "error",
         title: "Error",
@@ -139,9 +139,9 @@ const FormularioEditarEnvio: React.FC<IFormularioEditarEnvioProps> = ({ envioId,
 
       // Preparar datos para enviar
       const envioData = {
-        fecha_envio: new Date(envio.fecha_envio).toISOString(),
-        costo_envio: envio.costo_envio,
-        estado_envio: envio.estado_envio,
+        fechaEnvio: new Date(envio.fechaEnvio).toISOString(),
+        costoEnvio: envio.costoEnvio,
+        estadoEnvio: envio.estadoEnvio,
       }
 
 
@@ -197,8 +197,8 @@ const FormularioEditarEnvio: React.FC<IFormularioEditarEnvioProps> = ({ envioId,
             </label>
             <input
               type="date"
-              name="fecha_envio"
-              value={envio.fecha_envio}
+              name="fechaEnvio"
+              value={envio.fechaEnvio}
               onChange={handleInputChange}
               required
               className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-orange-500 focus:border-orange-500"
@@ -215,8 +215,8 @@ const FormularioEditarEnvio: React.FC<IFormularioEditarEnvioProps> = ({ envioId,
               </div>
               <input
                 type="number"
-                name="costo_envio"
-                value={envio.costo_envio}
+                name="costoEnvio"
+                value={envio.costoEnvio}
                 onChange={handleInputChange}
                 required
                 min="0"
@@ -232,8 +232,8 @@ const FormularioEditarEnvio: React.FC<IFormularioEditarEnvioProps> = ({ envioId,
               Estado del Envío*
             </label>
             <select
-              name="estado_envio"
-              value={envio.estado_envio}
+              name="estadoEnvio"
+              value={envio.estadoEnvio}
               onChange={handleInputChange}
               required
               className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-orange-500 focus:border-orange-500 bg-white"
@@ -272,7 +272,7 @@ const FormularioEditarEnvio: React.FC<IFormularioEditarEnvioProps> = ({ envioId,
                 <label className="block text-sm font-medium text-gray-700 mb-1">Ciudad</label>
                 <input
                   type="text"
-                  value={envio.farmacia?.ciudad?.nombre_ciudad || ""}
+                  value={envio.farmacia?.ciudad?.nombreCiudad || ""}
                   disabled
                   readOnly
                   className="w-full px-3 py-2 border border-gray-200 rounded-md shadow-sm bg-gray-100 text-gray-500"
@@ -326,7 +326,7 @@ const FormularioEditarEnvio: React.FC<IFormularioEditarEnvioProps> = ({ envioId,
                 <label className="block text-sm font-medium text-gray-700 mb-1">Número de Serie</label>
                 <input
                   type="text"
-                  value={envio.modemPrincipal?.numero_serie || ""}
+                  value={envio.modemPrincipal?.numeroSerie || ""}
                   disabled
                   readOnly
                   className="w-full px-3 py-2 border border-gray-200 rounded-md shadow-sm bg-gray-100 text-gray-500"
@@ -371,7 +371,7 @@ const FormularioEditarEnvio: React.FC<IFormularioEditarEnvioProps> = ({ envioId,
                   <label className="block text-sm font-medium text-gray-700 mb-1">Número de Serie</label>
                   <input
                     type="text"
-                    value={envio.modemSecundario?.numero_serie || ""}
+                    value={envio.modemSecundario?.numeroSerie || ""}
                     disabled
                     readOnly
                     className="w-full px-3 py-2 border border-gray-200 rounded-md shadow-sm bg-gray-100 text-gray-500"
@@ -392,14 +392,14 @@ const FormularioEditarEnvio: React.FC<IFormularioEditarEnvioProps> = ({ envioId,
             <strong className="font-semibold">ID del Envío:</strong> {envio.id}
           </p>
           <p className="mb-2">
-            <strong className="font-semibold">Destino:</strong> {envio.farmacia?.nombre} - {envio.farmacia?.ciudad?.nombre_ciudad}
+            <strong className="font-semibold">Destino:</strong> {envio.farmacia?.nombre} - {envio.farmacia?.ciudad?.nombreCiudad}
           </p>
           <p className="mb-2">
             <strong className="font-semibold">Módem(s):</strong> {envio.modemPrincipal?.marca} {envio.modemPrincipal?.modelo}
             {envio.modemSecundario && ` + ${envio.modemSecundario?.marca} ${envio.modemSecundario?.modelo}`}
           </p>
           <p className="mb-0">
-            <strong className="font-semibold">Costo Total:</strong> ${envio.costo_envio?.toLocaleString("es-CO")}
+            <strong className="font-semibold">Costo Total:</strong> ${envio.costoEnvio?.toLocaleString("es-CO")}
           </p>
         </div>
 

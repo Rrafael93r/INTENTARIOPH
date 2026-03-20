@@ -10,7 +10,7 @@ interface FormularioEditarDepartamentoProps {
 
 const FormularioEditarDepartamento: React.FC<FormularioEditarDepartamentoProps> = ({ id, handleClose, onSuccess }) => {
     const [formData, setFormData] = useState({
-        name_departamento: ''
+        nameDepartamento: ''
     });
 
     useEffect(() => {
@@ -18,7 +18,7 @@ const FormularioEditarDepartamento: React.FC<FormularioEditarDepartamentoProps> 
             try {
                 const departamentoData = await getDepartamentoById(id);
                 setFormData({
-                    name_departamento: departamentoData.name_departamento || ''
+                    nameDepartamento: departamentoData.nameDepartamento || ''
                 });
 
             } catch (error) {
@@ -46,7 +46,7 @@ const FormularioEditarDepartamento: React.FC<FormularioEditarDepartamentoProps> 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
-        if (!formData.name_departamento) {
+        if (!formData.nameDepartamento) {
             Swal.fire({
                 icon: 'error',
                 title: 'Campos incompletos',
@@ -87,11 +87,11 @@ const FormularioEditarDepartamento: React.FC<FormularioEditarDepartamentoProps> 
                 <div className="grid grid-cols-1 gap-4 sm:gap-6">
 
                     <div className="flex flex-col space-y-1.5">
-                        <label htmlFor="name_departamento" className="text-sm font-semibold text-gray-700">Nombre del Departamento <span className="text-orange-500">*</span></label>
+                        <label htmlFor="nameDepartamento" className="text-sm font-semibold text-gray-700">Nombre del Departamento <span className="text-orange-500">*</span></label>
                         <input
                             type="text"
-                            id="name_departamento"
-                            value={formData.name_departamento}
+                            id="nameDepartamento"
+                            value={formData.nameDepartamento}
                             onChange={handleChange}
                             required
                             placeholder="Ej. Cundinamarca"

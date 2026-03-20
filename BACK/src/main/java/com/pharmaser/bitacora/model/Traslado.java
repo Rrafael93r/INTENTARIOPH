@@ -9,14 +9,14 @@ import java.security.Timestamp;
 public class Traslado {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
 
     @ManyToOne // Relación con Farmacias
     @JoinColumn(name = "id_farmacia")
     private Farmacias farmacia;
 
-    private Timestamp fecha_traslado;
-    private String motivo_traslado;
+    private Timestamp fechaTraslado;
+    private String motivoTraslado;
 
 
 
@@ -45,27 +45,27 @@ public class Traslado {
         this.farmacia = farmacia;
     }
 
-    public Timestamp getFecha_traslado() {
-        return fecha_traslado;
+    public Timestamp getFechaTraslado() {
+        return fechaTraslado;
     }
 
-    public void setFecha_traslado(Timestamp fecha_traslado) {
-        this.fecha_traslado = fecha_traslado;
+    public void setFechaTraslado(Timestamp fechaTraslado) {
+        this.fechaTraslado = fechaTraslado;
     }
 
-    public String getMotivo_traslado() {
-        return motivo_traslado;
+    public String getMotivoTraslado() {
+        return motivoTraslado;
     }
 
-    public void setMotivo_traslado(String motivo_traslado) {
-        this.motivo_traslado = motivo_traslado;
+    public void setMotivoTraslado(String motivoTraslado) {
+        this.motivoTraslado = motivoTraslado;
     }
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

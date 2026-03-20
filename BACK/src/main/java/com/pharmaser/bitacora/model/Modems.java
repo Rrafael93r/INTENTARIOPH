@@ -7,9 +7,9 @@ import java.math.BigInteger;
 public class Modems {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
 
-    private String numero_serie;
+    private String numeroSerie;
     private String marca;
     private String modelo;
     private String estado;
@@ -42,11 +42,11 @@ public class Modems {
         this.farmacia = farmacia;
     }
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -58,12 +58,12 @@ public class Modems {
         this.modelo = modelo;
     }
 
-    public String getNumero_serie() {
-        return numero_serie;
+    public String getNumeroSerie() {
+        return numeroSerie;
     }
 
-    public void setNumero_serie(String numero_serie) {
-        this.numero_serie = numero_serie;
+    public void setNumeroSerie(String numeroSerie) {
+        this.numeroSerie = numeroSerie;
     }
 
     public String getMarca() {
@@ -103,7 +103,7 @@ public class Modems {
     public String toString() {
         return "Modems{" +
                 "id=" + id +
-                ", numero_serie='" + numero_serie + '\'' +
+                ", numero_serie='" + numeroSerie + '\'' +
                 ", marca='" + marca + '\'' +
                 ", modelo='" + modelo + '\'' +
                 ", estado='" + estado + '\'' +

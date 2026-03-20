@@ -46,7 +46,7 @@ public class PortatilesController {
             updatePortatiles.setMarca(portatilesDetails.getMarca());
             updatePortatiles.setModelo(portatilesDetails.getModelo());
             updatePortatiles.setSerial(portatilesDetails.getSerial());
-            updatePortatiles.setFecha_compra(portatilesDetails.getFecha_compra());
+            updatePortatiles.setFechaCompra(portatilesDetails.getFechaCompra());
             return ResponseEntity.ok(portatilesService.save(updatePortatiles));
         } else {
             return ResponseEntity.notFound().build();

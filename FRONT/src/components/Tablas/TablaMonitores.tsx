@@ -108,7 +108,7 @@ const TablaMonitores: React.FC = () => {
     if (error) return <div className="text-red-500 p-4 bg-red-50 rounded-lg">{error}</div>;
 
     return (
-        <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+        <>
             {showModal && (
                 <div className="fixed inset-0 z-50 overflow-y-auto">
                     <div className="flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:p-0">
@@ -129,94 +129,103 @@ const TablaMonitores: React.FC = () => {
                     </div>
                 </div>
             )}
-
-            <div className="p-5 border-b border-gray-100 bg-white">
-                <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-                    <div>
-                        <h2 className="text-xl font-bold text-gray-800 m-0 flex items-center gap-2">
-                            <i className="bi bi-display text-orange-500"></i>
-                            Monitores
-                        </h2>
-                        <p className="text-sm text-gray-500 mt-1 mb-0">Gestión de inventario de monitores</p>
-                    </div>
-                    <div className="flex gap-2 w-full sm:w-auto">
-                        <button
-                            onClick={handleShow}
-                            className="bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded-lg font-medium text-sm flex items-center gap-2 transition-colors w-full sm:w-auto justify-center"
-                        >
-                            <i className="bi bi-plus-circle"></i>
-                            <span>Nuevo Monitor</span>
-                        </button>
-                    </div>
+            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 text-gray-800 gap-4">
+                <div>
+                    <h1 className="text-2xl font-bold m-0 text-gray-900">Monitores</h1>
+                    <nav className="text-sm text-gray-500 mt-1">
+                        <ol className="list-none p-0 inline-flex">
+                            <li className="flex items-center">Inicio <span className="mx-2 text-gray-300">/</span></li>
+                            <li className="flex items-center text-gray-400 hover:text-orange-500 transition-colors cursor-pointer">Equipos <span className="mx-2 text-gray-300">/</span></li>
+                            <li className="font-medium text-gray-700">Monitores</li>
+                        </ol>
+                    </nav>
                 </div>
-            </div>
-
-            <div className="p-4 bg-gray-50 border-b border-gray-100">
-                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3">
-                    <input
-                        type="text"
-                        className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-orange-500 focus:border-orange-500 bg-white"
-                        placeholder="Filtrar Marca..."
-                        value={filterMarca}
-                        onChange={(e) => setFilterMarca(e.target.value)}
-                    />
-                    <input
-                        type="text"
-                        className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-orange-500 focus:border-orange-500 bg-white"
-                        placeholder="Filtrar Modelo..."
-                        value={filterModelo}
-                        onChange={(e) => setFilterModelo(e.target.value)}
-                    />
-                    <input
-                        type="text"
-                        className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-orange-500 focus:border-orange-500 bg-white"
-                        placeholder="Filtrar Serial..."
-                        value={filterSerial}
-                        onChange={(e) => setFilterSerial(e.target.value)}
-                    />
-                    <select
-                        className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-orange-500 focus:border-orange-500 bg-white"
-                        value={filterEstado}
-                        onChange={(e) => setFilterEstado(e.target.value)}
+                <div className="flex gap-3 w-full sm:w-auto">
+                    <button
+                        onClick={handleShow}
+                        className="flex-1 sm:flex-none flex justify-center items-center px-4 py-2 bg-orange-500 hover:bg-orange-600 text-white rounded-lg transition-colors font-medium text-sm shadow-sm"
                     >
-                        <option value="">Todos los estados</option>
-                        <option value="ACTIVO">Activo</option>
-                        <option value="INACTIVO">Inactivo</option>
-                        <option value="ASIGNADO">Asignado</option>
-                        <option value="DAÑADO">Dañado</option>
-                    </select>
-                    <div className="flex gap-2">
-                        <input
-                            type="text"
-                            className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-orange-500 focus:border-orange-500 bg-white"
-                            placeholder="Filtrar Funcionario..."
-                            value={filterFuncionario}
-                            onChange={(e) => setFilterFuncionario(e.target.value)}
-                        />
-                        <button
-                            onClick={clearFilters}
-                            className="px-3 py-2 bg-gray-200 hover:bg-gray-300 text-gray-700 rounded-lg transition-colors flex items-center justify-center shrink-0"
-                            title="Limpiar filtros"
-                        >
-                            <i className="bi bi-eraser-fill"></i>
-                        </button>
-                    </div>
+                        <i className="bi bi-plus-circle-fill mr-2"></i> Nuevo Monitor
+                    </button>
+                    <button
+                        onClick={clearFilters}
+                        title="Limpiar filtros"
+                        className="px-3 py-2 bg-gray-100 text-gray-600 rounded-lg border border-gray-300 hover:bg-gray-200 transition-colors flex items-center justify-center shrink-0 w-10 sm:w-auto"
+                    >
+                        <i className="bi bi-eraser-fill"></i>
+                    </button>
                 </div>
             </div>
 
-            <div className="overflow-x-auto">
-                <table className="w-full text-sm text-left text-gray-600">
-                    <thead className="text-xs text-gray-700 uppercase bg-gray-50 border-b border-gray-200">
-                        <tr>
-                            <th scope="col" className="px-6 py-3 font-semibold">ID</th>
-                            <th scope="col" className="px-6 py-3 font-semibold">Marca</th>
-                            <th scope="col" className="px-6 py-3 font-semibold">Modelo</th>
-                            <th scope="col" className="px-6 py-3 font-semibold">Serial</th>
-                            <th scope="col" className="px-6 py-3 font-semibold">Estado</th>
-                            <th scope="col" className="px-6 py-3 font-semibold">Funcionario</th>
-                            <th scope="col" className="px-6 py-3 font-semibold text-center">Acciones</th>
-                        </tr>
-                    </thead>
+            <div className="bg-white rounded-t-xl border border-gray-200 overflow-hidden shadow-sm">
+                <div className="overflow-x-auto max-h-[60vh] custom-scrollbar">
+                    <table className="w-full text-left border-collapse whitespace-nowrap">
+                        <thead className="bg-gray-50 sticky top-0 z-10">
+                            <tr>
+                                <th className="p-3 text-xs font-semibold text-gray-600 uppercase tracking-wider border-b border-gray-200 align-top w-20">
+                                    <div className="h-8 mb-2"></div>
+                                    <div className="flex items-center">ID</div>
+                                </th>
+                                <th className="p-3 text-xs font-semibold text-gray-600 uppercase tracking-wider border-b border-gray-200 align-top min-w-[150px]">
+                                    <input
+                                        type="text"
+                                        className="w-full px-2 py-1.5 mb-2 text-sm border border-gray-300 rounded focus:outline-none focus:border-orange-500 focus:ring-1 focus:ring-orange-500 font-normal normal-case bg-white"
+                                        placeholder="Filtrar Marca"
+                                        value={filterMarca}
+                                        onChange={(e) => setFilterMarca(e.target.value)}
+                                    />
+                                    <div className="flex items-center">MARCA</div>
+                                </th>
+                                <th className="p-3 text-xs font-semibold text-gray-600 uppercase tracking-wider border-b border-gray-200 align-top min-w-[150px]">
+                                    <input
+                                        type="text"
+                                        className="w-full px-2 py-1.5 mb-2 text-sm border border-gray-300 rounded focus:outline-none focus:border-orange-500 focus:ring-1 focus:ring-orange-500 font-normal normal-case bg-white"
+                                        placeholder="Filtrar Modelo"
+                                        value={filterModelo}
+                                        onChange={(e) => setFilterModelo(e.target.value)}
+                                    />
+                                    <div className="flex items-center">MODELO</div>
+                                </th>
+                                <th className="p-3 text-xs font-semibold text-gray-600 uppercase tracking-wider border-b border-gray-200 align-top min-w-[150px]">
+                                    <input
+                                        type="text"
+                                        className="w-full px-2 py-1.5 mb-2 text-sm border border-gray-300 rounded focus:outline-none focus:border-orange-500 focus:ring-1 focus:ring-orange-500 font-normal normal-case bg-white"
+                                        placeholder="Filtrar Serial"
+                                        value={filterSerial}
+                                        onChange={(e) => setFilterSerial(e.target.value)}
+                                    />
+                                    <div className="flex items-center">SERIAL</div>
+                                </th>
+                                <th className="p-3 text-xs font-semibold text-gray-600 uppercase tracking-wider border-b border-gray-200 align-top min-w-[150px]">
+                                    <select
+                                        className="w-full px-2 py-1.5 mb-2 text-sm border border-gray-300 rounded focus:outline-none focus:border-orange-500 focus:ring-1 focus:ring-orange-500 font-normal normal-case bg-white"
+                                        value={filterEstado}
+                                        onChange={(e) => setFilterEstado(e.target.value)}
+                                    >
+                                        <option value="">Todos</option>
+                                        <option value="ACTIVO">Activo</option>
+                                        <option value="INACTIVO">Inactivo</option>
+                                        <option value="ASIGNADO">Asignado</option>
+                                        <option value="DAÑADO">Dañado</option>
+                                    </select>
+                                    <div className="flex items-center">ESTADO</div>
+                                </th>
+                                <th className="p-3 text-xs font-semibold text-gray-600 uppercase tracking-wider border-b border-gray-200 align-top min-w-[200px]">
+                                    <input
+                                        type="text"
+                                        className="w-full px-2 py-1.5 mb-2 text-sm border border-gray-300 rounded focus:outline-none focus:border-orange-500 focus:ring-1 focus:ring-orange-500 font-normal normal-case bg-white"
+                                        placeholder="Filtrar Funcionario"
+                                        value={filterFuncionario}
+                                        onChange={(e) => setFilterFuncionario(e.target.value)}
+                                    />
+                                    <div className="flex items-center">FUNCIONARIO</div>
+                                </th>
+                                <th className="p-3 text-xs font-semibold text-gray-600 uppercase tracking-wider border-b border-gray-200 align-top text-center w-24">
+                                    <div className="h-8 mb-2"></div>
+                                    <div className="flex items-center justify-center">ACCIONES</div>
+                                </th>
+                            </tr>
+                        </thead>
                     <tbody>
                         {currentMonitores.length > 0 ? (
                             currentMonitores.map((monitor) => (
@@ -308,51 +317,49 @@ const TablaMonitores: React.FC = () => {
                 </div>
             )}
 
-            <div className="bg-white border-t border-gray-200 px-4 py-3 flex items-center justify-between sm:px-6">
+            <div className="bg-white px-4 py-3 border-t border-gray-200 sm:px-6 flex items-center justify-between">
                 <div className="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between">
                     <div>
                         <p className="text-sm text-gray-700 m-0">
-                            Mostrando <span className="font-medium">{currentMonitores.length}</span> de <span className="font-medium">{filteredMonitores.length}</span> monitores
+                            Mostrando <span className="font-medium">{indexOfFirstItem + 1 > filteredMonitores.length ? 0 : indexOfFirstItem + 1}</span> a <span className="font-medium">{Math.min(indexOfLastItem, filteredMonitores.length)}</span> de <span className="font-medium">{filteredMonitores.length}</span> resultados
                         </p>
                     </div>
                     <div>
                         <nav className="relative z-0 inline-flex rounded-md shadow-sm -space-x-px" aria-label="Pagination">
                             <button
-                                onClick={() => handlePageChange(1)}
-                                disabled={currentPage === 1}
-                                className={`relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium ${currentPage === 1 ? 'text-gray-300 cursor-not-allowed' : 'text-gray-500 hover:bg-gray-50 text-orange-500'}`}
-                            >
-                                <i className="bi bi-chevron-double-left"></i>
-                            </button>
-                            <button
                                 onClick={() => handlePageChange(currentPage - 1)}
                                 disabled={currentPage === 1}
-                                className={`relative inline-flex items-center px-2 py-2 border border-gray-300 bg-white text-sm font-medium ${currentPage === 1 ? 'text-gray-300 cursor-not-allowed' : 'text-gray-500 hover:bg-gray-50 text-orange-500'}`}
+                                className={`relative inline-flex items-center px-2 py-2 rounded-l-md border text-sm font-medium ${currentPage === 1 ? 'border-gray-200 bg-gray-50 text-gray-400 cursor-not-allowed' : 'border-gray-300 bg-white text-gray-500 hover:bg-gray-50'}`}
                             >
+                                <span className="sr-only">Anterior</span>
                                 <i className="bi bi-chevron-left"></i>
                             </button>
-                            <span className="relative inline-flex items-center px-4 py-2 border border-orange-500 bg-orange-50 text-sm font-medium text-orange-600">
-                                {currentPage}
-                            </span>
+                            {[...Array(totalPages)].map((_, index) => (
+                                <button
+                                    key={index}
+                                    onClick={() => handlePageChange(index + 1)}
+                                    className={`relative inline-flex items-center px-4 py-2 border text-sm font-medium ${currentPage === index + 1
+                                            ? 'z-10 bg-orange-50 border-orange-500 text-orange-600'
+                                            : 'bg-white border-gray-300 text-gray-500 hover:bg-gray-50'
+                                        }`}
+                                >
+                                    {index + 1}
+                                </button>
+                            ))}
                             <button
                                 onClick={() => handlePageChange(currentPage + 1)}
                                 disabled={currentPage === totalPages || totalPages === 0}
-                                className={`relative inline-flex items-center px-2 py-2 border border-gray-300 bg-white text-sm font-medium ${currentPage === totalPages || totalPages === 0 ? 'text-gray-300 cursor-not-allowed' : 'text-gray-500 hover:bg-gray-50 text-orange-500'}`}
+                                className={`relative inline-flex items-center px-2 py-2 rounded-r-md border text-sm font-medium ${currentPage === totalPages || totalPages === 0 ? 'border-gray-200 bg-gray-50 text-gray-400 cursor-not-allowed' : 'border-gray-300 bg-white text-gray-500 hover:bg-gray-50'}`}
                             >
+                                <span className="sr-only">Siguiente</span>
                                 <i className="bi bi-chevron-right"></i>
-                            </button>
-                            <button
-                                onClick={() => handlePageChange(totalPages)}
-                                disabled={currentPage === totalPages || totalPages === 0}
-                                className={`relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium ${currentPage === totalPages || totalPages === 0 ? 'text-gray-300 cursor-not-allowed' : 'text-gray-500 hover:bg-gray-50 text-orange-500'}`}
-                            >
-                                <i className="bi bi-chevron-double-right"></i>
                             </button>
                         </nav>
                     </div>
                 </div>
             </div>
         </div>
+        </>
     );
 };
 

@@ -10,7 +10,7 @@ interface IModem {
   id: number
   marca: string
   modelo: string
-  numero_serie: string
+  numeroSerie: string
   estado: string
   numero: number
   proveedorInternet: {
@@ -23,9 +23,9 @@ interface IEnvio {
   farmacia: any
   modemPrincipal: any
   modemSecundario?: any
-  fecha_envio: string
-  costo_envio: number
-  estado_envio: string
+  fechaEnvio: string
+  costoEnvio: number
+  estadoEnvio: string
 }
 
 interface Props {
@@ -43,9 +43,9 @@ const FormularioEnvioM: React.FC<Props> = ({ farmacia, onClose }) => {
   const [envio, setEnvio] = useState<IEnvio>({
     farmacia: farmacia,
     modemPrincipal: null,
-    fecha_envio: new Date().toISOString().split("T")[0],
-    costo_envio: 0,
-    estado_envio: "PENDIENTE",
+    fechaEnvio: new Date().toISOString().split("T")[0],
+    costoEnvio: 0,
+    estadoEnvio: "PENDIENTE",
   })
 
   useEffect(() => {
@@ -107,7 +107,7 @@ const FormularioEnvioM: React.FC<Props> = ({ farmacia, onClose }) => {
           modemSecundario: modemSeleccionado || null,
         }))
       }
-    } else if (name === "costo_envio") {
+    } else if (name === "costoEnvio") {
       setEnvio((prev) => ({
         ...prev,
         [name]: Number(value),
@@ -132,7 +132,7 @@ const FormularioEnvioM: React.FC<Props> = ({ farmacia, onClose }) => {
       return
     }
 
-    if (envio.costo_envio < 0) {
+    if (envio.costoEnvio < 0) {
       Swal.fire({
         icon: "error",
         title: "Error",
@@ -165,9 +165,9 @@ const FormularioEnvioM: React.FC<Props> = ({ farmacia, onClose }) => {
             id: envio.modemSecundario.id,
           }
           : null,
-        fecha_envio: new Date(envio.fecha_envio).toISOString(),
-        costo_envio: envio.costo_envio,
-        estado_envio: envio.estado_envio,
+        fechaEnvio: new Date(envio.fechaEnvio).toISOString(),
+        costoEnvio: envio.costoEnvio,
+        estadoEnvio: envio.estadoEnvio,
       }
 
 
@@ -233,7 +233,7 @@ const FormularioEnvioM: React.FC<Props> = ({ farmacia, onClose }) => {
                 <label className="block text-sm font-medium text-gray-700 mb-1">Ciudad</label>
                 <input
                   type="text"
-                  value={farmacia?.ciudad?.nombre_ciudad || ""}
+                  value={farmacia?.ciudad?.nombreCiudad || ""}
                   disabled
                   readOnly
                   className="w-full px-3 py-2 border border-gray-200 rounded-md shadow-sm bg-gray-100 text-gray-500"
@@ -270,7 +270,7 @@ const FormularioEnvioM: React.FC<Props> = ({ farmacia, onClose }) => {
               <option value="">Seleccione un módem</option>
               {modems.map((modem) => (
                 <option key={modem.id} value={modem.id}>
-                  {modem.marca} - {modem.modelo} | Serie: {modem.numero_serie} | {modem.proveedorInternet?.nombre} |
+                  {modem.marca} - {modem.modelo} | Serie: {modem.numeroSerie} | {modem.proveedorInternet?.nombre} |
                   Tel: {modem.numero}
                 </option>
               ))}
@@ -301,7 +301,7 @@ const FormularioEnvioM: React.FC<Props> = ({ farmacia, onClose }) => {
                 .filter((modem) => modem.id !== envio.modemPrincipal?.id)
                 .map((modem) => (
                   <option key={modem.id} value={modem.id}>
-                    {modem.marca} - {modem.modelo} | Serie: {modem.numero_serie} | {modem.proveedorInternet?.nombre} |
+                    {modem.marca} - {modem.modelo} | Serie: {modem.numeroSerie} | {modem.proveedorInternet?.nombre} |
                     Tel: {modem.numero}
                   </option>
                 ))}
@@ -318,8 +318,8 @@ const FormularioEnvioM: React.FC<Props> = ({ farmacia, onClose }) => {
             </label>
             <input
               type="date"
-              name="fecha_envio"
-              value={envio.fecha_envio}
+              name="fechaEnvio"
+              value={envio.fechaEnvio}
               onChange={handleInputChange}
               required
               className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-orange-500 focus:border-orange-500"
@@ -336,8 +336,8 @@ const FormularioEnvioM: React.FC<Props> = ({ farmacia, onClose }) => {
               </div>
               <input
                 type="number"
-                name="costo_envio"
-                value={envio.costo_envio}
+                name="costoEnvio"
+                value={envio.costoEnvio}
                 onChange={handleInputChange}
                 required
                 min="0"
@@ -353,8 +353,8 @@ const FormularioEnvioM: React.FC<Props> = ({ farmacia, onClose }) => {
               Estado del Envío*
             </label>
             <select
-              name="estado_envio"
-              value={envio.estado_envio}
+              name="estadoEnvio"
+              value={envio.estadoEnvio}
               onChange={handleInputChange}
               required
               className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-orange-500 focus:border-orange-500 bg-white"
@@ -375,20 +375,20 @@ const FormularioEnvioM: React.FC<Props> = ({ farmacia, onClose }) => {
               Resumen del Envío
             </h4>
             <p className="mb-2">
-              <strong className="font-semibold">Destino:</strong> {farmacia?.nombre} - {farmacia?.ciudad?.nombre_ciudad}
+              <strong className="font-semibold">Destino:</strong> {farmacia?.nombre} - {farmacia?.ciudad?.nombreCiudad}
             </p>
             <p className="mb-2">
               <strong className="font-semibold">Módem Principal:</strong> {envio.modemPrincipal.marca} {envio.modemPrincipal.modelo} (Serie:{" "}
-              {envio.modemPrincipal.numero_serie})
+              {envio.modemPrincipal.numeroSerie})
             </p>
             {envio.modemSecundario && (
               <p className="mb-2">
                 <strong className="font-semibold">Módem Secundario:</strong> {envio.modemSecundario.marca} {envio.modemSecundario.modelo} (Serie:{" "}
-                {envio.modemSecundario.numero_serie})
+                {envio.modemSecundario.numeroSerie})
               </p>
             )}
             <p className="mb-0">
-              <strong className="font-semibold">Costo Total:</strong> ${envio.costo_envio.toLocaleString("es-CO")}
+              <strong className="font-semibold">Costo Total:</strong> ${envio.costoEnvio.toLocaleString("es-CO")}
             </p>
           </div>
         )}

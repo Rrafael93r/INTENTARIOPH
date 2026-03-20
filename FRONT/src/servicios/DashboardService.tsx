@@ -9,11 +9,8 @@ export interface DashboardData {
     reportes: any[];
     inventory: {
         monitores: number;
-        mouses: number;
-        teclados: number;
         portatiles: number;
-        hubUsb: number;
-        bases: number;
+        perifericos: { nombre: string; cantidad: number }[];
     };
     usersCount: number;
 }
@@ -36,20 +33,25 @@ export const getDashboardData = async (): Promise<DashboardData> => {
 
         const safePerifericos = Array.isArray(perifericos) ? perifericos : [];
 
-        const mousesCheck = safePerifericos.filter((p: any) => p.clasificacion === 'MOUSE').length;
-        const tecladosCheck = safePerifericos.filter((p: any) => p.clasificacion === 'TECLADO').length;
-        const hubUsbCheck = safePerifericos.filter((p: any) => p.clasificacion === 'HUB_USB').length;
-        const basesCheck = safePerifericos.filter((p: any) => p.clasificacion === 'BASE_REFRIGERADORA').length;
+        const perifericosAgrupados: { [key: string]: number } = {};
+        safePerifericos.forEach((p: any) => {
+            if (!p.deleted) {
+                const tipo = p.tipoPeriferico?.nombre?.toUpperCase() || 'OTROS';
+                perifericosAgrupados[tipo] = (perifericosAgrupados[tipo] || 0) + 1;
+            }
+        });
+
+        const perifericosArray = Object.keys(perifericosAgrupados).map(key => ({
+            nombre: key,
+            cantidad: perifericosAgrupados[key]
+        }));
 
         return {
             reportes: Array.isArray(reportes) ? reportes : [],
             inventory: {
                 monitores: Array.isArray(monitores) ? monitores.length : 0,
-                mouses: mousesCheck,
-                teclados: tecladosCheck,
                 portatiles: Array.isArray(portatiles) ? portatiles.length : 0,
-                hubUsb: hubUsbCheck,
-                bases: basesCheck,
+                perifericos: perifericosArray,
             },
             usersCount: Array.isArray(funcionarios) ? funcionarios.length : 0
         };

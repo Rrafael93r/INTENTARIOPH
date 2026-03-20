@@ -17,11 +17,11 @@ const FormularioEditarP: React.FC<IFormularioEditarPProps> = ({ proveedorId, onC
     id: "",
     nombre: "",
     nit: "",
-    nombre_contacto: "",
-    numero_contacto: "",
+    nombreContacto: "",
+    numeroContacto: "",
     correo: "",
     estado: "",
-    fecha_contratacion: "",
+    fechaContratacion: "",
     observacion: "",
   })
   const [error, setError] = useState<string | null>(null)
@@ -66,7 +66,7 @@ const FormularioEditarP: React.FC<IFormularioEditarPProps> = ({ proveedorId, onC
         // Formatear las fechas antes de establecer el estado
         const proveedorFormateado = {
           ...data,
-          fecha_contratacion: formatearFecha(data.fecha_contratacion),
+          fechaContratacion: formatearFecha(data.fechaContratacion),
         }
 
         setProveedor(proveedorFormateado)
@@ -99,7 +99,7 @@ const FormularioEditarP: React.FC<IFormularioEditarPProps> = ({ proveedorId, onC
     e.preventDefault()
 
     // Validaciones básicas
-    if (!proveedor.nombre || !proveedor.nit || !proveedor.nombre_contacto || !proveedor.correo) {
+    if (!proveedor.nombre || !proveedor.nit || !proveedor.nombreContacto || !proveedor.correo) {
       Swal.fire({
         icon: "error",
         title: "Error",
@@ -134,9 +134,9 @@ const FormularioEditarP: React.FC<IFormularioEditarPProps> = ({ proveedorId, onC
       // Preparar datos para enviar
       const proveedorData = {
         ...proveedor,
-        fecha_contratacion: proveedor.fecha_contratacion ? new Date(proveedor.fecha_contratacion).toISOString() : null,
+        fechaContratacion: proveedor.fechaContratacion ? new Date(proveedor.fechaContratacion).toISOString() : null,
         nit: Number(proveedor.nit),
-        numero_contacto: Number(proveedor.numero_contacto),
+        numeroContacto: Number(proveedor.numeroContacto),
       }
 
       await updateProveedorInternet(proveedorId, proveedorData)
@@ -216,9 +216,9 @@ const FormularioEditarP: React.FC<IFormularioEditarPProps> = ({ proveedorId, onC
           <label className="block text-sm font-medium text-gray-700 mb-1">Nombre de la persona encargada*</label>
           <input
             type="text"
-            name="nombre_contacto"
+            name="nombreContacto"
             className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-colors"
-            value={proveedor.nombre_contacto}
+            value={proveedor.nombreContacto}
             onChange={handleInputChange}
             required
             placeholder="Nombre del contacto principal"
@@ -229,9 +229,9 @@ const FormularioEditarP: React.FC<IFormularioEditarPProps> = ({ proveedorId, onC
           <label className="block text-sm font-medium text-gray-700 mb-1">Número de contacto*</label>
           <input
             type="number"
-            name="numero_contacto"
+            name="numeroContacto"
             className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-colors"
-            value={proveedor.numero_contacto}
+            value={proveedor.numeroContacto}
             onChange={handleInputChange}
             required
             min="0"
@@ -272,9 +272,9 @@ const FormularioEditarP: React.FC<IFormularioEditarPProps> = ({ proveedorId, onC
           <label className="block text-sm font-medium text-gray-700 mb-1">Fecha de contratación</label>
           <input
             type="date"
-            name="fecha_contratacion"
+            name="fechaContratacion"
             className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-colors"
-            value={proveedor.fecha_contratacion}
+            value={proveedor.fechaContratacion}
             onChange={handleInputChange}
           />
         </div>

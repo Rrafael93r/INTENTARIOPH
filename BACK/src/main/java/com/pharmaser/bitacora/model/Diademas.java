@@ -10,31 +10,31 @@ public class Diademas {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
 
     @ManyToOne
     @JoinColumn(name = "marca_id")
     private Marcas marca;
 
-    private String Modelo;
-    private String Serial;
+    private String modelo;
+    private String serial;
 
-    private String Estado;
+    private String estado;
 
     @JsonProperty("fecha_compra")
-    private Date FechaCompra;
+    private Date fechaCompra;
 
-    private String Descripcion;
+    private String descripcion;
 
     @ManyToOne
     @JoinColumn(name = "funcionario_id")
     private Funcionarios funcionario;
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -47,43 +47,43 @@ public class Diademas {
     }
 
     public String getModelo() {
-        return Modelo;
+        return modelo;
     }
 
     public void setModelo(String modelo) {
-        Modelo = modelo;
+        this.modelo = modelo;
     }
 
     public String getSerial() {
-        return Serial;
+        return serial;
     }
 
     public void setSerial(String serial) {
-        Serial = serial;
+        this.serial = serial;
     }
 
     public String getEstado() {
-        return Estado;
+        return estado;
     }
 
     public void setEstado(String estado) {
-        Estado = estado;
+        this.estado = estado;
     }
 
     public Date getFechaCompra() {
-        return FechaCompra;
+        return fechaCompra;
     }
 
     public void setFechaCompra(Date fechaCompra) {
-        FechaCompra = fechaCompra;
+        this.fechaCompra = fechaCompra;
     }
 
     public String getDescripcion() {
-        return Descripcion;
+        return descripcion;
     }
 
     public void setDescripcion(String descripcion) {
-        Descripcion = descripcion;
+        this.descripcion = descripcion;
     }
 
     public Funcionarios getFuncionario() {

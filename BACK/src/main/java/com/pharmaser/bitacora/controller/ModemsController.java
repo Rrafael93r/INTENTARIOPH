@@ -39,7 +39,7 @@ public class ModemsController {
             if (modem.getModelo() == null || modem.getModelo().trim().isEmpty()) {
                 throw new RuntimeException("El modelo es requerido");
             }
-            if (modem.getNumero_serie() == null || modem.getNumero_serie().trim().isEmpty()) {
+            if (modem.getNumeroSerie() == null || modem.getNumeroSerie().trim().isEmpty()) {
                 throw new RuntimeException("El número de serie es requerido");
             }
             if (modem.getProveedorInternet() == null || modem.getProveedorInternet().getId() == 0) {
@@ -68,8 +68,8 @@ public class ModemsController {
                     modem.setMarca(modemDetails.getMarca());
                 if (modemDetails.getModelo() != null)
                     modem.setModelo(modemDetails.getModelo());
-                if (modemDetails.getNumero_serie() != null)
-                    modem.setNumero_serie(modemDetails.getNumero_serie());
+                if (modemDetails.getNumeroSerie() != null)
+                    modem.setNumeroSerie(modemDetails.getNumeroSerie());
                 if (modemDetails.getEstado() != null)
                     modem.setEstado(modemDetails.getEstado());
                 if (modemDetails.getNumero() != null)

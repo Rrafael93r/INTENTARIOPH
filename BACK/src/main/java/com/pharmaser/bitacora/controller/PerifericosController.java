@@ -46,7 +46,7 @@ public class PerifericosController {
             periferico.setEstado(perifericoDetails.getEstado());
             periferico.setFechaCompra(perifericoDetails.getFechaCompra());
             periferico.setDescripcion(perifericoDetails.getDescripcion());
-            periferico.setClasificacion(perifericoDetails.getClasificacion());
+            periferico.setTipoPeriferico(perifericoDetails.getTipoPeriferico());
             periferico.setFuncionario(perifericoDetails.getFuncionario());
             periferico.setDeleted(perifericoDetails.getDeleted());
 

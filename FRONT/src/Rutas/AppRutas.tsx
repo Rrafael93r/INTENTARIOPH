@@ -27,6 +27,7 @@ import PaginaImpresoras from "../Paginas/PaginaImpresoras"
 import PaginaImpresorasPos from "../Paginas/PaginaImpresorasPos"
 import PaginaActas from "../Paginas/PaginaActas"
 import PaginaEstados from "../Paginas/PaginaEstados"
+import PaginaTiposPerifericos from "../Paginas/PaginaTiposPerifericos"
 
 
 
@@ -255,6 +256,15 @@ export const AppRutas = () => {
         element={
           <ProtectedRoute allowedRoles={[1]}>
             <PaginaEstados />
+          </ProtectedRoute>
+        }
+      ></Route>
+
+      <Route
+        path="/tipos-perifericos"
+        element={
+          <ProtectedRoute allowedRoles={[1]}>
+            <PaginaTiposPerifericos />
           </ProtectedRoute>
         }
       ></Route>

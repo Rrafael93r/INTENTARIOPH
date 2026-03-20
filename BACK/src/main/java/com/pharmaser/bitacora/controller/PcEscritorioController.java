@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/pcComputadores")
+@RequestMapping("/api/pcComputadores")
 @CrossOrigin(origins = "http://localhost:5173")
 public class PcEscritorioController {
 
@@ -38,7 +38,7 @@ public class PcEscritorioController {
             pc.setMarca(pcDetails.getMarca());
             pc.setModelo(pcDetails.getModelo());
             pc.setSerial(pcDetails.getSerial());
-            pc.setFecha_compra(pcDetails.getFecha_compra());
+            pc.setFechaCompra(pcDetails.getFechaCompra());
             return ResponseEntity.ok(service.createPcEscritorio(pc));
         } else {
             return ResponseEntity.notFound().build();

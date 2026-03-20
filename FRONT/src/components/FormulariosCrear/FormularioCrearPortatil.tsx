@@ -24,7 +24,7 @@ const FormularioCrearPortatil = ({ handleClose }: { handleClose: () => void }) =
         modelo: '',
         serial: '',
         estado: '',
-        fecha_compra: '',
+        fechaCompra: '',
         funcionario: { id: '' },
         descripcion: ''
     });
@@ -100,7 +100,7 @@ const FormularioCrearPortatil = ({ handleClose }: { handleClose: () => void }) =
                 modelo: '',
                 serial: '',
                 estado: '',
-                fecha_compra: '',
+                fechaCompra: '',
                 funcionario: { id: '' },
                 descripcion: ''
             });
@@ -174,12 +174,12 @@ const FormularioCrearPortatil = ({ handleClose }: { handleClose: () => void }) =
                 </div>
 
                 <div className="space-y-1">
-                    <label htmlFor="fecha_compra" className="block text-sm font-medium text-gray-700">Fecha de Compra</label>
+                    <label htmlFor="fechaCompra" className="block text-sm font-medium text-gray-700">Fecha de Compra</label>
                     <input
                         type="date"
                         className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-colors"
-                        id="fecha_compra"
-                        value={formData.fecha_compra}
+                        id="fechaCompra"
+                        value={formData.fechaCompra}
                         onChange={handleChange}
                     />
                 </div>
@@ -227,7 +227,7 @@ const FormularioCrearPortatil = ({ handleClose }: { handleClose: () => void }) =
                             modelo: '',
                             serial: '',
                             estado: '',
-                            fecha_compra: '',
+                            fechaCompra: '',
                             funcionario: { id: '' },
                             descripcion: ''
                         })}

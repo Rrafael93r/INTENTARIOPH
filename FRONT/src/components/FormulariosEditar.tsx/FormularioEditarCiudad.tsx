@@ -5,7 +5,7 @@ import { getDepartamentos } from '../../servicios/departamentosService';
 
 interface Departamento {
     id: number;
-    name_departamento: string;
+    nameDepartamento: string;
 }
 
 interface FormularioEditarCiudadProps {
@@ -17,7 +17,7 @@ interface FormularioEditarCiudadProps {
 const FormularioEditarCiudad: React.FC<FormularioEditarCiudadProps> = ({ id, handleClose, onSuccess }) => {
     const [departamentos, setDepartamentos] = useState<Departamento[]>([]);
     const [formData, setFormData] = useState({
-        nombre_ciudad: '',
+        nombreCiudad: '',
         departamento: { id: '' }
     });
 
@@ -31,7 +31,7 @@ const FormularioEditarCiudad: React.FC<FormularioEditarCiudadProps> = ({ id, han
 
                 setDepartamentos(deptosData);
                 setFormData({
-                    nombre_ciudad: ciudadData.nombre_ciudad || '',
+                    nombreCiudad: ciudadData.nombreCiudad || '',
                     departamento: { id: ciudadData.departamento?.id || '' }
                 });
 
@@ -67,7 +67,7 @@ const FormularioEditarCiudad: React.FC<FormularioEditarCiudadProps> = ({ id, han
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
-        if (!formData.nombre_ciudad || !formData.departamento.id) {
+        if (!formData.nombreCiudad || !formData.departamento.id) {
             Swal.fire({
                 icon: 'error',
                 title: 'Campos incompletos',
@@ -112,11 +112,11 @@ const FormularioEditarCiudad: React.FC<FormularioEditarCiudadProps> = ({ id, han
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
 
                     <div className="flex flex-col space-y-1.5">
-                        <label htmlFor="nombre_ciudad" className="text-sm font-semibold text-gray-700">Nombre de la Ciudad <span className="text-orange-500">*</span></label>
+                        <label htmlFor="nombreCiudad" className="text-sm font-semibold text-gray-700">Nombre de la Ciudad <span className="text-orange-500">*</span></label>
                         <input
                             type="text"
-                            id="nombre_ciudad"
-                            value={formData.nombre_ciudad}
+                            id="nombreCiudad"
+                            value={formData.nombreCiudad}
                             onChange={handleChange}
                             required
                             placeholder="Ej. Bogotá"
@@ -136,7 +136,7 @@ const FormularioEditarCiudad: React.FC<FormularioEditarCiudadProps> = ({ id, han
                             <option value="">Seleccione...</option>
                             {departamentos.map((depto) => (
                                 <option key={depto.id} value={depto.id}>
-                                    {depto.name_departamento}
+                                    {depto.nameDepartamento}
                                 </option>
                             ))}
                         </select>

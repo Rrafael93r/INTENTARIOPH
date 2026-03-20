@@ -42,7 +42,7 @@ public class DepartamentosController {
     public ResponseEntity<Departamentos> updatedRole(@PathVariable Long id, @RequestBody Departamentos departamentosDetails) {
         Departamentos updatedDepartamentos = departamentosServicie.findById(id);
         if (updatedDepartamentos != null) {
-            updatedDepartamentos.setName_departamento(departamentosDetails.getName_departamento());
+            updatedDepartamentos.setNameDepartamento(departamentosDetails.getNameDepartamento());
             return ResponseEntity.ok(departamentosServicie.save(updatedDepartamentos));
         } else {
             return ResponseEntity.notFound().build();

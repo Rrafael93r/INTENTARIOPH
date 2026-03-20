@@ -69,8 +69,8 @@ const TablaCiudades: React.FC = () => {
 
     const filteredItems = items.filter(item => {
         return (
-            (!filterNombre || (item.nombre_ciudad || '').toLowerCase().includes(normalizedFilterNombre)) &&
-            (!filterDepartamento || (item.departamento ? item.departamento.name_departamento : '').toLowerCase().includes(normalizedFilterDepartamento))
+            (!filterNombre || (item.nombreCiudad || '').toLowerCase().includes(normalizedFilterNombre)) &&
+            (!filterDepartamento || (item.departamento ? item.departamento.nameDepartamento : '').toLowerCase().includes(normalizedFilterDepartamento))
         );
     });
 
@@ -189,8 +189,8 @@ const TablaCiudades: React.FC = () => {
                                 currentItems.map((item) => (
                                     <tr key={item.id} className="hover:bg-orange-50/30 transition-colors group">
                                         <td className="p-3 align-middle text-sm font-medium text-gray-900">{item.id}</td>
-                                        <td className="p-3 align-middle text-sm text-gray-800 font-medium">{item.nombre_ciudad}</td>
-                                        <td className="p-3 align-middle text-sm text-gray-800">{item.departamento ? item.departamento.name_departamento : 'Sin departamento'}</td>
+                                        <td className="p-3 align-middle text-sm text-gray-800 font-medium">{item.nombreCiudad}</td>
+                                        <td className="p-3 align-middle text-sm text-gray-800">{item.departamento ? item.departamento.nameDepartamento : 'Sin departamento'}</td>
                                         <td className="p-3 align-middle">
                                             <div className="flex justify-center gap-2">
                                                 <button

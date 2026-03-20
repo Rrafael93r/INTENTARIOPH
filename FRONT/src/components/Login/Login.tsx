@@ -16,16 +16,13 @@ const Login = () => {
 
     try {
       const user = await login(username, password); // Llamada a la función login del servicio authServices
+      console.log('Login.tsx: Backend returned user:', user);
+      
       if (user && user.roles) {
-        Swal.fire({
-          icon: 'success',
-          title: 'Login exitoso',
-          text: `Bienvenido, ${user.username || 'Usuario'}!`,
-          timer: 2000,
-          showConfirmButton: false,
-        });
-        navigate(user.roles.id === 1 ? '/proveedores' : '/reportes');
+        console.log('Login.tsx: Navigating to /inicio');
+        navigate('/inicio');
       } else {
+        console.error('Login.tsx: Missing user.roles', user);
         Swal.fire({
           icon: 'error',
           title: 'Error',
@@ -99,9 +96,16 @@ const Login = () => {
               </span>
             </div>
 
-            <p className="text-center text-gray-400 text-xs">
-              Copyright © 2024 Todos los derechos reservados
-            </p>
+            <div className="text-center text-gray-400 text-xs flex flex-col items-center">
+              <span>Copyright © 2026 Todos los derechos reservados</span>
+              <span className="group relative inline-block mt-1 cursor-default opacity-70 hover:opacity-100 transition-opacity">
+                Desarrollado por R.R.R.
+                <span className="invisible group-hover:visible absolute bottom-full left-1/2 -translate-x-1/2 mb-1 px-2 py-1 bg-gray-700 text-white text-[10px] rounded whitespace-nowrap opacity-0 group-hover:opacity-100 transition-all duration-300 z-50">
+                  Rafael Rojas Ramírez
+                  <svg className="absolute text-gray-700 h-2 w-full left-0 top-full" x="0px" y="0px" viewBox="0 0 255 255" xmlSpace="preserve"><polygon className="fill-current" points="0,0 127.5,127.5 255,0" /></svg>
+                </span>
+              </span>
+            </div>
           </div>
 
           {/* Logo central (Escritorio) */}

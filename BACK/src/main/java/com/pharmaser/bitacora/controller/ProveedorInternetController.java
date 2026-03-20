@@ -65,16 +65,16 @@ public class ProveedorInternetController {
                     proveedorInternet.setNombre(proveedorInternetDetails.getNombre());
                 if (proveedorInternetDetails.getNit() != null)
                     proveedorInternet.setNit(proveedorInternetDetails.getNit());
-                if (proveedorInternetDetails.getNombre_contacto() != null)
-                    proveedorInternet.setNombre_contacto(proveedorInternetDetails.getNombre_contacto());
-                if (proveedorInternetDetails.getNumero_contacto() != null)
-                    proveedorInternet.setNumero_contacto(proveedorInternetDetails.getNumero_contacto());
+                if (proveedorInternetDetails.getNombreContacto() != null)
+                    proveedorInternet.setNombreContacto(proveedorInternetDetails.getNombreContacto());
+                if (proveedorInternetDetails.getNumeroContacto() != null)
+                    proveedorInternet.setNumeroContacto(proveedorInternetDetails.getNumeroContacto());
                 if (proveedorInternetDetails.getCorreo() != null)
                     proveedorInternet.setCorreo(proveedorInternetDetails.getCorreo());
                 if (proveedorInternetDetails.getEstado() != null)
                     proveedorInternet.setEstado(proveedorInternetDetails.getEstado());
-                if (proveedorInternetDetails.getFecha_contratacion() != null)
-                    proveedorInternet.setFecha_contratacion(proveedorInternetDetails.getFecha_contratacion());
+                if (proveedorInternetDetails.getFechaContratacion() != null)
+                    proveedorInternet.setFechaContratacion(proveedorInternetDetails.getFechaContratacion());
                 if (proveedorInternetDetails.getObservacion() != null)
                     proveedorInternet.setObservacion(proveedorInternetDetails.getObservacion());
 

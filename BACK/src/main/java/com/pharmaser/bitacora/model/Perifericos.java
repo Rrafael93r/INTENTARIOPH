@@ -10,7 +10,7 @@ public class Perifericos {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
 
     @ManyToOne
     @JoinColumn(name = "marca_id")
@@ -28,17 +28,19 @@ public class Perifericos {
     @Column(columnDefinition = "boolean default false")
     private Boolean isDeleted = false;
 
-    private String clasificacion;
+    @ManyToOne
+    @JoinColumn(name = "tipo_periferico_id")
+    private TiposPerifericos tipoPeriferico;
 
     @ManyToOne
     @JoinColumn(name = "funcionario_id")
     private Funcionarios funcionario;
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -98,12 +100,12 @@ public class Perifericos {
         isDeleted = deleted;
     }
 
-    public String getClasificacion() {
-        return clasificacion;
+    public TiposPerifericos getTipoPeriferico() {
+        return tipoPeriferico;
     }
 
-    public void setClasificacion(String clasificacion) {
-        this.clasificacion = clasificacion;
+    public void setTipoPeriferico(TiposPerifericos tipoPeriferico) {
+        this.tipoPeriferico = tipoPeriferico;
     }
 
     public Funcionarios getFuncionario() {

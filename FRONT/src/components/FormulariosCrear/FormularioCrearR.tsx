@@ -22,9 +22,9 @@ const FormularioCrearR: React.FC<IFormularioCrearRProps> = ({ onSuccess }) => {
   const [reporte, setReporte] = useState<any>({
     fecha: new Date().toISOString().split("T")[0],
     farmacia: null,
-    fecha_hora_inicio: new Date().toTimeString().slice(0, 5),
-    fecha_hora_fin: "",
-    duracion_incidente: "",
+    fechaHoraInicio: new Date().toTimeString().slice(0, 5),
+    fechaHoraFin: "",
+    duracionIncidente: "",
     estado: "ABIERTO",
     motivo: null,
     observacion: "",
@@ -119,8 +119,8 @@ const FormularioCrearR: React.FC<IFormularioCrearRProps> = ({ onSuccess }) => {
       const mes = fechaBase.getMonth() + 1 // getMonth() devuelve 0-11, necesitamos 1-12
 
       let fechaHoraInicio = null
-      if (reporte.fecha && reporte.fecha_hora_inicio) {
-        const [horasInicio, minutosInicio] = reporte.fecha_hora_inicio.split(":")
+      if (reporte.fecha && reporte.fechaHoraInicio) {
+        const [horasInicio, minutosInicio] = reporte.fechaHoraInicio.split(":")
         fechaHoraInicio = new Date(fechaBase)
         fechaHoraInicio.setHours(Number(horasInicio), Number(minutosInicio), 0, 0)
       }
@@ -131,9 +131,9 @@ const FormularioCrearR: React.FC<IFormularioCrearRProps> = ({ onSuccess }) => {
         ano: ano,
         mes: mes,
         farmacia: reporte.farmacia, // Enviar el objeto completo
-        fecha_hora_inicio: fechaHoraInicio, // Enviar como objeto Date
-        fecha_hora_fin: null, // Nuevo reporte no tiene fecha fin
-        duracion_incidente: null, // Se calculará cuando se cierre
+        fechaHoraInicio: fechaHoraInicio, // Enviar como objeto Date
+        fechaHoraFin: null, // Nuevo reporte no tiene fecha fin
+        duracionIncidente: null, // Se calculará cuando se cierre
         estado: "ABIERTO", // Siempre ABIERTO para reportes nuevos
         motivo: reporte.motivo, // Enviar el objeto completo
         observacion: reporte.observacion || "",
@@ -154,9 +154,9 @@ const FormularioCrearR: React.FC<IFormularioCrearRProps> = ({ onSuccess }) => {
       setReporte({
         fecha: new Date().toISOString().split("T")[0],
         farmacia: null,
-        fecha_hora_inicio: new Date().toTimeString().slice(0, 5),
-        fecha_hora_fin: "",
-        duracion_incidente: "",
+        fechaHoraInicio: new Date().toTimeString().slice(0, 5),
+        fechaHoraFin: "",
+        duracionIncidente: "",
         estado: "ABIERTO",
         motivo: null,
         observacion: "",
@@ -206,8 +206,8 @@ const FormularioCrearR: React.FC<IFormularioCrearRProps> = ({ onSuccess }) => {
             <label className="block text-sm font-medium text-gray-700 mb-1">Hora Inicio*</label>
             <input
               type="time"
-              name="fecha_hora_inicio"
-              value={reporte.fecha_hora_inicio}
+              name="fechaHoraInicio"
+              value={reporte.fechaHoraInicio}
               onChange={handleInputChange}
               required
               className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-orange-500 focus:border-orange-500"
@@ -288,7 +288,7 @@ const FormularioCrearR: React.FC<IFormularioCrearRProps> = ({ onSuccess }) => {
                 <label className="block text-sm font-medium text-gray-700 mb-1">Ciudad</label>
                 <input
                   type="text"
-                  value={reporte.farmacia?.ciudad?.nombre_ciudad || ""}
+                  value={reporte.farmacia?.ciudad?.nombreCiudad || ""}
                   disabled
                   readOnly
                   className="w-full px-3 py-2 border border-gray-200 rounded-md shadow-sm bg-gray-100 text-gray-500"

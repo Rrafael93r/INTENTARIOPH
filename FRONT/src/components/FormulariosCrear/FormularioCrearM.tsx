@@ -23,7 +23,7 @@ const FormularioCrearModem: React.FC<IFormularioCrearModemProps> = ({ onSuccess,
   const [modem, setModem] = useState<any>({
     marca: "",
     modelo: "",
-    numero_serie: "",
+    numeroSerie: "",
     numero: "",
     estado: "DISPONIBLE",
     proveedorInternet: null,
@@ -104,7 +104,7 @@ const FormularioCrearModem: React.FC<IFormularioCrearModemProps> = ({ onSuccess,
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
 
-    if (!modem.marca || !modem.modelo || !modem.numero_serie || !modem.proveedorInternet) {
+    if (!modem.marca || !modem.modelo || !modem.numeroSerie || !modem.proveedorInternet) {
       Swal.fire({
         icon: "error",
         title: "Error",
@@ -129,7 +129,7 @@ const FormularioCrearModem: React.FC<IFormularioCrearModemProps> = ({ onSuccess,
       const modemData = {
         marca: modem.marca,
         modelo: modem.modelo,
-        numero_serie: modem.numero_serie,
+        numeroSerie: modem.numeroSerie,
         numero: modem.numero || null,
         estado: modem.estado,
         proveedorInternet: {
@@ -157,7 +157,7 @@ const FormularioCrearModem: React.FC<IFormularioCrearModemProps> = ({ onSuccess,
       setModem({
         marca: "",
         modelo: "",
-        numero_serie: "",
+        numeroSerie: "",
         numero: "",
         estado: "DISPONIBLE",
         proveedorInternet: null,
@@ -222,8 +222,8 @@ const FormularioCrearModem: React.FC<IFormularioCrearModemProps> = ({ onSuccess,
             <label className="text-sm font-semibold text-gray-700">Número de Serie <span className="text-orange-500">*</span></label>
             <input
               type="text"
-              name="numero_serie"
-              value={modem.numero_serie}
+              name="numeroSerie"
+              value={modem.numeroSerie}
               onChange={handleInputChange}
               required
               placeholder="Número de serie único"
@@ -300,7 +300,7 @@ const FormularioCrearModem: React.FC<IFormularioCrearModemProps> = ({ onSuccess,
                 <option value="">Sin asignar (Mantener en inventario)</option>
                 {farmacias.map((farmacia) => (
                   <option key={farmacia.id} value={farmacia.id}>
-                    {farmacia.nombre} - {farmacia.ciudad?.nombre_ciudad}
+                    {farmacia.nombre} - {farmacia.ciudad?.nombreCiudad}
                   </option>
                 ))}
               </select>
@@ -327,7 +327,7 @@ const FormularioCrearModem: React.FC<IFormularioCrearModemProps> = ({ onSuccess,
               </div>
               <div className="flex flex-col">
                 <span className="text-gray-500 text-xs uppercase tracking-wider">Contacto</span>
-                <span className="font-medium text-gray-900">{modem.proveedorInternet.nombre_contacto || 'No disponible'}</span>
+                <span className="font-medium text-gray-900">{modem.proveedorInternet.nombreContacto || 'No disponible'}</span>
               </div>
             </div>
           </div>

@@ -67,7 +67,7 @@ const TablaDepartamentos: React.FC = () => {
 
     const filteredItems = items.filter(item => {
         return (
-            (!filterNombre || (item.name_departamento || '').toLowerCase().includes(normalizedFilterNombre))
+            (!filterNombre || (item.nameDepartamento || '').toLowerCase().includes(normalizedFilterNombre))
         );
     });
 
@@ -175,7 +175,7 @@ const TablaDepartamentos: React.FC = () => {
                                 currentItems.map((item) => (
                                     <tr key={item.id} className="hover:bg-orange-50/30 transition-colors group">
                                         <td className="p-3 align-middle text-sm font-medium text-gray-900">{item.id}</td>
-                                        <td className="p-3 align-middle text-sm text-gray-800 font-medium">{item.name_departamento}</td>
+                                        <td className="p-3 align-middle text-sm text-gray-800 font-medium">{item.nameDepartamento}</td>
                                         <td className="p-3 align-middle">
                                             <div className="flex justify-center gap-2">
                                                 <button

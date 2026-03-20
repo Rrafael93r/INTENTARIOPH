@@ -21,11 +21,11 @@ const FormularioEditarR: React.FC<IFormularioEditarRProps> = ({ reporteId, onClo
     farmacia: {
       id: 0,
     },
-    fecha_hora_inicio: "",
-    fecha_hora_fin: "",
+    fechaHoraInicio: "",
+    fechaHoraFin: "",
     hora_inicio_display: "",
     hora_fin_display: "",
-    duracion_incidente: "",
+    duracionIncidente: "",
     motivo: {
       id: 0,
     },
@@ -136,9 +136,9 @@ const FormularioEditarR: React.FC<IFormularioEditarRProps> = ({ reporteId, onClo
         const reporteFormateado = {
           ...data,
           fecha: formatearFecha(data.fecha),
-          fecha_cierre: formatearFecha(data.fecha_hora_fin) || formatearFecha(data.fecha), // Si no hay fecha fin, usar fecha inicio
-          hora_inicio_display: formatearHora(data.fecha_hora_inicio),
-          hora_fin_display: formatearHora(data.fecha_hora_fin),
+          fecha_cierre: formatearFecha(data.fechaHoraFin) || formatearFecha(data.fecha), // Si no hay fecha fin, usar fecha inicio
+          hora_inicio_display: formatearHora(data.fechaHoraInicio),
+          hora_fin_display: formatearHora(data.fechaHoraFin),
         }
 
         setReporte(reporteFormateado)
@@ -222,13 +222,13 @@ const FormularioEditarR: React.FC<IFormularioEditarRProps> = ({ reporteId, onClo
         observacion: reporte.observacion,
       }
 
-      // Si el estado es CERRADO y tenemos fecha y hora fin, calcular fecha_hora_fin
+      // Si el estado es CERRADO y tenemos fecha y hora fin, calcular fechaHoraFin
       if (reporte.estado === "CERRADO" && reporte.fecha_cierre && reporte.hora_fin_display) {
         const fechaFin = new Date(reporte.fecha_cierre)
         const [horasFin, minutosFin] = reporte.hora_fin_display.split(":").map(Number)
         fechaFin.setHours(horasFin, minutosFin, 0, 0)
 
-        datosActualizados.fecha_hora_fin = fechaFin
+        datosActualizados.fechaHoraFin = fechaFin
       }
 
 
@@ -422,7 +422,7 @@ const FormularioEditarR: React.FC<IFormularioEditarRProps> = ({ reporteId, onClo
                 <label className="block text-sm font-medium text-gray-700 mb-1">Ciudad</label>
                 <input
                   type="text"
-                  value={reporte.farmacia?.ciudad?.nombre_ciudad || ""}
+                  value={reporte.farmacia?.ciudad?.nombreCiudad || ""}
                   disabled
                   readOnly
                   className="w-full px-3 py-2 border border-gray-200 rounded-md shadow-sm bg-gray-100 text-gray-500"

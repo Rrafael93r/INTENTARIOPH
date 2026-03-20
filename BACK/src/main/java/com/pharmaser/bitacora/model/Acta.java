@@ -6,18 +6,18 @@ import jakarta.persistence.*;
 public class Acta {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
 
     private String titulo;
     private String descripcion;
     private String fecha;
-    private String url_archivo;
+    private String urlArchivo;
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -45,11 +45,11 @@ public class Acta {
         this.fecha = fecha;
     }
 
-    public String getUrl_archivo() {
-        return url_archivo;
+    public String getUrlArchivo() {
+        return urlArchivo;
     }
 
-    public void setUrl_archivo(String url_archivo) {
-        this.url_archivo = url_archivo;
+    public void setUrlArchivo(String urlArchivo) {
+        this.urlArchivo = urlArchivo;
     }
 }

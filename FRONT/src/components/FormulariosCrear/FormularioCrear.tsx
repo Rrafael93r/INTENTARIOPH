@@ -5,11 +5,11 @@ function FormularioCrear() {
   const [formData, setFormData] = useState({
     nombre: '',
     nit: '',
-    nombre_contacto: '',
-    numero_contacto: '',
+    nombreContacto: '',
+    numeroContacto: '',
     correo: '',
     estado: 'EN SERVICIO',
-    fecha_contratacion: '',
+    fechaContratacion: '',
     observacion: '',
     isDeleted: false,
   });
@@ -26,8 +26,8 @@ function FormularioCrear() {
     e.preventDefault();
 
 
-    const { nombre, nit, nombre_contacto, numero_contacto, correo, fecha_contratacion } = formData;
-    if (!nombre || !nit || !nombre_contacto || !numero_contacto || !correo || !fecha_contratacion) {
+    const { nombre, nit, nombreContacto, numeroContacto, correo, fechaContratacion } = formData;
+    if (!nombre || !nit || !nombreContacto || !numeroContacto || !correo || !fechaContratacion) {
       Swal.fire({
         icon: 'error',
         title: 'Campos incompletos',
@@ -59,11 +59,11 @@ function FormularioCrear() {
         setFormData({
           nombre: '',
           nit: '',
-          nombre_contacto: '',
-          numero_contacto: '',
+          nombreContacto: '',
+          numeroContacto: '',
           correo: '',
           estado: 'EN SERVICIO',
-          fecha_contratacion: '',
+          fechaContratacion: '',
           observacion: '',
           isDeleted: false,
         });
@@ -111,23 +111,23 @@ function FormularioCrear() {
           />
         </div>
         <div className="md:col-span-2">
-          <label htmlFor="nombre_contacto" className="block text-sm font-medium text-gray-700 mb-1">Nombre de la persona encargada*</label>
+          <label htmlFor="nombreContacto" className="block text-sm font-medium text-gray-700 mb-1">Nombre de la persona encargada*</label>
           <input
             type="text"
             className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-colors"
-            id="nombre_contacto"
-            value={formData.nombre_contacto}
+            id="nombreContacto"
+            value={formData.nombreContacto}
             onChange={handleChange}
           />
         </div>
         <div className="md:col-span-1">
-          <label htmlFor="numero_contacto" className="block text-sm font-medium text-gray-700 mb-1">Número de contacto*</label>
+          <label htmlFor="numeroContacto" className="block text-sm font-medium text-gray-700 mb-1">Número de contacto*</label>
           <input
             type="number"
             className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-colors"
-            id="numero_contacto"
+            id="numeroContacto"
             placeholder="+57"
-            value={formData.numero_contacto}
+            value={formData.numeroContacto}
             onChange={handleChange}
             min="0"
             max="99999999999"
@@ -147,12 +147,12 @@ function FormularioCrear() {
           />
         </div>
         <div className="md:col-span-1">
-          <label htmlFor="fecha_contratacion" className="block text-sm font-medium text-gray-700 mb-1">Fecha de contratación*</label>
+          <label htmlFor="fechaContratacion" className="block text-sm font-medium text-gray-700 mb-1">Fecha de contratación*</label>
           <input
             type="date"
             className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-colors"
-            id="fecha_contratacion"
-            value={formData.fecha_contratacion}
+            id="fechaContratacion"
+            value={formData.fechaContratacion}
             onChange={handleChange}
           />
         </div>
@@ -181,11 +181,11 @@ function FormularioCrear() {
             onClick={() => setFormData({
               nombre: '',
               nit: '',
-              nombre_contacto: '',
-              numero_contacto: '',
+              nombreContacto: '',
+              numeroContacto: '',
               correo: '',
               estado: 'EN SERVICIO',
-              fecha_contratacion: '',
+              fechaContratacion: '',
               observacion: '',
               isDeleted: false,
             })}

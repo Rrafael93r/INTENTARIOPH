@@ -16,7 +16,7 @@ interface iModems {
   estado: string
   marca: string
   modelo: string
-  numero_serie: string
+  numeroSerie: string
   farmacia: {
     id: number
     nombre: string
@@ -131,7 +131,7 @@ const ModemsTable: React.FC = () => {
     const matchOperador = (modem.proveedorInternet?.nombre || "").toLowerCase().includes(filterOperador.toLowerCase())
     const matchMarca = (modem.marca || "").toLowerCase().includes(filterMarca.toLowerCase())
     const matchModelo = (modem.modelo || "").toLowerCase().includes(filterModelo.toLowerCase())
-    const matchNumeroSerie = (modem.numero_serie || "").toLowerCase().includes(filterNumeroSerie.toLowerCase())
+    const matchNumeroSerie = (modem.numeroSerie || "").toLowerCase().includes(filterNumeroSerie.toLowerCase())
     const matchUbicacion = (modem.farmacia?.nombre || "").toLowerCase().includes(filterUbicacion.toLowerCase())
     const matchNumero = (modem.numero?.toString() || "").includes(filterNumero)
 
@@ -157,8 +157,8 @@ const ModemsTable: React.FC = () => {
           valueB = b.modelo?.toLowerCase() || ""
           break
         case "serial":
-          valueA = a.numero_serie?.toLowerCase() || ""
-          valueB = b.numero_serie?.toLowerCase() || ""
+          valueA = a.numeroSerie?.toLowerCase() || ""
+          valueB = b.numeroSerie?.toLowerCase() || ""
           break
         case "ubicacion":
           valueA = a.farmacia?.nombre?.toLowerCase() || ""
@@ -272,7 +272,7 @@ const ModemsTable: React.FC = () => {
       ID: modem.id,
       Marca: modem.marca || "",
       Modelo: modem.modelo || "",
-      "Número Serie": modem.numero_serie || "",
+      "Número Serie": modem.numeroSerie || "",
       Ubicación: modem.farmacia?.nombre || "",
       Operador: modem.proveedorInternet?.nombre || "",
       Número: modem.numero || "",
@@ -506,7 +506,7 @@ const ModemsTable: React.FC = () => {
                       </div>
                     </td>
                     <td className="p-3 align-middle text-gray-600">{modem.modelo}</td>
-                    <td className="p-3 align-middle font-mono text-sm text-gray-600">{modem.numero_serie}</td>
+                    <td className="p-3 align-middle font-mono text-sm text-gray-600">{modem.numeroSerie}</td>
                     <td className="p-3 align-middle text-gray-700">{modem.farmacia?.nombre || "No asignado"}</td>
                     <td className="p-3 align-middle text-gray-600">{modem.proveedorInternet?.nombre}</td>
                     <td className="p-3 align-middle text-gray-600">{modem.numero}</td>

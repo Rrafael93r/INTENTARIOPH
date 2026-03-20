@@ -2,7 +2,10 @@ package com.pharmaser.bitacora.model;
 
 import jakarta.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 @Entity
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler", "portatiles", "pcEscritorios", "perifericos", "monitores"})
 public class Funcionarios {
 
     @Id
@@ -13,11 +16,13 @@ public class Funcionarios {
     private String apellido;
     @ManyToOne
     @JoinColumn(name = "area_id")
+    @com.fasterxml.jackson.annotation.JsonIgnore
     private Areas area;
     private String correo;
 
     @ManyToOne
     @JoinColumn(name = "Farmacias")
+    @com.fasterxml.jackson.annotation.JsonIgnore
     private Farmacias farmacias;
 
     public long getId() {

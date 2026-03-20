@@ -9,7 +9,7 @@ interface Diadema {
     serial: string;
     marca: string;
     modelo: string;
-    fecha_compra: string;
+    fechaCompra: string;
     descripcion: string;
     estado: string;
 }
@@ -102,7 +102,7 @@ const TablaDiademas: React.FC = () => {
         const serialMatch = !filterSerial || diadema.serial?.toLowerCase().includes(filterSerial.toLowerCase());
         const marcaMatch = !filterMarca || (typeof diadema.marca === 'object' && diadema.marca !== null ? diadema.marca.nombre.toLowerCase().includes(filterMarca.toLowerCase()) : diadema.marca?.toLowerCase().includes(filterMarca.toLowerCase()));
         const modeloMatch = !filterModelo || diadema.modelo?.toLowerCase().includes(filterModelo.toLowerCase());
-        const fechaMatch = !filterFechaCompra || diadema.fecha_compra?.includes(filterFechaCompra);
+        const fechaMatch = !filterFechaCompra || diadema.fechaCompra?.includes(filterFechaCompra);
         const descripcionMatch = !filterDescripcion || diadema.descripcion?.toLowerCase().includes(filterDescripcion.toLowerCase());
         const estadoMatch = !filterEstado || diadema.estado?.toLowerCase().includes(filterEstado.toLowerCase());
 
@@ -252,7 +252,7 @@ const TablaDiademas: React.FC = () => {
                                         {typeof diadema.marca === 'object' && diadema.marca !== null ? (diadema.marca as any).nombre : diadema.marca}
                                     </td>
                                     <td className="p-3 align-middle text-sm text-gray-800">{diadema.modelo}</td>
-                                    <td className="p-3 align-middle text-sm text-gray-800">{format(new Date(diadema.fecha_compra), 'yyyy-MM-dd')}</td>
+                                    <td className="p-3 align-middle text-sm text-gray-800">{format(new Date(diadema.fechaCompra), 'yyyy-MM-dd')}</td>
                                     <td className="p-3 align-middle text-sm text-gray-800 max-w-xs truncate" title={diadema.descripcion}>{diadema.descripcion}</td>
                                     <td className="p-3 align-middle">
                                         <span className={`inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium border ${diadema.estado === 'ASIGNADO'

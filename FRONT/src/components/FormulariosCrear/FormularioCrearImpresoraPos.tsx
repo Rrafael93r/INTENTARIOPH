@@ -17,7 +17,7 @@ const FormularioCrearImpresoraPos = ({ handleClose }: { handleClose: () => void 
         modelo: '',
         serial: '',
         estado: '',
-        fecha_compra: '',
+        fechaCompra: '',
         funcionarios: { id: '' },
         descripcion: ''
     });
@@ -85,7 +85,7 @@ const FormularioCrearImpresoraPos = ({ handleClose }: { handleClose: () => void 
                 modelo: '',
                 serial: '',
                 estado: '',
-                fecha_compra: '',
+                fechaCompra: '',
                 funcionarios: { id: '' },
                 descripcion: ''
             });
@@ -164,12 +164,12 @@ const FormularioCrearImpresoraPos = ({ handleClose }: { handleClose: () => void 
                     </div>
 
                     <div className="space-y-1">
-                        <label htmlFor="fecha_compra" className="block text-sm font-medium text-gray-700">Fecha de Compra</label>
+                        <label htmlFor="fechaCompra" className="block text-sm font-medium text-gray-700">Fecha de Compra</label>
                         <input
                             type="date"
                             className="block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-orange-500 focus:border-orange-500 sm:text-sm transition-colors"
-                            id="fecha_compra"
-                            value={formData.fecha_compra}
+                            id="fechaCompra"
+                            value={formData.fechaCompra}
                             onChange={handleChange}
                         />
                     </div>
@@ -213,7 +213,7 @@ const FormularioCrearImpresoraPos = ({ handleClose }: { handleClose: () => void 
                             modelo: '',
                             serial: '',
                             estado: '',
-                            fecha_compra: '',
+                            fechaCompra: '',
                             funcionarios: { id: '' },
                             descripcion: ''
                         })}

@@ -48,8 +48,8 @@ public class TrasladoController {
 
         if (traslado != null) {
             traslado.setFarmacia(trasladoDetails.getFarmacia());
-            traslado.setFecha_traslado(trasladoDetails.getFecha_traslado());
-            traslado.setMotivo_traslado(trasladoDetails.getMotivo_traslado());
+            traslado.setFechaTraslado(trasladoDetails.getFechaTraslado());
+            traslado.setMotivoTraslado(trasladoDetails.getMotivoTraslado());
             traslado.setCiudad(trasladoDetails.getCiudad());
             traslado.setProveedor(trasladoDetails.getProveedor());
 

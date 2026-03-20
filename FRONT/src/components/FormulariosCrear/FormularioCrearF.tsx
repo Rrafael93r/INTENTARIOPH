@@ -5,7 +5,7 @@ import { getCiudades, getProveedores, getCanalesTransmision, createFarmacia } fr
 
 interface Ciudad {
   id: number;
-  nombre_ciudad: string;
+  nombreCiudad: string;
   departamento: {
     id: number;
     nombre: string;
@@ -196,7 +196,7 @@ function FormularioCrearF({ handleClose }: { handleClose: () => void }) {
                 <option value="" disabled>Seleccione una ciudad...</option>
                 {ciudades.map(ciudad => (
                   <option key={ciudad.id} value={ciudad.id}>
-                    {ciudad.nombre_ciudad}
+                    {ciudad.nombreCiudad}
                   </option>
                 ))}
               </select>

@@ -3,6 +3,7 @@ import Swal from 'sweetalert2';
 import { createPeriferico } from '../../servicios/perifericosService';
 import { getFuncionarios } from '../../servicios/funcionariosService';
 import { getMarcas } from '../../servicios/marcasService';
+import { getTiposPerifericos } from '../../servicios/tiposPerifericosService';
 
 interface Funcionario {
     id: number;
@@ -15,9 +16,15 @@ interface Marca {
     nombre: string;
 }
 
+interface TipoPeriferico {
+    id: number;
+    nombre: string;
+}
+
 const FormularioCrearPerifericos = ({ handleClose }: { handleClose: () => void }) => {
     const [funcionarios, setFuncionarios] = useState<Funcionario[]>([]);
     const [marcas, setMarcas] = useState<Marca[]>([]);
+    const [tiposPerifericos, setTiposPerifericos] = useState<TipoPeriferico[]>([]);
 
     const [formData, setFormData] = useState({
         marca: { id: '' },
@@ -25,7 +32,7 @@ const FormularioCrearPerifericos = ({ handleClose }: { handleClose: () => void }
         serial: '',
         estado: '',
         fechaCompra: '',
-        clasificacion: '',
+        tipoPeriferico: { id: '' },
         descripcion: '',
         funcionario: { id: '' }
     });
@@ -37,6 +44,8 @@ const FormularioCrearPerifericos = ({ handleClose }: { handleClose: () => void }
                 setFuncionarios(funcionariosData);
                 const marcasData = await getMarcas();
                 setMarcas(marcasData);
+                const tiposData = await getTiposPerifericos();
+                setTiposPerifericos(tiposData);
             } catch (error) {
                 console.error('Error al cargar datos:', error);
                 Swal.fire({
@@ -61,6 +70,11 @@ const FormularioCrearPerifericos = ({ handleClose }: { handleClose: () => void }
                 ...prevData,
                 marca: { id: value }
             }));
+        } else if (id === 'tipoPeriferico') {
+            setFormData(prevData => ({
+                ...prevData,
+                tipoPeriferico: { id: value }
+            }));
         } else {
             setFormData(prevData => ({
                 ...prevData,
@@ -72,7 +86,7 @@ const FormularioCrearPerifericos = ({ handleClose }: { handleClose: () => void }
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
-        if (!formData.marca.id || !formData.modelo || !formData.serial || !formData.estado || !formData.clasificacion) {
+        if (!formData.marca.id || !formData.modelo || !formData.serial || !formData.estado || !formData.tipoPeriferico.id) {
             Swal.fire({
                 icon: 'error',
                 title: 'Campos incompletos',
@@ -85,7 +99,8 @@ const FormularioCrearPerifericos = ({ handleClose }: { handleClose: () => void }
             const dataToSend = {
                 ...formData,
                 funcionario: formData.funcionario.id ? formData.funcionario : null,
-                marca: formData.marca.id ? formData.marca : null
+                marca: formData.marca.id ? formData.marca : null,
+                tipoPeriferico: formData.tipoPeriferico.id ? formData.tipoPeriferico : null
             };
 
             await createPeriferico(dataToSend);
@@ -102,7 +117,7 @@ const FormularioCrearPerifericos = ({ handleClose }: { handleClose: () => void }
                 serial: '',
                 estado: '',
                 fechaCompra: '',
-                clasificacion: '',
+                tipoPeriferico: { id: '' },
                 descripcion: '',
                 funcionario: { id: '' }
             });
@@ -122,18 +137,19 @@ const FormularioCrearPerifericos = ({ handleClose }: { handleClose: () => void }
         <div className="p-4 bg-white rounded-lg shadow-sm">
             <form className="grid grid-cols-1 md:grid-cols-2 gap-4" onSubmit={handleSubmit}>
                 <div className="space-y-1">
-                    <label htmlFor="clasificacion" className="block text-sm font-medium text-gray-700">Min. Clasificación*</label>
+                    <label htmlFor="tipoPeriferico" className="block text-sm font-medium text-gray-700">Min. Clasificación*</label>
                     <select
-                        id="clasificacion"
+                        id="tipoPeriferico"
                         className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-colors"
-                        value={formData.clasificacion}
+                        value={formData.tipoPeriferico.id}
                         onChange={handleChange}
                     >
                         <option value="">Seleccione una clasificación</option>
-                        <option value="TECLADO">TECLADO</option>
-                        <option value="MOUSE">MOUSE</option>
-                        <option value="BASE_REFRIGERADORA">BASE REFRIGERADORA</option>
-                        <option value="HUB_USB">HUB USB</option>
+                        {tiposPerifericos.map(tipo => (
+                            <option key={tipo.id} value={tipo.id}>
+                                {tipo.nombre}
+                            </option>
+                        ))}
                     </select>
                 </div>
 
@@ -246,7 +262,7 @@ const FormularioCrearPerifericos = ({ handleClose }: { handleClose: () => void }
                             serial: '',
                             estado: '',
                             fechaCompra: '',
-                            clasificacion: '',
+                            tipoPeriferico: { id: '' },
                             descripcion: '',
                             funcionario: { id: '' }
                         })}

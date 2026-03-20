@@ -2,16 +2,19 @@ package com.pharmaser.bitacora.model;
 
 import jakarta.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 @Entity
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Farmacias {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
 
     private String nombre;
     private String coordenadas;
     private String direccion;
-    private String anchoBAnda;
+    private String anchoBanda;
 
     private Boolean isDeleted = false;
 
@@ -71,11 +74,11 @@ public class Farmacias {
         this.nombre = nombre;
     }
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -95,12 +98,12 @@ public class Farmacias {
         this.coordenadas = coordenadas;
     }
 
-    public String getAnchoBAnda() {
-        return anchoBAnda;
+    public String getAnchoBanda() {
+        return anchoBanda;
     }
 
-    public void setAnchoBAnda(String anchoBAnda) {
-        this.anchoBAnda = anchoBAnda;
+    public void setAnchoBanda(String anchoBanda) {
+        this.anchoBanda = anchoBanda;
     }
 
     public ProveedorInternet getProveedorInternet() {

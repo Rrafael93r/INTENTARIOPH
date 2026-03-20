@@ -30,7 +30,7 @@ const FormularioEditarDiadema: React.FC<FormularioEditarDiademaProps> = ({ id, h
         modelo: '',
         serial: '',
         estado: '',
-        fecha_compra: '',
+        fechaCompra: '',
         funcionarios: { id: '' },
         descripcion: ''
     });
@@ -52,7 +52,7 @@ const FormularioEditarDiadema: React.FC<FormularioEditarDiademaProps> = ({ id, h
                     modelo: diademaData.modelo || '',
                     serial: diademaData.serial || '',
                     estado: diademaData.estado || '',
-                    fecha_compra: diademaData.fecha_compra || '',
+                    fechaCompra: diademaData.fechaCompra || '',
                     funcionarios: { id: diademaData.funcionarios?.id || '' },
                     descripcion: diademaData.descripcion || ''
                 });
@@ -201,12 +201,12 @@ const FormularioEditarDiadema: React.FC<FormularioEditarDiademaProps> = ({ id, h
                     </div>
 
                     <div className="space-y-1">
-                        <label htmlFor="fecha_compra" className="block text-sm font-medium text-gray-700">Fecha de Compra</label>
+                        <label htmlFor="fechaCompra" className="block text-sm font-medium text-gray-700">Fecha de Compra</label>
                         <input
                             type="date"
                             className="block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-orange-500 focus:border-orange-500 sm:text-sm transition-colors"
-                            id="fecha_compra"
-                            value={formData.fecha_compra}
+                            id="fechaCompra"
+                            value={formData.fechaCompra}
                             onChange={handleChange}
                         />
                     </div>

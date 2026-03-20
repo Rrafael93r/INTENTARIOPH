@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/actas")
+@RequestMapping("/api/actas")
 @CrossOrigin(origins = "http://localhost:5173")
 public class ActaController {
 

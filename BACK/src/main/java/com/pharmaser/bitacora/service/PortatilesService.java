@@ -10,6 +10,7 @@ import java.util.List;
 @Service
 public class PortatilesService {
 
+    @org.springframework.beans.factory.annotation.Autowired
     private PortatilesRepository portatilesRepository;
 
 

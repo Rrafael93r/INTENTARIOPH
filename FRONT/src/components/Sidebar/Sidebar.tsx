@@ -192,6 +192,12 @@ const Sidebar: React.FC = () => {
           path: "/Estados",
           rolesAllowed: [1],
         },
+        {
+          label: "Tipos Periféricos",
+          icon: IconCategory,
+          path: "/tipos-perifericos",
+          rolesAllowed: [1],
+        },
       ],
     },
 

@@ -21,7 +21,7 @@ const FormularioEditarModem: React.FC<IFormularioEditarModemProps> = ({ modemId,
     id: "",
     marca: "",
     modelo: "",
-    numero_serie: "",
+    numeroSerie: "",
     numero: "",
     estado: "",
     proveedorInternet: null,
@@ -119,7 +119,7 @@ const FormularioEditarModem: React.FC<IFormularioEditarModemProps> = ({ modemId,
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
 
-    if (!modem.marca || !modem.modelo || !modem.numero_serie || !modem.proveedorInternet) {
+    if (!modem.marca || !modem.modelo || !modem.numeroSerie || !modem.proveedorInternet) {
       Swal.fire({
         icon: "error",
         title: "Error",
@@ -144,7 +144,7 @@ const FormularioEditarModem: React.FC<IFormularioEditarModemProps> = ({ modemId,
       const modemData = {
         marca: modem.marca,
         modelo: modem.modelo,
-        numero_serie: modem.numero_serie,
+        numeroSerie: modem.numeroSerie,
         numero: modem.numero || null,
         estado: modem.estado,
         proveedorInternet: {
@@ -232,8 +232,8 @@ const FormularioEditarModem: React.FC<IFormularioEditarModemProps> = ({ modemId,
             <label className="text-sm font-semibold text-gray-700">Número de Serie <span className="text-orange-500">*</span></label>
             <input
               type="text"
-              name="numero_serie"
-              value={modem.numero_serie}
+              name="numeroSerie"
+              value={modem.numeroSerie}
               onChange={handleInputChange}
               required
               placeholder="Número de serie único"
@@ -310,7 +310,7 @@ const FormularioEditarModem: React.FC<IFormularioEditarModemProps> = ({ modemId,
                 <option value="">Sin asignar (Mantener en inventario)</option>
                 {farmacias.map((farmacia) => (
                   <option key={farmacia.id} value={farmacia.id}>
-                    {farmacia.nombre} - {farmacia.ciudad?.nombre_ciudad}
+                    {farmacia.nombre} - {farmacia.ciudad?.nombreCiudad}
                   </option>
                 ))}
               </select>
@@ -340,11 +340,11 @@ const FormularioEditarModem: React.FC<IFormularioEditarModemProps> = ({ modemId,
               </div>
               <div className="flex flex-col">
                 <span className="text-gray-500 text-xs uppercase tracking-wider">Contacto</span>
-                <span className="font-medium text-gray-900">{modem.proveedorInternet.nombre_contacto || 'No disponible'}</span>
+                <span className="font-medium text-gray-900">{modem.proveedorInternet.nombreContacto || 'No disponible'}</span>
               </div>
               <div className="flex flex-col">
                 <span className="text-gray-500 text-xs uppercase tracking-wider">Teléfono</span>
-                <span className="font-medium text-gray-900">{modem.proveedorInternet.numero_contacto || 'No disponible'}</span>
+                <span className="font-medium text-gray-900">{modem.proveedorInternet.numeroContacto || 'No disponible'}</span>
               </div>
             </div>
           </div>
@@ -366,7 +366,7 @@ const FormularioEditarModem: React.FC<IFormularioEditarModemProps> = ({ modemId,
               </div>
               <div className="flex flex-col">
                 <span className="text-gray-500 text-xs uppercase tracking-wider">Ciudad</span>
-                <span className="font-medium text-gray-900">{modem.farmacia.ciudad?.nombre_ciudad}</span>
+                <span className="font-medium text-gray-900">{modem.farmacia.ciudad?.nombreCiudad}</span>
               </div>
               <div className="flex flex-col lg:col-span-3 sm:col-span-2">
                 <span className="text-gray-500 text-xs uppercase tracking-wider">Dirección</span>

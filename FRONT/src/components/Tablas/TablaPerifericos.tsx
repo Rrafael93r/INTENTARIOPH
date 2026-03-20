@@ -81,7 +81,7 @@ const TablaPerifericos: React.FC = () => {
             (!filterClasificacion || normalize(periferico.clasificacion).includes(normalize(filterClasificacion))) &&
             (!filterMarca || normalize(periferico.marca?.nombre).includes(normalize(filterMarca))) &&
             (!filterModelo || normalize(periferico.modelo).includes(normalize(filterModelo))) &&
-            (!filterTipo || normalize(periferico.tipo_periferico?.nombre).includes(normalize(filterTipo))) &&
+            (!filterTipo || normalize(periferico.tipoPeriferico?.nombre).includes(normalize(filterTipo))) &&
             (!filterSerial || normalize(periferico.serial).includes(normalize(filterSerial))) &&
             (!filterEstado || normalize(periferico.estado?.nombre || periferico.estado).includes(normalize(filterEstado))) &&
             (!filterFuncionario || normalize(periferico.funcionario ? `${periferico.funcionario.nombre} ${periferico.funcionario.apellido}` : '').includes(normalize(filterFuncionario)))
@@ -229,10 +229,10 @@ const TablaPerifericos: React.FC = () => {
                                     <td className="px-6 py-4">{typeof periferico.marca === 'object' && periferico.marca !== null ? periferico.marca.nombre : periferico.marca}</td>
                                     <td className="px-6 py-4">
                                         <div className="flex items-center">
-                                            {periferico.tipo_periferico?.nombre?.toUpperCase() === 'MOUSE' && <i className="bi bi-mouse mr-2 text-gray-400"></i>}
-                                            {periferico.tipo_periferico?.nombre?.toUpperCase() === 'TECLADO' && <i className="bi bi-keyboard mr-2 text-gray-400"></i>}
-                                            {periferico.tipo_periferico?.nombre?.toUpperCase() === 'DIADEMA' && <i className="bi bi-headset mr-2 text-gray-400"></i>}
-                                            {periferico.tipo_periferico?.nombre || 'N/A'}
+                                            {periferico.tipoPeriferico?.nombre?.toUpperCase() === 'MOUSE' && <i className="bi bi-mouse mr-2 text-gray-400"></i>}
+                                            {periferico.tipoPeriferico?.nombre?.toUpperCase() === 'TECLADO' && <i className="bi bi-keyboard mr-2 text-gray-400"></i>}
+                                            {periferico.tipoPeriferico?.nombre?.toUpperCase() === 'DIADEMA' && <i className="bi bi-headset mr-2 text-gray-400"></i>}
+                                            {periferico.tipoPeriferico?.nombre || 'N/A'}
                                         </div>
                                     </td>
                                     <td className="px-6 py-4 font-mono text-xs">{periferico.serial}</td>

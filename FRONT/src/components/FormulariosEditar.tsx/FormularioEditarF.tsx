@@ -5,7 +5,7 @@ import { getFarmaciaById, updateFarmacia, getCiudades, getProveedores, getCanale
 
 interface Ciudad {
   id: number;
-  nombre_ciudad: string;
+  nombreCiudad: string;
   departamento: {
     id: number;
     nombre: string;
@@ -237,7 +237,7 @@ function FormularioEditarF({ farmaciaId, onClose, onSuccess }: FormularioEditarF
                 <option value="" disabled>Seleccione una ciudad...</option>
                 {ciudades.map(ciudad => (
                   <option key={ciudad.id} value={ciudad.id}>
-                    {ciudad.nombre_ciudad}
+                    {ciudad.nombreCiudad}
                   </option>
                 ))}
               </select>

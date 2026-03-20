@@ -6,37 +6,37 @@ import jakarta.persistence.*;
 public class Monitores {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
 
     @ManyToOne
     @JoinColumn(name = "marca_id")
     private Marcas marca;
 
-    private String Modelo;
-    private String Serial;
+    private String modelo;
+    private String serial;
 
-    private String Estado;
-    private String Fecha_compra;
+    private String estado;
+    private String fechaCompra;
 
     @ManyToOne
     @JoinColumn(name = "funcionario_id")
     private Funcionarios funcionario;
 
-    private String Descripcion;
+    private String descripcion;
 
     public String getDescripcion() {
-        return Descripcion;
+        return descripcion;
     }
 
     public void setDescripcion(String descripcion) {
-        Descripcion = descripcion;
+        this.descripcion = descripcion;
     }
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -49,19 +49,19 @@ public class Monitores {
     }
 
     public String getEstado() {
-        return Estado;
+        return estado;
     }
 
     public void setEstado(String estado) {
-        Estado = estado;
+        this.estado = estado;
     }
 
     public String getSerial() {
-        return Serial;
+        return serial;
     }
 
     public void setSerial(String serial) {
-        Serial = serial;
+        this.serial = serial;
     }
 
     public Marcas getMarca() {
@@ -73,18 +73,18 @@ public class Monitores {
     }
 
     public String getModelo() {
-        return Modelo;
+        return modelo;
     }
 
     public void setModelo(String modelo) {
-        Modelo = modelo;
+        this.modelo = modelo;
     }
 
-    public String getFecha_compra() {
-        return Fecha_compra;
+    public String getFechaCompra() {
+        return fechaCompra;
     }
 
-    public void setFecha_compra(String fecha_compra) {
-        Fecha_compra = fecha_compra;
+    public void setFechaCompra(String fechaCompra) {
+        this.fechaCompra = fechaCompra;
     }
 }

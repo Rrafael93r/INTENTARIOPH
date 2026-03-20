@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
 public class EnvioDeModems {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
 
     @ManyToOne
     @JoinColumn(name = "id_farmacia")
@@ -22,9 +22,9 @@ public class EnvioDeModems {
     @JoinColumn(name = "id_modem_secundario")
     private Modems modemSecundario;
 
-    private LocalDateTime fecha_envio;
-    private BigDecimal costo_envio;
-    private String estado_envio;
+    private LocalDateTime fechaEnvio;
+    private BigDecimal costoEnvio;
+    private String estadoEnvio;
 
     // Getters y setters
     public Modems getModemPrincipal() {
@@ -43,36 +43,36 @@ public class EnvioDeModems {
         this.modemSecundario = modemSecundario;
     }
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
-    public LocalDateTime getFecha_envio() {
-        return fecha_envio;
+    public LocalDateTime getFechaEnvio() {
+        return fechaEnvio;
     }
 
-    public void setFecha_envio(LocalDateTime fecha_envio) {
-        this.fecha_envio = fecha_envio;
+    public void setFechaEnvio(LocalDateTime fechaEnvio) {
+        this.fechaEnvio = fechaEnvio;
     }
 
-    public BigDecimal getCosto_envio() {
-        return costo_envio;
+    public BigDecimal getCostoEnvio() {
+        return costoEnvio;
     }
 
-    public void setCosto_envio(BigDecimal costo_envio) {
-        this.costo_envio = costo_envio;
+    public void setCostoEnvio(BigDecimal costoEnvio) {
+        this.costoEnvio = costoEnvio;
     }
 
-    public String getEstado_envio() {
-        return estado_envio;
+    public String getEstadoEnvio() {
+        return estadoEnvio;
     }
 
-    public void setEstado_envio(String estado_envio) {
-        this.estado_envio = estado_envio;
+    public void setEstadoEnvio(String estadoEnvio) {
+        this.estadoEnvio = estadoEnvio;
     }
 
     public Farmacias getFarmacia() {

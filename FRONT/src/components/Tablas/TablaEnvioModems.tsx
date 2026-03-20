@@ -19,17 +19,17 @@ interface IEnvio {
     id: number
     marca: string
     modelo: string
-    numero_serie: string
+    numeroSerie: string
   }
   modemSecundario?: {
     id: number
     marca: string
     modelo: string
-    numero_serie: string
+    numeroSerie: string
   }
-  fecha_envio: string
-  costo_envio: number
-  estado_envio: string
+  fechaEnvio: string
+  costoEnvio: number
+  estadoEnvio: string
 }
 
 const EnviosTable: React.FC = () => {
@@ -117,11 +117,11 @@ const EnviosTable: React.FC = () => {
 
   const filteredEnvios = envios.filter((envio) => {
     const matchFarmacia = (envio?.farmacia?.nombre || "").toLowerCase().includes(filterFarmacia.toLowerCase())
-    const matchModem = (envio?.modemPrincipal?.numero_serie || "").toLowerCase().includes(filterModem.toLowerCase())
-    const matchFecha = envio?.fecha_envio
-      ? format(new Date(envio.fecha_envio), "yyyy-MM-dd").includes(filterFecha)
+    const matchModem = (envio?.modemPrincipal?.numeroSerie || "").toLowerCase().includes(filterModem.toLowerCase())
+    const matchFecha = envio?.fechaEnvio
+      ? format(new Date(envio.fechaEnvio), "yyyy-MM-dd").includes(filterFecha)
       : true
-    const matchEstado = (envio?.estado_envio || "").toLowerCase().includes(filterEstado.toLowerCase())
+    const matchEstado = (envio?.estadoEnvio || "").toLowerCase().includes(filterEstado.toLowerCase())
 
     return matchFarmacia && matchModem && matchFecha && matchEstado
   })
@@ -139,20 +139,20 @@ const EnviosTable: React.FC = () => {
           valueB = b.farmacia?.nombre?.toLowerCase() || ""
           break
         case "modem":
-          valueA = a.modemPrincipal?.numero_serie?.toLowerCase() || ""
-          valueB = b.modemPrincipal?.numero_serie?.toLowerCase() || ""
+          valueA = a.modemPrincipal?.numeroSerie?.toLowerCase() || ""
+          valueB = b.modemPrincipal?.numeroSerie?.toLowerCase() || ""
           break
         case "fecha":
-          valueA = new Date(a.fecha_envio || 0).getTime()
-          valueB = new Date(b.fecha_envio || 0).getTime()
+          valueA = new Date(a.fechaEnvio || 0).getTime()
+          valueB = new Date(b.fechaEnvio || 0).getTime()
           break
         case "costo":
-          valueA = a.costo_envio || 0
-          valueB = b.costo_envio || 0
+          valueA = a.costoEnvio || 0
+          valueB = b.costoEnvio || 0
           break
         case "estado":
-          valueA = a.estado_envio?.toLowerCase() || ""
-          valueB = b.estado_envio?.toLowerCase() || ""
+          valueA = a.estadoEnvio?.toLowerCase() || ""
+          valueB = b.estadoEnvio?.toLowerCase() || ""
           break
         default:
           valueA = ""
@@ -218,10 +218,10 @@ const EnviosTable: React.FC = () => {
       Farmacia: envio.farmacia?.nombre || "",
       "Módem Marca": envio.modemPrincipal?.marca || "",
       "Módem Modelo": envio.modemPrincipal?.modelo || "",
-      "Número Serie": envio.modemPrincipal?.numero_serie || "",
-      "Fecha Envío": envio.fecha_envio ? format(new Date(envio.fecha_envio), "dd/MM/yyyy") : "",
-      "Costo Envío": envio.costo_envio || 0,
-      Estado: envio.estado_envio || "",
+      "Número Serie": envio.modemPrincipal?.numeroSerie || "",
+      "Fecha Envío": envio.fechaEnvio ? format(new Date(envio.fechaEnvio), "dd/MM/yyyy") : "",
+      "Costo Envío": envio.costoEnvio || 0,
+      Estado: envio.estadoEnvio || "",
     }))
 
     // Crear libro de trabajo y hoja
@@ -383,22 +383,22 @@ const EnviosTable: React.FC = () => {
                   </td>
                   <td className="p-3 align-middle text-sm text-gray-800">
                     <div>{envio?.modemPrincipal?.marca} - {envio?.modemPrincipal?.modelo}</div>
-                    <div className="text-xs text-gray-500">Serie: {envio?.modemPrincipal?.numero_serie}</div>
+                    <div className="text-xs text-gray-500">Serie: {envio?.modemPrincipal?.numeroSerie}</div>
                     {envio?.modemSecundario && (
                       <div className="text-xs text-blue-600 mt-1">
                         + {envio.modemSecundario.marca} - {envio.modemSecundario.modelo}
                       </div>
                     )}
                   </td>
-                  <td className="p-3 align-middle text-sm text-gray-800">{envio?.fecha_envio ? format(new Date(envio.fecha_envio), "dd/MM/yyyy") : "N/A"}</td>
-                  <td className="p-3 align-middle text-sm text-gray-800">${envio?.costo_envio?.toLocaleString("es-CO") ?? ""}</td>
+                  <td className="p-3 align-middle text-sm text-gray-800">{envio?.fechaEnvio ? format(new Date(envio.fechaEnvio), "dd/MM/yyyy") : "N/A"}</td>
+                  <td className="p-3 align-middle text-sm text-gray-800">${envio?.costoEnvio?.toLocaleString("es-CO") ?? ""}</td>
                   <td className="p-3 align-middle">
-                    <span className={`inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium border ${envio?.estado_envio === "ENTREGADO" ? "bg-emerald-50 text-emerald-700 border-emerald-200" :
-                        envio?.estado_envio === "DEVUELTO" ? "bg-red-50 text-red-700 border-red-200" :
-                          envio?.estado_envio === "EN CAMINO" ? "bg-blue-50 text-blue-700 border-blue-200" :
+                    <span className={`inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium border ${envio?.estadoEnvio === "ENTREGADO" ? "bg-emerald-50 text-emerald-700 border-emerald-200" :
+                        envio?.estadoEnvio === "DEVUELTO" ? "bg-red-50 text-red-700 border-red-200" :
+                          envio?.estadoEnvio === "EN CAMINO" ? "bg-blue-50 text-blue-700 border-blue-200" :
                             "bg-yellow-50 text-yellow-700 border-yellow-200"
                       }`}>
-                      {envio?.estado_envio || "Desconocido"}
+                      {envio?.estadoEnvio || "Desconocido"}
                     </span>
                   </td>
                   <td className="p-3 align-middle">

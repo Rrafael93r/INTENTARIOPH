@@ -19,7 +19,7 @@ const FormularioReporteUser: React.FC = () => {
 
   const [reporte, setReporte] = useState<any>({
     fecha: new Date().toISOString().split("T")[0],
-    fecha_hora_inicio: new Date().toTimeString().slice(0, 5),
+    fechaHoraInicio: new Date().toTimeString().slice(0, 5),
     motivo: null,
     observacion: "",
   })
@@ -124,8 +124,8 @@ const FormularioReporteUser: React.FC = () => {
       const mes = fechaBase.getMonth() + 1
 
       let fechaHoraInicio = null
-      if (reporte.fecha && reporte.fecha_hora_inicio) {
-        const [horasInicio, minutosInicio] = reporte.fecha_hora_inicio.split(":")
+      if (reporte.fecha && reporte.fechaHoraInicio) {
+        const [horasInicio, minutosInicio] = reporte.fechaHoraInicio.split(":")
         fechaHoraInicio = new Date(fechaBase)
         fechaHoraInicio.setHours(Number(horasInicio), Number(minutosInicio), 0, 0)
       }
@@ -136,9 +136,9 @@ const FormularioReporteUser: React.FC = () => {
         ano: ano,
         mes: mes,
         farmacia: userDetails.farmacia, // Usar la farmacia del usuario
-        fecha_hora_inicio: fechaHoraInicio,
-        fecha_hora_fin: null,
-        duracion_incidente: null,
+        fechaHoraInicio: fechaHoraInicio,
+        fechaHoraFin: null,
+        duracionIncidente: null,
         estado: "ABIERTO",
         motivo: reporte.motivo,
         observacion: reporte.observacion || "",
@@ -160,7 +160,7 @@ const FormularioReporteUser: React.FC = () => {
       // Limpiar el formulario
       setReporte({
         fecha: new Date().toISOString().split("T")[0],
-        fecha_hora_inicio: new Date().toTimeString().slice(0, 5),
+        fechaHoraInicio: new Date().toTimeString().slice(0, 5),
         motivo: null,
         observacion: "",
       })
@@ -238,7 +238,7 @@ const FormularioReporteUser: React.FC = () => {
                 </div>
                 <div className="mb-2">
                   <strong className="block text-sm text-gray-600 mb-1">Ciudad:</strong>
-                  <div className="text-gray-800">{userDetails.farmacia.ciudad?.nombre_ciudad}</div>
+                  <div className="text-gray-800">{userDetails.farmacia.ciudad?.nombreCiudad}</div>
                 </div>
                 <div className="md:col-span-2 mb-2">
                   <strong className="block text-sm text-gray-600 mb-1">Dirección:</strong>
@@ -292,8 +292,8 @@ const FormularioReporteUser: React.FC = () => {
                       </label>
                       <input
                         type="time"
-                        name="fecha_hora_inicio"
-                        value={reporte.fecha_hora_inicio}
+                        name="fechaHoraInicio"
+                        value={reporte.fechaHoraInicio}
                         onChange={handleInputChange}
                         required
                         className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-orange-500 focus:border-orange-500"
@@ -366,7 +366,7 @@ const FormularioReporteUser: React.FC = () => {
                     onClick={() => {
                       setReporte({
                         fecha: new Date().toISOString().split("T")[0],
-                        fecha_hora_inicio: new Date().toTimeString().slice(0, 5),
+                        fechaHoraInicio: new Date().toTimeString().slice(0, 5),
                         motivo: null,
                         observacion: "",
                       })

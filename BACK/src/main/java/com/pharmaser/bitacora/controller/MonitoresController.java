@@ -49,7 +49,7 @@ public class MonitoresController {
             existingMonitor.setMarca(monitorDetails.getMarca());
             existingMonitor.setModelo(monitorDetails.getModelo());
             existingMonitor.setSerial(monitorDetails.getSerial());
-            existingMonitor.setFecha_compra(monitorDetails.getFecha_compra());
+            existingMonitor.setFechaCompra(monitorDetails.getFechaCompra());
             return ResponseEntity.ok(monitoresService.save(existingMonitor));
         } else {
             return ResponseEntity.notFound().build();

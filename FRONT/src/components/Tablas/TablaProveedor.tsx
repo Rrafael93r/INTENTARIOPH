@@ -110,7 +110,6 @@ const ProveedorTable: React.FC = () => {
 
   return (
     <>
-      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 text-gray-800 gap-4">
         {showModal && (
           <div className="fixed inset-0 z-50 overflow-y-auto">
             <div className="flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:p-0">
@@ -118,7 +117,7 @@ const ProveedorTable: React.FC = () => {
               <div className="inline-block align-bottom bg-white rounded-xl text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-4xl sm:w-full">
                 <div className="bg-white px-6 py-4 border-b border-gray-100 flex justify-between items-center">
                   <h3 className="text-lg leading-6 font-semibold text-gray-800 flex items-center">
-                    <i className="bi bi-plus-circle mr-2 text-orange-500"></i> Nueva Farmacia
+                    <i className="bi bi-plus-circle mr-2 text-orange-500"></i> Nuevo Proveedor
                   </h3>
                   <button onClick={handleClose} className="text-gray-400 hover:text-gray-500 focus:outline-none transition-colors">
                     <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" /></svg>
@@ -138,7 +137,7 @@ const ProveedorTable: React.FC = () => {
             <nav className="text-sm text-gray-500 mt-1">
               <ol className="list-none p-0 inline-flex">
                 <li className="flex items-center">Inicio <span className="mx-2 text-gray-300">/</span></li>
-                <li className="font-medium text-gray-700">Farmacias</li>
+                <li className="font-medium text-gray-700">Proveedores</li>
               </ol>
             </nav>
           </div>
@@ -241,8 +240,8 @@ const ProveedorTable: React.FC = () => {
                         </div>
                       </td>
                       <td className="p-3 align-middle text-sm text-gray-800">{proveedor.correo}</td>
-                      <td className="p-3 align-middle text-sm text-gray-800">{proveedor.nombre_contacto}</td>
-                      <td className="p-3 align-middle text-sm text-gray-800">{proveedor.numero_contacto}</td>
+                      <td className="p-3 align-middle text-sm text-gray-800">{proveedor.nombreContacto}</td>
+                      <td className="p-3 align-middle text-sm text-gray-800">{proveedor.numeroContacto}</td>
                       <td className="p-3 align-middle">
                         <span className={`inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium border ${proveedor.estado === 'NO ACTIVO'
                           ? "bg-red-50 text-red-700 border-red-200"
@@ -374,7 +373,6 @@ const ProveedorTable: React.FC = () => {
             </div>
           </div>
         </div>
-      </div>
     </>
   );
 };

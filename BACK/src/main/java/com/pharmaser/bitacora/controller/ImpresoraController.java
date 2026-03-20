@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/impresoras")
+@RequestMapping("/api/impresoras")
 @CrossOrigin(origins = "http://localhost:5173")
 public class ImpresoraController {
 
@@ -38,7 +38,7 @@ public class ImpresoraController {
             impresora.setMarca(impresoraDetails.getMarca());
             impresora.setModelo(impresoraDetails.getModelo());
             impresora.setSerial(impresoraDetails.getSerial());
-            impresora.setFecha_compra(impresoraDetails.getFecha_compra());
+            impresora.setFechaCompra(impresoraDetails.getFechaCompra());
             return ResponseEntity.ok(service.createImpresora(impresora));
         } else {
             return ResponseEntity.notFound().build();

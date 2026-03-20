@@ -8,7 +8,7 @@ import java.sql.Date;
 public class Reporte {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
 
     private Integer ano;
     private Integer mes;
@@ -22,14 +22,14 @@ public class Reporte {
     private Date fecha;
 
     @Column(nullable = true)
-    private Timestamp fecha_hora_inicio;
+    private Timestamp fechaHoraInicio;
 
     @Column(nullable = true)
-    private Timestamp fecha_hora_fin;
+    private Timestamp fechaHoraFin;
 
     // Cambiar de Time a String para permitir duraciones mayores a 24 horas
     @Column(nullable = true)
-    private String duracion_incidente;
+    private String duracionIncidente;
 
     private String estado;
     private Boolean isDeleted = false;
@@ -89,28 +89,28 @@ public class Reporte {
         this.ano = ano;
     }
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
-    public Timestamp getFecha_hora_inicio() {
-        return fecha_hora_inicio;
+    public Timestamp getFechaHoraInicio() {
+        return fechaHoraInicio;
     }
 
-    public void setFecha_hora_inicio(Timestamp fecha_hora_inicio) {
-        this.fecha_hora_inicio = fecha_hora_inicio;
+    public void setFechaHoraInicio(Timestamp fechaHoraInicio) {
+        this.fechaHoraInicio = fechaHoraInicio;
     }
 
-    public Timestamp getFecha_hora_fin() {
-        return fecha_hora_fin;
+    public Timestamp getFechaHoraFin() {
+        return fechaHoraFin;
     }
 
-    public void setFecha_hora_fin(Timestamp fecha_hora_fin) {
-        this.fecha_hora_fin = fecha_hora_fin;
+    public void setFechaHoraFin(Timestamp fechaHoraFin) {
+        this.fechaHoraFin = fechaHoraFin;
     }
 
     public Date getFecha() {
@@ -130,12 +130,12 @@ public class Reporte {
     }
 
     // Cambiar el tipo de retorno de Time a String
-    public String getDuracion_incidente() {
-        return duracion_incidente;
+    public String getDuracionIncidente() {
+        return duracionIncidente;
     }
 
-    public void setDuracion_incidente(String duracion_incidente) {
-        this.duracion_incidente = duracion_incidente;
+    public void setDuracionIncidente(String duracionIncidente) {
+        this.duracionIncidente = duracionIncidente;
     }
 
     public String getEstado() {

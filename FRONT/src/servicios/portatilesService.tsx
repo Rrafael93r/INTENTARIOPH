@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios from './axiosConfig';
 
 // Note: Backend endpoint uses capitalized 'Portatiles'
 const API_URL = 'http://localhost:8080/api/Portatiles';

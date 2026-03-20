@@ -3,6 +3,7 @@ import Swal from 'sweetalert2';
 import { getPerifericoById, updatePeriferico } from '../../servicios/perifericosService';
 import { getFuncionarios } from '../../servicios/funcionariosService';
 import { getMarcas } from '../../servicios/marcasService';
+import { getTiposPerifericos } from '../../servicios/tiposPerifericosService';
 
 interface Funcionario {
     id: number;
@@ -11,6 +12,11 @@ interface Funcionario {
 }
 
 interface Marca {
+    id: number;
+    nombre: string;
+}
+
+interface TipoPeriferico {
     id: number;
     nombre: string;
 }
@@ -24,6 +30,7 @@ interface FormularioEditarPerifericosProps {
 const FormularioEditarPerifericos: React.FC<FormularioEditarPerifericosProps> = ({ id, handleClose, onSuccess }) => {
     const [funcionarios, setFuncionarios] = useState<Funcionario[]>([]);
     const [marcas, setMarcas] = useState<Marca[]>([]);
+    const [tiposPerifericos, setTiposPerifericos] = useState<TipoPeriferico[]>([]);
 
     const [formData, setFormData] = useState({
         marca: { id: '' },
@@ -31,7 +38,7 @@ const FormularioEditarPerifericos: React.FC<FormularioEditarPerifericosProps> = 
         serial: '',
         estado: '',
         fechaCompra: '',
-        clasificacion: '',
+        tipoPeriferico: { id: '' },
         descripcion: '',
         funcionario: { id: '' }
     });
@@ -39,14 +46,16 @@ const FormularioEditarPerifericos: React.FC<FormularioEditarPerifericosProps> = 
     useEffect(() => {
         const cargarDatos = async () => {
             try {
-                const [perifericoData, funcionariosData, marcasData] = await Promise.all([
+                const [perifericoData, funcionariosData, marcasData, tiposData] = await Promise.all([
                     getPerifericoById(id),
                     getFuncionarios(),
-                    getMarcas()
+                    getMarcas(),
+                    getTiposPerifericos()
                 ]);
 
                 setFuncionarios(funcionariosData);
                 setMarcas(marcasData);
+                setTiposPerifericos(tiposData);
 
                 setFormData({
                     marca: perifericoData.marca ? { id: perifericoData.marca.id } : { id: '' },
@@ -54,7 +63,7 @@ const FormularioEditarPerifericos: React.FC<FormularioEditarPerifericosProps> = 
                     serial: perifericoData.serial || '',
                     estado: perifericoData.estado || '',
                     fechaCompra: perifericoData.fechaCompra || '',
-                    clasificacion: perifericoData.clasificacion || '',
+                    tipoPeriferico: perifericoData.tipoPeriferico ? { id: perifericoData.tipoPeriferico.id } : { id: '' },
                     descripcion: perifericoData.descripcion || '',
                     funcionario: { id: perifericoData.funcionario?.id || '' }
                 });
@@ -85,6 +94,11 @@ const FormularioEditarPerifericos: React.FC<FormularioEditarPerifericosProps> = 
                 ...prevData,
                 marca: { id: value }
             }));
+        } else if (id === 'tipoPeriferico') {
+            setFormData(prevData => ({
+                ...prevData,
+                tipoPeriferico: { id: value }
+            }));
         } else {
             setFormData(prevData => ({
                 ...prevData,
@@ -96,7 +110,7 @@ const FormularioEditarPerifericos: React.FC<FormularioEditarPerifericosProps> = 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
-        if (!formData.marca.id || !formData.modelo || !formData.serial || !formData.estado || !formData.clasificacion) {
+        if (!formData.marca.id || !formData.modelo || !formData.serial || !formData.estado || !formData.tipoPeriferico.id) {
             Swal.fire({
                 icon: 'error',
                 title: 'Campos incompletos',
@@ -109,7 +123,8 @@ const FormularioEditarPerifericos: React.FC<FormularioEditarPerifericosProps> = 
             const dataToSend = {
                 ...formData,
                 funcionario: formData.funcionario.id ? formData.funcionario : null,
-                marca: formData.marca.id ? formData.marca : null
+                marca: formData.marca.id ? formData.marca : null,
+                tipoPeriferico: formData.tipoPeriferico.id ? formData.tipoPeriferico : null
             };
 
             await updatePeriferico(id, dataToSend);
@@ -137,18 +152,19 @@ const FormularioEditarPerifericos: React.FC<FormularioEditarPerifericosProps> = 
         <div className="p-4 bg-white rounded-lg shadow-sm">
             <form className="grid grid-cols-1 md:grid-cols-2 gap-4" onSubmit={handleSubmit}>
                 <div className="space-y-1">
-                    <label htmlFor="clasificacion" className="block text-sm font-medium text-gray-700">Min. Clasificación*</label>
+                    <label htmlFor="tipoPeriferico" className="block text-sm font-medium text-gray-700">Min. Clasificación*</label>
                     <select
-                        id="clasificacion"
+                        id="tipoPeriferico"
                         className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-colors"
-                        value={formData.clasificacion}
+                        value={formData.tipoPeriferico.id}
                         onChange={handleChange}
                     >
                         <option value="">Seleccione una clasificación</option>
-                        <option value="TECLADO">TECLADO</option>
-                        <option value="MOUSE">MOUSE</option>
-                        <option value="BASE_REFRIGERADORA">BASE REFRIGERADORA</option>
-                        <option value="HUB_USB">HUB USB</option>
+                        {tiposPerifericos.map(tipo => (
+                            <option key={tipo.id} value={tipo.id}>
+                                {tipo.nombre}
+                            </option>
+                        ))}
                     </select>
                 </div>
 

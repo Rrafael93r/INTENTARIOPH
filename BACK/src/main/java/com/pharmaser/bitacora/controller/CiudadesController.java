@@ -40,7 +40,7 @@ public class CiudadesController {
     public ResponseEntity<Ciudades> updateRole(@PathVariable Long id, @RequestBody Ciudades ciudadesDetails) {
         Ciudades updatedCiudades = ciudadesServicie.findById(id);
         if (updatedCiudades != null) {
-            updatedCiudades.setNombre_ciudad(ciudadesDetails.getNombre_ciudad());
+            updatedCiudades.setNombreCiudad(ciudadesDetails.getNombreCiudad());
             updatedCiudades.setDepartamento(ciudadesDetails.getDepartamento());
             return ResponseEntity.ok(ciudadesServicie.save(updatedCiudades));
         } else {
