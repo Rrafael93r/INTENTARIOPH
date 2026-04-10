@@ -101,6 +101,7 @@ const Sidebar: React.FC = () => {
         },
       ],
     },
+    /*
     {
       heading: "INVENTARIO",
       items: [
@@ -200,6 +201,7 @@ const Sidebar: React.FC = () => {
         },
       ],
     },
+    */
 
   ]
 
@@ -235,8 +237,8 @@ const Sidebar: React.FC = () => {
                       <Link
                         to={item.path}
                         className={`flex items-center gap-3 py-2.5 px-3 rounded-xl text-sm font-medium transition-all duration-200 ${isActive
-                            ? "bg-orange-500 text-white shadow-md shadow-orange-200"
-                            : "text-gray-600 hover:bg-orange-50 hover:text-orange-600"
+                          ? "bg-orange-500 text-white shadow-md shadow-orange-200"
+                          : "text-gray-600 hover:bg-orange-50 hover:text-orange-600"
                           }`}
                         style={{ textDecoration: 'none' }}
                       >
