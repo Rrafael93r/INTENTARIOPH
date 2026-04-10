@@ -52,7 +52,7 @@ public class SecurityConfig {
                 .cors(cors -> cors.configurationSource(corsConfigurationSource))
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/auth/login", "/api/auth/setup", "/api/users", "/error").permitAll()
+                        .requestMatchers("/api/auth/login", "/api/auth/setup", "/api/users", "/error", "/api/chat").permitAll()
                         .anyRequest().authenticated())
                 .authenticationProvider(authenticationProvider())
                 .addFilterBefore(apiKeyFilter, UsernamePasswordAuthenticationFilter.class)

@@ -32,9 +32,9 @@ public class ApiKeyFilter extends OncePerRequestFilter {
             return;
         }
 
-        // Permitir endpoints públicos de autenticación
+        // Permitir endpoints públicos de autenticación y chat
         String requestUri = request.getRequestURI();
-        if ("/api/auth/login".equals(requestUri) || "/api/auth/setup".equals(requestUri)) {
+        if ("/api/auth/login".equals(requestUri) || "/api/auth/setup".equals(requestUri) || "/api/chat".equals(requestUri)) {
             filterChain.doFilter(request, response);
             return;
         }

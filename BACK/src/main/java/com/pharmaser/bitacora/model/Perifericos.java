@@ -3,8 +3,6 @@ package com.pharmaser.bitacora.model;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 
-import java.util.Date;
-
 @Entity
 public class Perifericos {
 
