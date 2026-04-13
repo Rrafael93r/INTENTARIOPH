@@ -8,7 +8,7 @@ public class ChatRequestDTO {
     private boolean stream;
 
     public ChatRequestDTO() {
-        this.stream = false; // Por defecto no streaming para facilitar el consumo inicial
+        this.stream = false;
     }
 
     public ChatRequestDTO(String model, List<ChatMessageDTO> messages) {

@@ -30,16 +30,15 @@ const ChatComponent: React.FC = () => {
         setIsLoading(true);
 
         try {
-            // Enviamos el historial completo al backend (el backend truncará si supera los 10)
             const response = await sendMessage({ messages: newMessages });
             if (response && response.message) {
                 setMessages(prev => [...prev, response.message]);
             }
         } catch (error) {
             console.error('Chat Error:', error);
-            const errorMessage: ChatMessage = { 
-                role: 'assistant', 
-                content: 'Error: No se pudo conectar con la IA. Asegúrate de que el servidor esté activo.' 
+            const errorMessage: ChatMessage = {
+                role: 'assistant',
+                content: 'Error: No se pudo conectar con la IA. Asegúrate de que el servidor esté activo.'
             };
             setMessages(prev => [...prev, errorMessage]);
         } finally {
@@ -73,14 +72,14 @@ const ChatComponent: React.FC = () => {
                                 </div>
                             </div>
                             <div className="flex items-center gap-2">
-                                <button 
+                                <button
                                     onClick={clearChat}
                                     className="hover:bg-white/10 p-1.5 rounded-lg transition-colors"
                                     title="Limpiar chat"
                                 >
                                     <Trash2 size={18} />
                                 </button>
-                                <button 
+                                <button
                                     onClick={() => setIsOpen(false)}
                                     className="hover:bg-white/10 p-1.5 rounded-lg transition-colors"
                                 >
@@ -102,16 +101,14 @@ const ChatComponent: React.FC = () => {
                             {messages.map((msg, index) => (
                                 <div key={index} className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}>
                                     <div className={`flex gap-2 max-w-[85%] ${msg.role === 'user' ? 'flex-row-reverse' : 'flex-row'}`}>
-                                        <div className={`w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 ${
-                                            msg.role === 'user' ? 'bg-blue-100 text-blue-600' : 'bg-gray-200 text-gray-600'
-                                        }`}>
+                                        <div className={`w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 ${msg.role === 'user' ? 'bg-blue-100 text-blue-600' : 'bg-gray-200 text-gray-600'
+                                            }`}>
                                             {msg.role === 'user' ? <User size={16} /> : <Bot size={16} />}
                                         </div>
-                                        <div className={`p-3 rounded-2xl text-sm ${
-                                            msg.role === 'user' 
-                                                ? 'bg-blue-600 text-white rounded-tr-none shadow-md' 
+                                        <div className={`p-3 rounded-2xl text-sm ${msg.role === 'user'
+                                                ? 'bg-blue-600 text-white rounded-tr-none shadow-md'
                                                 : 'bg-white border border-gray-200 text-gray-800 rounded-tl-none shadow-sm'
-                                        }`}>
+                                            }`}>
                                             {msg.content}
                                         </div>
                                     </div>
