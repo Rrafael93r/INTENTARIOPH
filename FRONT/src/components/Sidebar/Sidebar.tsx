@@ -101,7 +101,7 @@ const Sidebar: React.FC = () => {
         },
       ],
     },
-    /*
+
     {
       heading: "INVENTARIO",
       items: [
@@ -201,7 +201,7 @@ const Sidebar: React.FC = () => {
         },
       ],
     },
-    */
+
 
   ]
 
