@@ -28,6 +28,7 @@ import PaginaImpresorasPos from "../Paginas/PaginaImpresorasPos"
 import PaginaActas from "../Paginas/PaginaActas"
 import PaginaEstados from "../Paginas/PaginaEstados"
 import PaginaTiposPerifericos from "../Paginas/PaginaTiposPerifericos"
+import PaginaMantenimientos from "../Paginas/PaginaMantenimientos"
 
 
 
@@ -270,6 +271,15 @@ export const AppRutas = () => {
       ></Route>
 
 
+
+      <Route
+        path="/mantenimientos"
+        element={
+          <ProtectedRoute allowedRoles={[1, 2]}>
+            <PaginaMantenimientos />
+          </ProtectedRoute>
+        }
+      />
 
       {/* Redirección por defecto basada en rol */}
       <Route path="/*" element={<Navigate to="/login" />} />

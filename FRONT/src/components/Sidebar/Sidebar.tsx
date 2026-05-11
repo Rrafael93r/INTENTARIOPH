@@ -9,11 +9,8 @@ import {
   IconRouter,
   IconSend,
   IconDeviceDesktop,
-  IconMouse,
-  IconKeyboard,
   IconDeviceLaptop,
-  IconUsb,
-  IconSnowflake,
+  IconKeyboard,
   IconUsers,
   IconUserCircle,
   IconCategory,
@@ -21,7 +18,9 @@ import {
   IconDevicesPc,
   IconDeviceDesktopX,
   IconPrinter,
-  IconListCheck
+  IconListCheck,
+  IconTool,
+  IconHeadset,
 } from "@tabler/icons-react";
 import { useEffect, useState } from "react"
 import { Link, useLocation } from "react-router-dom"
@@ -101,32 +100,25 @@ const Sidebar: React.FC = () => {
         },
       ],
     },
-    /*
     {
       heading: "INVENTARIO",
       items: [
         {
-          label: "Monitores",
-          icon: IconDeviceDesktop,
-          path: "/Monitores",
-          rolesAllowed: [1, 2],
-        },
-        {
-          label: "Periféricos",
-          icon: IconKeyboard,
-          path: "/perifericos",
-          rolesAllowed: [1, 2],
-        },
-        {
-          label: "Portatiles",
+          label: "Portátiles",
           icon: IconDeviceLaptop,
           path: "/Portatiles",
           rolesAllowed: [1, 2],
         },
         {
-          label: "Computador de escritorio",
+          label: "PC Escritorio",
           icon: IconDevicesPc,
           path: "/PcEscritorio",
+          rolesAllowed: [1, 2],
+        },
+        {
+          label: "Monitores",
+          icon: IconDeviceDesktop,
+          path: "/Monitores",
           rolesAllowed: [1, 2],
         },
         {
@@ -136,43 +128,67 @@ const Sidebar: React.FC = () => {
           rolesAllowed: [1, 2],
         },
         {
-          label: "Impresoras Pos",
+          label: "Impresoras POS",
           icon: IconPrinter,
           path: "/ImpresorasPos",
           rolesAllowed: [1, 2],
         },
-      ],
-    },
-    {
-      heading: "DOCUMENTACION",
-      items: [
         {
-          label: "Actas",
-          icon: IconReport,
-          path: "/actas",
+          label: "Periféricos",
+          icon: IconKeyboard,
+          path: "/perifericos",
           rolesAllowed: [1, 2],
         },
         {
-          label: "Equipos de baja",
+          label: "Diademas",
+          icon: IconHeadset,
+          path: "/Diademas",
+          rolesAllowed: [1, 2],
+        },
+      ],
+    },
+    {
+      heading: "GESTIÓN TIC",
+      items: [
+        {
+          label: "Mantenimientos",
+          icon: IconTool,
+          path: "/mantenimientos",
+          rolesAllowed: [1, 2],
+        },
+        {
+          label: "Actas Entrega/Recepción",
+          icon: IconReport,
+          path: "/EngraEquipos",
+          rolesAllowed: [1, 2],
+        },
+        {
+          label: "Equipos de Baja",
           icon: IconDeviceDesktopX,
           path: "/equipos-de-baja",
           rolesAllowed: [1, 2],
         },
+        {
+          label: "Actas",
+          icon: IconListCheck,
+          path: "/actas",
+          rolesAllowed: [1, 2],
+        },
       ],
     },
     {
-      heading: "ADMINISTRACION",
+      heading: "ADMINISTRACIÓN",
       items: [
-        {
-          label: "Usuarios",
-          icon: IconUsers,
-          path: "/usuarios",
-          rolesAllowed: [1],
-        },
         {
           label: "Funcionarios",
           icon: IconUserCircle,
           path: "/Funcionarios",
+          rolesAllowed: [1, 2],
+        },
+        {
+          label: "Usuarios",
+          icon: IconUsers,
+          path: "/usuarios",
           rolesAllowed: [1],
         },
         {
@@ -201,7 +217,6 @@ const Sidebar: React.FC = () => {
         },
       ],
     },
-    */
 
   ]
 

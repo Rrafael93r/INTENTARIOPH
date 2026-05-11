@@ -3,12 +3,24 @@
 import type React from "react"
 import { useState, useEffect } from "react"
 import Swal from "sweetalert2"
-import { getBajasEquipos, deleteBajaEquipo, type BajaEquipo } from "../../servicios/bajaEquipoService"
+import { getMantenimientos, deleteMantenimiento, type Mantenimiento } from "../../servicios/mantenimientoService"
 import { Download } from "lucide-react"
 import * as XLSX from "xlsx"
-import FormularioCrearBaja from "../FormulariosCrear/FormularioCrearBaja"
+import FormularioCrearMantenimiento from "../FormulariosCrear/FormularioCrearMantenimiento"
 
-const LABEL_TIPO: Record<string, string> = {
+const BADGE_TIPO: Record<string, string> = {
+    PREVENTIVO: "bg-blue-50 text-blue-700 border border-blue-100",
+    CORRECTIVO: "bg-amber-50 text-amber-700 border border-amber-100",
+    REPARACION: "bg-red-50 text-red-700 border border-red-100",
+}
+
+const BADGE_RESULTADO: Record<string, string> = {
+    EXITOSO: "bg-emerald-50 text-emerald-700 border border-emerald-100",
+    PARCIAL: "bg-yellow-50 text-yellow-700 border border-yellow-100",
+    FALLIDO: "bg-red-50 text-red-700 border border-red-100",
+}
+
+const LABEL_TIPO_EQUIPO: Record<string, string> = {
     PORTATIL: "Portátil",
     PC_ESCRITORIO: "PC Escritorio",
     MONITOR: "Monitor",
@@ -18,8 +30,8 @@ const LABEL_TIPO: Record<string, string> = {
     DIADEMA: "Diadema",
 }
 
-const TablaBajaEquipos: React.FC = () => {
-    const [registros, setRegistros] = useState<BajaEquipo[]>([])
+const TablaMantenimientos: React.FC = () => {
+    const [registros, setRegistros] = useState<Mantenimiento[]>([])
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState<string | null>(null)
     const [busqueda, setBusqueda] = useState("")
@@ -31,10 +43,10 @@ const TablaBajaEquipos: React.FC = () => {
     const cargar = async () => {
         try {
             setLoading(true)
-            const data = await getBajasEquipos()
+            const data = await getMantenimientos()
             setRegistros(data)
         } catch {
-            setError("Error al cargar las bajas de equipos.")
+            setError("Error al cargar mantenimientos.")
         } finally {
             setLoading(false)
         }
@@ -55,7 +67,7 @@ const TablaBajaEquipos: React.FC = () => {
         })
         if (!result.isConfirmed) return
         try {
-            await deleteBajaEquipo(id)
+            await deleteMantenimiento(id)
             Swal.fire({ icon: "success", title: "Eliminado", timer: 1200, showConfirmButton: false })
             cargar()
         } catch {
@@ -66,33 +78,31 @@ const TablaBajaEquipos: React.FC = () => {
     const exportarExcel = () => {
         const rows = filtrados.map(r => ({
             ID: r.id,
-            "Tipo Equipo": LABEL_TIPO[r.tipoEquipo] || r.tipoEquipo,
-            "ID Equipo": r.equipoId ?? "—",
-            Serial: r.serial || "—",
-            Marca: r.marca || "—",
-            Modelo: r.modelo || "—",
-            Motivo: r.motivoBaja,
-            "Fecha Baja": r.fechaBaja,
-            "Último Funcionario": r.ultimoFuncionario
-                ? `${r.ultimoFuncionario.nombre} ${r.ultimoFuncionario.apellido}`
-                : "—",
-            Descripción: r.descripcion || "—",
+            "Tipo Equipo": LABEL_TIPO_EQUIPO[r.tipoEquipo] || r.tipoEquipo,
+            "ID Equipo": r.equipoId,
+            "Tipo Mantenimiento": r.tipoMantenimiento,
+            Descripción: r.descripcion,
+            Fecha: r.fecha,
+            Técnico: r.tecnico ? `${r.tecnico.nombre} ${r.tecnico.apellido}` : "—",
+            "Costo (COP)": r.costo ?? "—",
+            Resultado: r.resultado,
+            Observaciones: r.observaciones || "—",
         }))
         const ws = XLSX.utils.json_to_sheet(rows)
         const wb = XLSX.utils.book_new()
-        XLSX.utils.book_append_sheet(wb, ws, "Bajas de Equipos")
-        XLSX.writeFile(wb, `BajasEquipos_${new Date().toISOString().split("T")[0]}.xlsx`)
+        XLSX.utils.book_append_sheet(wb, ws, "Mantenimientos")
+        XLSX.writeFile(wb, `Mantenimientos_${new Date().toISOString().split("T")[0]}.xlsx`)
     }
 
     const filtrados = registros.filter(r => {
         const q = busqueda.toLowerCase()
         const matchBusqueda = !q ||
-            (r.serial?.toLowerCase().includes(q)) ||
-            (r.marca?.toLowerCase().includes(q)) ||
-            (r.modelo?.toLowerCase().includes(q)) ||
-            (r.motivoBaja?.toLowerCase().includes(q)) ||
-            (r.tipoEquipo?.toLowerCase().includes(q))
-        const matchTipo = !filtroTipo || r.tipoEquipo === filtroTipo
+            (r.tipoEquipo?.toLowerCase().includes(q)) ||
+            (r.descripcion?.toLowerCase().includes(q)) ||
+            (r.tipoMantenimiento?.toLowerCase().includes(q)) ||
+            (r.tecnico?.nombre?.toLowerCase().includes(q)) ||
+            String(r.equipoId).includes(q)
+        const matchTipo = !filtroTipo || r.tipoMantenimiento === filtroTipo
         return matchBusqueda && matchTipo
     })
 
@@ -106,10 +116,10 @@ const TablaBajaEquipos: React.FC = () => {
                 <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
                     <div>
                         <h2 className="text-xl font-bold text-gray-800 m-0 flex items-center gap-2">
-                            <i className="bi bi-pc-display-horizontal text-orange-500"></i>
-                            Baja de Equipos
+                            <i className="bi bi-tools text-orange-500"></i>
+                            Mantenimientos y Reparaciones
                         </h2>
-                        <p className="text-sm text-gray-500 mt-1 mb-0">Registro de activos tecnológicos dados de baja</p>
+                        <p className="text-sm text-gray-500 mt-1 mb-0">Historial de mantenimientos realizados a los activos tecnológicos</p>
                     </div>
                     <div className="flex gap-2 w-full sm:w-auto">
                         <button onClick={exportarExcel}
@@ -120,7 +130,7 @@ const TablaBajaEquipos: React.FC = () => {
                         <button onClick={() => setShowCreate(true)}
                             className="px-4 py-2 bg-orange-500 text-white rounded-lg font-medium text-sm flex items-center gap-2 hover:bg-orange-600 transition-colors w-full sm:w-auto justify-center">
                             <i className="bi bi-plus-circle"></i>
-                            <span>Nueva Baja</span>
+                            <span>Nuevo Mantenimiento</span>
                         </button>
                     </div>
                 </div>
@@ -135,12 +145,14 @@ const TablaBajaEquipos: React.FC = () => {
                         </div>
                         <input type="text" value={busqueda} onChange={e => { setBusqueda(e.target.value); setCurrentPage(1) }}
                             className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-orange-500 focus:border-orange-500 bg-white"
-                            placeholder="Buscar por equipo, serial, marca o motivo..." />
+                            placeholder="Buscar por equipo, tipo, técnico..." />
                     </div>
                     <select value={filtroTipo} onChange={e => { setFiltroTipo(e.target.value); setCurrentPage(1) }}
                         className="border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-orange-500 focus:border-orange-500 bg-white">
                         <option value="">Todos los tipos</option>
-                        {Object.entries(LABEL_TIPO).map(([v, l]) => <option key={v} value={v}>{l}</option>)}
+                        <option value="PREVENTIVO">Preventivo</option>
+                        <option value="CORRECTIVO">Correctivo</option>
+                        <option value="REPARACION">Reparación</option>
                     </select>
                 </div>
             </div>
@@ -159,22 +171,23 @@ const TablaBajaEquipos: React.FC = () => {
                         <thead>
                             <tr className="bg-gray-50 border-b border-gray-200 text-xs uppercase tracking-wider text-gray-500 font-semibold">
                                 <th className="p-3">ID</th>
+                                <th className="p-3">Equipo</th>
                                 <th className="p-3">Tipo</th>
-                                <th className="p-3">Serial / Marca</th>
-                                <th className="p-3">Modelo</th>
-                                <th className="p-3">Motivo</th>
-                                <th className="p-3">Fecha Baja</th>
-                                <th className="p-3">Último Responsable</th>
+                                <th className="p-3">Descripción</th>
+                                <th className="p-3">Fecha</th>
+                                <th className="p-3">Técnico</th>
+                                <th className="p-3">Costo</th>
+                                <th className="p-3">Resultado</th>
                                 <th className="p-3 text-center">Acciones</th>
                             </tr>
                         </thead>
                         <tbody className="divide-y divide-gray-100 bg-white">
                             {paginados.length === 0 ? (
                                 <tr>
-                                    <td colSpan={8} className="p-8 text-center text-gray-500">
+                                    <td colSpan={9} className="p-8 text-center text-gray-500">
                                         <div className="flex flex-col items-center justify-center">
-                                            <i className="bi bi-info-circle text-4xl text-gray-300 mb-2"></i>
-                                            <p>No hay equipos dados de baja registrados.</p>
+                                            <i className="bi bi-tools text-4xl text-gray-300 mb-2"></i>
+                                            <p>No hay mantenimientos registrados.</p>
                                         </div>
                                     </td>
                                 </tr>
@@ -182,21 +195,28 @@ const TablaBajaEquipos: React.FC = () => {
                                 <tr key={r.id} className="hover:bg-orange-50/30 transition-colors">
                                     <td className="p-3 font-medium text-gray-700">#{r.id}</td>
                                     <td className="p-3">
-                                        <span className="px-2 py-1 bg-red-50 text-red-700 border border-red-100 rounded-full text-xs font-semibold">
-                                            {LABEL_TIPO[r.tipoEquipo] || r.tipoEquipo}
-                                        </span>
+                                        <span className="text-xs font-semibold text-gray-600">{LABEL_TIPO_EQUIPO[r.tipoEquipo] || r.tipoEquipo}</span>
+                                        <span className="text-xs text-gray-400 block">ID: {r.equipoId}</span>
                                     </td>
                                     <td className="p-3">
-                                        <span className="font-medium text-sm text-gray-800">{r.serial || <span className="text-gray-400">—</span>}</span>
-                                        {r.marca && <span className="text-xs text-gray-500 block">{r.marca}</span>}
+                                        <span className={`px-2 py-1 rounded-full text-xs font-semibold ${BADGE_TIPO[r.tipoMantenimiento] || "bg-gray-100 text-gray-600"}`}>
+                                            {r.tipoMantenimiento}
+                                        </span>
                                     </td>
-                                    <td className="p-3 text-sm text-gray-600">{r.modelo || <span className="text-gray-400">—</span>}</td>
-                                    <td className="p-3 text-sm text-gray-700">{r.motivoBaja}</td>
-                                    <td className="p-3 text-sm text-gray-600">{r.fechaBaja}</td>
+                                    <td className="p-3 text-sm text-gray-600 max-w-xs">
+                                        <span className="line-clamp-2">{r.descripcion}</span>
+                                    </td>
+                                    <td className="p-3 text-sm text-gray-600">{r.fecha}</td>
                                     <td className="p-3 text-sm text-gray-600">
-                                        {r.ultimoFuncionario
-                                            ? `${r.ultimoFuncionario.nombre} ${r.ultimoFuncionario.apellido}`
-                                            : <span className="text-gray-400">—</span>}
+                                        {r.tecnico ? `${r.tecnico.nombre} ${r.tecnico.apellido}` : <span className="text-gray-400">—</span>}
+                                    </td>
+                                    <td className="p-3 text-sm text-gray-600">
+                                        {r.costo != null ? `$${Number(r.costo).toLocaleString("es-CO")}` : <span className="text-gray-400">—</span>}
+                                    </td>
+                                    <td className="p-3">
+                                        <span className={`px-2 py-1 rounded-full text-xs font-semibold ${BADGE_RESULTADO[r.resultado] || "bg-gray-100 text-gray-600"}`}>
+                                            {r.resultado}
+                                        </span>
                                     </td>
                                     <td className="p-3 text-center">
                                         <button onClick={() => handleEliminar(r.id!)}
@@ -220,7 +240,9 @@ const TablaBajaEquipos: React.FC = () => {
                     </p>
                     <div className="flex gap-1">
                         <button onClick={() => setCurrentPage(p => Math.max(1, p - 1))} disabled={currentPage === 1}
-                            className="px-3 py-1 border border-gray-300 rounded-lg text-sm disabled:opacity-40 hover:bg-gray-50 transition-colors">‹</button>
+                            className="px-3 py-1 border border-gray-300 rounded-lg text-sm disabled:opacity-40 hover:bg-gray-50 transition-colors">
+                            ‹
+                        </button>
                         {Array.from({ length: Math.min(5, totalPages) }, (_, i) => {
                             const page = Math.max(1, Math.min(currentPage - 2 + i, totalPages - 4 + i))
                             return (
@@ -231,7 +253,9 @@ const TablaBajaEquipos: React.FC = () => {
                             )
                         })}
                         <button onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))} disabled={currentPage === totalPages}
-                            className="px-3 py-1 border border-gray-300 rounded-lg text-sm disabled:opacity-40 hover:bg-gray-50 transition-colors">›</button>
+                            className="px-3 py-1 border border-gray-300 rounded-lg text-sm disabled:opacity-40 hover:bg-gray-50 transition-colors">
+                            ›
+                        </button>
                     </div>
                 </div>
             )}
@@ -240,7 +264,10 @@ const TablaBajaEquipos: React.FC = () => {
             {showCreate && (
                 <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm p-4">
                     <div className="bg-white rounded-2xl shadow-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto">
-                        <FormularioCrearBaja onSuccess={cargar} onClose={() => setShowCreate(false)} />
+                        <FormularioCrearMantenimiento
+                            onSuccess={cargar}
+                            onClose={() => setShowCreate(false)}
+                        />
                     </div>
                 </div>
             )}
@@ -248,4 +275,4 @@ const TablaBajaEquipos: React.FC = () => {
     )
 }
 
-export default TablaBajaEquipos
+export default TablaMantenimientos
