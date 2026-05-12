@@ -1,4 +1,4 @@
-"use client"
+﻿"use client"
 
 import type React from "react"
 import { useState, useEffect } from "react"
@@ -16,9 +16,6 @@ const FormularioCrearR: React.FC<IFormularioCrearRProps> = ({ onSuccess }) => {
   const [loadingData, setLoadingData] = useState(true)
   const [farmacias, setFarmacias] = useState<any[]>([])
   const [motivos, setMotivos] = useState<any[]>([])
-  const [isHovered, setIsHovered] = useState(false)
-  const [isHovered2, setIsHovered2] = useState(false)
-
   const [reporte, setReporte] = useState<any>({
     fecha: new Date().toISOString().split("T")[0],
     farmacia: null,
@@ -181,7 +178,7 @@ const FormularioCrearR: React.FC<IFormularioCrearRProps> = ({ onSuccess }) => {
   if (loadingData) {
     return (
       <div className="flex justify-center items-center min-h-[200px]">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-orange-500"></div>
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-brand-500"></div>
         <span className="sr-only">Cargando...</span>
       </div>
     )
@@ -199,7 +196,7 @@ const FormularioCrearR: React.FC<IFormularioCrearRProps> = ({ onSuccess }) => {
               value={reporte.fecha}
               onChange={handleInputChange}
               required
-              className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-orange-500 focus:border-orange-500"
+              className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-brand-500 focus:border-brand-500"
             />
           </div>
           <div className="mb-3">
@@ -210,7 +207,7 @@ const FormularioCrearR: React.FC<IFormularioCrearRProps> = ({ onSuccess }) => {
               value={reporte.fechaHoraInicio}
               onChange={handleInputChange}
               required
-              className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-orange-500 focus:border-orange-500"
+              className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-brand-500 focus:border-brand-500"
             />
           </div>
           <div className="mb-3">
@@ -220,7 +217,7 @@ const FormularioCrearR: React.FC<IFormularioCrearRProps> = ({ onSuccess }) => {
               value={reporte.farmacia?.id || ""}
               onChange={handleInputChange}
               required
-              className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-orange-500 focus:border-orange-500 bg-white"
+              className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-brand-500 focus:border-brand-500 bg-white"
             >
               <option value="">Seleccione una farmacia...</option>
               {farmacias.map((farmacia) => (
@@ -237,7 +234,7 @@ const FormularioCrearR: React.FC<IFormularioCrearRProps> = ({ onSuccess }) => {
               value={reporte.motivo?.id || ""}
               onChange={handleInputChange}
               required
-              className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-orange-500 focus:border-orange-500 bg-white"
+              className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-brand-500 focus:border-brand-500 bg-white"
             >
               <option value="">Seleccione un motivo...</option>
               {motivos.map((motivo) => (
@@ -255,7 +252,7 @@ const FormularioCrearR: React.FC<IFormularioCrearRProps> = ({ onSuccess }) => {
               value={reporte.observacion}
               onChange={handleInputChange}
               placeholder="Observaciones generales del caso..."
-              className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-orange-500 focus:border-orange-500"
+              className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-brand-500 focus:border-brand-500"
             />
           </div>
         </div>
@@ -313,7 +310,7 @@ const FormularioCrearR: React.FC<IFormularioCrearRProps> = ({ onSuccess }) => {
             type="submit"
             disabled={loading}
             className={`flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white transition-colors
-              ${loading ? 'bg-orange-400 cursor-not-allowed' : 'bg-orange-500 hover:bg-orange-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500'}
+              ${loading ? 'bg-brand-400 cursor-not-allowed' : 'bg-brand-500 hover:bg-brand-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand-500'}
             `}
           >
             {loading ? (
@@ -334,7 +331,7 @@ const FormularioCrearR: React.FC<IFormularioCrearRProps> = ({ onSuccess }) => {
               if (onSuccess) onSuccess()
             }}
             disabled={loading}
-            className="flex items-center justify-center px-4 py-2 border border-orange-500 text-orange-500 rounded-md shadow-sm text-sm font-medium hover:bg-orange-50 transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500"
+            className="flex items-center justify-center px-4 py-2 border border-brand-500 text-brand-500 rounded-md shadow-sm text-sm font-medium hover:bg-brand-50 transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand-500"
           >
             <i className="bi bi-x-circle mr-2"></i>
             Cancelar

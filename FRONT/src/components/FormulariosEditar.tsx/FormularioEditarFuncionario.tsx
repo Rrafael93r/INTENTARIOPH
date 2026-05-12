@@ -23,8 +23,6 @@ interface FormularioEditarFuncionarioProps {
 const FormularioEditarFuncionario: React.FC<FormularioEditarFuncionarioProps> = ({ id, handleClose, onSuccess }) => {
     const [farmacias, setFarmacias] = useState<Farmacia[]>([]);
     const [areas, setAreas] = useState<Area[]>([]);
-    const [isHovered, setIsHovered] = useState(false);
-    const [isHovered2, setIsHovered2] = useState(false);
 
     const [formData, setFormData] = useState({
         nombre: '',
@@ -128,98 +126,76 @@ const FormularioEditarFuncionario: React.FC<FormularioEditarFuncionarioProps> = 
 
     return (
         <div className="p-4">
-            <form className="row g-3" onSubmit={handleSubmit}>
-                <div className="col-md-6">
-                    <label htmlFor="nombre" className="form-label">Nombre*</label>
+            <form className="form-grid" onSubmit={handleSubmit}>
+                <div className="form-group">
+                    <label htmlFor="nombre" className="label-base">Nombre*</label>
                     <input
                         type="text"
-                        className="form-control"
+                        className="input-base"
                         id="nombre"
                         value={formData.nombre}
                         onChange={handleChange}
                     />
                 </div>
-                <div className="col-md-6">
-                    <label htmlFor="apellido" className="form-label">Apellido*</label>
+                <div className="form-group">
+                    <label htmlFor="apellido" className="label-base">Apellido*</label>
                     <input
                         type="text"
-                        className="form-control"
+                        className="input-base"
                         id="apellido"
                         value={formData.apellido}
                         onChange={handleChange}
                     />
                 </div>
-                <div className="col-md-6">
-                    <label htmlFor="area" className="form-label">Área*</label>
+                <div className="form-group">
+                    <label htmlFor="area" className="label-base">Área*</label>
                     <select
                         id="area"
-                        className="form-select"
+                        className="input-base"
                         value={formData.area.id || (typeof formData.area === 'object' ? (formData.area as any)?.id : '')}
                         onChange={handleChange}
                     >
                         <option value="">Seleccione un área</option>
                         {areas.map(a => (
-                            <option key={a.id} value={a.id}>
-                                {a.nombre}
-                            </option>
+                            <option key={a.id} value={a.id}>{a.nombre}</option>
                         ))}
                     </select>
                 </div>
-                <div className="col-md-6">
-                    <label htmlFor="correo" className="form-label">Correo*</label>
+                <div className="form-group">
+                    <label htmlFor="correo" className="label-base">Correo*</label>
                     <input
                         type="email"
-                        className="form-control"
+                        className="input-base"
                         id="correo"
                         value={formData.correo}
                         onChange={handleChange}
                     />
                 </div>
-
-                <div className="col-md-6">
-                    <label htmlFor="farmacias" className="form-label">Farmacia</label>
+                <div className="form-group">
+                    <label htmlFor="farmacias" className="label-base">Farmacia</label>
                     <select
                         id="farmacias"
-                        className="form-select"
+                        className="input-base"
                         value={formData.farmacias.id}
                         onChange={handleChange}
                     >
                         <option value="">Seleccione una farmacia</option>
                         {farmacias.map(f => (
-                            <option key={f.id} value={f.id}>
-                                {f.nombre}
-                            </option>
+                            <option key={f.id} value={f.id}>{f.nombre}</option>
                         ))}
                     </select>
                 </div>
 
-                <div className="text-center mt-4">
-                    <button
-                        style={{
-                            backgroundColor: '#f6952c', borderColor: '#f6952c',
-                            cursor: 'pointer',
-                            background: isHovered2 ? '#ffff' : '#f6952c',
-                            color: isHovered2 ? '#f6952c' : '#ffff',
-                        }}
-                        onMouseEnter={() => setIsHovered2(true)}
-                        onMouseLeave={() => setIsHovered2(false)}
-                        type="submit" className="btn btn-primary me-4">
-                        <i className="bi bi-floppy m-1" />ACTUALIZAR
+                <div className="sm:col-span-2 flex justify-center gap-3 pt-2">
+                    <button type="submit" className="btn-brand">
+                        <i className="bi bi-floppy" /> ACTUALIZAR
                     </button>
                     <button
-                        style={{
-                            backgroundColor: isHovered ? '#f6952c' : '#ffff',
-                            color: isHovered ? '#fff' : '#f6952c',
-                            borderColor: '#f6952c',
-                            cursor: 'pointer'
-                        }}
-                        onMouseEnter={() => setIsHovered(true)}
-                        onMouseLeave={() => setIsHovered(false)}
                         type="button"
-                        className="btn btn-outline-secondary"
+                        className="btn-ghost"
                         onClick={handleClose}
                     >
-                        <i className="bi bi-x-circle m-1" />CANCELAR
+                        <i className="bi bi-x-circle" /> CANCELAR
                     </button>
                 </div>
             </form>

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+﻿import React, { useState, useEffect } from 'react';
 import Swal from 'sweetalert2';
 import { getActas, deleteActa } from '../../servicios/actaService';
 import FormularioCrearActa from '../FormulariosCrear/FormularioCrearActa';
@@ -99,7 +99,7 @@ const TablaActas: React.FC = () => {
                         <div className="inline-block align-bottom bg-white rounded-xl text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-4xl sm:w-full">
                             <div className="bg-white px-6 py-4 border-b border-gray-100 flex justify-between items-center">
                                 <h3 className="text-lg leading-6 font-semibold text-gray-800 flex items-center">
-                                    <i className="bi bi-file-earmark-plus mr-2 text-orange-500"></i> Nueva Acta
+                                    <i className="bi bi-file-earmark-plus mr-2 text-brand-500"></i> Nueva Acta
                                 </h3>
                                 <button onClick={handleClose} className="text-gray-400 hover:text-gray-500 focus:outline-none transition-colors">
                                     <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" /></svg>
@@ -119,7 +119,7 @@ const TablaActas: React.FC = () => {
                     <nav className="text-sm text-gray-500 mt-1">
                         <ol className="list-none p-0 inline-flex">
                             <li className="flex items-center">Inicio <span className="mx-2 text-gray-300">/</span></li>
-                            <li className="flex items-center text-gray-400 hover:text-orange-500 transition-colors cursor-pointer">Documentación <span className="mx-2 text-gray-300">/</span></li>
+                            <li className="flex items-center text-gray-400 hover:text-brand-500 transition-colors cursor-pointer">Documentación <span className="mx-2 text-gray-300">/</span></li>
                             <li className="font-medium text-gray-700">Actas</li>
                         </ol>
                     </nav>
@@ -127,7 +127,7 @@ const TablaActas: React.FC = () => {
                 <div className="flex gap-3 w-full sm:w-auto">
                     <button
                         onClick={handleShow}
-                        className="flex-1 sm:flex-none flex justify-center items-center px-4 py-2 bg-orange-500 hover:bg-orange-600 text-white rounded-lg transition-colors font-medium text-sm shadow-sm"
+                        className="flex-1 sm:flex-none flex justify-center items-center px-4 py-2 bg-brand-500 hover:bg-brand-600 text-white rounded-lg transition-colors font-medium text-sm shadow-sm"
                     >
                         <i className="bi bi-plus-circle-fill mr-2"></i> Agregar Acta
                     </button>
@@ -145,7 +145,7 @@ const TablaActas: React.FC = () => {
                                 <th className="p-3 text-xs font-semibold text-gray-600 uppercase tracking-wider border-b border-gray-200 align-top min-w-[250px]">
                                     <input
                                         type="text"
-                                        className="w-full px-2 py-1.5 mb-2 text-sm border border-gray-300 rounded focus:outline-none focus:border-orange-500 focus:ring-1 focus:ring-orange-500 font-normal normal-case bg-white"
+                                        className="w-full px-2 py-1.5 mb-2 text-sm border border-gray-300 rounded focus:outline-none focus:border-brand-500 focus:ring-1 focus:ring-brand-500 font-normal normal-case bg-white"
                                         placeholder="Filtrar Título"
                                         value={filterTitulo}
                                         onChange={(e) => setFilterTitulo(e.target.value)}
@@ -155,7 +155,7 @@ const TablaActas: React.FC = () => {
                                 <th className="p-3 text-xs font-semibold text-gray-600 uppercase tracking-wider border-b border-gray-200 align-top w-48">
                                     <input
                                         type="text"
-                                        className="w-full px-2 py-1.5 mb-2 text-sm border border-gray-300 rounded focus:outline-none focus:border-orange-500 focus:ring-1 focus:ring-orange-500 font-normal normal-case bg-white"
+                                        className="w-full px-2 py-1.5 mb-2 text-sm border border-gray-300 rounded focus:outline-none focus:border-brand-500 focus:ring-1 focus:ring-brand-500 font-normal normal-case bg-white"
                                         placeholder="Filtrar Fecha"
                                         value={filterFecha}
                                         onChange={(e) => setFilterFecha(e.target.value)}
@@ -171,7 +171,7 @@ const TablaActas: React.FC = () => {
                                 <th className="p-3 text-xs font-semibold text-gray-600 uppercase tracking-wider border-b border-gray-200 text-center align-top w-24">
                                     <div className="flex flex-col items-center justify-center">
                                         <button
-                                            className="p-1.5 mb-2 bg-orange-100 text-orange-600 hover:bg-orange-200 rounded transition-colors tooltip flex items-center justify-center w-8 h-8"
+                                            className="p-1.5 mb-2 bg-brand-100 text-brand-600 hover:bg-brand-200 rounded transition-colors tooltip flex items-center justify-center w-8 h-8"
                                             title="Limpiar filtros"
                                             onClick={clearFilters}
                                         >
@@ -194,14 +194,14 @@ const TablaActas: React.FC = () => {
                                 </tr>
                             ) : (
                                 currentActas.map((acta) => (
-                                    <tr key={acta.id} className="hover:bg-orange-50/30 transition-colors group">
+                                    <tr key={acta.id} className="hover:bg-brand-50/30 transition-colors group">
                                         <td className="p-3 align-middle text-sm font-medium text-gray-900">{acta.id}</td>
                                         <td className="p-3 align-middle text-sm text-gray-800 font-medium">{acta.titulo}</td>
                                         <td className="p-3 align-middle text-sm text-gray-600 whitespace-nowrap">{acta.fecha}</td>
                                         <td className="p-3 align-middle text-sm text-gray-600 whitespace-nowrap overflow-hidden text-ellipsis max-w-[300px] hover:whitespace-normal" title={acta.descripcion}>{acta.descripcion}</td>
                                         <td className="p-3 align-middle text-sm">
                                             {acta.url_archivo ? (
-                                                <a href={acta.url_archivo} target="_blank" rel="noopener noreferrer" className="inline-flex items-center text-orange-600 hover:text-orange-800 transition-colors font-medium">
+                                                <a href={acta.url_archivo} target="_blank" rel="noopener noreferrer" className="inline-flex items-center text-brand-600 hover:text-brand-800 transition-colors font-medium">
                                                     <i className="bi bi-file-earmark-pdf mr-1.5"></i>
                                                     Ver Archivo
                                                 </a>
@@ -212,7 +212,7 @@ const TablaActas: React.FC = () => {
                                         <td className="p-3 align-middle">
                                             <div className="flex justify-center gap-2">
                                                 <button
-                                                    className="flex items-center justify-center w-8 h-8 rounded-lg bg-orange-100 text-orange-600 hover:bg-orange-500 hover:text-white transition-colors border border-transparent hover:border-orange-600"
+                                                    className="flex items-center justify-center w-8 h-8 rounded-lg bg-brand-100 text-brand-600 hover:bg-brand-500 hover:text-white transition-colors border border-transparent hover:border-brand-600"
                                                     title="Editar"
                                                     onClick={() => {
                                                         setSelectedId(acta.id);
@@ -250,7 +250,7 @@ const TablaActas: React.FC = () => {
                             <button
                                 onClick={() => handlePageChange(1)}
                                 disabled={currentPage === 1}
-                                className={`relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium ${currentPage === 1 ? 'text-gray-300 cursor-not-allowed' : 'text-gray-500 hover:bg-gray-50 text-orange-500'
+                                className={`relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium ${currentPage === 1 ? 'text-gray-300 cursor-not-allowed' : 'text-gray-500 hover:bg-gray-50 text-brand-500'
                                     }`}
                             >
                                 <i className="bi bi-chevron-double-left"></i>
@@ -258,20 +258,20 @@ const TablaActas: React.FC = () => {
                             <button
                                 onClick={() => handlePageChange(currentPage - 1)}
                                 disabled={currentPage === 1}
-                                className={`relative inline-flex items-center px-2 py-2 border border-gray-300 bg-white text-sm font-medium ${currentPage === 1 ? 'text-gray-300 cursor-not-allowed' : 'text-gray-500 hover:bg-gray-50 text-orange-500'
+                                className={`relative inline-flex items-center px-2 py-2 border border-gray-300 bg-white text-sm font-medium ${currentPage === 1 ? 'text-gray-300 cursor-not-allowed' : 'text-gray-500 hover:bg-gray-50 text-brand-500'
                                     }`}
                             >
                                 <i className="bi bi-chevron-left"></i>
                             </button>
 
-                            <span className="relative inline-flex items-center px-4 py-2 border border-orange-500 bg-orange-50 text-sm font-medium text-orange-600">
+                            <span className="relative inline-flex items-center px-4 py-2 border border-brand-500 bg-brand-50 text-sm font-medium text-brand-600">
                                 {currentPage}
                             </span>
 
                             <button
                                 onClick={() => handlePageChange(currentPage + 1)}
                                 disabled={currentPage === totalPages || totalPages === 0}
-                                className={`relative inline-flex items-center px-2 py-2 border border-gray-300 bg-white text-sm font-medium ${currentPage === totalPages || totalPages === 0 ? 'text-gray-300 cursor-not-allowed' : 'text-gray-500 hover:bg-gray-50 text-orange-500'
+                                className={`relative inline-flex items-center px-2 py-2 border border-gray-300 bg-white text-sm font-medium ${currentPage === totalPages || totalPages === 0 ? 'text-gray-300 cursor-not-allowed' : 'text-gray-500 hover:bg-gray-50 text-brand-500'
                                     }`}
                             >
                                 <i className="bi bi-chevron-right"></i>
@@ -279,7 +279,7 @@ const TablaActas: React.FC = () => {
                             <button
                                 onClick={() => handlePageChange(totalPages)}
                                 disabled={currentPage === totalPages || totalPages === 0}
-                                className={`relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium ${currentPage === totalPages || totalPages === 0 ? 'text-gray-300 cursor-not-allowed' : 'text-gray-500 hover:bg-gray-50 text-orange-500'
+                                className={`relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium ${currentPage === totalPages || totalPages === 0 ? 'text-gray-300 cursor-not-allowed' : 'text-gray-500 hover:bg-gray-50 text-brand-500'
                                     }`}
                             >
                                 <i className="bi bi-chevron-double-right"></i>
@@ -297,7 +297,7 @@ const TablaActas: React.FC = () => {
                         <div className="inline-block align-bottom bg-white rounded-xl text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-4xl sm:w-full">
                             <div className="bg-white px-6 py-4 border-b border-gray-100 flex justify-between items-center">
                                 <h3 className="text-lg leading-6 font-semibold text-gray-800 flex items-center">
-                                    <i className="bi bi-journal-check mr-2 text-orange-500"></i> Editar Acta
+                                    <i className="bi bi-journal-check mr-2 text-brand-500"></i> Editar Acta
                                 </h3>
                                 <button onClick={handleClose2} className="text-gray-400 hover:text-gray-500 focus:outline-none transition-colors">
                                     <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" /></svg>

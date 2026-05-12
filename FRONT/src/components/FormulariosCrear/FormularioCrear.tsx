@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+﻿import React, { useState } from 'react';
 import Swal from 'sweetalert2';
 
 function FormularioCrear() {
@@ -92,7 +92,7 @@ function FormularioCrear() {
           <label htmlFor="nombre" className="block text-sm font-medium text-gray-700 mb-1">Nombre*</label>
           <input
             type="text"
-            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-colors"
+            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-brand-500 transition-colors"
             id="nombre"
             value={formData.nombre}
             onChange={handleChange}
@@ -102,7 +102,7 @@ function FormularioCrear() {
           <label htmlFor="nit" className="block text-sm font-medium text-gray-700 mb-1">Nit*</label>
           <input
             type="number"
-            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-colors"
+            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-brand-500 transition-colors"
             id="nit"
             value={formData.nit}
             onChange={handleChange}
@@ -114,7 +114,7 @@ function FormularioCrear() {
           <label htmlFor="nombreContacto" className="block text-sm font-medium text-gray-700 mb-1">Nombre de la persona encargada*</label>
           <input
             type="text"
-            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-colors"
+            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-brand-500 transition-colors"
             id="nombreContacto"
             value={formData.nombreContacto}
             onChange={handleChange}
@@ -124,7 +124,7 @@ function FormularioCrear() {
           <label htmlFor="numeroContacto" className="block text-sm font-medium text-gray-700 mb-1">Número de contacto*</label>
           <input
             type="number"
-            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-colors"
+            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-brand-500 transition-colors"
             id="numeroContacto"
             placeholder="+57"
             value={formData.numeroContacto}
@@ -137,7 +137,7 @@ function FormularioCrear() {
           <label htmlFor="correo" className="block text-sm font-medium text-gray-700 mb-1">Correo*</label>
           <input
             type="email"
-            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-colors"
+            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-brand-500 transition-colors"
             id="correo"
             placeholder="Example@gmail.com"
             value={formData.correo}
@@ -150,7 +150,7 @@ function FormularioCrear() {
           <label htmlFor="fechaContratacion" className="block text-sm font-medium text-gray-700 mb-1">Fecha de contratación*</label>
           <input
             type="date"
-            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-colors"
+            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-brand-500 transition-colors"
             id="fechaContratacion"
             value={formData.fechaContratacion}
             onChange={handleChange}
@@ -159,7 +159,7 @@ function FormularioCrear() {
         <div className="md:col-span-2">
           <label htmlFor="observacion" className="block text-sm font-medium text-gray-700 mb-1">Observación</label>
           <textarea
-            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-colors"
+            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-brand-500 transition-colors"
             id="observacion"
             rows={3}
             value={formData.observacion}
@@ -170,14 +170,14 @@ function FormularioCrear() {
         <div className="md:col-span-2 flex justify-center gap-4 mt-4">
           <button
             type="submit"
-            className="flex items-center justify-center px-6 py-2.5 bg-orange-500 text-white font-medium rounded-lg hover:bg-orange-600 focus:ring-4 focus:ring-orange-300 transition-colors"
+            className="flex items-center justify-center px-6 py-2.5 bg-brand-500 text-white font-medium rounded-lg hover:bg-brand-600 focus:ring-4 focus:ring-brand-300 transition-colors"
           >
             <i className="bi bi-floppy mr-2" />
             GUARDAR
           </button>
           <button
             type="button"
-            className="flex items-center justify-center px-6 py-2.5 border-2 border-orange-500 text-orange-500 font-medium rounded-lg hover:bg-orange-50 focus:ring-4 focus:ring-orange-200 transition-colors"
+            className="flex items-center justify-center px-6 py-2.5 border-2 border-brand-500 text-brand-500 font-medium rounded-lg hover:bg-brand-50 focus:ring-4 focus:ring-brand-200 transition-colors"
             onClick={() => setFormData({
               nombre: '',
               nit: '',

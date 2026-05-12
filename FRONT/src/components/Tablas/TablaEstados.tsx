@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+﻿import React, { useState, useEffect } from 'react';
 import Swal from 'sweetalert2';
 import { getEstados, deleteEstado } from '../../servicios/estadoService';
 import FormularioCrearEstado from '../FormulariosCrear/FormularioCrearEstado';
@@ -71,7 +71,7 @@ const TablaEstados: React.FC = () => {
                         <div className="inline-block align-bottom bg-white rounded-xl text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
                             <div className="bg-white px-6 py-4 border-b border-gray-100 flex justify-between items-center">
                                 <h3 className="text-lg leading-6 font-semibold text-gray-800 flex items-center">
-                                    <i className="bi bi-tag-fill mr-2 text-orange-500"></i> Nuevo Estado
+                                    <i className="bi bi-tag-fill mr-2 text-brand-500"></i> Nuevo Estado
                                 </h3>
                                 <button onClick={() => setShowCreateModal(false)} className="text-gray-400 hover:text-gray-500 focus:outline-none transition-colors">
                                     <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" /></svg>
@@ -101,7 +101,7 @@ const TablaEstados: React.FC = () => {
                 <div className="flex gap-3 w-full sm:w-auto">
                     <button
                         onClick={() => setShowCreateModal(true)}
-                        className="flex-1 sm:flex-none flex justify-center items-center px-4 py-2 bg-orange-500 hover:bg-orange-600 text-white rounded-lg transition-colors font-medium text-sm shadow-sm"
+                        className="flex-1 sm:flex-none flex justify-center items-center px-4 py-2 bg-brand-500 hover:bg-brand-600 text-white rounded-lg transition-colors font-medium text-sm shadow-sm"
                     >
                         <i className="bi bi-plus-lg mr-2"></i> Nuevo Estado
                     </button>
@@ -116,7 +116,7 @@ const TablaEstados: React.FC = () => {
                         </div>
                         <input
                             type="text"
-                            className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg focus:ring-orange-500 focus:border-orange-500 text-sm transition-colors"
+                            className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg focus:ring-brand-500 focus:border-brand-500 text-sm transition-colors"
                             placeholder="Buscar por nombre..."
                             value={filterNombre}
                             onChange={(e) => setFilterNombre(e.target.value)}
@@ -127,7 +127,7 @@ const TablaEstados: React.FC = () => {
                 <div className="overflow-x-auto min-h-[300px]">
                     {loading ? (
                         <div className="flex justify-center items-center h-48">
-                            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-orange-500"></div>
+                            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-brand-500"></div>
                             <span className="ml-3 text-gray-500 font-medium">Cargando...</span>
                         </div>
                     ) : (
@@ -155,7 +155,7 @@ const TablaEstados: React.FC = () => {
                                     </tr>
                                 ) : (
                                     filteredEstados.map((estado) => (
-                                        <tr key={estado.id} className="hover:bg-orange-50/30 transition-colors group">
+                                        <tr key={estado.id} className="hover:bg-brand-50/30 transition-colors group">
                                             <td className="p-4 align-middle text-sm font-medium text-gray-900">{estado.id}</td>
                                             <td className="p-4 align-middle text-sm text-gray-800 font-semibold">{estado.nombre}</td>
                                             <td className="p-4 align-middle text-sm text-gray-600 whitespace-normal break-words max-w-md">{estado.descripcion}</td>
@@ -194,7 +194,7 @@ const TablaEstados: React.FC = () => {
                         <div className="inline-block align-bottom bg-white rounded-xl text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
                             <div className="bg-white px-6 py-4 border-b border-gray-100 flex justify-between items-center">
                                 <h3 className="text-lg leading-6 font-semibold text-gray-800 flex items-center">
-                                    <i className="bi bi-pencil-square mr-2 text-orange-500"></i> Editar Estado
+                                    <i className="bi bi-pencil-square mr-2 text-brand-500"></i> Editar Estado
                                 </h3>
                                 <button onClick={() => setShowEditModal(false)} className="text-gray-400 hover:text-gray-500 focus:outline-none transition-colors">
                                     <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" /></svg>

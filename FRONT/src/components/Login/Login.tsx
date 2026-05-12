@@ -1,4 +1,4 @@
-import { useState } from 'react';
+﻿import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { login } from '../../servicios/authServices';
 import logoph from "../../assets/inner.png";
@@ -61,7 +61,7 @@ const Login = () => {
               <div>
                 <input
                   type="text"
-                  className="w-full px-4 py-3 rounded-lg bg-gray-50 border border-gray-200 focus:border-orange-500 focus:bg-white focus:ring-2 focus:ring-orange-200 outline-none transition-all"
+                  className="w-full px-4 py-3 rounded-lg bg-gray-50 border border-gray-200 focus:border-brand-500 focus:bg-white focus:ring-2 focus:ring-brand-200 outline-none transition-all"
                   placeholder="Usuario"
                   value={username}
                   onChange={(e) => setUsername(e.target.value)}
@@ -71,7 +71,7 @@ const Login = () => {
               <div>
                 <input
                   type="password"
-                  className="w-full px-4 py-3 rounded-lg bg-gray-50 border border-gray-200 focus:border-orange-500 focus:bg-white focus:ring-2 focus:ring-orange-200 outline-none transition-all"
+                  className="w-full px-4 py-3 rounded-lg bg-gray-50 border border-gray-200 focus:border-brand-500 focus:bg-white focus:ring-2 focus:ring-brand-200 outline-none transition-all"
                   placeholder="Contraseña"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
@@ -80,8 +80,7 @@ const Login = () => {
               </div>
               <button
                 type="submit"
-                className="w-full py-3 rounded-lg font-semibold text-white transition-colors duration-200 hover:bg-orange-600"
-                style={{ backgroundColor: '#f6952c' }}
+                className="w-full py-3 rounded-lg font-semibold text-white bg-brand-500 hover:bg-brand-600 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-brand-300"
               >
                 Iniciar Sesión
               </button>

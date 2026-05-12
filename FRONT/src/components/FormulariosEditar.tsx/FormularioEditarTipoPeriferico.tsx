@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+﻿import React, { useState, useEffect } from 'react';
 import Swal from 'sweetalert2';
 import { getTipoPerifericoById, updateTipoPeriferico } from '../../servicios/tiposPerifericosService';
 
@@ -65,7 +65,7 @@ const FormularioEditarTipoPeriferico: React.FC<Props> = ({ id, handleClose, onSu
                     <label htmlFor="nombre" className="block text-sm font-medium text-gray-700">Nombre del Tipo*</label>
                     <input
                         type="text"
-                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-colors"
+                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-brand-500 transition-colors"
                         id="nombre"
                         value={nombre}
                         onChange={(e) => setNombre(e.target.value)}
@@ -75,14 +75,14 @@ const FormularioEditarTipoPeriferico: React.FC<Props> = ({ id, handleClose, onSu
                 <div className="flex justify-center gap-4 mt-4">
                     <button
                         type="submit"
-                        className="flex items-center justify-center px-6 py-2.5 bg-orange-500 text-white font-medium rounded-lg hover:bg-orange-600 focus:ring-4 focus:ring-orange-300 transition-all duration-200"
+                        className="flex items-center justify-center px-6 py-2.5 bg-brand-500 text-white font-medium rounded-lg hover:bg-brand-600 focus:ring-4 focus:ring-brand-300 transition-all duration-200"
                     >
                         <i className="bi bi-floppy mr-2" /> ACTUALIZAR
                     </button>
                     <button
                         type="button"
                         onClick={handleClose}
-                        className="flex items-center justify-center px-6 py-2.5 bg-white text-orange-500 border border-orange-500 font-medium rounded-lg hover:bg-orange-50 focus:ring-4 focus:ring-orange-100 transition-all duration-200"
+                        className="flex items-center justify-center px-6 py-2.5 bg-white text-brand-500 border border-brand-500 font-medium rounded-lg hover:bg-brand-50 focus:ring-4 focus:ring-brand-100 transition-all duration-200"
                     >
                         <i className="bi bi-x-circle mr-2" /> CANCELAR
                     </button>

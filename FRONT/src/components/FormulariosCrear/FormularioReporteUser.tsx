@@ -1,4 +1,4 @@
-"use client"
+﻿"use client"
 
 import type React from "react"
 import { useState, useEffect } from "react"
@@ -14,9 +14,6 @@ const FormularioReporteUser: React.FC = () => {
   const [motivos, setMotivos] = useState<any[]>([])
   const [currentUser, setCurrentUser] = useState<any>(null)
   const [userDetails, setUserDetails] = useState<any>(null)
-  const [isHovered, setIsHovered] = useState(false)
-  const [isHovered2, setIsHovered2] = useState(false)
-
   const [reporte, setReporte] = useState<any>({
     fecha: new Date().toISOString().split("T")[0],
     fechaHoraInicio: new Date().toTimeString().slice(0, 5),
@@ -180,7 +177,7 @@ const FormularioReporteUser: React.FC = () => {
     return (
       <div className="flex justify-center items-center min-h-[60vh]">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-orange-500 mx-auto"></div>
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-brand-500 mx-auto"></div>
           <div className="mt-3">
             <h5 className="text-lg font-medium text-gray-800">Cargando información...</h5>
             <p className="text-gray-500">Por favor espere un momento</p>
@@ -215,7 +212,7 @@ const FormularioReporteUser: React.FC = () => {
         <div className="w-full lg:w-2/3">
           {/* Header de bienvenida */}
           <div className="text-center mb-8">
-            <h2 className="text-2xl font-bold flex items-center justify-center text-orange-500 mb-2">
+            <h2 className="text-2xl font-bold flex items-center justify-center text-brand-500 mb-2">
               <i className="bi bi-plus-circle mr-2"></i>
               Crear Reporte de Incidente
             </h2>
@@ -226,7 +223,7 @@ const FormularioReporteUser: React.FC = () => {
           <div className="mb-6 bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
             <div className="px-5 py-3 border-b border-gray-100 bg-gray-50">
               <h6 className="m-0 font-semibold text-gray-800 flex items-center">
-                <i className="bi bi-building mr-2 text-orange-500"></i>
+                <i className="bi bi-building mr-2 text-brand-500"></i>
                 Mi Farmacia Asignada
               </h6>
             </div>
@@ -256,7 +253,7 @@ const FormularioReporteUser: React.FC = () => {
           <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
             <div className="px-5 py-3 border-b border-gray-100 bg-gray-50">
               <h6 className="m-0 font-semibold text-gray-800 flex items-center">
-                <i className="bi bi-file-text mr-2 text-orange-500"></i>
+                <i className="bi bi-file-text mr-2 text-brand-500"></i>
                 Información del Reporte
               </h6>
             </div>
@@ -296,7 +293,7 @@ const FormularioReporteUser: React.FC = () => {
                         value={reporte.fechaHoraInicio}
                         onChange={handleInputChange}
                         required
-                        className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-orange-500 focus:border-orange-500"
+                        className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-brand-500 focus:border-brand-500"
                       />
                       <p className="mt-1 text-xs text-gray-500">¿A qué hora comenzó el problema?</p>
                     </div>
@@ -312,7 +309,7 @@ const FormularioReporteUser: React.FC = () => {
                         value={reporte.motivo?.id || ""}
                         onChange={handleInputChange}
                         required
-                        className="w-full px-4 py-2 text-lg border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-orange-500 focus:border-orange-500 bg-white"
+                        className="w-full px-4 py-2 text-lg border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-brand-500 focus:border-brand-500 bg-white"
                       >
                         <option value="">Seleccione el tipo de problema...</option>
                         {motivos.map((motivo) => (
@@ -335,7 +332,7 @@ const FormularioReporteUser: React.FC = () => {
                         value={reporte.observacion}
                         onChange={handleInputChange}
                         placeholder="Describa con detalle qué está sucediendo..."
-                        className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-orange-500 focus:border-orange-500 resize-y"
+                        className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-brand-500 focus:border-brand-500 resize-y"
                       />
                     </div>
                   </div>
@@ -346,7 +343,7 @@ const FormularioReporteUser: React.FC = () => {
                     type="submit"
                     disabled={loading}
                     className={`flex items-center justify-center px-8 py-3 border border-transparent rounded-md shadow-sm text-lg font-medium text-white transition-colors
-                      ${loading ? 'bg-orange-400 cursor-not-allowed' : 'bg-orange-500 hover:bg-orange-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500'}
+                      ${loading ? 'bg-brand-400 cursor-not-allowed' : 'bg-brand-500 hover:bg-brand-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand-500'}
                     `}
                   >
                     {loading ? (
@@ -372,7 +369,7 @@ const FormularioReporteUser: React.FC = () => {
                       })
                     }}
                     disabled={loading}
-                    className="flex items-center justify-center px-6 py-3 border border-orange-500 text-orange-500 rounded-md shadow-sm text-lg font-medium hover:bg-orange-50 transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500"
+                    className="flex items-center justify-center px-6 py-3 border border-brand-500 text-brand-500 rounded-md shadow-sm text-lg font-medium hover:bg-brand-50 transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand-500"
                   >
                     <i className="bi bi-arrow-clockwise mr-2"></i>
                     Limpiar

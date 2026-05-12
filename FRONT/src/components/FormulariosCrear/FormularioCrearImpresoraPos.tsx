@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+﻿import React, { useState, useEffect } from 'react';
 import Swal from 'sweetalert2';
 import { createImpresoraPos } from '../../servicios/impresoraPosService';
 import { getFuncionarios } from '../../servicios/funcionariosService';
@@ -114,7 +114,7 @@ const FormularioCrearImpresoraPos = ({ handleClose }: { handleClose: () => void 
                         <label htmlFor="marca" className="block text-sm font-medium text-gray-700">Marca <span className="text-red-500">*</span></label>
                         <input
                             type="text"
-                            className="block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-orange-500 focus:border-orange-500 sm:text-sm transition-colors"
+                            className="block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-brand-500 focus:border-brand-500 sm:text-sm transition-colors"
                             id="marca"
                             value={formData.marca}
                             onChange={handleChange}
@@ -126,7 +126,7 @@ const FormularioCrearImpresoraPos = ({ handleClose }: { handleClose: () => void 
                         <label htmlFor="modelo" className="block text-sm font-medium text-gray-700">Modelo <span className="text-red-500">*</span></label>
                         <input
                             type="text"
-                            className="block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-orange-500 focus:border-orange-500 sm:text-sm transition-colors"
+                            className="block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-brand-500 focus:border-brand-500 sm:text-sm transition-colors"
                             id="modelo"
                             value={formData.modelo}
                             onChange={handleChange}
@@ -138,7 +138,7 @@ const FormularioCrearImpresoraPos = ({ handleClose }: { handleClose: () => void 
                         <label htmlFor="serial" className="block text-sm font-medium text-gray-700">Serial <span className="text-red-500">*</span></label>
                         <input
                             type="text"
-                            className="block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-orange-500 focus:border-orange-500 sm:text-sm transition-colors"
+                            className="block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-brand-500 focus:border-brand-500 sm:text-sm transition-colors"
                             id="serial"
                             value={formData.serial}
                             onChange={handleChange}
@@ -150,7 +150,7 @@ const FormularioCrearImpresoraPos = ({ handleClose }: { handleClose: () => void 
                         <label htmlFor="estado" className="block text-sm font-medium text-gray-700">Estado <span className="text-red-500">*</span></label>
                         <select
                             id="estado"
-                            className="block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-orange-500 focus:border-orange-500 sm:text-sm transition-colors"
+                            className="block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-brand-500 focus:border-brand-500 sm:text-sm transition-colors"
                             value={formData.estado}
                             onChange={handleChange}
                         >
@@ -167,7 +167,7 @@ const FormularioCrearImpresoraPos = ({ handleClose }: { handleClose: () => void 
                         <label htmlFor="fechaCompra" className="block text-sm font-medium text-gray-700">Fecha de Compra</label>
                         <input
                             type="date"
-                            className="block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-orange-500 focus:border-orange-500 sm:text-sm transition-colors"
+                            className="block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-brand-500 focus:border-brand-500 sm:text-sm transition-colors"
                             id="fechaCompra"
                             value={formData.fechaCompra}
                             onChange={handleChange}
@@ -178,7 +178,7 @@ const FormularioCrearImpresoraPos = ({ handleClose }: { handleClose: () => void 
                         <label htmlFor="funcionarios" className="block text-sm font-medium text-gray-700">Asignado a</label>
                         <select
                             id="funcionarios"
-                            className="block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-orange-500 focus:border-orange-500 sm:text-sm transition-colors"
+                            className="block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-brand-500 focus:border-brand-500 sm:text-sm transition-colors"
                             value={formData.funcionarios.id}
                             onChange={handleChange}
                         >
@@ -195,7 +195,7 @@ const FormularioCrearImpresoraPos = ({ handleClose }: { handleClose: () => void 
                 <div className="space-y-1">
                     <label htmlFor="descripcion" className="block text-sm font-medium text-gray-700">Descripción / Detalles adicionales</label>
                     <textarea
-                        className="block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-orange-500 focus:border-orange-500 sm:text-sm transition-colors"
+                        className="block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-brand-500 focus:border-brand-500 sm:text-sm transition-colors"
                         id="descripcion"
                         rows={3}
                         value={formData.descripcion}
@@ -207,7 +207,7 @@ const FormularioCrearImpresoraPos = ({ handleClose }: { handleClose: () => void 
                 <div className="flex items-center justify-end gap-3 pt-4 border-t border-gray-100">
                     <button
                         type="button"
-                        className="px-4 py-2 bg-white border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500 transition-colors flex items-center"
+                        className="px-4 py-2 bg-white border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand-500 transition-colors flex items-center"
                         onClick={() => setFormData({
                             marca: '',
                             modelo: '',
@@ -222,7 +222,7 @@ const FormularioCrearImpresoraPos = ({ handleClose }: { handleClose: () => void 
                     </button>
                     <button
                         type="submit"
-                        className="px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-orange-500 hover:bg-orange-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500 transition-colors flex items-center"
+                        className="px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-brand-500 hover:bg-brand-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand-500 transition-colors flex items-center"
                     >
                         <i className="bi bi-floppy mr-2" /> Guardar Impresora POS
                     </button>

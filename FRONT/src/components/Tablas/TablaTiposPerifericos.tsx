@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+﻿import React, { useState, useEffect } from 'react';
 import Swal from 'sweetalert2';
 import { getTiposPerifericos, deleteTipoPeriferico } from '../../servicios/tiposPerifericosService';
 import FormularioCrearTipoPeriferico from '../FormulariosCrear/FormularioCrearTipoPeriferico';
@@ -53,7 +53,7 @@ const TablaTiposPerifericos: React.FC = () => {
         }
     };
 
-    if (loading) return <div className="flex justify-center items-center p-10"><div className="animate-spin rounded-full h-8 w-8 border-b-2 border-orange-500"></div><span className="ml-2 text-gray-600">Cargando tipos...</span></div>;
+    if (loading) return <div className="flex justify-center items-center p-10"><div className="animate-spin rounded-full h-8 w-8 border-b-2 border-brand-500"></div><span className="ml-2 text-gray-600">Cargando tipos...</span></div>;
     if (error) return <div className="text-red-500 p-4 bg-red-50 rounded-lg">{error}</div>;
 
     return (
@@ -65,7 +65,7 @@ const TablaTiposPerifericos: React.FC = () => {
                         <div className="inline-block align-bottom bg-white rounded-xl text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
                             <div className="bg-white px-6 py-4 border-b border-gray-100 flex justify-between items-center">
                                 <h3 className="text-lg leading-6 font-semibold text-gray-800 flex items-center">
-                                    <i className="bi bi-tags mr-2 text-orange-500"></i> Nuevo Tipo
+                                    <i className="bi bi-tags mr-2 text-brand-500"></i> Nuevo Tipo
                                 </h3>
                                 <button onClick={() => setShowModal(false)} className="text-gray-400 hover:text-gray-500 focus:outline-none transition-colors">
                                     <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" /></svg>
@@ -92,7 +92,7 @@ const TablaTiposPerifericos: React.FC = () => {
                 <div className="flex gap-3 w-full sm:w-auto">
                     <button
                         onClick={() => setShowModal(true)}
-                        className="flex-1 sm:flex-none flex justify-center items-center px-4 py-2 bg-orange-500 hover:bg-orange-600 text-white rounded-lg transition-colors font-medium text-sm shadow-sm"
+                        className="flex-1 sm:flex-none flex justify-center items-center px-4 py-2 bg-brand-500 hover:bg-brand-600 text-white rounded-lg transition-colors font-medium text-sm shadow-sm"
                     >
                         <i className="bi bi-plus-circle-fill mr-2"></i> Agregar Tipo
                     </button>
@@ -123,7 +123,7 @@ const TablaTiposPerifericos: React.FC = () => {
                                                         setSelectedId(tipo.id);
                                                         setShowModal2(true);
                                                     }}
-                                                    className="flex items-center justify-center w-8 h-8 rounded-lg bg-orange-100 text-orange-600 hover:bg-orange-500 hover:text-white transition-colors border border-transparent hover:border-orange-600"
+                                                    className="flex items-center justify-center w-8 h-8 rounded-lg bg-brand-100 text-brand-600 hover:bg-brand-500 hover:text-white transition-colors border border-transparent hover:border-brand-600"
                                                     title="Editar"
                                                 >
                                                     <i className="bi bi-pencil-square"></i>
@@ -161,7 +161,7 @@ const TablaTiposPerifericos: React.FC = () => {
                         <div className="inline-block align-bottom bg-white rounded-xl text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
                             <div className="bg-white px-6 py-4 border-b border-gray-100 flex justify-between items-center">
                                 <h3 className="text-lg leading-6 font-semibold text-gray-800 flex items-center">
-                                    <i className="bi bi-pencil-square mr-2 text-orange-500"></i> Editar Tipo
+                                    <i className="bi bi-pencil-square mr-2 text-brand-500"></i> Editar Tipo
                                 </h3>
                                 <button onClick={() => setShowModal2(false)} className="text-gray-400 hover:text-gray-500 focus:outline-none transition-colors">
                                     <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" /></svg>

@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+﻿import { Link } from 'react-router-dom';
 import FormularioCrearReporte from '../components/FormulariosCrear/FormularioCrearR';
 import Layout from '../components/Layout/Layout';
 
@@ -17,7 +17,7 @@ export const CrearReporte = () => {
           </nav>
         </div>
         <div className="ml-auto">
-          <Link to="/Reportes" className="inline-flex items-center justify-center p-2 bg-orange-500 hover:bg-orange-600 text-white rounded transition-colors shadow-sm focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2">
+          <Link to="/Reportes" className="inline-flex items-center justify-center p-2 bg-brand-500 hover:bg-brand-600 text-white rounded transition-colors shadow-sm focus:outline-none focus:ring-2 focus:ring-brand-500 focus:ring-offset-2">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" width="24" height="24" strokeWidth="2"> <path d="M9 14l-4 -4l4 -4"></path> <path d="M5 10h11a4 4 0 1 1 0 8h-1"></path></svg>
           </Link>
         </div>

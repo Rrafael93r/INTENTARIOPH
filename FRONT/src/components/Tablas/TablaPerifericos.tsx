@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+﻿import React, { useState, useEffect } from 'react';
 import Swal from 'sweetalert2';
 import { getPerifericos, updatePeriferico } from '../../servicios/perifericosService';
 import FormularioCrearPerifericos from '../FormulariosCrear/FormularioCrearPerifericos';
@@ -105,7 +105,7 @@ const TablaPerifericos: React.FC = () => {
         setFilterTipo(''); // Clear filterTipo
     };
 
-    if (loading) return <div className="flex justify-center items-center p-10"><div className="animate-spin rounded-full h-8 w-8 border-b-2 border-orange-500"></div><span className="ml-2 text-gray-600">Cargando periféricos...</span></div>;
+    if (loading) return <div className="flex justify-center items-center p-10"><div className="animate-spin rounded-full h-8 w-8 border-b-2 border-brand-500"></div><span className="ml-2 text-gray-600">Cargando periféricos...</span></div>;
     if (error) return <div className="text-red-500 p-4 bg-red-50 rounded-lg">{error}</div>;
 
     return (
@@ -117,7 +117,7 @@ const TablaPerifericos: React.FC = () => {
                         <div className="inline-block align-bottom bg-white rounded-xl text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-4xl sm:w-full">
                             <div className="bg-white px-6 py-4 border-b border-gray-100 flex justify-between items-center">
                                 <h3 className="text-lg leading-6 font-semibold text-gray-800 flex items-center">
-                                    <i className="bi bi-mouse mr-2 text-orange-500"></i> Nuevo Periférico
+                                    <i className="bi bi-mouse mr-2 text-brand-500"></i> Nuevo Periférico
                                 </h3>
                                 <button onClick={handleClose} className="text-gray-400 hover:text-gray-500 focus:outline-none transition-colors">
                                     <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" /></svg>
@@ -135,7 +135,7 @@ const TablaPerifericos: React.FC = () => {
                 <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
                     <div>
                         <h2 className="text-xl font-bold text-gray-800 m-0 flex items-center gap-2">
-                            <i className="bi bi-mouse text-orange-500"></i>
+                            <i className="bi bi-mouse text-brand-500"></i>
                             Periféricos
                         </h2>
                         <p className="text-sm text-gray-500 mt-1 mb-0">Gestión de inventario de teclados, mouses y diademas</p>
@@ -143,7 +143,7 @@ const TablaPerifericos: React.FC = () => {
                     <div className="flex gap-2 w-full sm:w-auto">
                         <button
                             onClick={handleShow}
-                            className="bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded-lg font-medium text-sm flex items-center gap-2 transition-colors w-full sm:w-auto justify-center"
+                            className="bg-brand-500 hover:bg-brand-600 text-white px-4 py-2 rounded-lg font-medium text-sm flex items-center gap-2 transition-colors w-full sm:w-auto justify-center"
                         >
                             <i className="bi bi-plus-circle"></i>
                             <span>Agregar Periférico</span>
@@ -156,13 +156,13 @@ const TablaPerifericos: React.FC = () => {
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3">
                     <input
                         type="text"
-                        className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-orange-500 focus:border-orange-500 bg-white"
+                        className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-brand-500 focus:border-brand-500 bg-white"
                         placeholder="Filtrar Marca..."
                         value={filterMarca}
                         onChange={(e) => setFilterMarca(e.target.value)}
                     />
                     <select
-                        className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-orange-500 focus:border-orange-500 bg-white"
+                        className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-brand-500 focus:border-brand-500 bg-white"
                         value={filterTipo}
                         onChange={(e) => setFilterTipo(e.target.value)}
                     >
@@ -173,13 +173,13 @@ const TablaPerifericos: React.FC = () => {
                     </select>
                     <input
                         type="text"
-                        className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-orange-500 focus:border-orange-500 bg-white"
+                        className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-brand-500 focus:border-brand-500 bg-white"
                         placeholder="Filtrar Serial..."
                         value={filterSerial}
                         onChange={(e) => setFilterSerial(e.target.value)}
                     />
                     <select
-                        className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-orange-500 focus:border-orange-500 bg-white"
+                        className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-brand-500 focus:border-brand-500 bg-white"
                         value={filterEstado}
                         onChange={(e) => setFilterEstado(e.target.value)}
                     >
@@ -192,7 +192,7 @@ const TablaPerifericos: React.FC = () => {
                     <div className="flex gap-2">
                         <input
                             type="text"
-                            className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-orange-500 focus:border-orange-500 bg-white"
+                            className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-brand-500 focus:border-brand-500 bg-white"
                             placeholder="Filtrar Funcionario..."
                             value={filterFuncionario}
                             onChange={(e) => setFilterFuncionario(e.target.value)}
@@ -224,7 +224,7 @@ const TablaPerifericos: React.FC = () => {
                     <tbody>
                         {currentPerifericos.length > 0 ? (
                             currentPerifericos.map((periferico) => (
-                                <tr key={periferico.id} className="bg-white border-b border-gray-100 hover:bg-orange-50 transition-colors">
+                                <tr key={periferico.id} className="bg-white border-b border-gray-100 hover:bg-brand-50 transition-colors">
                                     <td className="px-6 py-4 font-medium text-gray-900">{periferico.id}</td>
                                     <td className="px-6 py-4">{typeof periferico.marca === 'object' && periferico.marca !== null ? periferico.marca.nombre : periferico.marca}</td>
                                     <td className="px-6 py-4">
@@ -248,7 +248,7 @@ const TablaPerifericos: React.FC = () => {
                                     <td className="px-6 py-4">
                                         {periferico.funcionario ? (
                                             <div className="flex items-center text-gray-900">
-                                                <i className="bi bi-person-badge text-orange-400 mr-2 text-lg"></i>
+                                                <i className="bi bi-person-badge text-brand-400 mr-2 text-lg"></i>
                                                 {`${periferico.funcionario.nombre} ${periferico.funcionario.apellido}`}
                                             </div>
                                         ) : (
@@ -262,7 +262,7 @@ const TablaPerifericos: React.FC = () => {
                                                     setSelectedPerifericoId(periferico.id);
                                                     handleShow2();
                                                 }}
-                                                className="p-1.5 bg-orange-100 text-orange-600 hover:bg-orange-500 hover:text-white rounded transition-colors"
+                                                className="p-1.5 bg-brand-100 text-brand-600 hover:bg-brand-500 hover:text-white rounded transition-colors"
                                                 title="Editar"
                                             >
                                                 <i className="bi bi-pencil-square"></i>
@@ -299,7 +299,7 @@ const TablaPerifericos: React.FC = () => {
                         <div className="inline-block align-bottom bg-white rounded-xl text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-4xl sm:w-full">
                             <div className="bg-white px-6 py-4 border-b border-gray-100 flex justify-between items-center">
                                 <h3 className="text-lg leading-6 font-semibold text-gray-800 flex items-center">
-                                    <i className="bi bi-pencil-square mr-2 text-orange-500"></i> Editar Periférico
+                                    <i className="bi bi-pencil-square mr-2 text-brand-500"></i> Editar Periférico
                                 </h3>
                                 <button onClick={handleClose2} className="text-gray-400 hover:text-gray-500 focus:outline-none transition-colors">
                                     <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" /></svg>
@@ -331,31 +331,31 @@ const TablaPerifericos: React.FC = () => {
                             <button
                                 onClick={() => handlePageChange(1)}
                                 disabled={currentPage === 1}
-                                className={`relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium ${currentPage === 1 ? 'text-gray-300 cursor-not-allowed' : 'text-gray-500 hover:bg-gray-50 text-orange-500'}`}
+                                className={`relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium ${currentPage === 1 ? 'text-gray-300 cursor-not-allowed' : 'text-gray-500 hover:bg-gray-50 text-brand-500'}`}
                             >
                                 <i className="bi bi-chevron-double-left"></i>
                             </button>
                             <button
                                 onClick={() => handlePageChange(currentPage - 1)}
                                 disabled={currentPage === 1}
-                                className={`relative inline-flex items-center px-2 py-2 border border-gray-300 bg-white text-sm font-medium ${currentPage === 1 ? 'text-gray-300 cursor-not-allowed' : 'text-gray-500 hover:bg-gray-50 text-orange-500'}`}
+                                className={`relative inline-flex items-center px-2 py-2 border border-gray-300 bg-white text-sm font-medium ${currentPage === 1 ? 'text-gray-300 cursor-not-allowed' : 'text-gray-500 hover:bg-gray-50 text-brand-500'}`}
                             >
                                 <i className="bi bi-chevron-left"></i>
                             </button>
-                            <span className="relative inline-flex items-center px-4 py-2 border border-orange-500 bg-orange-50 text-sm font-medium text-orange-600">
+                            <span className="relative inline-flex items-center px-4 py-2 border border-brand-500 bg-brand-50 text-sm font-medium text-brand-600">
                                 {currentPage}
                             </span>
                             <button
                                 onClick={() => handlePageChange(currentPage + 1)}
                                 disabled={currentPage === totalPages || totalPages === 0}
-                                className={`relative inline-flex items-center px-2 py-2 border border-gray-300 bg-white text-sm font-medium ${currentPage === totalPages || totalPages === 0 ? 'text-gray-300 cursor-not-allowed' : 'text-gray-500 hover:bg-gray-50 text-orange-500'}`}
+                                className={`relative inline-flex items-center px-2 py-2 border border-gray-300 bg-white text-sm font-medium ${currentPage === totalPages || totalPages === 0 ? 'text-gray-300 cursor-not-allowed' : 'text-gray-500 hover:bg-gray-50 text-brand-500'}`}
                             >
                                 <i className="bi bi-chevron-right"></i>
                             </button>
                             <button
                                 onClick={() => handlePageChange(totalPages)}
                                 disabled={currentPage === totalPages || totalPages === 0}
-                                className={`relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium ${currentPage === totalPages || totalPages === 0 ? 'text-gray-300 cursor-not-allowed' : 'text-gray-500 hover:bg-gray-50 text-orange-500'}`}
+                                className={`relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium ${currentPage === totalPages || totalPages === 0 ? 'text-gray-300 cursor-not-allowed' : 'text-gray-500 hover:bg-gray-50 text-brand-500'}`}
                             >
                                 <i className="bi bi-chevron-double-right"></i>
                             </button>

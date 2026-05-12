@@ -1,4 +1,4 @@
-"use client"
+﻿"use client"
 
 import type React from "react"
 import {
@@ -9,11 +9,8 @@ import {
   IconRouter,
   IconSend,
   IconDeviceDesktop,
-  IconMouse,
-  IconKeyboard,
   IconDeviceLaptop,
-  IconUsb,
-  IconSnowflake,
+  IconKeyboard,
   IconUsers,
   IconUserCircle,
   IconCategory,
@@ -21,7 +18,9 @@ import {
   IconDevicesPc,
   IconDeviceDesktopX,
   IconPrinter,
-  IconListCheck
+  IconListCheck,
+  IconTool,
+  IconHeadset,
 } from "@tabler/icons-react";
 import { useEffect, useState } from "react"
 import { Link, useLocation } from "react-router-dom"
@@ -101,32 +100,25 @@ const Sidebar: React.FC = () => {
         },
       ],
     },
-
     {
       heading: "INVENTARIO",
       items: [
         {
-          label: "Monitores",
-          icon: IconDeviceDesktop,
-          path: "/Monitores",
-          rolesAllowed: [1, 2],
-        },
-        {
-          label: "Periféricos",
-          icon: IconKeyboard,
-          path: "/perifericos",
-          rolesAllowed: [1, 2],
-        },
-        {
-          label: "Portatiles",
+          label: "Portátiles",
           icon: IconDeviceLaptop,
           path: "/Portatiles",
           rolesAllowed: [1, 2],
         },
         {
-          label: "Computador de escritorio",
+          label: "PC Escritorio",
           icon: IconDevicesPc,
           path: "/PcEscritorio",
+          rolesAllowed: [1, 2],
+        },
+        {
+          label: "Monitores",
+          icon: IconDeviceDesktop,
+          path: "/Monitores",
           rolesAllowed: [1, 2],
         },
         {
@@ -136,43 +128,67 @@ const Sidebar: React.FC = () => {
           rolesAllowed: [1, 2],
         },
         {
-          label: "Impresoras Pos",
+          label: "Impresoras POS",
           icon: IconPrinter,
           path: "/ImpresorasPos",
           rolesAllowed: [1, 2],
         },
-      ],
-    },
-    {
-      heading: "DOCUMENTACION",
-      items: [
         {
-          label: "Actas",
-          icon: IconReport,
-          path: "/actas",
+          label: "Periféricos",
+          icon: IconKeyboard,
+          path: "/perifericos",
           rolesAllowed: [1, 2],
         },
         {
-          label: "Equipos de baja",
+          label: "Diademas",
+          icon: IconHeadset,
+          path: "/Diademas",
+          rolesAllowed: [1, 2],
+        },
+      ],
+    },
+    {
+      heading: "GESTIÓN TIC",
+      items: [
+        {
+          label: "Mantenimientos",
+          icon: IconTool,
+          path: "/mantenimientos",
+          rolesAllowed: [1, 2],
+        },
+        {
+          label: "Actas Entrega/Recepción",
+          icon: IconReport,
+          path: "/EngraEquipos",
+          rolesAllowed: [1, 2],
+        },
+        {
+          label: "Equipos de Baja",
           icon: IconDeviceDesktopX,
           path: "/equipos-de-baja",
           rolesAllowed: [1, 2],
         },
+        {
+          label: "Actas",
+          icon: IconListCheck,
+          path: "/actas",
+          rolesAllowed: [1, 2],
+        },
       ],
     },
     {
-      heading: "ADMINISTRACION",
+      heading: "ADMINISTRACIÓN",
       items: [
-        {
-          label: "Usuarios",
-          icon: IconUsers,
-          path: "/usuarios",
-          rolesAllowed: [1],
-        },
         {
           label: "Funcionarios",
           icon: IconUserCircle,
           path: "/Funcionarios",
+          rolesAllowed: [1, 2],
+        },
+        {
+          label: "Usuarios",
+          icon: IconUsers,
+          path: "/usuarios",
           rolesAllowed: [1],
         },
         {
@@ -201,7 +217,6 @@ const Sidebar: React.FC = () => {
         },
       ],
     },
-
 
   ]
 
@@ -236,11 +251,10 @@ const Sidebar: React.FC = () => {
                     <li key={itemIndex}>
                       <Link
                         to={item.path}
-                        className={`flex items-center gap-3 py-2.5 px-3 rounded-xl text-sm font-medium transition-all duration-200 ${isActive
-                          ? "bg-orange-500 text-white shadow-md shadow-orange-200"
-                          : "text-gray-600 hover:bg-orange-50 hover:text-orange-600"
+                        className={`flex items-center gap-3 py-2.5 px-3 rounded-xl text-sm font-medium transition-all duration-200 no-underline ${isActive
+                          ? "bg-brand-500 text-white shadow-md shadow-brand-200"
+                          : "text-gray-600 hover:bg-brand-50 hover:text-brand-600"
                           }`}
-                        style={{ textDecoration: 'none' }}
                       >
                         <item.icon size={20} stroke={isActive ? 2.5 : 2} className={isActive ? "text-white" : "text-gray-500"} />
                         <span>{item.label}</span>
@@ -255,10 +269,10 @@ const Sidebar: React.FC = () => {
       </div>
 
       <div className="p-4 bg-white border-t border-gray-100">
-        <div className="bg-gray-50 rounded-xl p-3 flex justify-between items-center shadow-sm border border-gray-100 hover:border-orange-200 transition-colors">
+        <div className="bg-gray-50 rounded-xl p-3 flex justify-between items-center shadow-sm border border-gray-100 hover:border-brand-200 transition-colors">
           <div className="flex items-center min-w-0">
             <svg
-              className="text-orange-500 flex-shrink-0"
+              className="text-brand-500 flex-shrink-0"
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
               stroke="currentColor"
@@ -279,7 +293,7 @@ const Sidebar: React.FC = () => {
               </span>
             </div>
           </div>
-          <Link to="/login" onClick={logout} className="ml-2 flex-shrink-0 text-gray-400 hover:text-orange-500 transition-colors p-1.5 rounded-lg hover:bg-orange-50">
+          <Link to="/login" onClick={logout} className="ml-2 flex-shrink-0 text-gray-400 hover:text-brand-500 transition-colors p-1.5 rounded-lg hover:bg-brand-50">
             <i className="bi bi-box-arrow-right text-xl"></i>
           </Link>
         </div>
