@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(git filter-repo *)",
+      "Bash(python -m git_filter_repo --version)",
+      "Bash(pip show *)"
+    ]
+  }
+}

@@ -1,4 +1,4 @@
-"use client"
+﻿"use client"
 
 import type React from "react"
 import { useState, useEffect } from "react"
@@ -35,8 +35,6 @@ interface Props {
 
 const FormularioEnvioM: React.FC<Props> = ({ farmacia, onClose }) => {
   const [modems, setModems] = useState<IModem[]>([])
-  const [isHovered, setIsHovered] = useState(false)
-  const [isHovered2, setIsHovered2] = useState(false)
   const [loading, setLoading] = useState(false)
   const [loadingModems, setLoadingModems] = useState(true)
 
@@ -200,7 +198,7 @@ const FormularioEnvioM: React.FC<Props> = ({ farmacia, onClose }) => {
   if (loadingModems) {
     return (
       <div className="flex justify-center items-center min-h-[200px]">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-orange-500"></div>
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-brand-500"></div>
         <span className="sr-only">Cargando modems...</span>
       </div>
     )
@@ -213,7 +211,7 @@ const FormularioEnvioM: React.FC<Props> = ({ farmacia, onClose }) => {
         <div className="mb-6 bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
           <div className="px-5 py-3 border-b border-gray-100 bg-gray-50">
             <h5 className="m-0 font-semibold text-gray-800 flex items-center text-lg">
-              <i className="bi bi-building mr-2 text-orange-500"></i>
+              <i className="bi bi-building mr-2 text-brand-500"></i>
               Farmacia Destino
             </h5>
           </div>
@@ -257,7 +255,7 @@ const FormularioEnvioM: React.FC<Props> = ({ farmacia, onClose }) => {
         <div className="mb-4">
           <div className="mb-3">
             <label htmlFor="modemPrincipal" className="block text-sm font-medium text-gray-700 mb-1 flex items-center">
-              <i className="bi bi-router mr-2 text-orange-500"></i>
+              <i className="bi bi-router mr-2 text-brand-500"></i>
               Módem Principal*
             </label>
             <select
@@ -265,7 +263,7 @@ const FormularioEnvioM: React.FC<Props> = ({ farmacia, onClose }) => {
               value={envio.modemPrincipal?.id || ""}
               onChange={handleInputChange}
               required
-              className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-orange-500 focus:border-orange-500 bg-white"
+              className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-brand-500 focus:border-brand-500 bg-white"
             >
               <option value="">Seleccione un módem</option>
               {modems.map((modem) => (
@@ -294,7 +292,7 @@ const FormularioEnvioM: React.FC<Props> = ({ farmacia, onClose }) => {
               name="modemSecundario"
               value={envio.modemSecundario?.id || ""}
               onChange={handleInputChange}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-orange-500 focus:border-orange-500 bg-white"
+              className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-brand-500 focus:border-brand-500 bg-white"
             >
               <option value="">Ninguno</option>
               {modems
@@ -313,7 +311,7 @@ const FormularioEnvioM: React.FC<Props> = ({ farmacia, onClose }) => {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
           <div className="mb-3">
             <label className="block text-sm font-medium text-gray-700 mb-1 flex items-center">
-              <i className="bi bi-calendar mr-2 text-orange-500"></i>
+              <i className="bi bi-calendar mr-2 text-brand-500"></i>
               Fecha de Envío*
             </label>
             <input
@@ -322,12 +320,12 @@ const FormularioEnvioM: React.FC<Props> = ({ farmacia, onClose }) => {
               value={envio.fechaEnvio}
               onChange={handleInputChange}
               required
-              className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-orange-500 focus:border-orange-500"
+              className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-brand-500 focus:border-brand-500"
             />
           </div>
           <div className="mb-3">
             <label className="block text-sm font-medium text-gray-700 mb-1 flex items-center">
-              <i className="bi bi-currency-dollar mr-2 text-orange-500"></i>
+              <i className="bi bi-currency-dollar mr-2 text-brand-500"></i>
               Costo de Envío*
             </label>
             <div className="relative rounded-md shadow-sm">
@@ -343,13 +341,13 @@ const FormularioEnvioM: React.FC<Props> = ({ farmacia, onClose }) => {
                 min="0"
                 step="0.01"
                 placeholder="0.00"
-                className="w-full pl-7 pr-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-orange-500 focus:border-orange-500"
+                className="w-full pl-7 pr-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-brand-500 focus:border-brand-500"
               />
             </div>
           </div>
           <div className="mb-3">
             <label className="block text-sm font-medium text-gray-700 mb-1 flex items-center">
-              <i className="bi bi-truck mr-2 text-orange-500"></i>
+              <i className="bi bi-truck mr-2 text-brand-500"></i>
               Estado del Envío*
             </label>
             <select
@@ -357,7 +355,7 @@ const FormularioEnvioM: React.FC<Props> = ({ farmacia, onClose }) => {
               value={envio.estadoEnvio}
               onChange={handleInputChange}
               required
-              className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-orange-500 focus:border-orange-500 bg-white"
+              className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-brand-500 focus:border-brand-500 bg-white"
             >
               <option value="PENDIENTE">PENDIENTE</option>
               <option value="EN CAMINO">EN CAMINO</option>
@@ -398,7 +396,7 @@ const FormularioEnvioM: React.FC<Props> = ({ farmacia, onClose }) => {
             type="submit"
             disabled={loading || modems.length === 0}
             className={`flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white transition-colors
-              ${loading || modems.length === 0 ? 'bg-orange-400 cursor-not-allowed' : 'bg-orange-500 hover:bg-orange-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500'}
+              ${loading || modems.length === 0 ? 'bg-brand-400 cursor-not-allowed' : 'bg-brand-500 hover:bg-brand-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand-500'}
             `}
           >
             {loading ? (
@@ -417,7 +415,7 @@ const FormularioEnvioM: React.FC<Props> = ({ farmacia, onClose }) => {
             type="button"
             onClick={onClose}
             disabled={loading}
-            className="flex items-center justify-center px-4 py-2 border border-orange-500 text-orange-500 rounded-md shadow-sm text-sm font-medium hover:bg-orange-50 transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500"
+            className="flex items-center justify-center px-4 py-2 border border-brand-500 text-brand-500 rounded-md shadow-sm text-sm font-medium hover:bg-brand-50 transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand-500"
           >
             <i className="bi bi-x-circle mr-2"></i>
             CANCELAR

@@ -1,4 +1,4 @@
-"use client"
+﻿"use client"
 
 import type React from "react"
 import { useState, useEffect } from "react"
@@ -33,8 +33,6 @@ const FormularioEditarR: React.FC<IFormularioEditarRProps> = ({ reporteId, onClo
     observacion: "",
   })
   const [error, setError] = useState<string | null>(null)
-  const [isHovered, setIsHovered] = useState(false)
-  const [isHovered2, setIsHovered2] = useState(false)
   const [duracionCalculada, setDuracionCalculada] = useState("")
   const [estadoOriginal, setEstadoOriginal] = useState("")
 
@@ -258,7 +256,7 @@ const FormularioEditarR: React.FC<IFormularioEditarRProps> = ({ reporteId, onClo
   if (loading) {
     return (
       <div className="flex justify-center items-center min-h-[200px]">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-orange-500"></div>
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-brand-500"></div>
         <span className="sr-only">Cargando...</span>
       </div>
     )
@@ -311,7 +309,7 @@ const FormularioEditarR: React.FC<IFormularioEditarRProps> = ({ reporteId, onClo
               onChange={handleInputChange}
               required={reporte.estado === "CERRADO"}
               min={reporte.fecha}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-orange-500 focus:border-orange-500"
+              className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-brand-500 focus:border-brand-500"
             />
             {reporte.fecha_cierre && reporte.fecha_cierre !== reporte.fecha && (
               <p className="mt-1 text-xs text-blue-600 flex items-center">
@@ -330,7 +328,7 @@ const FormularioEditarR: React.FC<IFormularioEditarRProps> = ({ reporteId, onClo
               value={reporte.hora_fin_display}
               onChange={handleInputChange}
               required={reporte.estado === "CERRADO"}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-orange-500 focus:border-orange-500"
+              className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-brand-500 focus:border-brand-500"
             />
             {duracionCalculada && (
               <p className={`mt-1 text-xs flex items-center ${duracionCalculada.includes("Error") ? "text-red-600" : "text-green-600"}`}>
@@ -346,7 +344,7 @@ const FormularioEditarR: React.FC<IFormularioEditarRProps> = ({ reporteId, onClo
               value={reporte.estado}
               onChange={handleInputChange}
               required
-              className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-orange-500 focus:border-orange-500 bg-white"
+              className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-brand-500 focus:border-brand-500 bg-white"
             >
               <option value="">Seleccione...</option>
               <option value="ABIERTO">ABIERTO</option>
@@ -384,7 +382,7 @@ const FormularioEditarR: React.FC<IFormularioEditarRProps> = ({ reporteId, onClo
               value={reporte.observacion}
               onChange={handleInputChange}
               placeholder="Observaciones generales del caso..."
-              className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-orange-500 focus:border-orange-500"
+              className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-brand-500 focus:border-brand-500"
             />
           </div>
         </div>
@@ -392,7 +390,7 @@ const FormularioEditarR: React.FC<IFormularioEditarRProps> = ({ reporteId, onClo
         <div className="mb-6 bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
           <div className="px-5 py-3 border-b border-gray-100 bg-gray-50">
             <h5 className="m-0 font-semibold text-gray-800 flex items-center">
-              <i className="bi bi-building mr-2 text-orange-500"></i>
+              <i className="bi bi-building mr-2 text-brand-500"></i>
               Información de la Farmacia
             </h5>
           </div>
@@ -447,7 +445,7 @@ const FormularioEditarR: React.FC<IFormularioEditarRProps> = ({ reporteId, onClo
             type="submit"
             disabled={loading}
             className={`flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white transition-colors
-              ${loading ? 'bg-orange-400 cursor-not-allowed' : 'bg-orange-500 hover:bg-orange-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500'}
+              ${loading ? 'bg-brand-400 cursor-not-allowed' : 'bg-brand-500 hover:bg-brand-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand-500'}
             `}
           >
             {loading ? (
@@ -466,7 +464,7 @@ const FormularioEditarR: React.FC<IFormularioEditarRProps> = ({ reporteId, onClo
             type="button"
             onClick={onClose}
             disabled={loading}
-            className="flex items-center justify-center px-4 py-2 border border-orange-500 text-orange-500 rounded-md shadow-sm text-sm font-medium hover:bg-orange-50 transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500"
+            className="flex items-center justify-center px-4 py-2 border border-brand-500 text-brand-500 rounded-md shadow-sm text-sm font-medium hover:bg-brand-50 transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand-500"
           >
             <i className="bi bi-x-circle mr-2"></i>
             Cancelar

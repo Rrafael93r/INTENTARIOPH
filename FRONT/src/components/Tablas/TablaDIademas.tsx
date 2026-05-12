@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+﻿import React, { useState, useEffect } from 'react';
 import Swal from 'sweetalert2';
 import { getDiademas, updateDiadema } from '../../servicios/DiademaService';
 import FormularioEditarDiadema from '../FormulariosEditar.tsx/FormularioEditarDiadema';
@@ -65,7 +65,7 @@ const TablaDiademas: React.FC = () => {
 
     if (loading) return (
         <div className="flex justify-center items-center p-8">
-            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-orange-500"></div>
+            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-brand-500"></div>
         </div>
     );
     if (error) return <div className="text-red-500 p-4">{error}</div>;
@@ -134,7 +134,7 @@ const TablaDiademas: React.FC = () => {
                         <div className="inline-block align-bottom bg-white rounded-xl text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-4xl sm:w-full">
                             <div className="bg-white px-6 py-4 border-b border-gray-100 flex justify-between items-center">
                                 <h3 className="text-lg leading-6 font-semibold text-gray-800 flex items-center">
-                                    <i className="bi bi-headset mr-2 text-orange-500"></i> Nueva Diadema
+                                    <i className="bi bi-headset mr-2 text-brand-500"></i> Nueva Diadema
                                 </h3>
                                 <button onClick={handleClose} className="text-gray-400 hover:text-gray-500 focus:outline-none transition-colors">
                                     <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" /></svg>
@@ -153,7 +153,7 @@ const TablaDiademas: React.FC = () => {
                 <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
                     <div>
                         <h2 className="text-xl font-bold text-gray-800 m-0 flex items-center gap-2">
-                            <i className="bi bi-headset text-orange-500"></i>
+                            <i className="bi bi-headset text-brand-500"></i>
                             Diademas
                         </h2>
                         <p className="text-sm text-gray-500 mt-1 mb-0">Gestión de diademas y auriculares</p>
@@ -161,7 +161,7 @@ const TablaDiademas: React.FC = () => {
                     <div className="flex gap-2 w-full sm:w-auto">
                         <button
                             onClick={handleShow}
-                            className="bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded-lg font-medium text-sm flex items-center gap-2 transition-colors w-full sm:w-auto justify-center"
+                            className="bg-brand-500 hover:bg-brand-600 text-white px-4 py-2 rounded-lg font-medium text-sm flex items-center gap-2 transition-colors w-full sm:w-auto justify-center"
                         >
                             <i className="bi bi-plus-circle"></i>
                             <span>Nueva Diadema</span>
@@ -174,34 +174,34 @@ const TablaDiademas: React.FC = () => {
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3">
                     <input
                         type="text"
-                        className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-orange-500 focus:border-orange-500 bg-white"
+                        className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-brand-500 focus:border-brand-500 bg-white"
                         placeholder="Filtrar serial..."
                         value={filterSerial}
                         onChange={(e) => setFilterSerial(e.target.value)}
                     />
                     <input
                         type="text"
-                        className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-orange-500 focus:border-orange-500 bg-white"
+                        className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-brand-500 focus:border-brand-500 bg-white"
                         placeholder="Filtrar marca..."
                         value={filterMarca}
                         onChange={(e) => setFilterMarca(e.target.value)}
                     />
                     <input
                         type="text"
-                        className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-orange-500 focus:border-orange-500 bg-white"
+                        className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-brand-500 focus:border-brand-500 bg-white"
                         placeholder="Filtrar modelo..."
                         value={filterModelo}
                         onChange={(e) => setFilterModelo(e.target.value)}
                     />
                     <input
                         type="date"
-                        className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-orange-500 focus:border-orange-500 bg-white"
+                        className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-brand-500 focus:border-brand-500 bg-white"
                         value={filterFechaCompra}
                         onChange={(e) => setFilterFechaCompra(e.target.value)}
                     />
                     <input
                         type="text"
-                        className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-orange-500 focus:border-orange-500 bg-white"
+                        className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-brand-500 focus:border-brand-500 bg-white"
                         placeholder="Filtrar descripción..."
                         value={filterDescripcion}
                         onChange={(e) => setFilterDescripcion(e.target.value)}
@@ -209,7 +209,7 @@ const TablaDiademas: React.FC = () => {
                     <div className="flex gap-2">
                         <input
                             type="text"
-                            className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-orange-500 focus:border-orange-500 bg-white"
+                            className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-brand-500 focus:border-brand-500 bg-white"
                             placeholder="Filtrar estado..."
                             value={filterEstado}
                             onChange={(e) => setFilterEstado(e.target.value)}
@@ -270,7 +270,7 @@ const TablaDiademas: React.FC = () => {
                                     <td className="p-3 align-middle">
                                         <div className="flex justify-center gap-2">
                                             <button
-                                                className="flex items-center justify-center w-8 h-8 rounded-lg bg-orange-100 text-orange-600 hover:bg-orange-500 hover:text-white transition-colors border border-transparent hover:border-orange-600"
+                                                className="flex items-center justify-center w-8 h-8 rounded-lg bg-brand-100 text-brand-600 hover:bg-brand-500 hover:text-white transition-colors border border-transparent hover:border-brand-600"
                                                 title="Editar"
                                                 onClick={() => {
                                                     setSelectedDiademasId(diadema.id);
@@ -311,7 +311,7 @@ const TablaDiademas: React.FC = () => {
                         <div className="inline-block align-bottom bg-white rounded-xl text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-4xl sm:w-full">
                             <div className="bg-white px-6 py-4 border-b border-gray-100 flex justify-between items-center">
                                 <h3 className="text-lg leading-6 font-semibold text-gray-800 flex items-center">
-                                    <i className="bi bi-pencil-square mr-2 text-orange-500"></i> Editar Diadema
+                                    <i className="bi bi-pencil-square mr-2 text-brand-500"></i> Editar Diadema
                                 </h3>
                                 <button onClick={handleClose2} className="text-gray-400 hover:text-gray-500 focus:outline-none transition-colors">
                                     <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" /></svg>
@@ -369,31 +369,31 @@ const TablaDiademas: React.FC = () => {
                             <button
                                 onClick={() => handlePageChange(1)}
                                 disabled={currentPage === 1}
-                                className={`relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium ${currentPage === 1 ? 'text-gray-300 cursor-not-allowed' : 'text-gray-500 hover:bg-gray-50 text-orange-500'}`}
+                                className={`relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium ${currentPage === 1 ? 'text-gray-300 cursor-not-allowed' : 'text-gray-500 hover:bg-gray-50 text-brand-500'}`}
                             >
                                 <i className="bi bi-chevron-double-left"></i>
                             </button>
                             <button
                                 onClick={() => handlePageChange(currentPage - 1)}
                                 disabled={currentPage === 1}
-                                className={`relative inline-flex items-center px-2 py-2 border border-gray-300 bg-white text-sm font-medium ${currentPage === 1 ? 'text-gray-300 cursor-not-allowed' : 'text-gray-500 hover:bg-gray-50 text-orange-500'}`}
+                                className={`relative inline-flex items-center px-2 py-2 border border-gray-300 bg-white text-sm font-medium ${currentPage === 1 ? 'text-gray-300 cursor-not-allowed' : 'text-gray-500 hover:bg-gray-50 text-brand-500'}`}
                             >
                                 <i className="bi bi-chevron-left"></i>
                             </button>
-                            <span className="relative inline-flex items-center px-4 py-2 border border-orange-500 bg-orange-50 text-sm font-medium text-orange-600">
+                            <span className="relative inline-flex items-center px-4 py-2 border border-brand-500 bg-brand-50 text-sm font-medium text-brand-600">
                                 {currentPage}
                             </span>
                             <button
                                 onClick={() => handlePageChange(currentPage + 1)}
                                 disabled={currentPage === totalPages || totalPages === 0}
-                                className={`relative inline-flex items-center px-2 py-2 border border-gray-300 bg-white text-sm font-medium ${currentPage === totalPages || totalPages === 0 ? 'text-gray-300 cursor-not-allowed' : 'text-gray-500 hover:bg-gray-50 text-orange-500'}`}
+                                className={`relative inline-flex items-center px-2 py-2 border border-gray-300 bg-white text-sm font-medium ${currentPage === totalPages || totalPages === 0 ? 'text-gray-300 cursor-not-allowed' : 'text-gray-500 hover:bg-gray-50 text-brand-500'}`}
                             >
                                 <i className="bi bi-chevron-right"></i>
                             </button>
                             <button
                                 onClick={() => handlePageChange(totalPages)}
                                 disabled={currentPage === totalPages || totalPages === 0}
-                                className={`relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium ${currentPage === totalPages || totalPages === 0 ? 'text-gray-300 cursor-not-allowed' : 'text-gray-500 hover:bg-gray-50 text-orange-500'}`}
+                                className={`relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium ${currentPage === totalPages || totalPages === 0 ? 'text-gray-300 cursor-not-allowed' : 'text-gray-500 hover:bg-gray-50 text-brand-500'}`}
                             >
                                 <i className="bi bi-chevron-double-right"></i>
                             </button>

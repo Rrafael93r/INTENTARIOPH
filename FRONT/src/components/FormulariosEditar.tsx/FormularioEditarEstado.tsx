@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+﻿import React, { useState, useEffect } from 'react';
 import Swal from 'sweetalert2';
 import { updateEstado, getEstadoById } from '../../servicios/estadoService';
 
@@ -57,10 +57,10 @@ const FormularioEditarEstado: React.FC<FormularioEditarEstadoProps> = ({ estadoI
 
             <div className="grid grid-cols-1 gap-4 sm:gap-6">
                 <div className="flex flex-col space-y-1.5">
-                    <label className="text-sm font-semibold text-gray-700">Nombre <span className="text-orange-500">*</span></label>
+                    <label className="text-sm font-semibold text-gray-700">Nombre <span className="text-brand-500">*</span></label>
                     <input
                         type="text"
-                        className="px-3 py-2 bg-white border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all"
+                        className="px-3 py-2 bg-white border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-transparent transition-all"
                         value={nombre}
                         onChange={(e) => setNombre(e.target.value)}
                         required
@@ -69,7 +69,7 @@ const FormularioEditarEstado: React.FC<FormularioEditarEstadoProps> = ({ estadoI
                 <div className="flex flex-col space-y-1.5">
                     <label className="text-sm font-semibold text-gray-700">Descripción</label>
                     <textarea
-                        className="px-3 py-2 bg-white border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all min-h-[100px] resize-y"
+                        className="px-3 py-2 bg-white border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-transparent transition-all min-h-[100px] resize-y"
                         value={descripcion}
                         onChange={(e) => setDescripcion(e.target.value)}
                     />
@@ -86,7 +86,7 @@ const FormularioEditarEstado: React.FC<FormularioEditarEstadoProps> = ({ estadoI
                 </button>
                 <button
                     type="submit"
-                    className="w-full sm:w-auto px-5 py-2.5 rounded-lg border border-transparent bg-orange-500 text-white hover:bg-orange-600 font-medium text-sm transition-all shadow-sm shadow-orange-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center"
+                    className="w-full sm:w-auto px-5 py-2.5 rounded-lg border border-transparent bg-brand-500 text-white hover:bg-brand-600 font-medium text-sm transition-all shadow-sm shadow-brand-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand-500 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center"
                     disabled={loading}
                 >
                     {loading ? (

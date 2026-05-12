@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+﻿import React, { useEffect, useState } from 'react';
 import {
     BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip,
     ResponsiveContainer, PieChart, Pie, Cell, Legend
@@ -60,7 +60,7 @@ const Dashboard = () => {
     if (loading) return (
         <div className="flex justify-center items-center h-screen bg-gray-50/50">
             <motion.div animate={{ rotate: 360 }} transition={{ repeat: Infinity, duration: 1, ease: "linear" }}
-                className="rounded-full h-12 w-12 border-4 border-gray-200 border-t-orange-500" />
+                className="rounded-full h-12 w-12 border-4 border-gray-200 border-t-brand-500" />
             <span className="ml-4 font-medium text-gray-600 animate-pulse">Cargando estadísticas...</span>
         </div>
     );
@@ -105,7 +105,7 @@ const Dashboard = () => {
 
                 {/* Header */}
                 <motion.div initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} className="mb-8 flex items-center">
-                    <div className="p-3 bg-gradient-to-br from-orange-400 to-orange-600 rounded-xl shadow-lg shadow-orange-500/30 text-white mr-4">
+                    <div className="p-3 bg-gradient-to-br from-brand-400 to-brand-600 rounded-xl shadow-lg shadow-brand-500/30 text-white mr-4">
                         <IconActivity size={28} />
                     </div>
                     <div>
@@ -125,8 +125,8 @@ const Dashboard = () => {
                         icon={<IconCheck size={28} stroke={2} className="text-emerald-500" />}
                         color="text-emerald-500" bg="bg-gradient-to-br from-emerald-50 to-emerald-100" accent="bg-emerald-100" />
                     <StatCard label="Bajas Registradas" value={data.bajasCount}
-                        icon={<IconDeviceDesktopX size={28} stroke={2} className="text-orange-500" />}
-                        color="text-orange-500" bg="bg-gradient-to-br from-orange-50 to-orange-100" accent="bg-orange-100" />
+                        icon={<IconDeviceDesktopX size={28} stroke={2} className="text-brand-500" />}
+                        color="text-brand-500" bg="bg-gradient-to-br from-brand-50 to-brand-100" accent="bg-brand-100" />
                     <StatCard label="Funcionarios" value={data.usersCount}
                         icon={<IconUsers size={28} stroke={2} className="text-blue-500" />}
                         color="text-blue-500" bg="bg-gradient-to-br from-blue-50 to-blue-100" accent="bg-blue-100" />
@@ -165,7 +165,7 @@ const Dashboard = () => {
                         <div className="px-8 py-5 border-b border-gray-50/50">
                             <h5 className="m-0 font-extrabold text-gray-800 text-lg">Distribución de Inventario</h5>
                         </div>
-                        <div className="p-6 pt-8 pr-8" style={{ minHeight: '340px' }}>
+                        <div className="p-6 pt-8 pr-8 min-h-[340px]">
                             <ResponsiveContainer width="100%" height={300}>
                                 <BarChart data={inventoryBarData} margin={{ top: 0, right: 0, left: -20, bottom: 20 }}>
                                     <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#E5E7EB" />
@@ -198,7 +198,7 @@ const Dashboard = () => {
                         <div className="px-8 py-5 border-b border-gray-50/50">
                             <h5 className="m-0 font-extrabold text-gray-800 text-lg">Estado de Reportes</h5>
                         </div>
-                        <div className="p-6 flex items-center justify-center pt-8" style={{ minHeight: '340px' }}>
+                        <div className="p-6 flex items-center justify-center pt-8 min-h-[340px]">
                             <ResponsiveContainer width="100%" height={260}>
                                 <PieChart>
                                     <Pie data={pieData} cx="50%" cy="45%" innerRadius={70} outerRadius={95}
@@ -222,7 +222,7 @@ const Dashboard = () => {
                         className="bg-white/90 backdrop-blur-xl rounded-3xl shadow-sm border border-gray-100/80 overflow-hidden mb-8">
                         <div className="px-8 py-5 border-b border-gray-100/80 flex justify-between items-center bg-gray-50/30">
                             <h5 className="m-0 font-extrabold text-gray-800 text-lg flex items-center gap-2">
-                                <IconTool size={20} className="text-orange-500" /> Mantenimientos Recientes
+                                <IconTool size={20} className="text-brand-500" /> Mantenimientos Recientes
                             </h5>
                         </div>
                         <div className="overflow-x-auto">
@@ -237,7 +237,7 @@ const Dashboard = () => {
                                 </thead>
                                 <tbody className="divide-y divide-gray-50">
                                     {data.mantenimientosRecientes.map((m: any, i) => (
-                                        <tr key={i} className="hover:bg-orange-50/30 transition-colors">
+                                        <tr key={i} className="hover:bg-brand-50/30 transition-colors">
                                             <td className="px-6 py-4 text-sm font-medium text-gray-800">{m.tipoEquipo} #{m.equipoId}</td>
                                             <td className="px-6 py-4 text-sm text-gray-600">{m.tipoMantenimiento}</td>
                                             <td className="px-6 py-4 text-sm text-gray-500">{m.fecha}</td>
@@ -279,13 +279,13 @@ const Dashboard = () => {
                                 {recentReports.length > 0 ? recentReports.map((report, idx) => (
                                     <motion.tr initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }}
                                         transition={{ delay: 0.5 + idx * 0.1 }} key={report.id}
-                                        className="hover:bg-orange-50/30 transition-colors group">
+                                        className="hover:bg-brand-50/30 transition-colors group">
                                         <td className="px-8 py-5 align-middle">
-                                            <div className="font-bold text-gray-900 group-hover:text-orange-600 transition-colors">#{report.id}</div>
+                                            <div className="font-bold text-gray-900 group-hover:text-brand-600 transition-colors">#{report.id}</div>
                                         </td>
                                         <td className="px-8 py-5 align-middle text-gray-500 font-medium">
                                             <div className="flex items-center">
-                                                <div className="w-2 h-2 rounded-full bg-gray-300 mr-2 group-hover:bg-orange-400 transition-colors"></div>
+                                                <div className="w-2 h-2 rounded-full bg-gray-300 mr-2 group-hover:bg-brand-400 transition-colors"></div>
                                                 {new Date(report.fecha).toLocaleDateString('es-CO', { year: 'numeric', month: 'short', day: 'numeric' })}
                                             </div>
                                         </td>

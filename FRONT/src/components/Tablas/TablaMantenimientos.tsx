@@ -1,4 +1,4 @@
-"use client"
+﻿"use client"
 
 import type React from "react"
 import { useState, useEffect } from "react"
@@ -116,7 +116,7 @@ const TablaMantenimientos: React.FC = () => {
                 <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
                     <div>
                         <h2 className="text-xl font-bold text-gray-800 m-0 flex items-center gap-2">
-                            <i className="bi bi-tools text-orange-500"></i>
+                            <i className="bi bi-tools text-brand-500"></i>
                             Mantenimientos y Reparaciones
                         </h2>
                         <p className="text-sm text-gray-500 mt-1 mb-0">Historial de mantenimientos realizados a los activos tecnológicos</p>
@@ -128,7 +128,7 @@ const TablaMantenimientos: React.FC = () => {
                             <span className="hidden sm:inline">Exportar</span>
                         </button>
                         <button onClick={() => setShowCreate(true)}
-                            className="px-4 py-2 bg-orange-500 text-white rounded-lg font-medium text-sm flex items-center gap-2 hover:bg-orange-600 transition-colors w-full sm:w-auto justify-center">
+                            className="px-4 py-2 bg-brand-500 text-white rounded-lg font-medium text-sm flex items-center gap-2 hover:bg-brand-600 transition-colors w-full sm:w-auto justify-center">
                             <i className="bi bi-plus-circle"></i>
                             <span>Nuevo Mantenimiento</span>
                         </button>
@@ -144,11 +144,11 @@ const TablaMantenimientos: React.FC = () => {
                             <i className="bi bi-search text-gray-400"></i>
                         </div>
                         <input type="text" value={busqueda} onChange={e => { setBusqueda(e.target.value); setCurrentPage(1) }}
-                            className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-orange-500 focus:border-orange-500 bg-white"
+                            className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-brand-500 focus:border-brand-500 bg-white"
                             placeholder="Buscar por equipo, tipo, técnico..." />
                     </div>
                     <select value={filtroTipo} onChange={e => { setFiltroTipo(e.target.value); setCurrentPage(1) }}
-                        className="border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-orange-500 focus:border-orange-500 bg-white">
+                        className="border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-brand-500 focus:border-brand-500 bg-white">
                         <option value="">Todos los tipos</option>
                         <option value="PREVENTIVO">Preventivo</option>
                         <option value="CORRECTIVO">Correctivo</option>
@@ -161,7 +161,7 @@ const TablaMantenimientos: React.FC = () => {
             <div className="overflow-x-auto">
                 {loading ? (
                     <div className="p-12 text-center text-gray-400">
-                        <div className="animate-spin rounded-full h-8 w-8 border-4 border-gray-200 border-t-orange-500 mx-auto mb-3"></div>
+                        <div className="animate-spin rounded-full h-8 w-8 border-4 border-gray-200 border-t-brand-500 mx-auto mb-3"></div>
                         <p>Cargando registros...</p>
                     </div>
                 ) : error ? (
@@ -192,7 +192,7 @@ const TablaMantenimientos: React.FC = () => {
                                     </td>
                                 </tr>
                             ) : paginados.map(r => (
-                                <tr key={r.id} className="hover:bg-orange-50/30 transition-colors">
+                                <tr key={r.id} className="hover:bg-brand-50/30 transition-colors">
                                     <td className="p-3 font-medium text-gray-700">#{r.id}</td>
                                     <td className="p-3">
                                         <span className="text-xs font-semibold text-gray-600">{LABEL_TIPO_EQUIPO[r.tipoEquipo] || r.tipoEquipo}</span>
@@ -247,7 +247,7 @@ const TablaMantenimientos: React.FC = () => {
                             const page = Math.max(1, Math.min(currentPage - 2 + i, totalPages - 4 + i))
                             return (
                                 <button key={page} onClick={() => setCurrentPage(page)}
-                                    className={`px-3 py-1 border rounded-lg text-sm transition-colors ${currentPage === page ? "bg-orange-500 text-white border-orange-500" : "border-gray-300 hover:bg-gray-50"}`}>
+                                    className={`px-3 py-1 border rounded-lg text-sm transition-colors ${currentPage === page ? "bg-brand-500 text-white border-brand-500" : "border-gray-300 hover:bg-gray-50"}`}>
                                     {page}
                                 </button>
                             )

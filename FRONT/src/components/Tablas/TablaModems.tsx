@@ -1,4 +1,4 @@
-"use client"
+﻿"use client"
 
 import type React from "react"
 import { useState, useEffect } from "react"
@@ -296,7 +296,7 @@ const ModemsTable: React.FC = () => {
   if (loading) {
     return (
       <div className="flex justify-center items-center h-[300px]">
-        <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-orange-500"></div>
+        <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-brand-500"></div>
       </div>
     )
   }
@@ -319,7 +319,7 @@ const ModemsTable: React.FC = () => {
             <div className="inline-block align-bottom bg-white rounded-xl text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-4xl sm:w-full">
               <div className="bg-white px-6 py-4 border-b border-gray-100 flex justify-between items-center">
                 <h3 className="text-lg leading-6 font-semibold text-gray-800 flex items-center">
-                  <i className="bi bi-plus-circle mr-2 text-orange-500"></i> Nuevo Módem
+                  <i className="bi bi-plus-circle mr-2 text-brand-500"></i> Nuevo Módem
                 </h3>
                 <button onClick={handleCloseCreate} className="text-gray-400 hover:text-gray-500 focus:outline-none transition-colors">
                   <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" /></svg>
@@ -341,7 +341,7 @@ const ModemsTable: React.FC = () => {
             <div className="inline-block align-bottom bg-white rounded-xl text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-4xl sm:w-full">
               <div className="bg-white px-6 py-4 border-b border-gray-100 flex justify-between items-center">
                 <h3 className="text-lg leading-6 font-semibold text-gray-800 flex items-center">
-                  <i className="bi bi-pencil-square mr-2 text-orange-500"></i> Editar Módem
+                  <i className="bi bi-pencil-square mr-2 text-brand-500"></i> Editar Módem
                 </h3>
                 <button onClick={handleCloseEdit} className="text-gray-400 hover:text-gray-500 focus:outline-none transition-colors">
                   <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" /></svg>
@@ -383,7 +383,7 @@ const ModemsTable: React.FC = () => {
           </button>
           <button
             onClick={handleShowCreate}
-            className="flex-1 sm:flex-none flex justify-center items-center px-4 py-2 bg-orange-500 hover:bg-orange-600 text-white rounded-lg transition-colors font-medium text-sm shadow-sm"
+            className="flex-1 sm:flex-none flex justify-center items-center px-4 py-2 bg-brand-500 hover:bg-brand-600 text-white rounded-lg transition-colors font-medium text-sm shadow-sm"
           >
             <i className="bi bi-plus-circle-fill mr-2"></i> Nuevo Módem
           </button>
@@ -398,7 +398,7 @@ const ModemsTable: React.FC = () => {
                 <th onClick={() => handleSort("marca")} className="p-3 text-xs font-semibold text-gray-600 uppercase tracking-wider border-b border-gray-200 cursor-pointer hover:bg-gray-100 transition-colors align-top min-w-[150px]">
                   <input
                     type="text"
-                    className="w-full px-2 py-1.5 mb-2 text-sm border border-gray-300 rounded focus:outline-none focus:border-orange-500 focus:ring-1 focus:ring-orange-500 font-normal normal-case bg-white"
+                    className="w-full px-2 py-1.5 mb-2 text-sm border border-gray-300 rounded focus:outline-none focus:border-brand-500 focus:ring-1 focus:ring-brand-500 font-normal normal-case bg-white"
                     placeholder="Filtrar marca"
                     value={filterMarca}
                     onChange={(e) => setFilterMarca(e.target.value)}
@@ -409,7 +409,7 @@ const ModemsTable: React.FC = () => {
                 <th onClick={() => handleSort("modelo")} className="p-3 text-xs font-semibold text-gray-600 uppercase tracking-wider border-b border-gray-200 cursor-pointer hover:bg-gray-100 transition-colors align-top min-w-[150px]">
                   <input
                     type="text"
-                    className="w-full px-2 py-1.5 mb-2 text-sm border border-gray-300 rounded focus:outline-none focus:border-orange-500 focus:ring-1 focus:ring-orange-500 font-normal normal-case bg-white"
+                    className="w-full px-2 py-1.5 mb-2 text-sm border border-gray-300 rounded focus:outline-none focus:border-brand-500 focus:ring-1 focus:ring-brand-500 font-normal normal-case bg-white"
                     placeholder="Filtrar modelo"
                     value={filterModelo}
                     onChange={(e) => setFilterModelo(e.target.value)}
@@ -420,7 +420,7 @@ const ModemsTable: React.FC = () => {
                 <th onClick={() => handleSort("serial")} className="p-3 text-xs font-semibold text-gray-600 uppercase tracking-wider border-b border-gray-200 cursor-pointer hover:bg-gray-100 transition-colors align-top min-w-[150px]">
                   <input
                     type="text"
-                    className="w-full px-2 py-1.5 mb-2 text-sm border border-gray-300 rounded focus:outline-none focus:border-orange-500 focus:ring-1 focus:ring-orange-500 font-normal normal-case bg-white"
+                    className="w-full px-2 py-1.5 mb-2 text-sm border border-gray-300 rounded focus:outline-none focus:border-brand-500 focus:ring-1 focus:ring-brand-500 font-normal normal-case bg-white"
                     placeholder="Filtrar serial"
                     value={filterNumeroSerie}
                     onChange={(e) => setFilterNumeroSerie(e.target.value)}
@@ -431,7 +431,7 @@ const ModemsTable: React.FC = () => {
                 <th onClick={() => handleSort("ubicacion")} className="p-3 text-xs font-semibold text-gray-600 uppercase tracking-wider border-b border-gray-200 cursor-pointer hover:bg-gray-100 transition-colors align-top min-w-[180px]">
                   <input
                     type="text"
-                    className="w-full px-2 py-1.5 mb-2 text-sm border border-gray-300 rounded focus:outline-none focus:border-orange-500 focus:ring-1 focus:ring-orange-500 font-normal normal-case bg-white"
+                    className="w-full px-2 py-1.5 mb-2 text-sm border border-gray-300 rounded focus:outline-none focus:border-brand-500 focus:ring-1 focus:ring-brand-500 font-normal normal-case bg-white"
                     placeholder="Filtrar ubicación"
                     value={filterUbicacion}
                     onChange={(e) => setFilterUbicacion(e.target.value)}
@@ -442,7 +442,7 @@ const ModemsTable: React.FC = () => {
                 <th onClick={() => handleSort("operador")} className="p-3 text-xs font-semibold text-gray-600 uppercase tracking-wider border-b border-gray-200 cursor-pointer hover:bg-gray-100 transition-colors align-top min-w-[150px]">
                   <input
                     type="text"
-                    className="w-full px-2 py-1.5 mb-2 text-sm border border-gray-300 rounded focus:outline-none focus:border-orange-500 focus:ring-1 focus:ring-orange-500 font-normal normal-case bg-white"
+                    className="w-full px-2 py-1.5 mb-2 text-sm border border-gray-300 rounded focus:outline-none focus:border-brand-500 focus:ring-1 focus:ring-brand-500 font-normal normal-case bg-white"
                     placeholder="Filtrar operador"
                     value={filterOperador}
                     onChange={(e) => setFilterOperador(e.target.value)}
@@ -453,7 +453,7 @@ const ModemsTable: React.FC = () => {
                 <th onClick={() => handleSort("numero")} className="p-3 text-xs font-semibold text-gray-600 uppercase tracking-wider border-b border-gray-200 cursor-pointer hover:bg-gray-100 transition-colors align-top min-w-[150px]">
                   <input
                     type="text"
-                    className="w-full px-2 py-1.5 mb-2 text-sm border border-gray-300 rounded focus:outline-none focus:border-orange-500 focus:ring-1 focus:ring-orange-500 font-normal normal-case bg-white"
+                    className="w-full px-2 py-1.5 mb-2 text-sm border border-gray-300 rounded focus:outline-none focus:border-brand-500 focus:ring-1 focus:ring-brand-500 font-normal normal-case bg-white"
                     placeholder="Filtrar número"
                     value={filterNumero}
                     onChange={(e) => setFilterNumero(e.target.value)}
@@ -464,7 +464,7 @@ const ModemsTable: React.FC = () => {
                 <th onClick={() => handleSort("estado")} className="p-3 text-xs font-semibold text-gray-600 uppercase tracking-wider border-b border-gray-200 cursor-pointer hover:bg-gray-100 transition-colors align-top min-w-[150px]">
                   <input
                     type="text"
-                    className="w-full px-2 py-1.5 mb-2 text-sm border border-gray-300 rounded focus:outline-none focus:border-orange-500 focus:ring-1 focus:ring-orange-500 font-normal normal-case bg-white"
+                    className="w-full px-2 py-1.5 mb-2 text-sm border border-gray-300 rounded focus:outline-none focus:border-brand-500 focus:ring-1 focus:ring-brand-500 font-normal normal-case bg-white"
                     placeholder="Filtrar estado"
                     value={filterEstado}
                     onChange={(e) => setFilterEstado(e.target.value)}
@@ -475,7 +475,7 @@ const ModemsTable: React.FC = () => {
                 <th className="p-3 text-xs font-semibold text-gray-600 uppercase tracking-wider border-b border-gray-200 text-center align-top w-24">
                   <div className="flex flex-col items-center justify-center">
                     <button
-                      className="p-1.5 mb-2 bg-orange-100 text-orange-600 hover:bg-orange-200 rounded transition-colors tooltip flex items-center justify-center w-8 h-8"
+                      className="p-1.5 mb-2 bg-brand-100 text-brand-600 hover:bg-brand-200 rounded transition-colors tooltip flex items-center justify-center w-8 h-8"
                       title="Limpiar filtros"
                       onClick={clearFilters}
                     >
@@ -498,7 +498,7 @@ const ModemsTable: React.FC = () => {
                 </tr>
               ) : (
                 currentModems.map((modem) => (
-                  <tr key={modem.id} className="hover:bg-orange-50/30 transition-colors group">
+                  <tr key={modem.id} className="hover:bg-brand-50/30 transition-colors group">
                     <td className="p-3 align-middle">
                       <div className="flex flex-col">
                         <span className="font-semibold text-gray-800">{modem.marca}</span>
@@ -523,7 +523,7 @@ const ModemsTable: React.FC = () => {
                     <td className="p-3 align-middle">
                       <div className="flex justify-center gap-2">
                         <button
-                          className="flex items-center justify-center w-8 h-8 rounded-lg bg-orange-100 text-orange-600 hover:bg-orange-500 hover:text-white transition-colors border border-transparent hover:border-orange-600"
+                          className="flex items-center justify-center w-8 h-8 rounded-lg bg-brand-100 text-brand-600 hover:bg-brand-500 hover:text-white transition-colors border border-transparent hover:border-brand-600"
                           title="Editar"
                           onClick={() => handleShowEdit(modem.id)}
                         >
@@ -564,7 +564,7 @@ const ModemsTable: React.FC = () => {
               <button
                 onClick={() => handlePageChange(1)}
                 disabled={currentPage === 1}
-                className={`relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium ${currentPage === 1 ? 'text-gray-300 cursor-not-allowed' : 'text-gray-500 hover:bg-gray-50 text-orange-500'
+                className={`relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium ${currentPage === 1 ? 'text-gray-300 cursor-not-allowed' : 'text-gray-500 hover:bg-gray-50 text-brand-500'
                   }`}
               >
                 <i className="bi bi-chevron-double-left"></i>
@@ -572,20 +572,20 @@ const ModemsTable: React.FC = () => {
               <button
                 onClick={() => handlePageChange(currentPage - 1)}
                 disabled={currentPage === 1}
-                className={`relative inline-flex items-center px-2 py-2 border border-gray-300 bg-white text-sm font-medium ${currentPage === 1 ? 'text-gray-300 cursor-not-allowed' : 'text-gray-500 hover:bg-gray-50 text-orange-500'
+                className={`relative inline-flex items-center px-2 py-2 border border-gray-300 bg-white text-sm font-medium ${currentPage === 1 ? 'text-gray-300 cursor-not-allowed' : 'text-gray-500 hover:bg-gray-50 text-brand-500'
                   }`}
               >
                 <i className="bi bi-chevron-left"></i>
               </button>
 
-              <span className="relative inline-flex items-center px-4 py-2 border border-orange-500 bg-orange-50 text-sm font-medium text-orange-600">
+              <span className="relative inline-flex items-center px-4 py-2 border border-brand-500 bg-brand-50 text-sm font-medium text-brand-600">
                 {currentPage}
               </span>
 
               <button
                 onClick={() => handlePageChange(currentPage + 1)}
                 disabled={currentPage === totalPages || totalPages === 0}
-                className={`relative inline-flex items-center px-2 py-2 border border-gray-300 bg-white text-sm font-medium ${currentPage === totalPages || totalPages === 0 ? 'text-gray-300 cursor-not-allowed' : 'text-gray-500 hover:bg-gray-50 text-orange-500'
+                className={`relative inline-flex items-center px-2 py-2 border border-gray-300 bg-white text-sm font-medium ${currentPage === totalPages || totalPages === 0 ? 'text-gray-300 cursor-not-allowed' : 'text-gray-500 hover:bg-gray-50 text-brand-500'
                   }`}
               >
                 <i className="bi bi-chevron-right"></i>
@@ -593,7 +593,7 @@ const ModemsTable: React.FC = () => {
               <button
                 onClick={() => handlePageChange(totalPages)}
                 disabled={currentPage === totalPages || totalPages === 0}
-                className={`relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium ${currentPage === totalPages || totalPages === 0 ? 'text-gray-300 cursor-not-allowed' : 'text-gray-500 hover:bg-gray-50 text-orange-500'
+                className={`relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium ${currentPage === totalPages || totalPages === 0 ? 'text-gray-300 cursor-not-allowed' : 'text-gray-500 hover:bg-gray-50 text-brand-500'
                   }`}
               >
                 <i className="bi bi-chevron-double-right"></i>

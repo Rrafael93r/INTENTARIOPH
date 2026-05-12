@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+﻿import React, { useState, useEffect } from 'react';
 import Swal from 'sweetalert2';
 import { getImpresoras, updateImpresora } from '../../servicios/impresoraService';
 import FormularioCrearImpresora from '../FormulariosCrear/FormularioCrearImpresora';
@@ -105,7 +105,7 @@ const TablaImpresoras: React.FC = () => {
 
     if (loading) return (
         <div className="flex justify-center items-center p-8">
-            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-orange-500"></div>
+            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-brand-500"></div>
         </div>
     );
     if (error) return <div className="text-red-500 p-4">{error}</div>;
@@ -119,7 +119,7 @@ const TablaImpresoras: React.FC = () => {
                         <div className="inline-block align-bottom bg-white rounded-xl text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-4xl sm:w-full">
                             <div className="bg-white px-6 py-4 border-b border-gray-100 flex justify-between items-center">
                                 <h3 className="text-lg leading-6 font-semibold text-gray-800 flex items-center">
-                                    <i className="bi bi-printer mr-2 text-orange-500"></i> Nueva Impresora
+                                    <i className="bi bi-printer mr-2 text-brand-500"></i> Nueva Impresora
                                 </h3>
                                 <button onClick={handleClose} className="text-gray-400 hover:text-gray-500 focus:outline-none transition-colors">
                                     <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" /></svg>
@@ -139,7 +139,7 @@ const TablaImpresoras: React.FC = () => {
                     <nav className="text-sm text-gray-500 mt-1">
                         <ol className="list-none p-0 inline-flex">
                             <li className="flex items-center">Inicio <span className="mx-2 text-gray-300">/</span></li>
-                            <li className="flex items-center text-gray-400 hover:text-orange-500 transition-colors cursor-pointer">Equipos <span className="mx-2 text-gray-300">/</span></li>
+                            <li className="flex items-center text-gray-400 hover:text-brand-500 transition-colors cursor-pointer">Equipos <span className="mx-2 text-gray-300">/</span></li>
                             <li className="font-medium text-gray-700">Impresoras</li>
                         </ol>
                     </nav>
@@ -147,7 +147,7 @@ const TablaImpresoras: React.FC = () => {
                 <div className="flex gap-3 w-full sm:w-auto">
                     <button
                         onClick={handleShow}
-                        className="flex-1 sm:flex-none flex justify-center items-center px-4 py-2 bg-orange-500 hover:bg-orange-600 text-white rounded-lg transition-colors font-medium text-sm shadow-sm"
+                        className="flex-1 sm:flex-none flex justify-center items-center px-4 py-2 bg-brand-500 hover:bg-brand-600 text-white rounded-lg transition-colors font-medium text-sm shadow-sm"
                     >
                         <i className="bi bi-plus-circle-fill mr-2"></i> Nueva Impresora
                     </button>
@@ -173,7 +173,7 @@ const TablaImpresoras: React.FC = () => {
                                 <th className="p-3 text-xs font-semibold text-gray-600 uppercase tracking-wider border-b border-gray-200 align-top min-w-[150px]">
                                     <input
                                         type="text"
-                                        className="w-full px-2 py-1.5 mb-2 text-sm border border-gray-300 rounded focus:outline-none focus:border-orange-500 focus:ring-1 focus:ring-orange-500 font-normal normal-case bg-white"
+                                        className="w-full px-2 py-1.5 mb-2 text-sm border border-gray-300 rounded focus:outline-none focus:border-brand-500 focus:ring-1 focus:ring-brand-500 font-normal normal-case bg-white"
                                         placeholder="Filtrar Marca"
                                         value={filterMarca}
                                         onChange={(e) => setFilterMarca(e.target.value)}
@@ -183,7 +183,7 @@ const TablaImpresoras: React.FC = () => {
                                 <th className="p-3 text-xs font-semibold text-gray-600 uppercase tracking-wider border-b border-gray-200 align-top min-w-[150px]">
                                     <input
                                         type="text"
-                                        className="w-full px-2 py-1.5 mb-2 text-sm border border-gray-300 rounded focus:outline-none focus:border-orange-500 focus:ring-1 focus:ring-orange-500 font-normal normal-case bg-white"
+                                        className="w-full px-2 py-1.5 mb-2 text-sm border border-gray-300 rounded focus:outline-none focus:border-brand-500 focus:ring-1 focus:ring-brand-500 font-normal normal-case bg-white"
                                         placeholder="Filtrar Modelo"
                                         value={filterModelo}
                                         onChange={(e) => setFilterModelo(e.target.value)}
@@ -193,7 +193,7 @@ const TablaImpresoras: React.FC = () => {
                                 <th className="p-3 text-xs font-semibold text-gray-600 uppercase tracking-wider border-b border-gray-200 align-top min-w-[150px]">
                                     <input
                                         type="text"
-                                        className="w-full px-2 py-1.5 mb-2 text-sm border border-gray-300 rounded focus:outline-none focus:border-orange-500 focus:ring-1 focus:ring-orange-500 font-normal normal-case bg-white"
+                                        className="w-full px-2 py-1.5 mb-2 text-sm border border-gray-300 rounded focus:outline-none focus:border-brand-500 focus:ring-1 focus:ring-brand-500 font-normal normal-case bg-white"
                                         placeholder="Filtrar Serial"
                                         value={filterSerial}
                                         onChange={(e) => setFilterSerial(e.target.value)}
@@ -203,7 +203,7 @@ const TablaImpresoras: React.FC = () => {
                                 <th className="p-3 text-xs font-semibold text-gray-600 uppercase tracking-wider border-b border-gray-200 align-top min-w-[150px]">
                                     <input
                                         type="text"
-                                        className="w-full px-2 py-1.5 mb-2 text-sm border border-gray-300 rounded focus:outline-none focus:border-orange-500 focus:ring-1 focus:ring-orange-500 font-normal normal-case bg-white"
+                                        className="w-full px-2 py-1.5 mb-2 text-sm border border-gray-300 rounded focus:outline-none focus:border-brand-500 focus:ring-1 focus:ring-brand-500 font-normal normal-case bg-white"
                                         placeholder="Filtrar Estado"
                                         value={filterEstado}
                                         onChange={(e) => setFilterEstado(e.target.value)}
@@ -213,7 +213,7 @@ const TablaImpresoras: React.FC = () => {
                                 <th className="p-3 text-xs font-semibold text-gray-600 uppercase tracking-wider border-b border-gray-200 align-top min-w-[200px]">
                                     <input
                                         type="text"
-                                        className="w-full px-2 py-1.5 mb-2 text-sm border border-gray-300 rounded focus:outline-none focus:border-orange-500 focus:ring-1 focus:ring-orange-500 font-normal normal-case bg-white"
+                                        className="w-full px-2 py-1.5 mb-2 text-sm border border-gray-300 rounded focus:outline-none focus:border-brand-500 focus:ring-1 focus:ring-brand-500 font-normal normal-case bg-white"
                                         placeholder="Filtrar Funcionario"
                                         value={filterFuncionario}
                                         onChange={(e) => setFilterFuncionario(e.target.value)}
@@ -252,7 +252,7 @@ const TablaImpresoras: React.FC = () => {
                                     <td className="p-3 align-middle">
                                         <div className="flex justify-center gap-2">
                                             <button
-                                                className="flex items-center justify-center w-8 h-8 rounded-lg bg-orange-100 text-orange-600 hover:bg-orange-500 hover:text-white transition-colors border border-transparent hover:border-orange-600"
+                                                className="flex items-center justify-center w-8 h-8 rounded-lg bg-brand-100 text-brand-600 hover:bg-brand-500 hover:text-white transition-colors border border-transparent hover:border-brand-600"
                                                 title="Editar"
                                                 onClick={() => {
                                                     setSelectedId(impresora.id);
@@ -293,7 +293,7 @@ const TablaImpresoras: React.FC = () => {
                         <div className="inline-block align-bottom bg-white rounded-xl text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-4xl sm:w-full">
                             <div className="bg-white px-6 py-4 border-b border-gray-100 flex justify-between items-center">
                                 <h3 className="text-lg leading-6 font-semibold text-gray-800 flex items-center">
-                                    <i className="bi bi-pencil-square mr-2 text-orange-500"></i> Editar Impresora
+                                    <i className="bi bi-pencil-square mr-2 text-brand-500"></i> Editar Impresora
                                 </h3>
                                 <button onClick={handleClose2} className="text-gray-400 hover:text-gray-500 focus:outline-none transition-colors">
                                     <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" /></svg>
@@ -335,7 +335,7 @@ const TablaImpresoras: React.FC = () => {
                                     key={index}
                                     onClick={() => handlePageChange(index + 1)}
                                     className={`relative inline-flex items-center px-4 py-2 border text-sm font-medium ${currentPage === index + 1
-                                            ? 'z-10 bg-orange-50 border-orange-500 text-orange-600'
+                                            ? 'z-10 bg-brand-50 border-brand-500 text-brand-600'
                                             : 'bg-white border-gray-300 text-gray-500 hover:bg-gray-50'
                                         }`}
                                 >

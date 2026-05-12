@@ -4,14 +4,12 @@ import HeaderRight from './HeaderRight';
 
 const Header = () => {
   return (
-    <div className="position-relative">
-      <div className="navbar flex-md-nowrap p-3navbar-light bg-white shadow-sm">
-        <div className="container-fluid px-4">
-          <HeaderLeft />
-          <HeaderRight />
-        </div>
+    <header className="h-14 bg-white border-b border-gray-200 shadow-card flex-shrink-0">
+      <div className="h-full flex items-center justify-between px-5">
+        <HeaderLeft />
+        <HeaderRight />
       </div>
-    </div>
+    </header>
   );
 };
 

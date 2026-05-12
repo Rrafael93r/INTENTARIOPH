@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+﻿import React, { useState, useEffect } from 'react';
 import Swal from 'sweetalert2';
 import { getCiudadById, updateCiudad } from '../../servicios/ciudadesService';
 import { getDepartamentos } from '../../servicios/departamentosService';
@@ -112,7 +112,7 @@ const FormularioEditarCiudad: React.FC<FormularioEditarCiudadProps> = ({ id, han
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
 
                     <div className="flex flex-col space-y-1.5">
-                        <label htmlFor="nombreCiudad" className="text-sm font-semibold text-gray-700">Nombre de la Ciudad <span className="text-orange-500">*</span></label>
+                        <label htmlFor="nombreCiudad" className="text-sm font-semibold text-gray-700">Nombre de la Ciudad <span className="text-brand-500">*</span></label>
                         <input
                             type="text"
                             id="nombreCiudad"
@@ -120,18 +120,18 @@ const FormularioEditarCiudad: React.FC<FormularioEditarCiudadProps> = ({ id, han
                             onChange={handleChange}
                             required
                             placeholder="Ej. Bogotá"
-                            className="px-3 py-2 bg-white border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all placeholder-gray-400"
+                            className="px-3 py-2 bg-white border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-transparent transition-all placeholder-gray-400"
                         />
                     </div>
 
                     <div className="flex flex-col space-y-1.5">
-                        <label htmlFor="departamento" className="text-sm font-semibold text-gray-700">Departamento <span className="text-orange-500">*</span></label>
+                        <label htmlFor="departamento" className="text-sm font-semibold text-gray-700">Departamento <span className="text-brand-500">*</span></label>
                         <select
                             id="departamento"
                             value={formData.departamento.id}
                             onChange={handleChange}
                             required
-                            className="px-3 py-2 bg-white border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all"
+                            className="px-3 py-2 bg-white border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-transparent transition-all"
                         >
                             <option value="">Seleccione...</option>
                             {departamentos.map((depto) => (
@@ -155,7 +155,7 @@ const FormularioEditarCiudad: React.FC<FormularioEditarCiudadProps> = ({ id, han
                     </button>
                     <button
                         type="submit"
-                        className="w-full sm:w-auto px-5 py-2.5 rounded-lg border border-transparent bg-orange-500 text-white hover:bg-orange-600 font-medium text-sm transition-all shadow-sm shadow-orange-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500 flex items-center justify-center"
+                        className="w-full sm:w-auto px-5 py-2.5 rounded-lg border border-transparent bg-brand-500 text-white hover:bg-brand-600 font-medium text-sm transition-all shadow-sm shadow-brand-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand-500 flex items-center justify-center"
                     >
                         <i className="bi bi-floppy mr-2"></i>
                         Actualizar Ciudad

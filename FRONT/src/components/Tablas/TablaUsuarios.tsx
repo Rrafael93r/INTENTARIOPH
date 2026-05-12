@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+﻿import React, { useState, useEffect } from 'react';
 import Swal from 'sweetalert2';
 import { getAllUsers, updateUser } from '../../servicios/usuarioService';
 import FormularioCrearUsuario from '../FormulariosCrear/FormularioCrearUsuario';
@@ -111,7 +111,7 @@ const TablaUsuarios: React.FC = () => {
     if (loading) {
         return (
             <div className="flex justify-center items-center min-h-[400px]">
-                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-orange-500"></div>
+                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-brand-500"></div>
             </div>
         );
     }
@@ -134,7 +134,7 @@ const TablaUsuarios: React.FC = () => {
                         <div className="inline-block align-bottom bg-white rounded-xl text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-4xl sm:w-full">
                             <div className="bg-white px-6 py-4 border-b border-gray-100 flex justify-between items-center">
                                 <h3 className="text-lg leading-6 font-semibold text-gray-800 flex items-center">
-                                    <i className="bi bi-person-plus mr-2 text-orange-500"></i> Nuevo Usuario
+                                    <i className="bi bi-person-plus mr-2 text-brand-500"></i> Nuevo Usuario
                                 </h3>
                                 <button onClick={handleClose} className="text-gray-400 hover:text-gray-500 focus:outline-none transition-colors">
                                     <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" /></svg>
@@ -156,7 +156,7 @@ const TablaUsuarios: React.FC = () => {
                         <div className="inline-block align-bottom bg-white rounded-xl text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-4xl sm:w-full">
                             <div className="bg-white px-6 py-4 border-b border-gray-100 flex justify-between items-center">
                                 <h3 className="text-lg leading-6 font-semibold text-gray-800 flex items-center">
-                                    <i className="bi bi-pencil-square mr-2 text-orange-500"></i> Editar Usuario
+                                    <i className="bi bi-pencil-square mr-2 text-brand-500"></i> Editar Usuario
                                 </h3>
                                 <button onClick={handleClose2} className="text-gray-400 hover:text-gray-500 focus:outline-none transition-colors">
                                     <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" /></svg>
@@ -189,7 +189,7 @@ const TablaUsuarios: React.FC = () => {
                 <div className="flex gap-3 w-full sm:w-auto">
                     <button
                         onClick={handleShow}
-                        className="flex-1 sm:flex-none flex justify-center items-center px-4 py-2 bg-orange-500 hover:bg-orange-600 text-white rounded-lg transition-colors font-medium text-sm shadow-sm"
+                        className="flex-1 sm:flex-none flex justify-center items-center px-4 py-2 bg-brand-500 hover:bg-brand-600 text-white rounded-lg transition-colors font-medium text-sm shadow-sm"
                     >
                         <i className="bi bi-plus-circle-fill mr-2"></i> Agregar Usuario
                     </button>
@@ -207,7 +207,7 @@ const TablaUsuarios: React.FC = () => {
                                 <th className="p-3 text-xs font-semibold text-gray-600 uppercase tracking-wider border-b border-gray-200 align-top min-w-[200px]">
                                     <input
                                         type="text"
-                                        className="w-full px-2 py-1.5 mb-2 text-sm border border-gray-300 rounded focus:outline-none focus:border-orange-500 focus:ring-1 focus:ring-orange-500 font-normal normal-case bg-white"
+                                        className="w-full px-2 py-1.5 mb-2 text-sm border border-gray-300 rounded focus:outline-none focus:border-brand-500 focus:ring-1 focus:ring-brand-500 font-normal normal-case bg-white"
                                         placeholder="Filtrar Username"
                                         value={filterUsername}
                                         onChange={(e) => setFilterUsername(e.target.value)}
@@ -217,7 +217,7 @@ const TablaUsuarios: React.FC = () => {
                                 <th className="p-3 text-xs font-semibold text-gray-600 uppercase tracking-wider border-b border-gray-200 align-top min-w-[150px]">
                                     <input
                                         type="text"
-                                        className="w-full px-2 py-1.5 mb-2 text-sm border border-gray-300 rounded focus:outline-none focus:border-orange-500 focus:ring-1 focus:ring-orange-500 font-normal normal-case bg-white"
+                                        className="w-full px-2 py-1.5 mb-2 text-sm border border-gray-300 rounded focus:outline-none focus:border-brand-500 focus:ring-1 focus:ring-brand-500 font-normal normal-case bg-white"
                                         placeholder="Filtrar Rol"
                                         value={filterRole}
                                         onChange={(e) => setFilterRole(e.target.value)}
@@ -227,7 +227,7 @@ const TablaUsuarios: React.FC = () => {
                                 <th className="p-3 text-xs font-semibold text-gray-600 uppercase tracking-wider border-b border-gray-200 align-top min-w-[200px]">
                                     <input
                                         type="text"
-                                        className="w-full px-2 py-1.5 mb-2 text-sm border border-gray-300 rounded focus:outline-none focus:border-orange-500 focus:ring-1 focus:ring-orange-500 font-normal normal-case bg-white"
+                                        className="w-full px-2 py-1.5 mb-2 text-sm border border-gray-300 rounded focus:outline-none focus:border-brand-500 focus:ring-1 focus:ring-brand-500 font-normal normal-case bg-white"
                                         placeholder="Filtrar Farmacia"
                                         value={filterFarmacia}
                                         onChange={(e) => setFilterFarmacia(e.target.value)}
@@ -240,7 +240,7 @@ const TablaUsuarios: React.FC = () => {
                                 <th className="p-3 text-xs font-semibold text-gray-600 uppercase tracking-wider border-b border-gray-200 text-center align-top w-24">
                                     <div className="flex flex-col items-center justify-center">
                                         <button
-                                            className="p-1.5 mb-2 bg-orange-100 text-orange-600 hover:bg-orange-200 rounded transition-colors tooltip flex items-center justify-center w-8 h-8"
+                                            className="p-1.5 mb-2 bg-brand-100 text-brand-600 hover:bg-brand-200 rounded transition-colors tooltip flex items-center justify-center w-8 h-8"
                                             title="Limpiar filtros"
                                             onClick={clearFilters}
                                         >
@@ -263,7 +263,7 @@ const TablaUsuarios: React.FC = () => {
                                 </tr>
                             ) : (
                                 currentItems.map((item) => (
-                                    <tr key={item.id} className="hover:bg-orange-50/30 transition-colors group">
+                                    <tr key={item.id} className="hover:bg-brand-50/30 transition-colors group">
                                         <td className="p-3 align-middle text-gray-500 font-mono text-sm">{item.id}</td>
                                         <td className="p-3 align-middle font-semibold text-gray-800">{item.username}</td>
                                         <td className="p-3 align-middle">
@@ -285,7 +285,7 @@ const TablaUsuarios: React.FC = () => {
                                         <td className="p-3 align-middle">
                                             <div className="flex justify-center gap-2">
                                                 <button
-                                                    className="flex items-center justify-center w-8 h-8 rounded-lg bg-orange-100 text-orange-600 hover:bg-orange-500 hover:text-white transition-colors border border-transparent hover:border-orange-600"
+                                                    className="flex items-center justify-center w-8 h-8 rounded-lg bg-brand-100 text-brand-600 hover:bg-brand-500 hover:text-white transition-colors border border-transparent hover:border-brand-600"
                                                     title="Editar"
                                                     onClick={() => {
                                                         setSelectedId(item.id);
@@ -326,7 +326,7 @@ const TablaUsuarios: React.FC = () => {
                             <button
                                 onClick={() => handlePageChange(1)}
                                 disabled={currentPage === 1}
-                                className={`relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium ${currentPage === 1 ? 'text-gray-300 cursor-not-allowed' : 'text-gray-500 hover:bg-gray-50 text-orange-500'
+                                className={`relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium ${currentPage === 1 ? 'text-gray-300 cursor-not-allowed' : 'text-gray-500 hover:bg-gray-50 text-brand-500'
                                     }`}
                             >
                                 <i className="bi bi-chevron-double-left"></i>
@@ -334,20 +334,20 @@ const TablaUsuarios: React.FC = () => {
                             <button
                                 onClick={() => handlePageChange(currentPage - 1)}
                                 disabled={currentPage === 1}
-                                className={`relative inline-flex items-center px-2 py-2 border border-gray-300 bg-white text-sm font-medium ${currentPage === 1 ? 'text-gray-300 cursor-not-allowed' : 'text-gray-500 hover:bg-gray-50 text-orange-500'
+                                className={`relative inline-flex items-center px-2 py-2 border border-gray-300 bg-white text-sm font-medium ${currentPage === 1 ? 'text-gray-300 cursor-not-allowed' : 'text-gray-500 hover:bg-gray-50 text-brand-500'
                                     }`}
                             >
                                 <i className="bi bi-chevron-left"></i>
                             </button>
 
-                            <span className="relative inline-flex items-center px-4 py-2 border border-orange-500 bg-orange-50 text-sm font-medium text-orange-600">
+                            <span className="relative inline-flex items-center px-4 py-2 border border-brand-500 bg-brand-50 text-sm font-medium text-brand-600">
                                 {currentPage}
                             </span>
 
                             <button
                                 onClick={() => handlePageChange(currentPage + 1)}
                                 disabled={currentPage === totalPages || totalPages === 0}
-                                className={`relative inline-flex items-center px-2 py-2 border border-gray-300 bg-white text-sm font-medium ${currentPage === totalPages || totalPages === 0 ? 'text-gray-300 cursor-not-allowed' : 'text-gray-500 hover:bg-gray-50 text-orange-500'
+                                className={`relative inline-flex items-center px-2 py-2 border border-gray-300 bg-white text-sm font-medium ${currentPage === totalPages || totalPages === 0 ? 'text-gray-300 cursor-not-allowed' : 'text-gray-500 hover:bg-gray-50 text-brand-500'
                                     }`}
                             >
                                 <i className="bi bi-chevron-right"></i>
@@ -355,7 +355,7 @@ const TablaUsuarios: React.FC = () => {
                             <button
                                 onClick={() => handlePageChange(totalPages)}
                                 disabled={currentPage === totalPages || totalPages === 0}
-                                className={`relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium ${currentPage === totalPages || totalPages === 0 ? 'text-gray-300 cursor-not-allowed' : 'text-gray-500 hover:bg-gray-50 text-orange-500'
+                                className={`relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium ${currentPage === totalPages || totalPages === 0 ? 'text-gray-300 cursor-not-allowed' : 'text-gray-500 hover:bg-gray-50 text-brand-500'
                                     }`}
                             >
                                 <i className="bi bi-chevron-double-right"></i>

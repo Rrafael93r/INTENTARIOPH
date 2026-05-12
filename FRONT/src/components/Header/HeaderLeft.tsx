@@ -1,7 +1,7 @@
 
 const HeaderLeft = () => {
     return (
-        <div className="d-flex align-items-center">
+        <div className="flex items-center gap-3">
         </div>
     );
 };

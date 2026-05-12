@@ -1,4 +1,4 @@
-"use client"
+﻿"use client"
 
 import type React from "react"
 import {
@@ -251,11 +251,10 @@ const Sidebar: React.FC = () => {
                     <li key={itemIndex}>
                       <Link
                         to={item.path}
-                        className={`flex items-center gap-3 py-2.5 px-3 rounded-xl text-sm font-medium transition-all duration-200 ${isActive
-                          ? "bg-orange-500 text-white shadow-md shadow-orange-200"
-                          : "text-gray-600 hover:bg-orange-50 hover:text-orange-600"
+                        className={`flex items-center gap-3 py-2.5 px-3 rounded-xl text-sm font-medium transition-all duration-200 no-underline ${isActive
+                          ? "bg-brand-500 text-white shadow-md shadow-brand-200"
+                          : "text-gray-600 hover:bg-brand-50 hover:text-brand-600"
                           }`}
-                        style={{ textDecoration: 'none' }}
                       >
                         <item.icon size={20} stroke={isActive ? 2.5 : 2} className={isActive ? "text-white" : "text-gray-500"} />
                         <span>{item.label}</span>
@@ -270,10 +269,10 @@ const Sidebar: React.FC = () => {
       </div>
 
       <div className="p-4 bg-white border-t border-gray-100">
-        <div className="bg-gray-50 rounded-xl p-3 flex justify-between items-center shadow-sm border border-gray-100 hover:border-orange-200 transition-colors">
+        <div className="bg-gray-50 rounded-xl p-3 flex justify-between items-center shadow-sm border border-gray-100 hover:border-brand-200 transition-colors">
           <div className="flex items-center min-w-0">
             <svg
-              className="text-orange-500 flex-shrink-0"
+              className="text-brand-500 flex-shrink-0"
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
               stroke="currentColor"
@@ -294,7 +293,7 @@ const Sidebar: React.FC = () => {
               </span>
             </div>
           </div>
-          <Link to="/login" onClick={logout} className="ml-2 flex-shrink-0 text-gray-400 hover:text-orange-500 transition-colors p-1.5 rounded-lg hover:bg-orange-50">
+          <Link to="/login" onClick={logout} className="ml-2 flex-shrink-0 text-gray-400 hover:text-brand-500 transition-colors p-1.5 rounded-lg hover:bg-brand-50">
             <i className="bi bi-box-arrow-right text-xl"></i>
           </Link>
         </div>

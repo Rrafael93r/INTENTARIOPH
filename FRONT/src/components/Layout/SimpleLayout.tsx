@@ -1,4 +1,4 @@
-"use client"
+﻿"use client"
 
 import type React from "react"
 import { useState } from "react"
@@ -44,7 +44,7 @@ const SimpleLayout: React.FC<SimpleLayoutProps> = ({ children }) => {
               </div>
               <div className="flex items-center space-x-2">
                 <svg
-                  className="mr-2 text-orange-500"
+                  className="mr-2 text-brand-500"
                   xmlns="http://www.w3.org/2000/svg"
                   viewBox="0 0 24 24"
                   fill="none"
@@ -58,7 +58,7 @@ const SimpleLayout: React.FC<SimpleLayoutProps> = ({ children }) => {
                   <path d="M8 7a4 4 0 1 0 8 0a4 4 0 0 0 -8 0"></path>
                   <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2"></path>
                 </svg>
-                <Link to="/login" onClick={logout} className="flex items-center space-x-1.5 px-3 py-1.5 rounded-lg border border-orange-500 text-orange-500 hover:bg-orange-50 transition-colors bg-white font-medium text-sm no-underline">
+                <Link to="/login" onClick={logout} className="flex items-center space-x-1.5 px-3 py-1.5 rounded-lg border border-brand-500 text-brand-500 hover:bg-brand-50 transition-colors bg-white font-medium text-sm no-underline">
                   <i className="bi bi-box-arrow-right"></i>
                   <span className="hidden sm:inline">Salir</span>
                 </Link>
@@ -79,7 +79,7 @@ const SimpleLayout: React.FC<SimpleLayoutProps> = ({ children }) => {
               © 2025 ControlTiC - Sistema de Gestión de Reportes
               <br />
               <span className="inline-block mt-1">
-                <i className="bi bi-shield-check mr-1 text-orange-500"></i>
+                <i className="bi bi-shield-check mr-1 text-brand-500"></i>
                 Acceso Reportador
               </span>
             </p>

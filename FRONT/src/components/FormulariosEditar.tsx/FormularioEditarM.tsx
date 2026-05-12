@@ -1,4 +1,4 @@
-"use client"
+﻿"use client"
 
 import type React from "react"
 import { useState, useEffect } from "react"
@@ -28,8 +28,6 @@ const FormularioEditarModem: React.FC<IFormularioEditarModemProps> = ({ modemId,
     farmacia: null,
   })
   const [error, setError] = useState<string | null>(null)
-  const [isHovered, setIsHovered] = useState(false)
-  const [isHovered2, setIsHovered2] = useState(false)
 
   useEffect(() => {
     const cargarDatos = async () => {
@@ -184,7 +182,7 @@ const FormularioEditarModem: React.FC<IFormularioEditarModemProps> = ({ modemId,
   if (loading) {
     return (
       <div className="flex justify-center items-center min-h-[200px]">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-orange-500"></div>
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-brand-500"></div>
       </div>
     )
   }
@@ -203,7 +201,7 @@ const FormularioEditarModem: React.FC<IFormularioEditarModemProps> = ({ modemId,
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
 
           <div className="flex flex-col space-y-1.5">
-            <label className="text-sm font-semibold text-gray-700">Marca <span className="text-orange-500">*</span></label>
+            <label className="text-sm font-semibold text-gray-700">Marca <span className="text-brand-500">*</span></label>
             <input
               type="text"
               name="marca"
@@ -211,12 +209,12 @@ const FormularioEditarModem: React.FC<IFormularioEditarModemProps> = ({ modemId,
               onChange={handleInputChange}
               required
               placeholder="Ej: Huawei, ZTE, TP-Link"
-              className="px-3 py-2 bg-white border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all placeholder-gray-400"
+              className="px-3 py-2 bg-white border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-transparent transition-all placeholder-gray-400"
             />
           </div>
 
           <div className="flex flex-col space-y-1.5">
-            <label className="text-sm font-semibold text-gray-700">Modelo <span className="text-orange-500">*</span></label>
+            <label className="text-sm font-semibold text-gray-700">Modelo <span className="text-brand-500">*</span></label>
             <input
               type="text"
               name="modelo"
@@ -224,12 +222,12 @@ const FormularioEditarModem: React.FC<IFormularioEditarModemProps> = ({ modemId,
               onChange={handleInputChange}
               required
               placeholder="Ej: B315s-22, MF286R"
-              className="px-3 py-2 bg-white border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all placeholder-gray-400"
+              className="px-3 py-2 bg-white border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-transparent transition-all placeholder-gray-400"
             />
           </div>
 
           <div className="flex flex-col space-y-1.5">
-            <label className="text-sm font-semibold text-gray-700">Número de Serie <span className="text-orange-500">*</span></label>
+            <label className="text-sm font-semibold text-gray-700">Número de Serie <span className="text-brand-500">*</span></label>
             <input
               type="text"
               name="numeroSerie"
@@ -237,7 +235,7 @@ const FormularioEditarModem: React.FC<IFormularioEditarModemProps> = ({ modemId,
               onChange={handleInputChange}
               required
               placeholder="Número de serie único"
-              className="px-3 py-2 bg-white border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all placeholder-gray-400 font-mono"
+              className="px-3 py-2 bg-white border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-transparent transition-all placeholder-gray-400 font-mono"
             />
           </div>
 
@@ -250,19 +248,19 @@ const FormularioEditarModem: React.FC<IFormularioEditarModemProps> = ({ modemId,
               onChange={handleInputChange}
               placeholder="Número de línea telefónica"
               min="0"
-              className="px-3 py-2 bg-white border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all placeholder-gray-400"
+              className="px-3 py-2 bg-white border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-transparent transition-all placeholder-gray-400"
             />
           </div>
 
           <div className="flex flex-col space-y-1.5">
-            <label className="text-sm font-semibold text-gray-700">Proveedor de Internet <span className="text-orange-500">*</span></label>
+            <label className="text-sm font-semibold text-gray-700">Proveedor de Internet <span className="text-brand-500">*</span></label>
             <div className="relative">
               <select
                 name="proveedor_id"
                 value={modem.proveedorInternet?.id || ""}
                 onChange={handleInputChange}
                 required
-                className="w-full px-3 py-2 bg-white border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all appearance-none cursor-pointer"
+                className="w-full px-3 py-2 bg-white border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-transparent transition-all appearance-none cursor-pointer"
               >
                 <option value="" disabled>Seleccione un proveedor...</option>
                 {proveedores.map((proveedor) => (
@@ -278,18 +276,18 @@ const FormularioEditarModem: React.FC<IFormularioEditarModemProps> = ({ modemId,
           </div>
 
           <div className="flex flex-col space-y-1.5">
-            <label className="text-sm font-semibold text-gray-700">Estado <span className="text-orange-500">*</span></label>
+            <label className="text-sm font-semibold text-gray-700">Estado <span className="text-brand-500">*</span></label>
             <div className="relative">
               <select
                 name="estado"
                 value={modem.estado}
                 onChange={handleInputChange}
                 required
-                className="w-full px-3 py-2 bg-white border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all appearance-none cursor-pointer font-medium"
+                className="w-full px-3 py-2 bg-white border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-transparent transition-all appearance-none cursor-pointer font-medium"
               >
                 <option value="DISPONIBLE" className="text-emerald-600 font-medium">DISPONIBLE</option>
                 <option value="EN USO" className="text-blue-600 font-medium">EN USO</option>
-                <option value="MANTENIMIENTO" className="text-orange-600 font-medium">MANTENIMIENTO</option>
+                <option value="MANTENIMIENTO" className="text-brand-600 font-medium">MANTENIMIENTO</option>
                 <option value="DAÑADO" className="text-red-600 font-medium">DAÑADO</option>
               </select>
               <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-500">
@@ -305,7 +303,7 @@ const FormularioEditarModem: React.FC<IFormularioEditarModemProps> = ({ modemId,
                 name="farmacia_id"
                 value={modem.farmacia?.id || ""}
                 onChange={handleInputChange}
-                className="w-full px-3 py-2 bg-white border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all appearance-none cursor-pointer"
+                className="w-full px-3 py-2 bg-white border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-transparent transition-all appearance-none cursor-pointer"
               >
                 <option value="">Sin asignar (Mantener en inventario)</option>
                 {farmacias.map((farmacia) => (
@@ -326,9 +324,9 @@ const FormularioEditarModem: React.FC<IFormularioEditarModemProps> = ({ modemId,
 
         {/* Información del proveedor seleccionado */}
         {modem.proveedorInternet && (
-          <div className="mt-6 p-4 bg-orange-50 border border-orange-100 rounded-xl">
-            <div className="mb-3 border-b border-orange-100 pb-2">
-              <h6 className="text-sm font-semibold text-orange-800 flex items-center m-0">
+          <div className="mt-6 p-4 bg-brand-50 border border-brand-100 rounded-xl">
+            <div className="mb-3 border-b border-brand-100 pb-2">
+              <h6 className="text-sm font-semibold text-brand-800 flex items-center m-0">
                 <i className="bi bi-info-circle mr-2"></i>
                 Información del Proveedor
               </h6>
@@ -389,7 +387,7 @@ const FormularioEditarModem: React.FC<IFormularioEditarModemProps> = ({ modemId,
           <button
             type="submit"
             disabled={loading}
-            className="w-full sm:w-auto px-5 py-2.5 rounded-lg border border-transparent bg-orange-500 text-white hover:bg-orange-600 font-medium text-sm transition-all shadow-sm shadow-orange-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500 flex items-center justify-center"
+            className="w-full sm:w-auto px-5 py-2.5 rounded-lg border border-transparent bg-brand-500 text-white hover:bg-brand-600 font-medium text-sm transition-all shadow-sm shadow-brand-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand-500 flex items-center justify-center"
           >
             {loading ? (
               <>

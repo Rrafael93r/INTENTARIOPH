@@ -13,11 +13,9 @@ if (!root) {
 }
 
 createRoot(root).render(
-  <div style={{ backgroundColor: '#f8f9fa' }}>
-    <StrictMode>
-      <BrowserRouter>
-        <App />
-      </BrowserRouter>
-    </StrictMode>
-  </div>
+  <StrictMode>
+    <BrowserRouter>
+      <App />
+    </BrowserRouter>
+  </StrictMode>
 );

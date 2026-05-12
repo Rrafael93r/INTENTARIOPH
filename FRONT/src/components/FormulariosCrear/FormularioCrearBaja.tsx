@@ -1,4 +1,4 @@
-"use client"
+﻿"use client"
 
 import type React from "react"
 import { useState, useEffect } from "react"
@@ -91,7 +91,7 @@ const FormularioCrearBaja: React.FC<Props> = ({ onSuccess, onClose }) => {
     return (
         <div className="p-6">
             <h5 className="text-lg font-bold text-gray-800 mb-5 flex items-center gap-2">
-                <i className="bi bi-pc-display-horizontal text-orange-500"></i>
+                <i className="bi bi-pc-display-horizontal text-brand-500"></i>
                 Registrar Baja de Equipo
             </h5>
             <form onSubmit={handleSubmit} className="space-y-4">
@@ -99,7 +99,7 @@ const FormularioCrearBaja: React.FC<Props> = ({ onSuccess, onClose }) => {
                     <div>
                         <label className="block text-sm font-medium text-gray-700 mb-1">Tipo de equipo *</label>
                         <select name="tipoEquipo" value={form.tipoEquipo} onChange={handleChange} required
-                            className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-orange-500 focus:border-orange-500">
+                            className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-brand-500 focus:border-brand-500">
                             <option value="">Seleccionar...</option>
                             {TIPOS_EQUIPO.map(t => <option key={t.value} value={t.value}>{t.label}</option>)}
                         </select>
@@ -108,35 +108,35 @@ const FormularioCrearBaja: React.FC<Props> = ({ onSuccess, onClose }) => {
                         <label className="block text-sm font-medium text-gray-700 mb-1">ID del equipo</label>
                         <input type="number" name="equipoId" value={form.equipoId} onChange={handleChange} min={1}
                             placeholder="Opcional"
-                            className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-orange-500 focus:border-orange-500" />
+                            className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-brand-500 focus:border-brand-500" />
                     </div>
                     <div>
                         <label className="block text-sm font-medium text-gray-700 mb-1">Serial</label>
                         <input type="text" name="serial" value={form.serial} onChange={handleChange}
                             placeholder="Número de serie"
-                            className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-orange-500 focus:border-orange-500" />
+                            className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-brand-500 focus:border-brand-500" />
                     </div>
                     <div>
                         <label className="block text-sm font-medium text-gray-700 mb-1">Marca</label>
                         <input type="text" name="marca" value={form.marca} onChange={handleChange}
                             placeholder="Ej: Dell, HP, Lenovo"
-                            className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-orange-500 focus:border-orange-500" />
+                            className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-brand-500 focus:border-brand-500" />
                     </div>
                     <div>
                         <label className="block text-sm font-medium text-gray-700 mb-1">Modelo</label>
                         <input type="text" name="modelo" value={form.modelo} onChange={handleChange}
                             placeholder="Ej: Latitude 5420"
-                            className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-orange-500 focus:border-orange-500" />
+                            className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-brand-500 focus:border-brand-500" />
                     </div>
                     <div>
                         <label className="block text-sm font-medium text-gray-700 mb-1">Fecha de baja *</label>
                         <input type="date" name="fechaBaja" value={form.fechaBaja} onChange={handleChange} required
-                            className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-orange-500 focus:border-orange-500" />
+                            className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-brand-500 focus:border-brand-500" />
                     </div>
                     <div>
                         <label className="block text-sm font-medium text-gray-700 mb-1">Motivo *</label>
                         <select name="motivoBaja" value={form.motivoBaja} onChange={handleChange} required
-                            className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-orange-500 focus:border-orange-500">
+                            className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-brand-500 focus:border-brand-500">
                             <option value="">Seleccionar...</option>
                             {MOTIVOS.map(m => <option key={m} value={m}>{m}</option>)}
                         </select>
@@ -144,7 +144,7 @@ const FormularioCrearBaja: React.FC<Props> = ({ onSuccess, onClose }) => {
                     <div>
                         <label className="block text-sm font-medium text-gray-700 mb-1">Último funcionario asignado</label>
                         <select name="funcionario_id" onChange={handleChange}
-                            className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-orange-500 focus:border-orange-500">
+                            className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-brand-500 focus:border-brand-500">
                             <option value="">Sin asignar</option>
                             {funcionarios.map(f => (
                                 <option key={f.id} value={f.id}>{f.nombre} {f.apellido}</option>
@@ -156,7 +156,7 @@ const FormularioCrearBaja: React.FC<Props> = ({ onSuccess, onClose }) => {
                     <label className="block text-sm font-medium text-gray-700 mb-1">Descripción / Observaciones</label>
                     <textarea name="descripcion" value={form.descripcion} onChange={handleChange} rows={3}
                         placeholder="Detalla el motivo de la baja, estado del equipo, etc."
-                        className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-orange-500 focus:border-orange-500 resize-none" />
+                        className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-brand-500 focus:border-brand-500 resize-none" />
                 </div>
                 <div className="flex justify-end gap-3 pt-2">
                     <button type="button" onClick={onClose}
@@ -164,7 +164,7 @@ const FormularioCrearBaja: React.FC<Props> = ({ onSuccess, onClose }) => {
                         Cancelar
                     </button>
                     <button type="submit" disabled={loading}
-                        className="px-5 py-2 bg-orange-500 text-white rounded-lg text-sm font-semibold hover:bg-orange-600 disabled:opacity-50 transition-colors">
+                        className="px-5 py-2 bg-brand-500 text-white rounded-lg text-sm font-semibold hover:bg-brand-600 disabled:opacity-50 transition-colors">
                         {loading ? "Guardando..." : "Registrar Baja"}
                     </button>
                 </div>

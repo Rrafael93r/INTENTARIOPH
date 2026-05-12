@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+﻿import React, { useState, useEffect } from 'react';
 import Swal from 'sweetalert2';
 import { createPeriferico } from '../../servicios/perifericosService';
 import { getFuncionarios } from '../../servicios/funcionariosService';
@@ -140,7 +140,7 @@ const FormularioCrearPerifericos = ({ handleClose }: { handleClose: () => void }
                     <label htmlFor="tipoPeriferico" className="block text-sm font-medium text-gray-700">Min. Clasificación*</label>
                     <select
                         id="tipoPeriferico"
-                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-colors"
+                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-brand-500 transition-colors"
                         value={formData.tipoPeriferico.id}
                         onChange={handleChange}
                     >
@@ -157,7 +157,7 @@ const FormularioCrearPerifericos = ({ handleClose }: { handleClose: () => void }
                     <label htmlFor="marca" className="block text-sm font-medium text-gray-700">Marca*</label>
                     <select
                         id="marca"
-                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-colors"
+                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-brand-500 transition-colors"
                         value={formData.marca.id}
                         onChange={handleChange}
                     >
@@ -173,7 +173,7 @@ const FormularioCrearPerifericos = ({ handleClose }: { handleClose: () => void }
                     <label htmlFor="modelo" className="block text-sm font-medium text-gray-700">Modelo*</label>
                     <input
                         type="text"
-                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-colors"
+                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-brand-500 transition-colors"
                         id="modelo"
                         value={formData.modelo}
                         onChange={handleChange}
@@ -184,7 +184,7 @@ const FormularioCrearPerifericos = ({ handleClose }: { handleClose: () => void }
                     <label htmlFor="serial" className="block text-sm font-medium text-gray-700">Serial*</label>
                     <input
                         type="text"
-                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-colors"
+                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-brand-500 transition-colors"
                         id="serial"
                         value={formData.serial}
                         onChange={handleChange}
@@ -195,7 +195,7 @@ const FormularioCrearPerifericos = ({ handleClose }: { handleClose: () => void }
                     <label htmlFor="estado" className="block text-sm font-medium text-gray-700">Estado*</label>
                     <select
                         id="estado"
-                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-colors"
+                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-brand-500 transition-colors"
                         value={formData.estado}
                         onChange={handleChange}
                     >
@@ -211,7 +211,7 @@ const FormularioCrearPerifericos = ({ handleClose }: { handleClose: () => void }
                     <label htmlFor="fechaCompra" className="block text-sm font-medium text-gray-700">Fecha de Compra</label>
                     <input
                         type="date"
-                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-colors"
+                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-brand-500 transition-colors"
                         id="fechaCompra"
                         value={formData.fechaCompra}
                         onChange={handleChange}
@@ -222,7 +222,7 @@ const FormularioCrearPerifericos = ({ handleClose }: { handleClose: () => void }
                     <label htmlFor="funcionario" className="block text-sm font-medium text-gray-700">Asignado a</label>
                     <select
                         id="funcionario"
-                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-colors"
+                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-brand-500 transition-colors"
                         value={formData.funcionario.id}
                         onChange={handleChange}
                     >
@@ -238,7 +238,7 @@ const FormularioCrearPerifericos = ({ handleClose }: { handleClose: () => void }
                 <div className="md:col-span-2 space-y-1">
                     <label htmlFor="descripcion" className="block text-sm font-medium text-gray-700">Descripción</label>
                     <textarea
-                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-colors resize-y"
+                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-brand-500 transition-colors resize-y"
                         id="descripcion"
                         rows={3}
                         value={formData.descripcion}
@@ -250,7 +250,7 @@ const FormularioCrearPerifericos = ({ handleClose }: { handleClose: () => void }
                 <div className="md:col-span-2 flex justify-center gap-4 mt-6">
                     <button
                         type="submit"
-                        className="flex items-center justify-center px-6 py-2.5 bg-orange-500 text-white font-medium rounded-lg hover:bg-orange-600 focus:ring-4 focus:ring-orange-300 transition-all duration-200"
+                        className="flex items-center justify-center px-6 py-2.5 bg-brand-500 text-white font-medium rounded-lg hover:bg-brand-600 focus:ring-4 focus:ring-brand-300 transition-all duration-200"
                     >
                         <i className="bi bi-floppy mr-2" /> GUARDAR
                     </button>
@@ -266,7 +266,7 @@ const FormularioCrearPerifericos = ({ handleClose }: { handleClose: () => void }
                             descripcion: '',
                             funcionario: { id: '' }
                         })}
-                        className="flex items-center justify-center px-6 py-2.5 bg-white text-orange-500 border border-orange-500 font-medium rounded-lg hover:bg-orange-50 focus:ring-4 focus:ring-orange-100 transition-all duration-200"
+                        className="flex items-center justify-center px-6 py-2.5 bg-white text-brand-500 border border-brand-500 font-medium rounded-lg hover:bg-brand-50 focus:ring-4 focus:ring-brand-100 transition-all duration-200"
                     >
                         <i className="bi bi-trash-fill mr-2" /> LIMPIAR
                     </button>

@@ -1,4 +1,4 @@
-"use client"
+﻿"use client"
 
 import type React from "react"
 import { useState, useEffect } from "react"
@@ -164,7 +164,7 @@ const FormularioEditarP: React.FC<IFormularioEditarPProps> = ({ proveedorId, onC
   if (loading) {
     return (
       <div className="flex justify-center items-center min-h-[200px]">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-orange-500"></div>
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-brand-500"></div>
       </div>
     )
   }
@@ -189,7 +189,7 @@ const FormularioEditarP: React.FC<IFormularioEditarPProps> = ({ proveedorId, onC
           <input
             type="text"
             name="nombre"
-            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-colors"
+            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-brand-500 transition-colors"
             value={proveedor.nombre}
             onChange={handleInputChange}
             required
@@ -202,7 +202,7 @@ const FormularioEditarP: React.FC<IFormularioEditarPProps> = ({ proveedorId, onC
           <input
             type="number"
             name="nit"
-            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-colors"
+            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-brand-500 transition-colors"
             value={proveedor.nit}
             onChange={handleInputChange}
             required
@@ -217,7 +217,7 @@ const FormularioEditarP: React.FC<IFormularioEditarPProps> = ({ proveedorId, onC
           <input
             type="text"
             name="nombreContacto"
-            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-colors"
+            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-brand-500 transition-colors"
             value={proveedor.nombreContacto}
             onChange={handleInputChange}
             required
@@ -230,7 +230,7 @@ const FormularioEditarP: React.FC<IFormularioEditarPProps> = ({ proveedorId, onC
           <input
             type="number"
             name="numeroContacto"
-            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-colors"
+            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-brand-500 transition-colors"
             value={proveedor.numeroContacto}
             onChange={handleInputChange}
             required
@@ -245,7 +245,7 @@ const FormularioEditarP: React.FC<IFormularioEditarPProps> = ({ proveedorId, onC
           <input
             type="email"
             name="correo"
-            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-colors"
+            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-brand-500 transition-colors"
             value={proveedor.correo}
             onChange={handleInputChange}
             required
@@ -257,7 +257,7 @@ const FormularioEditarP: React.FC<IFormularioEditarPProps> = ({ proveedorId, onC
           <label className="block text-sm font-medium text-gray-700 mb-1">Estado*</label>
           <select
             name="estado"
-            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-colors"
+            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-brand-500 transition-colors"
             value={proveedor.estado}
             onChange={handleInputChange}
             required
@@ -273,7 +273,7 @@ const FormularioEditarP: React.FC<IFormularioEditarPProps> = ({ proveedorId, onC
           <input
             type="date"
             name="fechaContratacion"
-            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-colors"
+            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-brand-500 transition-colors"
             value={proveedor.fechaContratacion}
             onChange={handleInputChange}
           />
@@ -283,7 +283,7 @@ const FormularioEditarP: React.FC<IFormularioEditarPProps> = ({ proveedorId, onC
           <label className="block text-sm font-medium text-gray-700 mb-1">Observaciones</label>
           <textarea
             name="observacion"
-            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-colors"
+            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-brand-500 transition-colors"
             rows={3}
             value={proveedor.observacion}
             onChange={handleInputChange}
@@ -294,7 +294,7 @@ const FormularioEditarP: React.FC<IFormularioEditarPProps> = ({ proveedorId, onC
         <div className="md:col-span-2 flex justify-center gap-4 mt-4">
           <button
             type="submit"
-            className="flex items-center justify-center px-6 py-2.5 bg-orange-500 text-white font-medium rounded-lg hover:bg-orange-600 focus:ring-4 focus:ring-orange-300 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+            className="flex items-center justify-center px-6 py-2.5 bg-brand-500 text-white font-medium rounded-lg hover:bg-brand-600 focus:ring-4 focus:ring-brand-300 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
             disabled={loading}
           >
             {loading ? (
@@ -311,7 +311,7 @@ const FormularioEditarP: React.FC<IFormularioEditarPProps> = ({ proveedorId, onC
           </button>
           <button
             type="button"
-            className="flex items-center justify-center px-6 py-2.5 border-2 border-orange-500 text-orange-500 font-medium rounded-lg hover:bg-orange-50 focus:ring-4 focus:ring-orange-200 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+            className="flex items-center justify-center px-6 py-2.5 border-2 border-brand-500 text-brand-500 font-medium rounded-lg hover:bg-brand-50 focus:ring-4 focus:ring-brand-200 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
             onClick={onClose}
             disabled={loading}
           >
